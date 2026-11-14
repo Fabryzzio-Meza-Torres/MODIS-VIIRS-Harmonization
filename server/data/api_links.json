@@ -1,0 +1,1971 @@
+{
+  "meta": {
+    "descripcion": "URLs FIRMS para el proyecto MODIS-VIIRS (Peru)",
+    "como_usar": "Reemplaza {KEY} por tu MAP_KEY en Python: url.format(KEY=mi_clave)",
+    "bloques": "Cada bloque cubre de 'inicio' a 'fin', ambos incluidos (maximo 5 dias por consulta)",
+    "fuentes": {
+      "MODIS_SP": "MODIS Terra+Aqua; quedarse solo con Aqua",
+      "VIIRS_SNPP_SP": "VIIRS Suomi NPP"
+    }
+  },
+  "regiones": {
+    "ucayali": {
+      "uso": "aprender y depurar",
+      "tipo": "area",
+      "area": "-75.7,-11.5,-70.4,-7.2",
+      "nota": "caja aproximada",
+      "periodos": [
+        { 
+          "inicio": "2019-08-15",
+          "fin": "2019-09-30",
+          "bloques": [
+            {
+              "inicio": "2019-08-15",
+              "fin": "2019-08-19",
+              "dias": 5,
+              "urls": {
+                "MODIS_SP": "https://firms.modaps.eosdis.nasa.gov/api/area/csv/{KEY}/MODIS_SP/-75.7,-11.5,-70.4,-7.2/5/2019-08-15",
+                "VIIRS_SNPP_SP": "https://firms.modaps.eosdis.nasa.gov/api/area/csv/{KEY}/VIIRS_SNPP_SP/-75.7,-11.5,-70.4,-7.2/5/2019-08-15"
+              }
+            },
+            {
+              "inicio": "2019-08-20",
+              "fin": "2019-08-24",
+              "dias": 5,
+              "urls": {
+                "MODIS_SP": "https://firms.modaps.eosdis.nasa.gov/api/area/csv/{KEY}/MODIS_SP/-75.7,-11.5,-70.4,-7.2/5/2019-08-20",
+                "VIIRS_SNPP_SP": "https://firms.modaps.eosdis.nasa.gov/api/area/csv/{KEY}/VIIRS_SNPP_SP/-75.7,-11.5,-70.4,-7.2/5/2019-08-20"
+              }
+            },
+            {
+              "inicio": "2019-08-25",
+              "fin": "2019-08-29",
+              "dias": 5,
+              "urls": {
+                "MODIS_SP": "https://firms.modaps.eosdis.nasa.gov/api/area/csv/{KEY}/MODIS_SP/-75.7,-11.5,-70.4,-7.2/5/2019-08-25",
+                "VIIRS_SNPP_SP": "https://firms.modaps.eosdis.nasa.gov/api/area/csv/{KEY}/VIIRS_SNPP_SP/-75.7,-11.5,-70.4,-7.2/5/2019-08-25"
+              }
+            },
+            {
+              "inicio": "2019-08-30",
+              "fin": "2019-09-03",
+              "dias": 5,
+              "urls": {
+                "MODIS_SP": "https://firms.modaps.eosdis.nasa.gov/api/area/csv/{KEY}/MODIS_SP/-75.7,-11.5,-70.4,-7.2/5/2019-08-30",
+                "VIIRS_SNPP_SP": "https://firms.modaps.eosdis.nasa.gov/api/area/csv/{KEY}/VIIRS_SNPP_SP/-75.7,-11.5,-70.4,-7.2/5/2019-08-30"
+              }
+            },
+            {
+              "inicio": "2019-09-04",
+              "fin": "2019-09-08",
+              "dias": 5,
+              "urls": {
+                "MODIS_SP": "https://firms.modaps.eosdis.nasa.gov/api/area/csv/{KEY}/MODIS_SP/-75.7,-11.5,-70.4,-7.2/5/2019-09-04",
+                "VIIRS_SNPP_SP": "https://firms.modaps.eosdis.nasa.gov/api/area/csv/{KEY}/VIIRS_SNPP_SP/-75.7,-11.5,-70.4,-7.2/5/2019-09-04"
+              }
+            },
+            {
+              "inicio": "2019-09-09",
+              "fin": "2019-09-13",
+              "dias": 5,
+              "urls": {
+                "MODIS_SP": "https://firms.modaps.eosdis.nasa.gov/api/area/csv/{KEY}/MODIS_SP/-75.7,-11.5,-70.4,-7.2/5/2019-09-09",
+                "VIIRS_SNPP_SP": "https://firms.modaps.eosdis.nasa.gov/api/area/csv/{KEY}/VIIRS_SNPP_SP/-75.7,-11.5,-70.4,-7.2/5/2019-09-09"
+              }
+            },
+            {
+              "inicio": "2019-09-14",
+              "fin": "2019-09-18",
+              "dias": 5,
+              "urls": {
+                "MODIS_SP": "https://firms.modaps.eosdis.nasa.gov/api/area/csv/{KEY}/MODIS_SP/-75.7,-11.5,-70.4,-7.2/5/2019-09-14",
+                "VIIRS_SNPP_SP": "https://firms.modaps.eosdis.nasa.gov/api/area/csv/{KEY}/VIIRS_SNPP_SP/-75.7,-11.5,-70.4,-7.2/5/2019-09-14"
+              }
+            },
+            {
+              "inicio": "2019-09-19",
+              "fin": "2019-09-23",
+              "dias": 5,
+              "urls": {
+                "MODIS_SP": "https://firms.modaps.eosdis.nasa.gov/api/area/csv/{KEY}/MODIS_SP/-75.7,-11.5,-70.4,-7.2/5/2019-09-19",
+                "VIIRS_SNPP_SP": "https://firms.modaps.eosdis.nasa.gov/api/area/csv/{KEY}/VIIRS_SNPP_SP/-75.7,-11.5,-70.4,-7.2/5/2019-09-19"
+              }
+            },
+            {
+              "inicio": "2019-09-24",
+              "fin": "2019-09-28",
+              "dias": 5,
+              "urls": {
+                "MODIS_SP": "https://firms.modaps.eosdis.nasa.gov/api/area/csv/{KEY}/MODIS_SP/-75.7,-11.5,-70.4,-7.2/5/2019-09-24",
+                "VIIRS_SNPP_SP": "https://firms.modaps.eosdis.nasa.gov/api/area/csv/{KEY}/VIIRS_SNPP_SP/-75.7,-11.5,-70.4,-7.2/5/2019-09-24"
+              }
+            },
+            {
+              "inicio": "2019-09-29",
+              "fin": "2019-09-30",
+              "dias": 2,
+              "urls": {
+                "MODIS_SP": "https://firms.modaps.eosdis.nasa.gov/api/area/csv/{KEY}/MODIS_SP/-75.7,-11.5,-70.4,-7.2/2/2019-09-29",
+                "VIIRS_SNPP_SP": "https://firms.modaps.eosdis.nasa.gov/api/area/csv/{KEY}/VIIRS_SNPP_SP/-75.7,-11.5,-70.4,-7.2/2/2019-09-29"
+              }
+            }
+          ]
+        }
+      ]
+    },
+    "cusco_puno": {
+      "uso": "contraste Andes",
+      "tipo": "area",
+      "area": "-73.9,-17.3,-68.8,-11.2",
+      "nota": "caja aproximada",
+      "periodos": [
+        {
+          "inicio": "2019-07-01",
+          "fin": "2019-09-30",
+          "bloques": [
+            {
+              "inicio": "2019-07-01",
+              "fin": "2019-07-05",
+              "dias": 5,
+              "urls": {
+                "MODIS_SP": "https://firms.modaps.eosdis.nasa.gov/api/area/csv/{KEY}/MODIS_SP/-73.9,-17.3,-68.8,-11.2/5/2019-07-01",
+                "VIIRS_SNPP_SP": "https://firms.modaps.eosdis.nasa.gov/api/area/csv/{KEY}/VIIRS_SNPP_SP/-73.9,-17.3,-68.8,-11.2/5/2019-07-01"
+              }
+            },
+            {
+              "inicio": "2019-07-06",
+              "fin": "2019-07-10",
+              "dias": 5,
+              "urls": {
+                "MODIS_SP": "https://firms.modaps.eosdis.nasa.gov/api/area/csv/{KEY}/MODIS_SP/-73.9,-17.3,-68.8,-11.2/5/2019-07-06",
+                "VIIRS_SNPP_SP": "https://firms.modaps.eosdis.nasa.gov/api/area/csv/{KEY}/VIIRS_SNPP_SP/-73.9,-17.3,-68.8,-11.2/5/2019-07-06"
+              }
+            },
+            {
+              "inicio": "2019-07-11",
+              "fin": "2019-07-15",
+              "dias": 5,
+              "urls": {
+                "MODIS_SP": "https://firms.modaps.eosdis.nasa.gov/api/area/csv/{KEY}/MODIS_SP/-73.9,-17.3,-68.8,-11.2/5/2019-07-11",
+                "VIIRS_SNPP_SP": "https://firms.modaps.eosdis.nasa.gov/api/area/csv/{KEY}/VIIRS_SNPP_SP/-73.9,-17.3,-68.8,-11.2/5/2019-07-11"
+              }
+            },
+            {
+              "inicio": "2019-07-16",
+              "fin": "2019-07-20",
+              "dias": 5,
+              "urls": {
+                "MODIS_SP": "https://firms.modaps.eosdis.nasa.gov/api/area/csv/{KEY}/MODIS_SP/-73.9,-17.3,-68.8,-11.2/5/2019-07-16",
+                "VIIRS_SNPP_SP": "https://firms.modaps.eosdis.nasa.gov/api/area/csv/{KEY}/VIIRS_SNPP_SP/-73.9,-17.3,-68.8,-11.2/5/2019-07-16"
+              }
+            },
+            {
+              "inicio": "2019-07-21",
+              "fin": "2019-07-25",
+              "dias": 5,
+              "urls": {
+                "MODIS_SP": "https://firms.modaps.eosdis.nasa.gov/api/area/csv/{KEY}/MODIS_SP/-73.9,-17.3,-68.8,-11.2/5/2019-07-21",
+                "VIIRS_SNPP_SP": "https://firms.modaps.eosdis.nasa.gov/api/area/csv/{KEY}/VIIRS_SNPP_SP/-73.9,-17.3,-68.8,-11.2/5/2019-07-21"
+              }
+            },
+            {
+              "inicio": "2019-07-26",
+              "fin": "2019-07-30",
+              "dias": 5,
+              "urls": {
+                "MODIS_SP": "https://firms.modaps.eosdis.nasa.gov/api/area/csv/{KEY}/MODIS_SP/-73.9,-17.3,-68.8,-11.2/5/2019-07-26",
+                "VIIRS_SNPP_SP": "https://firms.modaps.eosdis.nasa.gov/api/area/csv/{KEY}/VIIRS_SNPP_SP/-73.9,-17.3,-68.8,-11.2/5/2019-07-26"
+              }
+            },
+            {
+              "inicio": "2019-07-31",
+              "fin": "2019-08-04",
+              "dias": 5,
+              "urls": {
+                "MODIS_SP": "https://firms.modaps.eosdis.nasa.gov/api/area/csv/{KEY}/MODIS_SP/-73.9,-17.3,-68.8,-11.2/5/2019-07-31",
+                "VIIRS_SNPP_SP": "https://firms.modaps.eosdis.nasa.gov/api/area/csv/{KEY}/VIIRS_SNPP_SP/-73.9,-17.3,-68.8,-11.2/5/2019-07-31"
+              }
+            },
+            {
+              "inicio": "2019-08-05",
+              "fin": "2019-08-09",
+              "dias": 5,
+              "urls": {
+                "MODIS_SP": "https://firms.modaps.eosdis.nasa.gov/api/area/csv/{KEY}/MODIS_SP/-73.9,-17.3,-68.8,-11.2/5/2019-08-05",
+                "VIIRS_SNPP_SP": "https://firms.modaps.eosdis.nasa.gov/api/area/csv/{KEY}/VIIRS_SNPP_SP/-73.9,-17.3,-68.8,-11.2/5/2019-08-05"
+              }
+            },
+            {
+              "inicio": "2019-08-10",
+              "fin": "2019-08-14",
+              "dias": 5,
+              "urls": {
+                "MODIS_SP": "https://firms.modaps.eosdis.nasa.gov/api/area/csv/{KEY}/MODIS_SP/-73.9,-17.3,-68.8,-11.2/5/2019-08-10",
+                "VIIRS_SNPP_SP": "https://firms.modaps.eosdis.nasa.gov/api/area/csv/{KEY}/VIIRS_SNPP_SP/-73.9,-17.3,-68.8,-11.2/5/2019-08-10"
+              }
+            },
+            {
+              "inicio": "2019-08-15",
+              "fin": "2019-08-19",
+              "dias": 5,
+              "urls": {
+                "MODIS_SP": "https://firms.modaps.eosdis.nasa.gov/api/area/csv/{KEY}/MODIS_SP/-73.9,-17.3,-68.8,-11.2/5/2019-08-15",
+                "VIIRS_SNPP_SP": "https://firms.modaps.eosdis.nasa.gov/api/area/csv/{KEY}/VIIRS_SNPP_SP/-73.9,-17.3,-68.8,-11.2/5/2019-08-15"
+              }
+            },
+            {
+              "inicio": "2019-08-20",
+              "fin": "2019-08-24",
+              "dias": 5,
+              "urls": {
+                "MODIS_SP": "https://firms.modaps.eosdis.nasa.gov/api/area/csv/{KEY}/MODIS_SP/-73.9,-17.3,-68.8,-11.2/5/2019-08-20",
+                "VIIRS_SNPP_SP": "https://firms.modaps.eosdis.nasa.gov/api/area/csv/{KEY}/VIIRS_SNPP_SP/-73.9,-17.3,-68.8,-11.2/5/2019-08-20"
+              }
+            },
+            {
+              "inicio": "2019-08-25",
+              "fin": "2019-08-29",
+              "dias": 5,
+              "urls": {
+                "MODIS_SP": "https://firms.modaps.eosdis.nasa.gov/api/area/csv/{KEY}/MODIS_SP/-73.9,-17.3,-68.8,-11.2/5/2019-08-25",
+                "VIIRS_SNPP_SP": "https://firms.modaps.eosdis.nasa.gov/api/area/csv/{KEY}/VIIRS_SNPP_SP/-73.9,-17.3,-68.8,-11.2/5/2019-08-25"
+              }
+            },
+            {
+              "inicio": "2019-08-30",
+              "fin": "2019-09-03",
+              "dias": 5,
+              "urls": {
+                "MODIS_SP": "https://firms.modaps.eosdis.nasa.gov/api/area/csv/{KEY}/MODIS_SP/-73.9,-17.3,-68.8,-11.2/5/2019-08-30",
+                "VIIRS_SNPP_SP": "https://firms.modaps.eosdis.nasa.gov/api/area/csv/{KEY}/VIIRS_SNPP_SP/-73.9,-17.3,-68.8,-11.2/5/2019-08-30"
+              }
+            },
+            {
+              "inicio": "2019-09-04",
+              "fin": "2019-09-08",
+              "dias": 5,
+              "urls": {
+                "MODIS_SP": "https://firms.modaps.eosdis.nasa.gov/api/area/csv/{KEY}/MODIS_SP/-73.9,-17.3,-68.8,-11.2/5/2019-09-04",
+                "VIIRS_SNPP_SP": "https://firms.modaps.eosdis.nasa.gov/api/area/csv/{KEY}/VIIRS_SNPP_SP/-73.9,-17.3,-68.8,-11.2/5/2019-09-04"
+              }
+            },
+            {
+              "inicio": "2019-09-09",
+              "fin": "2019-09-13",
+              "dias": 5,
+              "urls": {
+                "MODIS_SP": "https://firms.modaps.eosdis.nasa.gov/api/area/csv/{KEY}/MODIS_SP/-73.9,-17.3,-68.8,-11.2/5/2019-09-09",
+                "VIIRS_SNPP_SP": "https://firms.modaps.eosdis.nasa.gov/api/area/csv/{KEY}/VIIRS_SNPP_SP/-73.9,-17.3,-68.8,-11.2/5/2019-09-09"
+              }
+            },
+            {
+              "inicio": "2019-09-14",
+              "fin": "2019-09-18",
+              "dias": 5,
+              "urls": {
+                "MODIS_SP": "https://firms.modaps.eosdis.nasa.gov/api/area/csv/{KEY}/MODIS_SP/-73.9,-17.3,-68.8,-11.2/5/2019-09-14",
+                "VIIRS_SNPP_SP": "https://firms.modaps.eosdis.nasa.gov/api/area/csv/{KEY}/VIIRS_SNPP_SP/-73.9,-17.3,-68.8,-11.2/5/2019-09-14"
+              }
+            },
+            {
+              "inicio": "2019-09-19",
+              "fin": "2019-09-23",
+              "dias": 5,
+              "urls": {
+                "MODIS_SP": "https://firms.modaps.eosdis.nasa.gov/api/area/csv/{KEY}/MODIS_SP/-73.9,-17.3,-68.8,-11.2/5/2019-09-19",
+                "VIIRS_SNPP_SP": "https://firms.modaps.eosdis.nasa.gov/api/area/csv/{KEY}/VIIRS_SNPP_SP/-73.9,-17.3,-68.8,-11.2/5/2019-09-19"
+              }
+            },
+            {
+              "inicio": "2019-09-24",
+              "fin": "2019-09-28",
+              "dias": 5,
+              "urls": {
+                "MODIS_SP": "https://firms.modaps.eosdis.nasa.gov/api/area/csv/{KEY}/MODIS_SP/-73.9,-17.3,-68.8,-11.2/5/2019-09-24",
+                "VIIRS_SNPP_SP": "https://firms.modaps.eosdis.nasa.gov/api/area/csv/{KEY}/VIIRS_SNPP_SP/-73.9,-17.3,-68.8,-11.2/5/2019-09-24"
+              }
+            },
+            {
+              "inicio": "2019-09-29",
+              "fin": "2019-09-30",
+              "dias": 2,
+              "urls": {
+                "MODIS_SP": "https://firms.modaps.eosdis.nasa.gov/api/area/csv/{KEY}/MODIS_SP/-73.9,-17.3,-68.8,-11.2/2/2019-09-29",
+                "VIIRS_SNPP_SP": "https://firms.modaps.eosdis.nasa.gov/api/area/csv/{KEY}/VIIRS_SNPP_SP/-73.9,-17.3,-68.8,-11.2/2/2019-09-29"
+              }
+            }
+          ]
+        }
+      ]
+    },
+    "nororiente_2024": {
+      "uso": "demo y validacion",
+      "tipo": "area",
+      "area": "-78.8,-11.5,-70.4,-2.9",
+      "nota": "Ucayali, San Martin y Amazonas, caja aproximada. Verificar que 2024 este en SP; si no, usar _NRT",
+      "periodos": [
+        {
+          "inicio": "2024-09-01",
+          "fin": "2024-09-30",
+          "bloques": [
+            {
+              "inicio": "2024-09-01",
+              "fin": "2024-09-05",
+              "dias": 5,
+              "urls": {
+                "MODIS_SP": "https://firms.modaps.eosdis.nasa.gov/api/area/csv/{KEY}/MODIS_SP/-78.8,-11.5,-70.4,-2.9/5/2024-09-01",
+                "VIIRS_SNPP_SP": "https://firms.modaps.eosdis.nasa.gov/api/area/csv/{KEY}/VIIRS_SNPP_SP/-78.8,-11.5,-70.4,-2.9/5/2024-09-01"
+              }
+            },
+            {
+              "inicio": "2024-09-06",
+              "fin": "2024-09-10",
+              "dias": 5,
+              "urls": {
+                "MODIS_SP": "https://firms.modaps.eosdis.nasa.gov/api/area/csv/{KEY}/MODIS_SP/-78.8,-11.5,-70.4,-2.9/5/2024-09-06",
+                "VIIRS_SNPP_SP": "https://firms.modaps.eosdis.nasa.gov/api/area/csv/{KEY}/VIIRS_SNPP_SP/-78.8,-11.5,-70.4,-2.9/5/2024-09-06"
+              }
+            },
+            {
+              "inicio": "2024-09-11",
+              "fin": "2024-09-15",
+              "dias": 5,
+              "urls": {
+                "MODIS_SP": "https://firms.modaps.eosdis.nasa.gov/api/area/csv/{KEY}/MODIS_SP/-78.8,-11.5,-70.4,-2.9/5/2024-09-11",
+                "VIIRS_SNPP_SP": "https://firms.modaps.eosdis.nasa.gov/api/area/csv/{KEY}/VIIRS_SNPP_SP/-78.8,-11.5,-70.4,-2.9/5/2024-09-11"
+              }
+            },
+            {
+              "inicio": "2024-09-16",
+              "fin": "2024-09-20",
+              "dias": 5,
+              "urls": {
+                "MODIS_SP": "https://firms.modaps.eosdis.nasa.gov/api/area/csv/{KEY}/MODIS_SP/-78.8,-11.5,-70.4,-2.9/5/2024-09-16",
+                "VIIRS_SNPP_SP": "https://firms.modaps.eosdis.nasa.gov/api/area/csv/{KEY}/VIIRS_SNPP_SP/-78.8,-11.5,-70.4,-2.9/5/2024-09-16"
+              }
+            },
+            {
+              "inicio": "2024-09-21",
+              "fin": "2024-09-25",
+              "dias": 5,
+              "urls": {
+                "MODIS_SP": "https://firms.modaps.eosdis.nasa.gov/api/area/csv/{KEY}/MODIS_SP/-78.8,-11.5,-70.4,-2.9/5/2024-09-21",
+                "VIIRS_SNPP_SP": "https://firms.modaps.eosdis.nasa.gov/api/area/csv/{KEY}/VIIRS_SNPP_SP/-78.8,-11.5,-70.4,-2.9/5/2024-09-21"
+              }
+            },
+            {
+              "inicio": "2024-09-26",
+              "fin": "2024-09-30",
+              "dias": 5,
+              "urls": {
+                "MODIS_SP": "https://firms.modaps.eosdis.nasa.gov/api/area/csv/{KEY}/MODIS_SP/-78.8,-11.5,-70.4,-2.9/5/2024-09-26",
+                "VIIRS_SNPP_SP": "https://firms.modaps.eosdis.nasa.gov/api/area/csv/{KEY}/VIIRS_SNPP_SP/-78.8,-11.5,-70.4,-2.9/5/2024-09-26"
+              }
+            }
+          ]
+        }
+      ]
+    },
+    "peru": {
+      "uso": "calibrar",
+      "tipo": "pais",
+      "area": "PER",
+      "nota": "consulta por pais, solo puntos dentro de Peru",
+      "periodos": [
+        {
+          "inicio": "2013-08-01",
+          "fin": "2013-10-31",
+          "bloques": [
+            {
+              "inicio": "2013-08-01",
+              "fin": "2013-08-05",
+              "dias": 5,
+              "urls": {
+                "MODIS_SP": "https://firms.modaps.eosdis.nasa.gov/api/country/csv/{KEY}/MODIS_SP/PER/5/2013-08-01",
+                "VIIRS_SNPP_SP": "https://firms.modaps.eosdis.nasa.gov/api/country/csv/{KEY}/VIIRS_SNPP_SP/PER/5/2013-08-01"
+              }
+            },
+            {
+              "inicio": "2013-08-06",
+              "fin": "2013-08-10",
+              "dias": 5,
+              "urls": {
+                "MODIS_SP": "https://firms.modaps.eosdis.nasa.gov/api/country/csv/{KEY}/MODIS_SP/PER/5/2013-08-06",
+                "VIIRS_SNPP_SP": "https://firms.modaps.eosdis.nasa.gov/api/country/csv/{KEY}/VIIRS_SNPP_SP/PER/5/2013-08-06"
+              }
+            },
+            {
+              "inicio": "2013-08-11",
+              "fin": "2013-08-15",
+              "dias": 5,
+              "urls": {
+                "MODIS_SP": "https://firms.modaps.eosdis.nasa.gov/api/country/csv/{KEY}/MODIS_SP/PER/5/2013-08-11",
+                "VIIRS_SNPP_SP": "https://firms.modaps.eosdis.nasa.gov/api/country/csv/{KEY}/VIIRS_SNPP_SP/PER/5/2013-08-11"
+              }
+            },
+            {
+              "inicio": "2013-08-16",
+              "fin": "2013-08-20",
+              "dias": 5,
+              "urls": {
+                "MODIS_SP": "https://firms.modaps.eosdis.nasa.gov/api/country/csv/{KEY}/MODIS_SP/PER/5/2013-08-16",
+                "VIIRS_SNPP_SP": "https://firms.modaps.eosdis.nasa.gov/api/country/csv/{KEY}/VIIRS_SNPP_SP/PER/5/2013-08-16"
+              }
+            },
+            {
+              "inicio": "2013-08-21",
+              "fin": "2013-08-25",
+              "dias": 5,
+              "urls": {
+                "MODIS_SP": "https://firms.modaps.eosdis.nasa.gov/api/country/csv/{KEY}/MODIS_SP/PER/5/2013-08-21",
+                "VIIRS_SNPP_SP": "https://firms.modaps.eosdis.nasa.gov/api/country/csv/{KEY}/VIIRS_SNPP_SP/PER/5/2013-08-21"
+              }
+            },
+            {
+              "inicio": "2013-08-26",
+              "fin": "2013-08-30",
+              "dias": 5,
+              "urls": {
+                "MODIS_SP": "https://firms.modaps.eosdis.nasa.gov/api/country/csv/{KEY}/MODIS_SP/PER/5/2013-08-26",
+                "VIIRS_SNPP_SP": "https://firms.modaps.eosdis.nasa.gov/api/country/csv/{KEY}/VIIRS_SNPP_SP/PER/5/2013-08-26"
+              }
+            },
+            {
+              "inicio": "2013-08-31",
+              "fin": "2013-09-04",
+              "dias": 5,
+              "urls": {
+                "MODIS_SP": "https://firms.modaps.eosdis.nasa.gov/api/country/csv/{KEY}/MODIS_SP/PER/5/2013-08-31",
+                "VIIRS_SNPP_SP": "https://firms.modaps.eosdis.nasa.gov/api/country/csv/{KEY}/VIIRS_SNPP_SP/PER/5/2013-08-31"
+              }
+            },
+            {
+              "inicio": "2013-09-05",
+              "fin": "2013-09-09",
+              "dias": 5,
+              "urls": {
+                "MODIS_SP": "https://firms.modaps.eosdis.nasa.gov/api/country/csv/{KEY}/MODIS_SP/PER/5/2013-09-05",
+                "VIIRS_SNPP_SP": "https://firms.modaps.eosdis.nasa.gov/api/country/csv/{KEY}/VIIRS_SNPP_SP/PER/5/2013-09-05"
+              }
+            },
+            {
+              "inicio": "2013-09-10",
+              "fin": "2013-09-14",
+              "dias": 5,
+              "urls": {
+                "MODIS_SP": "https://firms.modaps.eosdis.nasa.gov/api/country/csv/{KEY}/MODIS_SP/PER/5/2013-09-10",
+                "VIIRS_SNPP_SP": "https://firms.modaps.eosdis.nasa.gov/api/country/csv/{KEY}/VIIRS_SNPP_SP/PER/5/2013-09-10"
+              }
+            },
+            {
+              "inicio": "2013-09-15",
+              "fin": "2013-09-19",
+              "dias": 5,
+              "urls": {
+                "MODIS_SP": "https://firms.modaps.eosdis.nasa.gov/api/country/csv/{KEY}/MODIS_SP/PER/5/2013-09-15",
+                "VIIRS_SNPP_SP": "https://firms.modaps.eosdis.nasa.gov/api/country/csv/{KEY}/VIIRS_SNPP_SP/PER/5/2013-09-15"
+              }
+            },
+            {
+              "inicio": "2013-09-20",
+              "fin": "2013-09-24",
+              "dias": 5,
+              "urls": {
+                "MODIS_SP": "https://firms.modaps.eosdis.nasa.gov/api/country/csv/{KEY}/MODIS_SP/PER/5/2013-09-20",
+                "VIIRS_SNPP_SP": "https://firms.modaps.eosdis.nasa.gov/api/country/csv/{KEY}/VIIRS_SNPP_SP/PER/5/2013-09-20"
+              }
+            },
+            {
+              "inicio": "2013-09-25",
+              "fin": "2013-09-29",
+              "dias": 5,
+              "urls": {
+                "MODIS_SP": "https://firms.modaps.eosdis.nasa.gov/api/country/csv/{KEY}/MODIS_SP/PER/5/2013-09-25",
+                "VIIRS_SNPP_SP": "https://firms.modaps.eosdis.nasa.gov/api/country/csv/{KEY}/VIIRS_SNPP_SP/PER/5/2013-09-25"
+              }
+            },
+            {
+              "inicio": "2013-09-30",
+              "fin": "2013-10-04",
+              "dias": 5,
+              "urls": {
+                "MODIS_SP": "https://firms.modaps.eosdis.nasa.gov/api/country/csv/{KEY}/MODIS_SP/PER/5/2013-09-30",
+                "VIIRS_SNPP_SP": "https://firms.modaps.eosdis.nasa.gov/api/country/csv/{KEY}/VIIRS_SNPP_SP/PER/5/2013-09-30"
+              }
+            },
+            {
+              "inicio": "2013-10-05",
+              "fin": "2013-10-09",
+              "dias": 5,
+              "urls": {
+                "MODIS_SP": "https://firms.modaps.eosdis.nasa.gov/api/country/csv/{KEY}/MODIS_SP/PER/5/2013-10-05",
+                "VIIRS_SNPP_SP": "https://firms.modaps.eosdis.nasa.gov/api/country/csv/{KEY}/VIIRS_SNPP_SP/PER/5/2013-10-05"
+              }
+            },
+            {
+              "inicio": "2013-10-10",
+              "fin": "2013-10-14",
+              "dias": 5,
+              "urls": {
+                "MODIS_SP": "https://firms.modaps.eosdis.nasa.gov/api/country/csv/{KEY}/MODIS_SP/PER/5/2013-10-10",
+                "VIIRS_SNPP_SP": "https://firms.modaps.eosdis.nasa.gov/api/country/csv/{KEY}/VIIRS_SNPP_SP/PER/5/2013-10-10"
+              }
+            },
+            {
+              "inicio": "2013-10-15",
+              "fin": "2013-10-19",
+              "dias": 5,
+              "urls": {
+                "MODIS_SP": "https://firms.modaps.eosdis.nasa.gov/api/country/csv/{KEY}/MODIS_SP/PER/5/2013-10-15",
+                "VIIRS_SNPP_SP": "https://firms.modaps.eosdis.nasa.gov/api/country/csv/{KEY}/VIIRS_SNPP_SP/PER/5/2013-10-15"
+              }
+            },
+            {
+              "inicio": "2013-10-20",
+              "fin": "2013-10-24",
+              "dias": 5,
+              "urls": {
+                "MODIS_SP": "https://firms.modaps.eosdis.nasa.gov/api/country/csv/{KEY}/MODIS_SP/PER/5/2013-10-20",
+                "VIIRS_SNPP_SP": "https://firms.modaps.eosdis.nasa.gov/api/country/csv/{KEY}/VIIRS_SNPP_SP/PER/5/2013-10-20"
+              }
+            },
+            {
+              "inicio": "2013-10-25",
+              "fin": "2013-10-29",
+              "dias": 5,
+              "urls": {
+                "MODIS_SP": "https://firms.modaps.eosdis.nasa.gov/api/country/csv/{KEY}/MODIS_SP/PER/5/2013-10-25",
+                "VIIRS_SNPP_SP": "https://firms.modaps.eosdis.nasa.gov/api/country/csv/{KEY}/VIIRS_SNPP_SP/PER/5/2013-10-25"
+              }
+            },
+            {
+              "inicio": "2013-10-30",
+              "fin": "2013-10-31",
+              "dias": 2,
+              "urls": {
+                "MODIS_SP": "https://firms.modaps.eosdis.nasa.gov/api/country/csv/{KEY}/MODIS_SP/PER/2/2013-10-30",
+                "VIIRS_SNPP_SP": "https://firms.modaps.eosdis.nasa.gov/api/country/csv/{KEY}/VIIRS_SNPP_SP/PER/2/2013-10-30"
+              }
+            }
+          ]
+        },
+        {
+          "inicio": "2014-08-01",
+          "fin": "2014-10-31",
+          "bloques": [
+            {
+              "inicio": "2014-08-01",
+              "fin": "2014-08-05",
+              "dias": 5,
+              "urls": {
+                "MODIS_SP": "https://firms.modaps.eosdis.nasa.gov/api/country/csv/{KEY}/MODIS_SP/PER/5/2014-08-01",
+                "VIIRS_SNPP_SP": "https://firms.modaps.eosdis.nasa.gov/api/country/csv/{KEY}/VIIRS_SNPP_SP/PER/5/2014-08-01"
+              }
+            },
+            {
+              "inicio": "2014-08-06",
+              "fin": "2014-08-10",
+              "dias": 5,
+              "urls": {
+                "MODIS_SP": "https://firms.modaps.eosdis.nasa.gov/api/country/csv/{KEY}/MODIS_SP/PER/5/2014-08-06",
+                "VIIRS_SNPP_SP": "https://firms.modaps.eosdis.nasa.gov/api/country/csv/{KEY}/VIIRS_SNPP_SP/PER/5/2014-08-06"
+              }
+            },
+            {
+              "inicio": "2014-08-11",
+              "fin": "2014-08-15",
+              "dias": 5,
+              "urls": {
+                "MODIS_SP": "https://firms.modaps.eosdis.nasa.gov/api/country/csv/{KEY}/MODIS_SP/PER/5/2014-08-11",
+                "VIIRS_SNPP_SP": "https://firms.modaps.eosdis.nasa.gov/api/country/csv/{KEY}/VIIRS_SNPP_SP/PER/5/2014-08-11"
+              }
+            },
+            {
+              "inicio": "2014-08-16",
+              "fin": "2014-08-20",
+              "dias": 5,
+              "urls": {
+                "MODIS_SP": "https://firms.modaps.eosdis.nasa.gov/api/country/csv/{KEY}/MODIS_SP/PER/5/2014-08-16",
+                "VIIRS_SNPP_SP": "https://firms.modaps.eosdis.nasa.gov/api/country/csv/{KEY}/VIIRS_SNPP_SP/PER/5/2014-08-16"
+              }
+            },
+            {
+              "inicio": "2014-08-21",
+              "fin": "2014-08-25",
+              "dias": 5,
+              "urls": {
+                "MODIS_SP": "https://firms.modaps.eosdis.nasa.gov/api/country/csv/{KEY}/MODIS_SP/PER/5/2014-08-21",
+                "VIIRS_SNPP_SP": "https://firms.modaps.eosdis.nasa.gov/api/country/csv/{KEY}/VIIRS_SNPP_SP/PER/5/2014-08-21"
+              }
+            },
+            {
+              "inicio": "2014-08-26",
+              "fin": "2014-08-30",
+              "dias": 5,
+              "urls": {
+                "MODIS_SP": "https://firms.modaps.eosdis.nasa.gov/api/country/csv/{KEY}/MODIS_SP/PER/5/2014-08-26",
+                "VIIRS_SNPP_SP": "https://firms.modaps.eosdis.nasa.gov/api/country/csv/{KEY}/VIIRS_SNPP_SP/PER/5/2014-08-26"
+              }
+            },
+            {
+              "inicio": "2014-08-31",
+              "fin": "2014-09-04",
+              "dias": 5,
+              "urls": {
+                "MODIS_SP": "https://firms.modaps.eosdis.nasa.gov/api/country/csv/{KEY}/MODIS_SP/PER/5/2014-08-31",
+                "VIIRS_SNPP_SP": "https://firms.modaps.eosdis.nasa.gov/api/country/csv/{KEY}/VIIRS_SNPP_SP/PER/5/2014-08-31"
+              }
+            },
+            {
+              "inicio": "2014-09-05",
+              "fin": "2014-09-09",
+              "dias": 5,
+              "urls": {
+                "MODIS_SP": "https://firms.modaps.eosdis.nasa.gov/api/country/csv/{KEY}/MODIS_SP/PER/5/2014-09-05",
+                "VIIRS_SNPP_SP": "https://firms.modaps.eosdis.nasa.gov/api/country/csv/{KEY}/VIIRS_SNPP_SP/PER/5/2014-09-05"
+              }
+            },
+            {
+              "inicio": "2014-09-10",
+              "fin": "2014-09-14",
+              "dias": 5,
+              "urls": {
+                "MODIS_SP": "https://firms.modaps.eosdis.nasa.gov/api/country/csv/{KEY}/MODIS_SP/PER/5/2014-09-10",
+                "VIIRS_SNPP_SP": "https://firms.modaps.eosdis.nasa.gov/api/country/csv/{KEY}/VIIRS_SNPP_SP/PER/5/2014-09-10"
+              }
+            },
+            {
+              "inicio": "2014-09-15",
+              "fin": "2014-09-19",
+              "dias": 5,
+              "urls": {
+                "MODIS_SP": "https://firms.modaps.eosdis.nasa.gov/api/country/csv/{KEY}/MODIS_SP/PER/5/2014-09-15",
+                "VIIRS_SNPP_SP": "https://firms.modaps.eosdis.nasa.gov/api/country/csv/{KEY}/VIIRS_SNPP_SP/PER/5/2014-09-15"
+              }
+            },
+            {
+              "inicio": "2014-09-20",
+              "fin": "2014-09-24",
+              "dias": 5,
+              "urls": {
+                "MODIS_SP": "https://firms.modaps.eosdis.nasa.gov/api/country/csv/{KEY}/MODIS_SP/PER/5/2014-09-20",
+                "VIIRS_SNPP_SP": "https://firms.modaps.eosdis.nasa.gov/api/country/csv/{KEY}/VIIRS_SNPP_SP/PER/5/2014-09-20"
+              }
+            },
+            {
+              "inicio": "2014-09-25",
+              "fin": "2014-09-29",
+              "dias": 5,
+              "urls": {
+                "MODIS_SP": "https://firms.modaps.eosdis.nasa.gov/api/country/csv/{KEY}/MODIS_SP/PER/5/2014-09-25",
+                "VIIRS_SNPP_SP": "https://firms.modaps.eosdis.nasa.gov/api/country/csv/{KEY}/VIIRS_SNPP_SP/PER/5/2014-09-25"
+              }
+            },
+            {
+              "inicio": "2014-09-30",
+              "fin": "2014-10-04",
+              "dias": 5,
+              "urls": {
+                "MODIS_SP": "https://firms.modaps.eosdis.nasa.gov/api/country/csv/{KEY}/MODIS_SP/PER/5/2014-09-30",
+                "VIIRS_SNPP_SP": "https://firms.modaps.eosdis.nasa.gov/api/country/csv/{KEY}/VIIRS_SNPP_SP/PER/5/2014-09-30"
+              }
+            },
+            {
+              "inicio": "2014-10-05",
+              "fin": "2014-10-09",
+              "dias": 5,
+              "urls": {
+                "MODIS_SP": "https://firms.modaps.eosdis.nasa.gov/api/country/csv/{KEY}/MODIS_SP/PER/5/2014-10-05",
+                "VIIRS_SNPP_SP": "https://firms.modaps.eosdis.nasa.gov/api/country/csv/{KEY}/VIIRS_SNPP_SP/PER/5/2014-10-05"
+              }
+            },
+            {
+              "inicio": "2014-10-10",
+              "fin": "2014-10-14",
+              "dias": 5,
+              "urls": {
+                "MODIS_SP": "https://firms.modaps.eosdis.nasa.gov/api/country/csv/{KEY}/MODIS_SP/PER/5/2014-10-10",
+                "VIIRS_SNPP_SP": "https://firms.modaps.eosdis.nasa.gov/api/country/csv/{KEY}/VIIRS_SNPP_SP/PER/5/2014-10-10"
+              }
+            },
+            {
+              "inicio": "2014-10-15",
+              "fin": "2014-10-19",
+              "dias": 5,
+              "urls": {
+                "MODIS_SP": "https://firms.modaps.eosdis.nasa.gov/api/country/csv/{KEY}/MODIS_SP/PER/5/2014-10-15",
+                "VIIRS_SNPP_SP": "https://firms.modaps.eosdis.nasa.gov/api/country/csv/{KEY}/VIIRS_SNPP_SP/PER/5/2014-10-15"
+              }
+            },
+            {
+              "inicio": "2014-10-20",
+              "fin": "2014-10-24",
+              "dias": 5,
+              "urls": {
+                "MODIS_SP": "https://firms.modaps.eosdis.nasa.gov/api/country/csv/{KEY}/MODIS_SP/PER/5/2014-10-20",
+                "VIIRS_SNPP_SP": "https://firms.modaps.eosdis.nasa.gov/api/country/csv/{KEY}/VIIRS_SNPP_SP/PER/5/2014-10-20"
+              }
+            },
+            {
+              "inicio": "2014-10-25",
+              "fin": "2014-10-29",
+              "dias": 5,
+              "urls": {
+                "MODIS_SP": "https://firms.modaps.eosdis.nasa.gov/api/country/csv/{KEY}/MODIS_SP/PER/5/2014-10-25",
+                "VIIRS_SNPP_SP": "https://firms.modaps.eosdis.nasa.gov/api/country/csv/{KEY}/VIIRS_SNPP_SP/PER/5/2014-10-25"
+              }
+            },
+            {
+              "inicio": "2014-10-30",
+              "fin": "2014-10-31",
+              "dias": 2,
+              "urls": {
+                "MODIS_SP": "https://firms.modaps.eosdis.nasa.gov/api/country/csv/{KEY}/MODIS_SP/PER/2/2014-10-30",
+                "VIIRS_SNPP_SP": "https://firms.modaps.eosdis.nasa.gov/api/country/csv/{KEY}/VIIRS_SNPP_SP/PER/2/2014-10-30"
+              }
+            }
+          ]
+        },
+        {
+          "inicio": "2015-08-01",
+          "fin": "2015-10-31",
+          "bloques": [
+            {
+              "inicio": "2015-08-01",
+              "fin": "2015-08-05",
+              "dias": 5,
+              "urls": {
+                "MODIS_SP": "https://firms.modaps.eosdis.nasa.gov/api/country/csv/{KEY}/MODIS_SP/PER/5/2015-08-01",
+                "VIIRS_SNPP_SP": "https://firms.modaps.eosdis.nasa.gov/api/country/csv/{KEY}/VIIRS_SNPP_SP/PER/5/2015-08-01"
+              }
+            },
+            {
+              "inicio": "2015-08-06",
+              "fin": "2015-08-10",
+              "dias": 5,
+              "urls": {
+                "MODIS_SP": "https://firms.modaps.eosdis.nasa.gov/api/country/csv/{KEY}/MODIS_SP/PER/5/2015-08-06",
+                "VIIRS_SNPP_SP": "https://firms.modaps.eosdis.nasa.gov/api/country/csv/{KEY}/VIIRS_SNPP_SP/PER/5/2015-08-06"
+              }
+            },
+            {
+              "inicio": "2015-08-11",
+              "fin": "2015-08-15",
+              "dias": 5,
+              "urls": {
+                "MODIS_SP": "https://firms.modaps.eosdis.nasa.gov/api/country/csv/{KEY}/MODIS_SP/PER/5/2015-08-11",
+                "VIIRS_SNPP_SP": "https://firms.modaps.eosdis.nasa.gov/api/country/csv/{KEY}/VIIRS_SNPP_SP/PER/5/2015-08-11"
+              }
+            },
+            {
+              "inicio": "2015-08-16",
+              "fin": "2015-08-20",
+              "dias": 5,
+              "urls": {
+                "MODIS_SP": "https://firms.modaps.eosdis.nasa.gov/api/country/csv/{KEY}/MODIS_SP/PER/5/2015-08-16",
+                "VIIRS_SNPP_SP": "https://firms.modaps.eosdis.nasa.gov/api/country/csv/{KEY}/VIIRS_SNPP_SP/PER/5/2015-08-16"
+              }
+            },
+            {
+              "inicio": "2015-08-21",
+              "fin": "2015-08-25",
+              "dias": 5,
+              "urls": {
+                "MODIS_SP": "https://firms.modaps.eosdis.nasa.gov/api/country/csv/{KEY}/MODIS_SP/PER/5/2015-08-21",
+                "VIIRS_SNPP_SP": "https://firms.modaps.eosdis.nasa.gov/api/country/csv/{KEY}/VIIRS_SNPP_SP/PER/5/2015-08-21"
+              }
+            },
+            {
+              "inicio": "2015-08-26",
+              "fin": "2015-08-30",
+              "dias": 5,
+              "urls": {
+                "MODIS_SP": "https://firms.modaps.eosdis.nasa.gov/api/country/csv/{KEY}/MODIS_SP/PER/5/2015-08-26",
+                "VIIRS_SNPP_SP": "https://firms.modaps.eosdis.nasa.gov/api/country/csv/{KEY}/VIIRS_SNPP_SP/PER/5/2015-08-26"
+              }
+            },
+            {
+              "inicio": "2015-08-31",
+              "fin": "2015-09-04",
+              "dias": 5,
+              "urls": {
+                "MODIS_SP": "https://firms.modaps.eosdis.nasa.gov/api/country/csv/{KEY}/MODIS_SP/PER/5/2015-08-31",
+                "VIIRS_SNPP_SP": "https://firms.modaps.eosdis.nasa.gov/api/country/csv/{KEY}/VIIRS_SNPP_SP/PER/5/2015-08-31"
+              }
+            },
+            {
+              "inicio": "2015-09-05",
+              "fin": "2015-09-09",
+              "dias": 5,
+              "urls": {
+                "MODIS_SP": "https://firms.modaps.eosdis.nasa.gov/api/country/csv/{KEY}/MODIS_SP/PER/5/2015-09-05",
+                "VIIRS_SNPP_SP": "https://firms.modaps.eosdis.nasa.gov/api/country/csv/{KEY}/VIIRS_SNPP_SP/PER/5/2015-09-05"
+              }
+            },
+            {
+              "inicio": "2015-09-10",
+              "fin": "2015-09-14",
+              "dias": 5,
+              "urls": {
+                "MODIS_SP": "https://firms.modaps.eosdis.nasa.gov/api/country/csv/{KEY}/MODIS_SP/PER/5/2015-09-10",
+                "VIIRS_SNPP_SP": "https://firms.modaps.eosdis.nasa.gov/api/country/csv/{KEY}/VIIRS_SNPP_SP/PER/5/2015-09-10"
+              }
+            },
+            {
+              "inicio": "2015-09-15",
+              "fin": "2015-09-19",
+              "dias": 5,
+              "urls": {
+                "MODIS_SP": "https://firms.modaps.eosdis.nasa.gov/api/country/csv/{KEY}/MODIS_SP/PER/5/2015-09-15",
+                "VIIRS_SNPP_SP": "https://firms.modaps.eosdis.nasa.gov/api/country/csv/{KEY}/VIIRS_SNPP_SP/PER/5/2015-09-15"
+              }
+            },
+            {
+              "inicio": "2015-09-20",
+              "fin": "2015-09-24",
+              "dias": 5,
+              "urls": {
+                "MODIS_SP": "https://firms.modaps.eosdis.nasa.gov/api/country/csv/{KEY}/MODIS_SP/PER/5/2015-09-20",
+                "VIIRS_SNPP_SP": "https://firms.modaps.eosdis.nasa.gov/api/country/csv/{KEY}/VIIRS_SNPP_SP/PER/5/2015-09-20"
+              }
+            },
+            {
+              "inicio": "2015-09-25",
+              "fin": "2015-09-29",
+              "dias": 5,
+              "urls": {
+                "MODIS_SP": "https://firms.modaps.eosdis.nasa.gov/api/country/csv/{KEY}/MODIS_SP/PER/5/2015-09-25",
+                "VIIRS_SNPP_SP": "https://firms.modaps.eosdis.nasa.gov/api/country/csv/{KEY}/VIIRS_SNPP_SP/PER/5/2015-09-25"
+              }
+            },
+            {
+              "inicio": "2015-09-30",
+              "fin": "2015-10-04",
+              "dias": 5,
+              "urls": {
+                "MODIS_SP": "https://firms.modaps.eosdis.nasa.gov/api/country/csv/{KEY}/MODIS_SP/PER/5/2015-09-30",
+                "VIIRS_SNPP_SP": "https://firms.modaps.eosdis.nasa.gov/api/country/csv/{KEY}/VIIRS_SNPP_SP/PER/5/2015-09-30"
+              }
+            },
+            {
+              "inicio": "2015-10-05",
+              "fin": "2015-10-09",
+              "dias": 5,
+              "urls": {
+                "MODIS_SP": "https://firms.modaps.eosdis.nasa.gov/api/country/csv/{KEY}/MODIS_SP/PER/5/2015-10-05",
+                "VIIRS_SNPP_SP": "https://firms.modaps.eosdis.nasa.gov/api/country/csv/{KEY}/VIIRS_SNPP_SP/PER/5/2015-10-05"
+              }
+            },
+            {
+              "inicio": "2015-10-10",
+              "fin": "2015-10-14",
+              "dias": 5,
+              "urls": {
+                "MODIS_SP": "https://firms.modaps.eosdis.nasa.gov/api/country/csv/{KEY}/MODIS_SP/PER/5/2015-10-10",
+                "VIIRS_SNPP_SP": "https://firms.modaps.eosdis.nasa.gov/api/country/csv/{KEY}/VIIRS_SNPP_SP/PER/5/2015-10-10"
+              }
+            },
+            {
+              "inicio": "2015-10-15",
+              "fin": "2015-10-19",
+              "dias": 5,
+              "urls": {
+                "MODIS_SP": "https://firms.modaps.eosdis.nasa.gov/api/country/csv/{KEY}/MODIS_SP/PER/5/2015-10-15",
+                "VIIRS_SNPP_SP": "https://firms.modaps.eosdis.nasa.gov/api/country/csv/{KEY}/VIIRS_SNPP_SP/PER/5/2015-10-15"
+              }
+            },
+            {
+              "inicio": "2015-10-20",
+              "fin": "2015-10-24",
+              "dias": 5,
+              "urls": {
+                "MODIS_SP": "https://firms.modaps.eosdis.nasa.gov/api/country/csv/{KEY}/MODIS_SP/PER/5/2015-10-20",
+                "VIIRS_SNPP_SP": "https://firms.modaps.eosdis.nasa.gov/api/country/csv/{KEY}/VIIRS_SNPP_SP/PER/5/2015-10-20"
+              }
+            },
+            {
+              "inicio": "2015-10-25",
+              "fin": "2015-10-29",
+              "dias": 5,
+              "urls": {
+                "MODIS_SP": "https://firms.modaps.eosdis.nasa.gov/api/country/csv/{KEY}/MODIS_SP/PER/5/2015-10-25",
+                "VIIRS_SNPP_SP": "https://firms.modaps.eosdis.nasa.gov/api/country/csv/{KEY}/VIIRS_SNPP_SP/PER/5/2015-10-25"
+              }
+            },
+            {
+              "inicio": "2015-10-30",
+              "fin": "2015-10-31",
+              "dias": 2,
+              "urls": {
+                "MODIS_SP": "https://firms.modaps.eosdis.nasa.gov/api/country/csv/{KEY}/MODIS_SP/PER/2/2015-10-30",
+                "VIIRS_SNPP_SP": "https://firms.modaps.eosdis.nasa.gov/api/country/csv/{KEY}/VIIRS_SNPP_SP/PER/2/2015-10-30"
+              }
+            }
+          ]
+        },
+        {
+          "inicio": "2016-08-01",
+          "fin": "2016-10-31",
+          "bloques": [
+            {
+              "inicio": "2016-08-01",
+              "fin": "2016-08-05",
+              "dias": 5,
+              "urls": {
+                "MODIS_SP": "https://firms.modaps.eosdis.nasa.gov/api/country/csv/{KEY}/MODIS_SP/PER/5/2016-08-01",
+                "VIIRS_SNPP_SP": "https://firms.modaps.eosdis.nasa.gov/api/country/csv/{KEY}/VIIRS_SNPP_SP/PER/5/2016-08-01"
+              }
+            },
+            {
+              "inicio": "2016-08-06",
+              "fin": "2016-08-10",
+              "dias": 5,
+              "urls": {
+                "MODIS_SP": "https://firms.modaps.eosdis.nasa.gov/api/country/csv/{KEY}/MODIS_SP/PER/5/2016-08-06",
+                "VIIRS_SNPP_SP": "https://firms.modaps.eosdis.nasa.gov/api/country/csv/{KEY}/VIIRS_SNPP_SP/PER/5/2016-08-06"
+              }
+            },
+            {
+              "inicio": "2016-08-11",
+              "fin": "2016-08-15",
+              "dias": 5,
+              "urls": {
+                "MODIS_SP": "https://firms.modaps.eosdis.nasa.gov/api/country/csv/{KEY}/MODIS_SP/PER/5/2016-08-11",
+                "VIIRS_SNPP_SP": "https://firms.modaps.eosdis.nasa.gov/api/country/csv/{KEY}/VIIRS_SNPP_SP/PER/5/2016-08-11"
+              }
+            },
+            {
+              "inicio": "2016-08-16",
+              "fin": "2016-08-20",
+              "dias": 5,
+              "urls": {
+                "MODIS_SP": "https://firms.modaps.eosdis.nasa.gov/api/country/csv/{KEY}/MODIS_SP/PER/5/2016-08-16",
+                "VIIRS_SNPP_SP": "https://firms.modaps.eosdis.nasa.gov/api/country/csv/{KEY}/VIIRS_SNPP_SP/PER/5/2016-08-16"
+              }
+            },
+            {
+              "inicio": "2016-08-21",
+              "fin": "2016-08-25",
+              "dias": 5,
+              "urls": {
+                "MODIS_SP": "https://firms.modaps.eosdis.nasa.gov/api/country/csv/{KEY}/MODIS_SP/PER/5/2016-08-21",
+                "VIIRS_SNPP_SP": "https://firms.modaps.eosdis.nasa.gov/api/country/csv/{KEY}/VIIRS_SNPP_SP/PER/5/2016-08-21"
+              }
+            },
+            {
+              "inicio": "2016-08-26",
+              "fin": "2016-08-30",
+              "dias": 5,
+              "urls": {
+                "MODIS_SP": "https://firms.modaps.eosdis.nasa.gov/api/country/csv/{KEY}/MODIS_SP/PER/5/2016-08-26",
+                "VIIRS_SNPP_SP": "https://firms.modaps.eosdis.nasa.gov/api/country/csv/{KEY}/VIIRS_SNPP_SP/PER/5/2016-08-26"
+              }
+            },
+            {
+              "inicio": "2016-08-31",
+              "fin": "2016-09-04",
+              "dias": 5,
+              "urls": {
+                "MODIS_SP": "https://firms.modaps.eosdis.nasa.gov/api/country/csv/{KEY}/MODIS_SP/PER/5/2016-08-31",
+                "VIIRS_SNPP_SP": "https://firms.modaps.eosdis.nasa.gov/api/country/csv/{KEY}/VIIRS_SNPP_SP/PER/5/2016-08-31"
+              }
+            },
+            {
+              "inicio": "2016-09-05",
+              "fin": "2016-09-09",
+              "dias": 5,
+              "urls": {
+                "MODIS_SP": "https://firms.modaps.eosdis.nasa.gov/api/country/csv/{KEY}/MODIS_SP/PER/5/2016-09-05",
+                "VIIRS_SNPP_SP": "https://firms.modaps.eosdis.nasa.gov/api/country/csv/{KEY}/VIIRS_SNPP_SP/PER/5/2016-09-05"
+              }
+            },
+            {
+              "inicio": "2016-09-10",
+              "fin": "2016-09-14",
+              "dias": 5,
+              "urls": {
+                "MODIS_SP": "https://firms.modaps.eosdis.nasa.gov/api/country/csv/{KEY}/MODIS_SP/PER/5/2016-09-10",
+                "VIIRS_SNPP_SP": "https://firms.modaps.eosdis.nasa.gov/api/country/csv/{KEY}/VIIRS_SNPP_SP/PER/5/2016-09-10"
+              }
+            },
+            {
+              "inicio": "2016-09-15",
+              "fin": "2016-09-19",
+              "dias": 5,
+              "urls": {
+                "MODIS_SP": "https://firms.modaps.eosdis.nasa.gov/api/country/csv/{KEY}/MODIS_SP/PER/5/2016-09-15",
+                "VIIRS_SNPP_SP": "https://firms.modaps.eosdis.nasa.gov/api/country/csv/{KEY}/VIIRS_SNPP_SP/PER/5/2016-09-15"
+              }
+            },
+            {
+              "inicio": "2016-09-20",
+              "fin": "2016-09-24",
+              "dias": 5,
+              "urls": {
+                "MODIS_SP": "https://firms.modaps.eosdis.nasa.gov/api/country/csv/{KEY}/MODIS_SP/PER/5/2016-09-20",
+                "VIIRS_SNPP_SP": "https://firms.modaps.eosdis.nasa.gov/api/country/csv/{KEY}/VIIRS_SNPP_SP/PER/5/2016-09-20"
+              }
+            },
+            {
+              "inicio": "2016-09-25",
+              "fin": "2016-09-29",
+              "dias": 5,
+              "urls": {
+                "MODIS_SP": "https://firms.modaps.eosdis.nasa.gov/api/country/csv/{KEY}/MODIS_SP/PER/5/2016-09-25",
+                "VIIRS_SNPP_SP": "https://firms.modaps.eosdis.nasa.gov/api/country/csv/{KEY}/VIIRS_SNPP_SP/PER/5/2016-09-25"
+              }
+            },
+            {
+              "inicio": "2016-09-30",
+              "fin": "2016-10-04",
+              "dias": 5,
+              "urls": {
+                "MODIS_SP": "https://firms.modaps.eosdis.nasa.gov/api/country/csv/{KEY}/MODIS_SP/PER/5/2016-09-30",
+                "VIIRS_SNPP_SP": "https://firms.modaps.eosdis.nasa.gov/api/country/csv/{KEY}/VIIRS_SNPP_SP/PER/5/2016-09-30"
+              }
+            },
+            {
+              "inicio": "2016-10-05",
+              "fin": "2016-10-09",
+              "dias": 5,
+              "urls": {
+                "MODIS_SP": "https://firms.modaps.eosdis.nasa.gov/api/country/csv/{KEY}/MODIS_SP/PER/5/2016-10-05",
+                "VIIRS_SNPP_SP": "https://firms.modaps.eosdis.nasa.gov/api/country/csv/{KEY}/VIIRS_SNPP_SP/PER/5/2016-10-05"
+              }
+            },
+            {
+              "inicio": "2016-10-10",
+              "fin": "2016-10-14",
+              "dias": 5,
+              "urls": {
+                "MODIS_SP": "https://firms.modaps.eosdis.nasa.gov/api/country/csv/{KEY}/MODIS_SP/PER/5/2016-10-10",
+                "VIIRS_SNPP_SP": "https://firms.modaps.eosdis.nasa.gov/api/country/csv/{KEY}/VIIRS_SNPP_SP/PER/5/2016-10-10"
+              }
+            },
+            {
+              "inicio": "2016-10-15",
+              "fin": "2016-10-19",
+              "dias": 5,
+              "urls": {
+                "MODIS_SP": "https://firms.modaps.eosdis.nasa.gov/api/country/csv/{KEY}/MODIS_SP/PER/5/2016-10-15",
+                "VIIRS_SNPP_SP": "https://firms.modaps.eosdis.nasa.gov/api/country/csv/{KEY}/VIIRS_SNPP_SP/PER/5/2016-10-15"
+              }
+            },
+            {
+              "inicio": "2016-10-20",
+              "fin": "2016-10-24",
+              "dias": 5,
+              "urls": {
+                "MODIS_SP": "https://firms.modaps.eosdis.nasa.gov/api/country/csv/{KEY}/MODIS_SP/PER/5/2016-10-20",
+                "VIIRS_SNPP_SP": "https://firms.modaps.eosdis.nasa.gov/api/country/csv/{KEY}/VIIRS_SNPP_SP/PER/5/2016-10-20"
+              }
+            },
+            {
+              "inicio": "2016-10-25",
+              "fin": "2016-10-29",
+              "dias": 5,
+              "urls": {
+                "MODIS_SP": "https://firms.modaps.eosdis.nasa.gov/api/country/csv/{KEY}/MODIS_SP/PER/5/2016-10-25",
+                "VIIRS_SNPP_SP": "https://firms.modaps.eosdis.nasa.gov/api/country/csv/{KEY}/VIIRS_SNPP_SP/PER/5/2016-10-25"
+              }
+            },
+            {
+              "inicio": "2016-10-30",
+              "fin": "2016-10-31",
+              "dias": 2,
+              "urls": {
+                "MODIS_SP": "https://firms.modaps.eosdis.nasa.gov/api/country/csv/{KEY}/MODIS_SP/PER/2/2016-10-30",
+                "VIIRS_SNPP_SP": "https://firms.modaps.eosdis.nasa.gov/api/country/csv/{KEY}/VIIRS_SNPP_SP/PER/2/2016-10-30"
+              }
+            }
+          ]
+        },
+        {
+          "inicio": "2017-08-01",
+          "fin": "2017-10-31",
+          "bloques": [
+            {
+              "inicio": "2017-08-01",
+              "fin": "2017-08-05",
+              "dias": 5,
+              "urls": {
+                "MODIS_SP": "https://firms.modaps.eosdis.nasa.gov/api/country/csv/{KEY}/MODIS_SP/PER/5/2017-08-01",
+                "VIIRS_SNPP_SP": "https://firms.modaps.eosdis.nasa.gov/api/country/csv/{KEY}/VIIRS_SNPP_SP/PER/5/2017-08-01"
+              }
+            },
+            {
+              "inicio": "2017-08-06",
+              "fin": "2017-08-10",
+              "dias": 5,
+              "urls": {
+                "MODIS_SP": "https://firms.modaps.eosdis.nasa.gov/api/country/csv/{KEY}/MODIS_SP/PER/5/2017-08-06",
+                "VIIRS_SNPP_SP": "https://firms.modaps.eosdis.nasa.gov/api/country/csv/{KEY}/VIIRS_SNPP_SP/PER/5/2017-08-06"
+              }
+            },
+            {
+              "inicio": "2017-08-11",
+              "fin": "2017-08-15",
+              "dias": 5,
+              "urls": {
+                "MODIS_SP": "https://firms.modaps.eosdis.nasa.gov/api/country/csv/{KEY}/MODIS_SP/PER/5/2017-08-11",
+                "VIIRS_SNPP_SP": "https://firms.modaps.eosdis.nasa.gov/api/country/csv/{KEY}/VIIRS_SNPP_SP/PER/5/2017-08-11"
+              }
+            },
+            {
+              "inicio": "2017-08-16",
+              "fin": "2017-08-20",
+              "dias": 5,
+              "urls": {
+                "MODIS_SP": "https://firms.modaps.eosdis.nasa.gov/api/country/csv/{KEY}/MODIS_SP/PER/5/2017-08-16",
+                "VIIRS_SNPP_SP": "https://firms.modaps.eosdis.nasa.gov/api/country/csv/{KEY}/VIIRS_SNPP_SP/PER/5/2017-08-16"
+              }
+            },
+            {
+              "inicio": "2017-08-21",
+              "fin": "2017-08-25",
+              "dias": 5,
+              "urls": {
+                "MODIS_SP": "https://firms.modaps.eosdis.nasa.gov/api/country/csv/{KEY}/MODIS_SP/PER/5/2017-08-21",
+                "VIIRS_SNPP_SP": "https://firms.modaps.eosdis.nasa.gov/api/country/csv/{KEY}/VIIRS_SNPP_SP/PER/5/2017-08-21"
+              }
+            },
+            {
+              "inicio": "2017-08-26",
+              "fin": "2017-08-30",
+              "dias": 5,
+              "urls": {
+                "MODIS_SP": "https://firms.modaps.eosdis.nasa.gov/api/country/csv/{KEY}/MODIS_SP/PER/5/2017-08-26",
+                "VIIRS_SNPP_SP": "https://firms.modaps.eosdis.nasa.gov/api/country/csv/{KEY}/VIIRS_SNPP_SP/PER/5/2017-08-26"
+              }
+            },
+            {
+              "inicio": "2017-08-31",
+              "fin": "2017-09-04",
+              "dias": 5,
+              "urls": {
+                "MODIS_SP": "https://firms.modaps.eosdis.nasa.gov/api/country/csv/{KEY}/MODIS_SP/PER/5/2017-08-31",
+                "VIIRS_SNPP_SP": "https://firms.modaps.eosdis.nasa.gov/api/country/csv/{KEY}/VIIRS_SNPP_SP/PER/5/2017-08-31"
+              }
+            },
+            {
+              "inicio": "2017-09-05",
+              "fin": "2017-09-09",
+              "dias": 5,
+              "urls": {
+                "MODIS_SP": "https://firms.modaps.eosdis.nasa.gov/api/country/csv/{KEY}/MODIS_SP/PER/5/2017-09-05",
+                "VIIRS_SNPP_SP": "https://firms.modaps.eosdis.nasa.gov/api/country/csv/{KEY}/VIIRS_SNPP_SP/PER/5/2017-09-05"
+              }
+            },
+            {
+              "inicio": "2017-09-10",
+              "fin": "2017-09-14",
+              "dias": 5,
+              "urls": {
+                "MODIS_SP": "https://firms.modaps.eosdis.nasa.gov/api/country/csv/{KEY}/MODIS_SP/PER/5/2017-09-10",
+                "VIIRS_SNPP_SP": "https://firms.modaps.eosdis.nasa.gov/api/country/csv/{KEY}/VIIRS_SNPP_SP/PER/5/2017-09-10"
+              }
+            },
+            {
+              "inicio": "2017-09-15",
+              "fin": "2017-09-19",
+              "dias": 5,
+              "urls": {
+                "MODIS_SP": "https://firms.modaps.eosdis.nasa.gov/api/country/csv/{KEY}/MODIS_SP/PER/5/2017-09-15",
+                "VIIRS_SNPP_SP": "https://firms.modaps.eosdis.nasa.gov/api/country/csv/{KEY}/VIIRS_SNPP_SP/PER/5/2017-09-15"
+              }
+            },
+            {
+              "inicio": "2017-09-20",
+              "fin": "2017-09-24",
+              "dias": 5,
+              "urls": {
+                "MODIS_SP": "https://firms.modaps.eosdis.nasa.gov/api/country/csv/{KEY}/MODIS_SP/PER/5/2017-09-20",
+                "VIIRS_SNPP_SP": "https://firms.modaps.eosdis.nasa.gov/api/country/csv/{KEY}/VIIRS_SNPP_SP/PER/5/2017-09-20"
+              }
+            },
+            {
+              "inicio": "2017-09-25",
+              "fin": "2017-09-29",
+              "dias": 5,
+              "urls": {
+                "MODIS_SP": "https://firms.modaps.eosdis.nasa.gov/api/country/csv/{KEY}/MODIS_SP/PER/5/2017-09-25",
+                "VIIRS_SNPP_SP": "https://firms.modaps.eosdis.nasa.gov/api/country/csv/{KEY}/VIIRS_SNPP_SP/PER/5/2017-09-25"
+              }
+            },
+            {
+              "inicio": "2017-09-30",
+              "fin": "2017-10-04",
+              "dias": 5,
+              "urls": {
+                "MODIS_SP": "https://firms.modaps.eosdis.nasa.gov/api/country/csv/{KEY}/MODIS_SP/PER/5/2017-09-30",
+                "VIIRS_SNPP_SP": "https://firms.modaps.eosdis.nasa.gov/api/country/csv/{KEY}/VIIRS_SNPP_SP/PER/5/2017-09-30"
+              }
+            },
+            {
+              "inicio": "2017-10-05",
+              "fin": "2017-10-09",
+              "dias": 5,
+              "urls": {
+                "MODIS_SP": "https://firms.modaps.eosdis.nasa.gov/api/country/csv/{KEY}/MODIS_SP/PER/5/2017-10-05",
+                "VIIRS_SNPP_SP": "https://firms.modaps.eosdis.nasa.gov/api/country/csv/{KEY}/VIIRS_SNPP_SP/PER/5/2017-10-05"
+              }
+            },
+            {
+              "inicio": "2017-10-10",
+              "fin": "2017-10-14",
+              "dias": 5,
+              "urls": {
+                "MODIS_SP": "https://firms.modaps.eosdis.nasa.gov/api/country/csv/{KEY}/MODIS_SP/PER/5/2017-10-10",
+                "VIIRS_SNPP_SP": "https://firms.modaps.eosdis.nasa.gov/api/country/csv/{KEY}/VIIRS_SNPP_SP/PER/5/2017-10-10"
+              }
+            },
+            {
+              "inicio": "2017-10-15",
+              "fin": "2017-10-19",
+              "dias": 5,
+              "urls": {
+                "MODIS_SP": "https://firms.modaps.eosdis.nasa.gov/api/country/csv/{KEY}/MODIS_SP/PER/5/2017-10-15",
+                "VIIRS_SNPP_SP": "https://firms.modaps.eosdis.nasa.gov/api/country/csv/{KEY}/VIIRS_SNPP_SP/PER/5/2017-10-15"
+              }
+            },
+            {
+              "inicio": "2017-10-20",
+              "fin": "2017-10-24",
+              "dias": 5,
+              "urls": {
+                "MODIS_SP": "https://firms.modaps.eosdis.nasa.gov/api/country/csv/{KEY}/MODIS_SP/PER/5/2017-10-20",
+                "VIIRS_SNPP_SP": "https://firms.modaps.eosdis.nasa.gov/api/country/csv/{KEY}/VIIRS_SNPP_SP/PER/5/2017-10-20"
+              }
+            },
+            {
+              "inicio": "2017-10-25",
+              "fin": "2017-10-29",
+              "dias": 5,
+              "urls": {
+                "MODIS_SP": "https://firms.modaps.eosdis.nasa.gov/api/country/csv/{KEY}/MODIS_SP/PER/5/2017-10-25",
+                "VIIRS_SNPP_SP": "https://firms.modaps.eosdis.nasa.gov/api/country/csv/{KEY}/VIIRS_SNPP_SP/PER/5/2017-10-25"
+              }
+            },
+            {
+              "inicio": "2017-10-30",
+              "fin": "2017-10-31",
+              "dias": 2,
+              "urls": {
+                "MODIS_SP": "https://firms.modaps.eosdis.nasa.gov/api/country/csv/{KEY}/MODIS_SP/PER/2/2017-10-30",
+                "VIIRS_SNPP_SP": "https://firms.modaps.eosdis.nasa.gov/api/country/csv/{KEY}/VIIRS_SNPP_SP/PER/2/2017-10-30"
+              }
+            }
+          ]
+        },
+        {
+          "inicio": "2018-08-01",
+          "fin": "2018-10-31",
+          "bloques": [
+            {
+              "inicio": "2018-08-01",
+              "fin": "2018-08-05",
+              "dias": 5,
+              "urls": {
+                "MODIS_SP": "https://firms.modaps.eosdis.nasa.gov/api/country/csv/{KEY}/MODIS_SP/PER/5/2018-08-01",
+                "VIIRS_SNPP_SP": "https://firms.modaps.eosdis.nasa.gov/api/country/csv/{KEY}/VIIRS_SNPP_SP/PER/5/2018-08-01"
+              }
+            },
+            {
+              "inicio": "2018-08-06",
+              "fin": "2018-08-10",
+              "dias": 5,
+              "urls": {
+                "MODIS_SP": "https://firms.modaps.eosdis.nasa.gov/api/country/csv/{KEY}/MODIS_SP/PER/5/2018-08-06",
+                "VIIRS_SNPP_SP": "https://firms.modaps.eosdis.nasa.gov/api/country/csv/{KEY}/VIIRS_SNPP_SP/PER/5/2018-08-06"
+              }
+            },
+            {
+              "inicio": "2018-08-11",
+              "fin": "2018-08-15",
+              "dias": 5,
+              "urls": {
+                "MODIS_SP": "https://firms.modaps.eosdis.nasa.gov/api/country/csv/{KEY}/MODIS_SP/PER/5/2018-08-11",
+                "VIIRS_SNPP_SP": "https://firms.modaps.eosdis.nasa.gov/api/country/csv/{KEY}/VIIRS_SNPP_SP/PER/5/2018-08-11"
+              }
+            },
+            {
+              "inicio": "2018-08-16",
+              "fin": "2018-08-20",
+              "dias": 5,
+              "urls": {
+                "MODIS_SP": "https://firms.modaps.eosdis.nasa.gov/api/country/csv/{KEY}/MODIS_SP/PER/5/2018-08-16",
+                "VIIRS_SNPP_SP": "https://firms.modaps.eosdis.nasa.gov/api/country/csv/{KEY}/VIIRS_SNPP_SP/PER/5/2018-08-16"
+              }
+            },
+            {
+              "inicio": "2018-08-21",
+              "fin": "2018-08-25",
+              "dias": 5,
+              "urls": {
+                "MODIS_SP": "https://firms.modaps.eosdis.nasa.gov/api/country/csv/{KEY}/MODIS_SP/PER/5/2018-08-21",
+                "VIIRS_SNPP_SP": "https://firms.modaps.eosdis.nasa.gov/api/country/csv/{KEY}/VIIRS_SNPP_SP/PER/5/2018-08-21"
+              }
+            },
+            {
+              "inicio": "2018-08-26",
+              "fin": "2018-08-30",
+              "dias": 5,
+              "urls": {
+                "MODIS_SP": "https://firms.modaps.eosdis.nasa.gov/api/country/csv/{KEY}/MODIS_SP/PER/5/2018-08-26",
+                "VIIRS_SNPP_SP": "https://firms.modaps.eosdis.nasa.gov/api/country/csv/{KEY}/VIIRS_SNPP_SP/PER/5/2018-08-26"
+              }
+            },
+            {
+              "inicio": "2018-08-31",
+              "fin": "2018-09-04",
+              "dias": 5,
+              "urls": {
+                "MODIS_SP": "https://firms.modaps.eosdis.nasa.gov/api/country/csv/{KEY}/MODIS_SP/PER/5/2018-08-31",
+                "VIIRS_SNPP_SP": "https://firms.modaps.eosdis.nasa.gov/api/country/csv/{KEY}/VIIRS_SNPP_SP/PER/5/2018-08-31"
+              }
+            },
+            {
+              "inicio": "2018-09-05",
+              "fin": "2018-09-09",
+              "dias": 5,
+              "urls": {
+                "MODIS_SP": "https://firms.modaps.eosdis.nasa.gov/api/country/csv/{KEY}/MODIS_SP/PER/5/2018-09-05",
+                "VIIRS_SNPP_SP": "https://firms.modaps.eosdis.nasa.gov/api/country/csv/{KEY}/VIIRS_SNPP_SP/PER/5/2018-09-05"
+              }
+            },
+            {
+              "inicio": "2018-09-10",
+              "fin": "2018-09-14",
+              "dias": 5,
+              "urls": {
+                "MODIS_SP": "https://firms.modaps.eosdis.nasa.gov/api/country/csv/{KEY}/MODIS_SP/PER/5/2018-09-10",
+                "VIIRS_SNPP_SP": "https://firms.modaps.eosdis.nasa.gov/api/country/csv/{KEY}/VIIRS_SNPP_SP/PER/5/2018-09-10"
+              }
+            },
+            {
+              "inicio": "2018-09-15",
+              "fin": "2018-09-19",
+              "dias": 5,
+              "urls": {
+                "MODIS_SP": "https://firms.modaps.eosdis.nasa.gov/api/country/csv/{KEY}/MODIS_SP/PER/5/2018-09-15",
+                "VIIRS_SNPP_SP": "https://firms.modaps.eosdis.nasa.gov/api/country/csv/{KEY}/VIIRS_SNPP_SP/PER/5/2018-09-15"
+              }
+            },
+            {
+              "inicio": "2018-09-20",
+              "fin": "2018-09-24",
+              "dias": 5,
+              "urls": {
+                "MODIS_SP": "https://firms.modaps.eosdis.nasa.gov/api/country/csv/{KEY}/MODIS_SP/PER/5/2018-09-20",
+                "VIIRS_SNPP_SP": "https://firms.modaps.eosdis.nasa.gov/api/country/csv/{KEY}/VIIRS_SNPP_SP/PER/5/2018-09-20"
+              }
+            },
+            {
+              "inicio": "2018-09-25",
+              "fin": "2018-09-29",
+              "dias": 5,
+              "urls": {
+                "MODIS_SP": "https://firms.modaps.eosdis.nasa.gov/api/country/csv/{KEY}/MODIS_SP/PER/5/2018-09-25",
+                "VIIRS_SNPP_SP": "https://firms.modaps.eosdis.nasa.gov/api/country/csv/{KEY}/VIIRS_SNPP_SP/PER/5/2018-09-25"
+              }
+            },
+            {
+              "inicio": "2018-09-30",
+              "fin": "2018-10-04",
+              "dias": 5,
+              "urls": {
+                "MODIS_SP": "https://firms.modaps.eosdis.nasa.gov/api/country/csv/{KEY}/MODIS_SP/PER/5/2018-09-30",
+                "VIIRS_SNPP_SP": "https://firms.modaps.eosdis.nasa.gov/api/country/csv/{KEY}/VIIRS_SNPP_SP/PER/5/2018-09-30"
+              }
+            },
+            {
+              "inicio": "2018-10-05",
+              "fin": "2018-10-09",
+              "dias": 5,
+              "urls": {
+                "MODIS_SP": "https://firms.modaps.eosdis.nasa.gov/api/country/csv/{KEY}/MODIS_SP/PER/5/2018-10-05",
+                "VIIRS_SNPP_SP": "https://firms.modaps.eosdis.nasa.gov/api/country/csv/{KEY}/VIIRS_SNPP_SP/PER/5/2018-10-05"
+              }
+            },
+            {
+              "inicio": "2018-10-10",
+              "fin": "2018-10-14",
+              "dias": 5,
+              "urls": {
+                "MODIS_SP": "https://firms.modaps.eosdis.nasa.gov/api/country/csv/{KEY}/MODIS_SP/PER/5/2018-10-10",
+                "VIIRS_SNPP_SP": "https://firms.modaps.eosdis.nasa.gov/api/country/csv/{KEY}/VIIRS_SNPP_SP/PER/5/2018-10-10"
+              }
+            },
+            {
+              "inicio": "2018-10-15",
+              "fin": "2018-10-19",
+              "dias": 5,
+              "urls": {
+                "MODIS_SP": "https://firms.modaps.eosdis.nasa.gov/api/country/csv/{KEY}/MODIS_SP/PER/5/2018-10-15",
+                "VIIRS_SNPP_SP": "https://firms.modaps.eosdis.nasa.gov/api/country/csv/{KEY}/VIIRS_SNPP_SP/PER/5/2018-10-15"
+              }
+            },
+            {
+              "inicio": "2018-10-20",
+              "fin": "2018-10-24",
+              "dias": 5,
+              "urls": {
+                "MODIS_SP": "https://firms.modaps.eosdis.nasa.gov/api/country/csv/{KEY}/MODIS_SP/PER/5/2018-10-20",
+                "VIIRS_SNPP_SP": "https://firms.modaps.eosdis.nasa.gov/api/country/csv/{KEY}/VIIRS_SNPP_SP/PER/5/2018-10-20"
+              }
+            },
+            {
+              "inicio": "2018-10-25",
+              "fin": "2018-10-29",
+              "dias": 5,
+              "urls": {
+                "MODIS_SP": "https://firms.modaps.eosdis.nasa.gov/api/country/csv/{KEY}/MODIS_SP/PER/5/2018-10-25",
+                "VIIRS_SNPP_SP": "https://firms.modaps.eosdis.nasa.gov/api/country/csv/{KEY}/VIIRS_SNPP_SP/PER/5/2018-10-25"
+              }
+            },
+            {
+              "inicio": "2018-10-30",
+              "fin": "2018-10-31",
+              "dias": 2,
+              "urls": {
+                "MODIS_SP": "https://firms.modaps.eosdis.nasa.gov/api/country/csv/{KEY}/MODIS_SP/PER/2/2018-10-30",
+                "VIIRS_SNPP_SP": "https://firms.modaps.eosdis.nasa.gov/api/country/csv/{KEY}/VIIRS_SNPP_SP/PER/2/2018-10-30"
+              }
+            }
+          ]
+        },
+        {
+          "inicio": "2019-08-01",
+          "fin": "2019-10-31",
+          "bloques": [
+            {
+              "inicio": "2019-08-01",
+              "fin": "2019-08-05",
+              "dias": 5,
+              "urls": {
+                "MODIS_SP": "https://firms.modaps.eosdis.nasa.gov/api/country/csv/{KEY}/MODIS_SP/PER/5/2019-08-01",
+                "VIIRS_SNPP_SP": "https://firms.modaps.eosdis.nasa.gov/api/country/csv/{KEY}/VIIRS_SNPP_SP/PER/5/2019-08-01"
+              }
+            },
+            {
+              "inicio": "2019-08-06",
+              "fin": "2019-08-10",
+              "dias": 5,
+              "urls": {
+                "MODIS_SP": "https://firms.modaps.eosdis.nasa.gov/api/country/csv/{KEY}/MODIS_SP/PER/5/2019-08-06",
+                "VIIRS_SNPP_SP": "https://firms.modaps.eosdis.nasa.gov/api/country/csv/{KEY}/VIIRS_SNPP_SP/PER/5/2019-08-06"
+              }
+            },
+            {
+              "inicio": "2019-08-11",
+              "fin": "2019-08-15",
+              "dias": 5,
+              "urls": {
+                "MODIS_SP": "https://firms.modaps.eosdis.nasa.gov/api/country/csv/{KEY}/MODIS_SP/PER/5/2019-08-11",
+                "VIIRS_SNPP_SP": "https://firms.modaps.eosdis.nasa.gov/api/country/csv/{KEY}/VIIRS_SNPP_SP/PER/5/2019-08-11"
+              }
+            },
+            {
+              "inicio": "2019-08-16",
+              "fin": "2019-08-20",
+              "dias": 5,
+              "urls": {
+                "MODIS_SP": "https://firms.modaps.eosdis.nasa.gov/api/country/csv/{KEY}/MODIS_SP/PER/5/2019-08-16",
+                "VIIRS_SNPP_SP": "https://firms.modaps.eosdis.nasa.gov/api/country/csv/{KEY}/VIIRS_SNPP_SP/PER/5/2019-08-16"
+              }
+            },
+            {
+              "inicio": "2019-08-21",
+              "fin": "2019-08-25",
+              "dias": 5,
+              "urls": {
+                "MODIS_SP": "https://firms.modaps.eosdis.nasa.gov/api/country/csv/{KEY}/MODIS_SP/PER/5/2019-08-21",
+                "VIIRS_SNPP_SP": "https://firms.modaps.eosdis.nasa.gov/api/country/csv/{KEY}/VIIRS_SNPP_SP/PER/5/2019-08-21"
+              }
+            },
+            {
+              "inicio": "2019-08-26",
+              "fin": "2019-08-30",
+              "dias": 5,
+              "urls": {
+                "MODIS_SP": "https://firms.modaps.eosdis.nasa.gov/api/country/csv/{KEY}/MODIS_SP/PER/5/2019-08-26",
+                "VIIRS_SNPP_SP": "https://firms.modaps.eosdis.nasa.gov/api/country/csv/{KEY}/VIIRS_SNPP_SP/PER/5/2019-08-26"
+              }
+            },
+            {
+              "inicio": "2019-08-31",
+              "fin": "2019-09-04",
+              "dias": 5,
+              "urls": {
+                "MODIS_SP": "https://firms.modaps.eosdis.nasa.gov/api/country/csv/{KEY}/MODIS_SP/PER/5/2019-08-31",
+                "VIIRS_SNPP_SP": "https://firms.modaps.eosdis.nasa.gov/api/country/csv/{KEY}/VIIRS_SNPP_SP/PER/5/2019-08-31"
+              }
+            },
+            {
+              "inicio": "2019-09-05",
+              "fin": "2019-09-09",
+              "dias": 5,
+              "urls": {
+                "MODIS_SP": "https://firms.modaps.eosdis.nasa.gov/api/country/csv/{KEY}/MODIS_SP/PER/5/2019-09-05",
+                "VIIRS_SNPP_SP": "https://firms.modaps.eosdis.nasa.gov/api/country/csv/{KEY}/VIIRS_SNPP_SP/PER/5/2019-09-05"
+              }
+            },
+            {
+              "inicio": "2019-09-10",
+              "fin": "2019-09-14",
+              "dias": 5,
+              "urls": {
+                "MODIS_SP": "https://firms.modaps.eosdis.nasa.gov/api/country/csv/{KEY}/MODIS_SP/PER/5/2019-09-10",
+                "VIIRS_SNPP_SP": "https://firms.modaps.eosdis.nasa.gov/api/country/csv/{KEY}/VIIRS_SNPP_SP/PER/5/2019-09-10"
+              }
+            },
+            {
+              "inicio": "2019-09-15",
+              "fin": "2019-09-19",
+              "dias": 5,
+              "urls": {
+                "MODIS_SP": "https://firms.modaps.eosdis.nasa.gov/api/country/csv/{KEY}/MODIS_SP/PER/5/2019-09-15",
+                "VIIRS_SNPP_SP": "https://firms.modaps.eosdis.nasa.gov/api/country/csv/{KEY}/VIIRS_SNPP_SP/PER/5/2019-09-15"
+              }
+            },
+            {
+              "inicio": "2019-09-20",
+              "fin": "2019-09-24",
+              "dias": 5,
+              "urls": {
+                "MODIS_SP": "https://firms.modaps.eosdis.nasa.gov/api/country/csv/{KEY}/MODIS_SP/PER/5/2019-09-20",
+                "VIIRS_SNPP_SP": "https://firms.modaps.eosdis.nasa.gov/api/country/csv/{KEY}/VIIRS_SNPP_SP/PER/5/2019-09-20"
+              }
+            },
+            {
+              "inicio": "2019-09-25",
+              "fin": "2019-09-29",
+              "dias": 5,
+              "urls": {
+                "MODIS_SP": "https://firms.modaps.eosdis.nasa.gov/api/country/csv/{KEY}/MODIS_SP/PER/5/2019-09-25",
+                "VIIRS_SNPP_SP": "https://firms.modaps.eosdis.nasa.gov/api/country/csv/{KEY}/VIIRS_SNPP_SP/PER/5/2019-09-25"
+              }
+            },
+            {
+              "inicio": "2019-09-30",
+              "fin": "2019-10-04",
+              "dias": 5,
+              "urls": {
+                "MODIS_SP": "https://firms.modaps.eosdis.nasa.gov/api/country/csv/{KEY}/MODIS_SP/PER/5/2019-09-30",
+                "VIIRS_SNPP_SP": "https://firms.modaps.eosdis.nasa.gov/api/country/csv/{KEY}/VIIRS_SNPP_SP/PER/5/2019-09-30"
+              }
+            },
+            {
+              "inicio": "2019-10-05",
+              "fin": "2019-10-09",
+              "dias": 5,
+              "urls": {
+                "MODIS_SP": "https://firms.modaps.eosdis.nasa.gov/api/country/csv/{KEY}/MODIS_SP/PER/5/2019-10-05",
+                "VIIRS_SNPP_SP": "https://firms.modaps.eosdis.nasa.gov/api/country/csv/{KEY}/VIIRS_SNPP_SP/PER/5/2019-10-05"
+              }
+            },
+            {
+              "inicio": "2019-10-10",
+              "fin": "2019-10-14",
+              "dias": 5,
+              "urls": {
+                "MODIS_SP": "https://firms.modaps.eosdis.nasa.gov/api/country/csv/{KEY}/MODIS_SP/PER/5/2019-10-10",
+                "VIIRS_SNPP_SP": "https://firms.modaps.eosdis.nasa.gov/api/country/csv/{KEY}/VIIRS_SNPP_SP/PER/5/2019-10-10"
+              }
+            },
+            {
+              "inicio": "2019-10-15",
+              "fin": "2019-10-19",
+              "dias": 5,
+              "urls": {
+                "MODIS_SP": "https://firms.modaps.eosdis.nasa.gov/api/country/csv/{KEY}/MODIS_SP/PER/5/2019-10-15",
+                "VIIRS_SNPP_SP": "https://firms.modaps.eosdis.nasa.gov/api/country/csv/{KEY}/VIIRS_SNPP_SP/PER/5/2019-10-15"
+              }
+            },
+            {
+              "inicio": "2019-10-20",
+              "fin": "2019-10-24",
+              "dias": 5,
+              "urls": {
+                "MODIS_SP": "https://firms.modaps.eosdis.nasa.gov/api/country/csv/{KEY}/MODIS_SP/PER/5/2019-10-20",
+                "VIIRS_SNPP_SP": "https://firms.modaps.eosdis.nasa.gov/api/country/csv/{KEY}/VIIRS_SNPP_SP/PER/5/2019-10-20"
+              }
+            },
+            {
+              "inicio": "2019-10-25",
+              "fin": "2019-10-29",
+              "dias": 5,
+              "urls": {
+                "MODIS_SP": "https://firms.modaps.eosdis.nasa.gov/api/country/csv/{KEY}/MODIS_SP/PER/5/2019-10-25",
+                "VIIRS_SNPP_SP": "https://firms.modaps.eosdis.nasa.gov/api/country/csv/{KEY}/VIIRS_SNPP_SP/PER/5/2019-10-25"
+              }
+            },
+            {
+              "inicio": "2019-10-30",
+              "fin": "2019-10-31",
+              "dias": 2,
+              "urls": {
+                "MODIS_SP": "https://firms.modaps.eosdis.nasa.gov/api/country/csv/{KEY}/MODIS_SP/PER/2/2019-10-30",
+                "VIIRS_SNPP_SP": "https://firms.modaps.eosdis.nasa.gov/api/country/csv/{KEY}/VIIRS_SNPP_SP/PER/2/2019-10-30"
+              }
+            }
+          ]
+        },
+        {
+          "inicio": "2020-08-01",
+          "fin": "2020-10-31",
+          "bloques": [
+            {
+              "inicio": "2020-08-01",
+              "fin": "2020-08-05",
+              "dias": 5,
+              "urls": {
+                "MODIS_SP": "https://firms.modaps.eosdis.nasa.gov/api/country/csv/{KEY}/MODIS_SP/PER/5/2020-08-01",
+                "VIIRS_SNPP_SP": "https://firms.modaps.eosdis.nasa.gov/api/country/csv/{KEY}/VIIRS_SNPP_SP/PER/5/2020-08-01"
+              }
+            },
+            {
+              "inicio": "2020-08-06",
+              "fin": "2020-08-10",
+              "dias": 5,
+              "urls": {
+                "MODIS_SP": "https://firms.modaps.eosdis.nasa.gov/api/country/csv/{KEY}/MODIS_SP/PER/5/2020-08-06",
+                "VIIRS_SNPP_SP": "https://firms.modaps.eosdis.nasa.gov/api/country/csv/{KEY}/VIIRS_SNPP_SP/PER/5/2020-08-06"
+              }
+            },
+            {
+              "inicio": "2020-08-11",
+              "fin": "2020-08-15",
+              "dias": 5,
+              "urls": {
+                "MODIS_SP": "https://firms.modaps.eosdis.nasa.gov/api/country/csv/{KEY}/MODIS_SP/PER/5/2020-08-11",
+                "VIIRS_SNPP_SP": "https://firms.modaps.eosdis.nasa.gov/api/country/csv/{KEY}/VIIRS_SNPP_SP/PER/5/2020-08-11"
+              }
+            },
+            {
+              "inicio": "2020-08-16",
+              "fin": "2020-08-20",
+              "dias": 5,
+              "urls": {
+                "MODIS_SP": "https://firms.modaps.eosdis.nasa.gov/api/country/csv/{KEY}/MODIS_SP/PER/5/2020-08-16",
+                "VIIRS_SNPP_SP": "https://firms.modaps.eosdis.nasa.gov/api/country/csv/{KEY}/VIIRS_SNPP_SP/PER/5/2020-08-16"
+              }
+            },
+            {
+              "inicio": "2020-08-21",
+              "fin": "2020-08-25",
+              "dias": 5,
+              "urls": {
+                "MODIS_SP": "https://firms.modaps.eosdis.nasa.gov/api/country/csv/{KEY}/MODIS_SP/PER/5/2020-08-21",
+                "VIIRS_SNPP_SP": "https://firms.modaps.eosdis.nasa.gov/api/country/csv/{KEY}/VIIRS_SNPP_SP/PER/5/2020-08-21"
+              }
+            },
+            {
+              "inicio": "2020-08-26",
+              "fin": "2020-08-30",
+              "dias": 5,
+              "urls": {
+                "MODIS_SP": "https://firms.modaps.eosdis.nasa.gov/api/country/csv/{KEY}/MODIS_SP/PER/5/2020-08-26",
+                "VIIRS_SNPP_SP": "https://firms.modaps.eosdis.nasa.gov/api/country/csv/{KEY}/VIIRS_SNPP_SP/PER/5/2020-08-26"
+              }
+            },
+            {
+              "inicio": "2020-08-31",
+              "fin": "2020-09-04",
+              "dias": 5,
+              "urls": {
+                "MODIS_SP": "https://firms.modaps.eosdis.nasa.gov/api/country/csv/{KEY}/MODIS_SP/PER/5/2020-08-31",
+                "VIIRS_SNPP_SP": "https://firms.modaps.eosdis.nasa.gov/api/country/csv/{KEY}/VIIRS_SNPP_SP/PER/5/2020-08-31"
+              }
+            },
+            {
+              "inicio": "2020-09-05",
+              "fin": "2020-09-09",
+              "dias": 5,
+              "urls": {
+                "MODIS_SP": "https://firms.modaps.eosdis.nasa.gov/api/country/csv/{KEY}/MODIS_SP/PER/5/2020-09-05",
+                "VIIRS_SNPP_SP": "https://firms.modaps.eosdis.nasa.gov/api/country/csv/{KEY}/VIIRS_SNPP_SP/PER/5/2020-09-05"
+              }
+            },
+            {
+              "inicio": "2020-09-10",
+              "fin": "2020-09-14",
+              "dias": 5,
+              "urls": {
+                "MODIS_SP": "https://firms.modaps.eosdis.nasa.gov/api/country/csv/{KEY}/MODIS_SP/PER/5/2020-09-10",
+                "VIIRS_SNPP_SP": "https://firms.modaps.eosdis.nasa.gov/api/country/csv/{KEY}/VIIRS_SNPP_SP/PER/5/2020-09-10"
+              }
+            },
+            {
+              "inicio": "2020-09-15",
+              "fin": "2020-09-19",
+              "dias": 5,
+              "urls": {
+                "MODIS_SP": "https://firms.modaps.eosdis.nasa.gov/api/country/csv/{KEY}/MODIS_SP/PER/5/2020-09-15",
+                "VIIRS_SNPP_SP": "https://firms.modaps.eosdis.nasa.gov/api/country/csv/{KEY}/VIIRS_SNPP_SP/PER/5/2020-09-15"
+              }
+            },
+            {
+              "inicio": "2020-09-20",
+              "fin": "2020-09-24",
+              "dias": 5,
+              "urls": {
+                "MODIS_SP": "https://firms.modaps.eosdis.nasa.gov/api/country/csv/{KEY}/MODIS_SP/PER/5/2020-09-20",
+                "VIIRS_SNPP_SP": "https://firms.modaps.eosdis.nasa.gov/api/country/csv/{KEY}/VIIRS_SNPP_SP/PER/5/2020-09-20"
+              }
+            },
+            {
+              "inicio": "2020-09-25",
+              "fin": "2020-09-29",
+              "dias": 5,
+              "urls": {
+                "MODIS_SP": "https://firms.modaps.eosdis.nasa.gov/api/country/csv/{KEY}/MODIS_SP/PER/5/2020-09-25",
+                "VIIRS_SNPP_SP": "https://firms.modaps.eosdis.nasa.gov/api/country/csv/{KEY}/VIIRS_SNPP_SP/PER/5/2020-09-25"
+              }
+            },
+            {
+              "inicio": "2020-09-30",
+              "fin": "2020-10-04",
+              "dias": 5,
+              "urls": {
+                "MODIS_SP": "https://firms.modaps.eosdis.nasa.gov/api/country/csv/{KEY}/MODIS_SP/PER/5/2020-09-30",
+                "VIIRS_SNPP_SP": "https://firms.modaps.eosdis.nasa.gov/api/country/csv/{KEY}/VIIRS_SNPP_SP/PER/5/2020-09-30"
+              }
+            },
+            {
+              "inicio": "2020-10-05",
+              "fin": "2020-10-09",
+              "dias": 5,
+              "urls": {
+                "MODIS_SP": "https://firms.modaps.eosdis.nasa.gov/api/country/csv/{KEY}/MODIS_SP/PER/5/2020-10-05",
+                "VIIRS_SNPP_SP": "https://firms.modaps.eosdis.nasa.gov/api/country/csv/{KEY}/VIIRS_SNPP_SP/PER/5/2020-10-05"
+              }
+            },
+            {
+              "inicio": "2020-10-10",
+              "fin": "2020-10-14",
+              "dias": 5,
+              "urls": {
+                "MODIS_SP": "https://firms.modaps.eosdis.nasa.gov/api/country/csv/{KEY}/MODIS_SP/PER/5/2020-10-10",
+                "VIIRS_SNPP_SP": "https://firms.modaps.eosdis.nasa.gov/api/country/csv/{KEY}/VIIRS_SNPP_SP/PER/5/2020-10-10"
+              }
+            },
+            {
+              "inicio": "2020-10-15",
+              "fin": "2020-10-19",
+              "dias": 5,
+              "urls": {
+                "MODIS_SP": "https://firms.modaps.eosdis.nasa.gov/api/country/csv/{KEY}/MODIS_SP/PER/5/2020-10-15",
+                "VIIRS_SNPP_SP": "https://firms.modaps.eosdis.nasa.gov/api/country/csv/{KEY}/VIIRS_SNPP_SP/PER/5/2020-10-15"
+              }
+            },
+            {
+              "inicio": "2020-10-20",
+              "fin": "2020-10-24",
+              "dias": 5,
+              "urls": {
+                "MODIS_SP": "https://firms.modaps.eosdis.nasa.gov/api/country/csv/{KEY}/MODIS_SP/PER/5/2020-10-20",
+                "VIIRS_SNPP_SP": "https://firms.modaps.eosdis.nasa.gov/api/country/csv/{KEY}/VIIRS_SNPP_SP/PER/5/2020-10-20"
+              }
+            },
+            {
+              "inicio": "2020-10-25",
+              "fin": "2020-10-29",
+              "dias": 5,
+              "urls": {
+                "MODIS_SP": "https://firms.modaps.eosdis.nasa.gov/api/country/csv/{KEY}/MODIS_SP/PER/5/2020-10-25",
+                "VIIRS_SNPP_SP": "https://firms.modaps.eosdis.nasa.gov/api/country/csv/{KEY}/VIIRS_SNPP_SP/PER/5/2020-10-25"
+              }
+            },
+            {
+              "inicio": "2020-10-30",
+              "fin": "2020-10-31",
+              "dias": 2,
+              "urls": {
+                "MODIS_SP": "https://firms.modaps.eosdis.nasa.gov/api/country/csv/{KEY}/MODIS_SP/PER/2/2020-10-30",
+                "VIIRS_SNPP_SP": "https://firms.modaps.eosdis.nasa.gov/api/country/csv/{KEY}/VIIRS_SNPP_SP/PER/2/2020-10-30"
+              }
+            }
+          ]
+        },
+        {
+          "inicio": "2021-08-01",
+          "fin": "2021-10-31",
+          "bloques": [
+            {
+              "inicio": "2021-08-01",
+              "fin": "2021-08-05",
+              "dias": 5,
+              "urls": {
+                "MODIS_SP": "https://firms.modaps.eosdis.nasa.gov/api/country/csv/{KEY}/MODIS_SP/PER/5/2021-08-01",
+                "VIIRS_SNPP_SP": "https://firms.modaps.eosdis.nasa.gov/api/country/csv/{KEY}/VIIRS_SNPP_SP/PER/5/2021-08-01"
+              }
+            },
+            {
+              "inicio": "2021-08-06",
+              "fin": "2021-08-10",
+              "dias": 5,
+              "urls": {
+                "MODIS_SP": "https://firms.modaps.eosdis.nasa.gov/api/country/csv/{KEY}/MODIS_SP/PER/5/2021-08-06",
+                "VIIRS_SNPP_SP": "https://firms.modaps.eosdis.nasa.gov/api/country/csv/{KEY}/VIIRS_SNPP_SP/PER/5/2021-08-06"
+              }
+            },
+            {
+              "inicio": "2021-08-11",
+              "fin": "2021-08-15",
+              "dias": 5,
+              "urls": {
+                "MODIS_SP": "https://firms.modaps.eosdis.nasa.gov/api/country/csv/{KEY}/MODIS_SP/PER/5/2021-08-11",
+                "VIIRS_SNPP_SP": "https://firms.modaps.eosdis.nasa.gov/api/country/csv/{KEY}/VIIRS_SNPP_SP/PER/5/2021-08-11"
+              }
+            },
+            {
+              "inicio": "2021-08-16",
+              "fin": "2021-08-20",
+              "dias": 5,
+              "urls": {
+                "MODIS_SP": "https://firms.modaps.eosdis.nasa.gov/api/country/csv/{KEY}/MODIS_SP/PER/5/2021-08-16",
+                "VIIRS_SNPP_SP": "https://firms.modaps.eosdis.nasa.gov/api/country/csv/{KEY}/VIIRS_SNPP_SP/PER/5/2021-08-16"
+              }
+            },
+            {
+              "inicio": "2021-08-21",
+              "fin": "2021-08-25",
+              "dias": 5,
+              "urls": {
+                "MODIS_SP": "https://firms.modaps.eosdis.nasa.gov/api/country/csv/{KEY}/MODIS_SP/PER/5/2021-08-21",
+                "VIIRS_SNPP_SP": "https://firms.modaps.eosdis.nasa.gov/api/country/csv/{KEY}/VIIRS_SNPP_SP/PER/5/2021-08-21"
+              }
+            },
+            {
+              "inicio": "2021-08-26",
+              "fin": "2021-08-30",
+              "dias": 5,
+              "urls": {
+                "MODIS_SP": "https://firms.modaps.eosdis.nasa.gov/api/country/csv/{KEY}/MODIS_SP/PER/5/2021-08-26",
+                "VIIRS_SNPP_SP": "https://firms.modaps.eosdis.nasa.gov/api/country/csv/{KEY}/VIIRS_SNPP_SP/PER/5/2021-08-26"
+              }
+            },
+            {
+              "inicio": "2021-08-31",
+              "fin": "2021-09-04",
+              "dias": 5,
+              "urls": {
+                "MODIS_SP": "https://firms.modaps.eosdis.nasa.gov/api/country/csv/{KEY}/MODIS_SP/PER/5/2021-08-31",
+                "VIIRS_SNPP_SP": "https://firms.modaps.eosdis.nasa.gov/api/country/csv/{KEY}/VIIRS_SNPP_SP/PER/5/2021-08-31"
+              }
+            },
+            {
+              "inicio": "2021-09-05",
+              "fin": "2021-09-09",
+              "dias": 5,
+              "urls": {
+                "MODIS_SP": "https://firms.modaps.eosdis.nasa.gov/api/country/csv/{KEY}/MODIS_SP/PER/5/2021-09-05",
+                "VIIRS_SNPP_SP": "https://firms.modaps.eosdis.nasa.gov/api/country/csv/{KEY}/VIIRS_SNPP_SP/PER/5/2021-09-05"
+              }
+            },
+            {
+              "inicio": "2021-09-10",
+              "fin": "2021-09-14",
+              "dias": 5,
+              "urls": {
+                "MODIS_SP": "https://firms.modaps.eosdis.nasa.gov/api/country/csv/{KEY}/MODIS_SP/PER/5/2021-09-10",
+                "VIIRS_SNPP_SP": "https://firms.modaps.eosdis.nasa.gov/api/country/csv/{KEY}/VIIRS_SNPP_SP/PER/5/2021-09-10"
+              }
+            },
+            {
+              "inicio": "2021-09-15",
+              "fin": "2021-09-19",
+              "dias": 5,
+              "urls": {
+                "MODIS_SP": "https://firms.modaps.eosdis.nasa.gov/api/country/csv/{KEY}/MODIS_SP/PER/5/2021-09-15",
+                "VIIRS_SNPP_SP": "https://firms.modaps.eosdis.nasa.gov/api/country/csv/{KEY}/VIIRS_SNPP_SP/PER/5/2021-09-15"
+              }
+            },
+            {
+              "inicio": "2021-09-20",
+              "fin": "2021-09-24",
+              "dias": 5,
+              "urls": {
+                "MODIS_SP": "https://firms.modaps.eosdis.nasa.gov/api/country/csv/{KEY}/MODIS_SP/PER/5/2021-09-20",
+                "VIIRS_SNPP_SP": "https://firms.modaps.eosdis.nasa.gov/api/country/csv/{KEY}/VIIRS_SNPP_SP/PER/5/2021-09-20"
+              }
+            },
+            {
+              "inicio": "2021-09-25",
+              "fin": "2021-09-29",
+              "dias": 5,
+              "urls": {
+                "MODIS_SP": "https://firms.modaps.eosdis.nasa.gov/api/country/csv/{KEY}/MODIS_SP/PER/5/2021-09-25",
+                "VIIRS_SNPP_SP": "https://firms.modaps.eosdis.nasa.gov/api/country/csv/{KEY}/VIIRS_SNPP_SP/PER/5/2021-09-25"
+              }
+            },
+            {
+              "inicio": "2021-09-30",
+              "fin": "2021-10-04",
+              "dias": 5,
+              "urls": {
+                "MODIS_SP": "https://firms.modaps.eosdis.nasa.gov/api/country/csv/{KEY}/MODIS_SP/PER/5/2021-09-30",
+                "VIIRS_SNPP_SP": "https://firms.modaps.eosdis.nasa.gov/api/country/csv/{KEY}/VIIRS_SNPP_SP/PER/5/2021-09-30"
+              }
+            },
+            {
+              "inicio": "2021-10-05",
+              "fin": "2021-10-09",
+              "dias": 5,
+              "urls": {
+                "MODIS_SP": "https://firms.modaps.eosdis.nasa.gov/api/country/csv/{KEY}/MODIS_SP/PER/5/2021-10-05",
+                "VIIRS_SNPP_SP": "https://firms.modaps.eosdis.nasa.gov/api/country/csv/{KEY}/VIIRS_SNPP_SP/PER/5/2021-10-05"
+              }
+            },
+            {
+              "inicio": "2021-10-10",
+              "fin": "2021-10-14",
+              "dias": 5,
+              "urls": {
+                "MODIS_SP": "https://firms.modaps.eosdis.nasa.gov/api/country/csv/{KEY}/MODIS_SP/PER/5/2021-10-10",
+                "VIIRS_SNPP_SP": "https://firms.modaps.eosdis.nasa.gov/api/country/csv/{KEY}/VIIRS_SNPP_SP/PER/5/2021-10-10"
+              }
+            },
+            {
+              "inicio": "2021-10-15",
+              "fin": "2021-10-19",
+              "dias": 5,
+              "urls": {
+                "MODIS_SP": "https://firms.modaps.eosdis.nasa.gov/api/country/csv/{KEY}/MODIS_SP/PER/5/2021-10-15",
+                "VIIRS_SNPP_SP": "https://firms.modaps.eosdis.nasa.gov/api/country/csv/{KEY}/VIIRS_SNPP_SP/PER/5/2021-10-15"
+              }
+            },
+            {
+              "inicio": "2021-10-20",
+              "fin": "2021-10-24",
+              "dias": 5,
+              "urls": {
+                "MODIS_SP": "https://firms.modaps.eosdis.nasa.gov/api/country/csv/{KEY}/MODIS_SP/PER/5/2021-10-20",
+                "VIIRS_SNPP_SP": "https://firms.modaps.eosdis.nasa.gov/api/country/csv/{KEY}/VIIRS_SNPP_SP/PER/5/2021-10-20"
+              }
+            },
+            {
+              "inicio": "2021-10-25",
+              "fin": "2021-10-29",
+              "dias": 5,
+              "urls": {
+                "MODIS_SP": "https://firms.modaps.eosdis.nasa.gov/api/country/csv/{KEY}/MODIS_SP/PER/5/2021-10-25",
+                "VIIRS_SNPP_SP": "https://firms.modaps.eosdis.nasa.gov/api/country/csv/{KEY}/VIIRS_SNPP_SP/PER/5/2021-10-25"
+              }
+            },
+            {
+              "inicio": "2021-10-30",
+              "fin": "2021-10-31",
+              "dias": 2,
+              "urls": {
+                "MODIS_SP": "https://firms.modaps.eosdis.nasa.gov/api/country/csv/{KEY}/MODIS_SP/PER/2/2021-10-30",
+                "VIIRS_SNPP_SP": "https://firms.modaps.eosdis.nasa.gov/api/country/csv/{KEY}/VIIRS_SNPP_SP/PER/2/2021-10-30"
+              }
+            }
+          ]
+        }
+      ]
+    }
+  }
+}
