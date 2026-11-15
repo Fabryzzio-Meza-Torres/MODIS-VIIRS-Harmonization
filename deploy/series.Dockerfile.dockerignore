@@ -1,0 +1,11 @@
+**
+!api/
+!api/*.py
+!api/requirements.txt
+!web/
+!web/**
+!data/
+!data/history.sqlite.gz
+!data/manifest.json
+!deploy/
+!deploy/series.Dockerfile

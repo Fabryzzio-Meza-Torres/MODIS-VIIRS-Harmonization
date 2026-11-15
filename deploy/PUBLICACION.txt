@@ -1,0 +1,35 @@
+Estado: configuracion preparada. No equivale a una API desplegada.
+
+railway.json publica exclusivamente la API de series historicas de main,
+con regiones, fechas, pronostico experimental y visor. No crea PostgreSQL
+ni publica la API de eventos de deploy-docker. Su integracion permanece
+pendiente: filtros geograficos, fechas y trazabilidad comunes y bloqueo
+de operaciones administrativas antes de exponerla.
+
+En Railway: New Project > Deploy from GitHub repo > seleccionar este
+repositorio, rama main. Se usa railway.json y deploy/series.Dockerfile.
+Una vez Healthy: Settings > Networking > Generate Domain.
+La URL real debe copiarse del panel cuando el servicio este Online.
+El nombre de servicio no garantiza que el subdominio este disponible.
+
+La imagen incluye SQLite restaurado y verificado por SHA256 e integridad.
+No requiere Earthdata, API key de FIRMS, clave Google Maps ni PostgreSQL.
+El usuario del contenedor no es root. CORS permite GET desde cualquier web.
+Revisar en el panel la politica de despliegues automaticos de la rama.
+
+Verificacion tras publicar (sustituir URL_REAL):
+  python deploy/verify_public.py https://URL_REAL
+
+Docker local (requiere Docker Desktop iniciado con motor Linux):
+  docker build -f deploy/series.Dockerfile -t modis-viirs-series .
+  docker run --rm -p 8000:8000 modis-viirs-series
+  python deploy/verify_public.py http://127.0.0.1:8000
+
+La web externa puede configurar window.FIRE_SHIFT_API_BASE con esa URL
+antes de cargar web/app.js, o usar api/cliente.js. En Postman modificar
+base_url en api/POSTMAN_REGIONES.postman_collection.json.
+
+Verificar credito y plan disponibles en Railway antes de habilitar recursos.
+No se afirma disponibilidad continua ni cobertura fisica corregida.
+La ruta de series entregada es /v1/empirical/series.
+Documentacion: https://docs.railway.com/reference/config-as-code
