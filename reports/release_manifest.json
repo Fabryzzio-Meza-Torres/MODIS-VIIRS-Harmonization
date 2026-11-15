@@ -40,7 +40,8 @@
     "reports/forecast/metrics.csv": "fe1eedf2f5ec12a2f23350cb72c54eec3a81588f0b24de90a6f38db44f648b6c",
     "reports/forecast/protocol_before_test.json": "2d61476bf67532374f17f8daca0c5e1eb8b93839f170c5c21aeb307392542fbe",
     "notebooks/09_series_comparables.ipynb": "6385243629d4d95338b0b2a8e2d6fef4a862caea4bf3e4c1b4dc549cd5a3031a",
-    "notebooks/10_pronostico_experimental.ipynb": "53d3052a008842334da807b778308a4a227616bdb7edca013f2cdd516f5c4ca1"
+    "notebooks/10_pronostico_experimental.ipynb": "53d3052a008842334da807b778308a4a227616bdb7edca013f2cdd516f5c4ca1",
+    "reports/empirical/coverage_acquisition_inventory.json": "fe9bfaa3dfb0efa1ecfc6dac0e2f091713a4882c540b1bd1602008d948b7140f"
   },
   "hash_policy": "SHA256 of UTF-8 file bytes after CRLF to LF normalization; all listed files are text"
 }

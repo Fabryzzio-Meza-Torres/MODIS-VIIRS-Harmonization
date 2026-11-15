@@ -1,0 +1,70 @@
+{
+  "scope": "maximum demo historical interval, all five platforms",
+  "products": [
+    {
+      "product": "MOD14",
+      "collection_id": "C2271754179-LPCLOUD",
+      "bbox": "-81.5,-18.5,-68.5,0.1",
+      "start": "2000-11-06",
+      "end": "2026-07-26",
+      "matching_fire_granules": 58222,
+      "catalog_size_MB_sum": 19067.452439783632,
+      "geolocation_included": false,
+      "file_bytes_verified": false,
+      "protected_data_downloaded": false
+    },
+    {
+      "product": "MYD14",
+      "collection_id": "C2278858993-LPCLOUD",
+      "bbox": "-81.5,-18.5,-68.5,0.1",
+      "start": "2002-07-08",
+      "end": "2026-07-26",
+      "matching_fire_granules": 54506,
+      "catalog_size_MB_sum": 18637.208336837975,
+      "geolocation_included": false,
+      "file_bytes_verified": false,
+      "protected_data_downloaded": false
+    },
+    {
+      "product": "VNP14IMG",
+      "collection_id": "C2734202914-LPCLOUD",
+      "bbox": "-81.5,-18.5,-68.5,0.1",
+      "start": "2012-02-06",
+      "end": "2026-07-26",
+      "matching_fire_granules": 36055,
+      "catalog_size_MB_sum": 62105.61516666412,
+      "geolocation_included": false,
+      "file_bytes_verified": false,
+      "protected_data_downloaded": false
+    },
+    {
+      "product": "VJ114IMG",
+      "collection_id": "C2734197957-LPCLOUD",
+      "bbox": "-81.5,-18.5,-68.5,0.1",
+      "start": "2018-04-02",
+      "end": "2026-07-26",
+      "matching_fire_granules": 20301,
+      "catalog_size_MB_sum": 35387.74433994293,
+      "geolocation_included": false,
+      "file_bytes_verified": false,
+      "protected_data_downloaded": false
+    },
+    {
+      "product": "VJ214IMG",
+      "collection_id": "C2831626262-LPCLOUD",
+      "bbox": "-81.5,-18.5,-68.5,0.1",
+      "start": "2023-03-06",
+      "end": "2026-07-26",
+      "matching_fire_granules": 9365,
+      "catalog_size_MB_sum": 16103.487666130066,
+      "geolocation_included": false,
+      "file_bytes_verified": false,
+      "protected_data_downloaded": false
+    }
+  ],
+  "total_fire_granules": 178449,
+  "catalog_size_is_not_verified_download_bytes": true,
+  "geolocation_manifest_complete": false,
+  "coverage_harmonization_complete": false,
+  "country_filter": "candidate bbox; exact-polygon processing still required"
+}
