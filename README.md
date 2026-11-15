@@ -13,7 +13,25 @@ fuego**. Los guarda en Postgres y los sirve con una API FastAPI. La consulta pri
   variable `SNPP_ZIP`. MODIS, NOAA-20 y NOAA-21 se bajan por la API.
 - Opcional: GPU NVIDIA con `cupy-cuda12x` para el índice en memoria.
 
-## Replicar la base y la API
+## Opción rápida: restaurar la base ya construida
+
+La base completa (tablas `events`, `detections`, `static_sources`, `meta` y sus índices) está
+publicada como archivo del Release
+[`eventos-db-v1`](https://github.com/Fabryzzio-Meza-Torres/MODIS-VIIRS-Harmonization/releases/tag/eventos-db-v1)
+(`fires.dump`, 132 MB, PostgreSQL 14 o superior). No hace falta la MAP_KEY ni correr el pipeline.
+
+```bash
+curl -L -o fires.dump https://github.com/Fabryzzio-Meza-Torres/MODIS-VIIRS-Harmonization/releases/download/eventos-db-v1/fires.dump
+sha256sum fires.dump   # 5382be98a0221e528995f2d44470d03f0e2bcc2307bc0a61410744c745aa7e71
+createdb fires && pg_restore --no-owner -d fires fires.dump
+
+python3 -m venv .venv && .venv/bin/pip install -r requirements.txt
+.venv/bin/uvicorn src.api.main:app --host 0.0.0.0 --port 8000
+```
+
+`--no-owner` evita errores de "role does not exist" al restaurar en otra máquina.
+
+## Opción completa: reconstruir la base desde FIRMS
 
 ```bash
 python3 -m venv .venv && .venv/bin/pip install -r requirements.txt
@@ -29,9 +47,9 @@ export SNPP_ZIP=/ruta/a/DL_FIRE_SV-C2_848901.zip
 .venv/bin/uvicorn src.api.main:app --host 0.0.0.0 --port 8000
 ```
 
-`data/` no va a git. Para usar una base ya construida: `createdb fires && pg_restore -d fires
-fires.dump`. La API usa `DATABASE_URL` (por defecto `postgresql:///fires`). Documentación
-interactiva en http://localhost:8000/docs. Colección de Postman con tests en
+`data/` no va a git (el dump pesa más que el límite de 100 MB por archivo de GitHub). La API
+usa `DATABASE_URL` (por defecto `postgresql:///fires`). Documentación interactiva en
+http://localhost:8000/docs. Colección de Postman con tests en
 `postman/fires_api.postman_collection.json`.
 
 ## Consulta principal: región + periodo
