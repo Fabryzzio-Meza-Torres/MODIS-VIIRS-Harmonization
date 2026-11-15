@@ -102,6 +102,9 @@ Cada evento trae, entre otros campos (extracto de una respuesta real):
 `lat`/`lon` es el centro del evento y `lat_min`…`lon_max` su caja. Los puntos del evento se
 piden con `GET /events/{event_id}/detections`.
 
+Qué significa cada campo (`n_det`, `frp_total`, `spread_km`, `may_split`, `event_type`,
+`hits`…): [`docs/campos_evento.md`](docs/campos_evento.md).
+
 ### Otros endpoints
 
 | Endpoint | Devuelve |
