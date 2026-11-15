@@ -6,7 +6,7 @@ from concurrent.futures import ProcessPoolExecutor
 import argparse,json,time
 import numpy as np
 import pandas as pd
-from calibration import fit,fit_bridge,make_pairs,pair_scores,log_response,PLATFORMS
+from calibration import fit,fit_bridge,make_pairs,pair_scores,log_response,PLATFORMS,time_block_ids
 
 def window(data,start,end):
     w=pd.DatetimeIndex(data.week)
@@ -16,8 +16,7 @@ def bootstrap_one(args):
     train,bridge,mode,initial,seed=args
     rng=np.random.default_rng(seed)
     def weights(d):
-        dates=pd.DatetimeIndex(d.week).asi8
-        block=dates//(28*86400*10**9)
+        block=time_block_ids(d.week)
         _,idx=np.unique(block,return_inverse=True)
         draws=rng.exponential(size=idx.max()+1)
         weight=draws[idx]
@@ -67,6 +66,7 @@ def run(source,out,workers=4,n_bootstrap=100):
     with ProcessPoolExecutor(max_workers=workers) as pool:
         draws=list(pool.map(bootstrap_one,args,chunksize=1))
     draws=np.asarray(draws)
+    assert np.ptp(draws,axis=0).max()>1e-5,'Bootstrap degenerate: inspect time-block units and weights.'
     np.savez_compressed(out/'bootstrap_parameters.npz',theta=draws)
     factors=[]
     year=2020
@@ -84,7 +84,7 @@ def run(source,out,workers=4,n_bootstrap=100):
                 factors.append({'platform':p,'month':month,'latitude_band':band,'factor':value,
                                 'factor_low':min(float(lo),value),'factor_high':max(float(hi),value)})
     pd.DataFrame(factors).to_csv(out/'calibration_factors.csv',index=False)
-    metadata={**model,'version':'empirical-positive-pair-v1','created_from':'SP type0 cell-week positives',
+    metadata={**model,'version':'empirical-positive-pair-v1.1','created_from':'SP type0 cell-week positives',
         'selection_rule':'complexity increases only for >=1% lower conditional NLL on 2019-2021',
         'selection_period':'2019-2021','established_platform_fit':'2002-2021',
         'NOAA21_bridge':'March-June 2023, own relative intercept only',
@@ -92,6 +92,9 @@ def run(source,out,workers=4,n_bootstrap=100):
         'spatial_holdout':'deterministic 1/7 of 200km blocks excluded from all fitting',
         'final_test_2024_2025_evaluated':False,'n_bootstrap':n_bootstrap,
         'bootstrap_seconds':time.monotonic()-start,
+        'bootstrap_training_blocks':int(len(np.unique(time_block_ids(training.week)))),
+        'bootstrap_bridge_blocks':int(len(np.unique(time_block_ids(bridge.week)))),
+        'timestamp_storage_units_normalized':'ns before integer epoch arithmetic',
         'uncertainty_kind':'28-day block Bayesian-bootstrap calibration-factor band only',
         'coverage_corrected':False,'physically_complete_harmonization':False,
         'selection_bias_assumption':'Poisson relative response conditional on paired positives; unknown coverage is not recovered',

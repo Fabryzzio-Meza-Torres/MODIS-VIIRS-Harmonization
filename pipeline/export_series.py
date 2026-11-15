@@ -93,6 +93,8 @@ def export(source,model_folder,out):
         'last_week_end':'2026-07-26','coverage_corrected':False,
         'missing_policy':'unavailable; never a confirmed zero fire count',
         'uncertainty_kind':model['uncertainty_kind'],'interval_is_full_fire_uncertainty':False,
+        'interval_level':.95,'calibration_interval_status':'computed_verified_time_blocks',
+        'bootstrap_training_blocks':model['bootstrap_training_blocks'],
         'reference':model['reference'],'cell_rows_with_records':len(primary),'national_calendar_rows':len(national),
         'count_unit':model['count_unit'],
         'period_status_note':'before Aqua/VIIRS overlap and in 2026, response stability is extrapolated; factor-only bands omit this structural uncertainty',

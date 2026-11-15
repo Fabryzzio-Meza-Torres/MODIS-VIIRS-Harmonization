@@ -17,6 +17,12 @@ PLATFORMS=['Aqua','Suomi-NPP','Terra','NOAA-20','NOAA-21']
 # log responses: Aqua/SNPP have geometric mean one. Other platforms are bridges.
 EMBED=np.array([[.5,0,0,0],[-.5,0,0,0],[.5,1,0,0],[-.5,0,1,0],[-.5,0,0,1]],dtype=float)
 
+def time_block_ids(weeks,days=28):
+    """Calendar blocks invariant to pandas datetime64 us/ns storage resolution."""
+    index=pd.DatetimeIndex(pd.to_datetime(weeks,utc=True))
+    if index.hasnans:raise ValueError('Missing timestamp cannot define a bootstrap block.')
+    return index.as_unit('ns').asi8//(days*86400*10**9)
+
 def features(weeks,latitude,mode):
     month=(pd.DatetimeIndex(weeks)+pd.Timedelta(days=3)).month.to_numpy()
     x=[np.ones(len(month))]
@@ -95,7 +101,10 @@ def fit(data,mode='global',weights=None,initial=None,required_platforms=None):
     embedding=EMBED[data.left]-EMBED[data.right]
     # Each row has four platform-contrast blocks, with a few covariates per block.
     design=np.einsum('ij,ik->ijk',embedding,x).reshape(len(x),-1)
+    weighted=weights is not None
     weights=np.ones(len(x)) if weights is None else np.asarray(weights,dtype=float)
+    if np.any(~np.isfinite(weights)|(weights<=0)):raise ValueError('Finite positive fitting weights required.')
+    scale=float(weights.sum()) if weighted else 1.
     penalty=np.tile(np.array([1e-5]+([20.,20.] if x.shape[1]>=3 else [])+
                              ([100.,100.] if x.shape[1]>=5 else [])),4)
     bounds=[(-8.,8.) for _ in penalty]
@@ -105,14 +114,14 @@ def fit(data,mode='global',weights=None,initial=None,required_platforms=None):
         for i in range(3*x.shape[1],4*x.shape[1]):bounds[i]=(0.,0.)
     def objective(theta):
         loss,derivative,*_=terms(design@theta+data.offset,data)
-        return (float(weights@loss+.5*np.sum(penalty*theta**2)),
-                design.T@(weights*derivative)+penalty*theta)
+        return (float(weights@loss+.5*np.sum(penalty*theta**2))/scale,
+                (design.T@(weights*derivative)+penalty*theta)/scale)
     start=np.zeros(design.shape[1]) if initial is None else np.asarray(initial)
     result=minimize(objective,start,jac=True,method='L-BFGS-B',bounds=bounds,
-                    options={'maxiter':300,'ftol':1e-10,'gtol':1e-5})
+                    options={'maxiter':500,'maxls':100,'ftol':1e-10,'gtol':1e-9 if weighted else 1e-5})
     if not result.success:raise RuntimeError('Calibration did not converge: '+result.message)
     return {'mode':mode,'theta':result.x.tolist(),'n_features':x.shape[1],
-            'training_pairs':len(x),'iterations':int(result.nit),'objective':float(result.fun),
+            'training_pairs':len(x),'iterations':int(result.nit),'objective':float(result.fun*scale),
             'coverage_corrected':not data.truncated.any(),
             'reference':'geometric-mean response of Aqua and Suomi-NPP equals one'}
 

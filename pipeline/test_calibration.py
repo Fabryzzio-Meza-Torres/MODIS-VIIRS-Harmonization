@@ -2,8 +2,18 @@ import unittest
 import numpy as np
 from scipy.optimize._numdiff import approx_derivative
 from calibration import Pairs,EMBED,fit,terms
+from calibration import time_block_ids
+import pandas as pd
 
 class CalibrationTests(unittest.TestCase):
+    def test_calendar_blocks_are_resolution_invariant(self):
+        days=pd.date_range('2020-01-01',periods=4,freq='28D',tz='UTC')
+        expected=time_block_ids(days.as_unit('ns'))
+        np.testing.assert_array_equal(np.diff(expected),[1,1,1])
+        np.testing.assert_array_equal(time_block_ids(days.as_unit('us')),expected)
+        np.testing.assert_array_equal(time_block_ids(days.as_unit('ms')),expected)
+        self.assertGreater(len(np.unique(expected)),1)
+
     def synthetic(self,positive=True):
         rng=np.random.default_rng(81237)
         truth=np.array([-1.7,.5,-.15,.2])

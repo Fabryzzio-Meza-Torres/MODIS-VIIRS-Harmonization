@@ -1,0 +1,12 @@
+{
+  "source": "https://geoservidorperu.minam.gob.pe/arcgis/rest/services/ServicioCFOI/MapServer/1",
+  "layer": "Registro hist\u00f3rico de incendios 2000-2025",
+  "downloaded_at_utc": "2026-11-15T03:44:33.397244+00:00",
+  "rows": 54493,
+  "object_id_manifest_sha256": "bc9958e1d6003e6f9fffb93874c3cd740234838dfd0673cb61d8d3f3368958ec",
+  "csv_sha256": "77e4df26fe8e6f6e3c37cac1d2893f9c93fe4a2a8b32ccd4567a0b38bea6a3ae",
+  "object_ids_complete": true,
+  "date_is_registration_or_emergency_not_verified_ignition": true,
+  "independence_from_satellite_products_not_established": true,
+  "relation_to_user_portal": "official MINAM layer with matching registry title; portal resource inaccessible (403), exact resource identity not yet proven"
+}

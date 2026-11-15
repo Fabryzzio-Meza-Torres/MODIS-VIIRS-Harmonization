@@ -20,6 +20,10 @@ class HistoryApiTests(unittest.TestCase):
         self.assertEqual({x['instrument'] for x in r['data']},{'MODIS','VIIRS'})
         self.assertFalse(r['metadata']['coverage_corrected'])
         self.assertTrue(all(x['harmonized_count']>0 for x in r['data']))
+        for row in r['data']:
+            self.assertGreater(row['upper_bound']-row['lower_bound'],1e-5)
+            self.assertLessEqual(row['lower_bound'],row['harmonized_count'])
+            self.assertGreaterEqual(row['upper_bound'],row['harmonized_count'])
 
     def test_pre_viirs_is_null_and_cell_missing_never_zero(self):
         r=self.client.get('/v1/empirical/series',params={'start':'2001-01-01','end':'2001-01-08','instrument':'VIIRS','cell_id':self.cell}).json()

@@ -1,4 +1,4 @@
-Entrega empirica Peru, version empirical-positive-pair-v1.
+Entrega empirica Peru, version empirical-positive-pair-v1.1.
 Python 3.13. La correccion fisica completa de cobertura sigue pendiente.
 
 Datos originales: cuatro ZIP FIRMS, uno por MODIS, Suomi-NPP, NOAA-20 y NOAA-21.
@@ -67,3 +67,19 @@ Su operador FRP no se presenta como una correccion de nuestros conteos.
 La comparacion sistematica con incidentes reportados en tierra queda pendiente.
 
 Informe de validacion disponible por API: GET /v1/validation.
+
+REVISION v1.1: corregida la unidad temporal del bootstrap (us -> ns).
+Las bandas v1 se retiran. 237 bloques de entrenamiento y 5 del puente; 100 replicas.
+Los parametros centrales y las variables del pronostico se conservaron (tolerancia 1e-12).
+Ver reports/empirical/uncertainty_correction.json y notebook 09 actualizado.
+
+CONTRASTE OFICIAL MINAM (opcional, no cambia el modelo):
+python validacion/registro_minam/download_registry.py --out RUTA_ARTEFACTOS/27_contraste_MINAM
+python validacion/registro_minam/match_registry.py --artifacts RUTA_ARTEFACTOS --out RUTA_ARTEFACTOS/27_contraste_MINAM
+Volver a cargar history.sqlite agrega el contraste a /v1/validation.
+Notebook ejecutado: validacion/12_contraste_registro_MINAM.ipynb.
+Los resultados son asociaciones con registros, no tasas demostradas de omision.
+
+LIMITES FRP: research/frp_operator y notebooks/11_limites_deteccion.ipynb.
+Investigacion, no habilitado en produccion. Se documenta discrepancia tabla/texto
+del articulo y A0=0 como supuesto; no se hace correccion inversa de conteos.

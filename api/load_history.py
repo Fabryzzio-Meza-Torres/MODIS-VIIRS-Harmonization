@@ -32,6 +32,14 @@ def load(source,out):
             'calibration_final':list(read_csv(root/'model/final_test_2024_2025.csv')),
             'forecast':list(read_csv(root/'forecast/metrics.csv')),
             'forecast_not_uniformly_better_than_climatology':True}
+        if (root/'model/uncertainty_correction.json').is_file():
+            validation['uncertainty_correction']=json.loads((root/'model/uncertainty_correction.json').read_text())
+        external=root.parent/'27_contraste_MINAM'
+        if (external/'registry_comparison.json').is_file():
+            validation['registry_association']={
+                'metadata':json.loads((external/'registry_comparison.json').read_text()),
+                'spatiotemporal_associations':list(read_csv(external/'spatiotemporal_associations.csv')),
+                'weekly_record_correlations':list(read_csv(external/'weekly_record_correlations.csv'))}
         db.execute('INSERT INTO metadata VALUES (?,?)',('validation',json.dumps(validation)))
         db.executemany('INSERT INTO cells VALUES (?,?,?,?)',((r['cell_id'],number(r['center_lon']),number(r['center_lat']),number(r['country_area_km2'])) for r in read_csv(root/'data/cells.csv')))
         db.executemany('INSERT INTO cell_series VALUES (?,?,?,?,?,?,?,?)',((r['cell_id'],r['week_start_utc'][:10],r['instrument'],r['platform'],number(r['raw_count'],True),number(r['harmonized_count']),number(r['lower_bound']),number(r['upper_bound'])) for r in read_csv(root/'series/cell_series.csv.gz')))

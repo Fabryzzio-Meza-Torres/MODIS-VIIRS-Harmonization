@@ -1,0 +1,36 @@
+{
+  "source": "https://geoservidorperu.minam.gob.pe/arcgis/rest/services/ServicioCFOI/MapServer/1",
+  "snapshot_sha256": "77e4df26fe8e6f6e3c37cac1d2893f9c93fe4a2a8b32ccd4567a0b38bea6a3ae",
+  "source_rows": 54493,
+  "common_period": "2013-01-07 to 2025-12-31",
+  "eligible_rows_before_exact_dedup": 52103,
+  "audited_geographic_rows": 52087,
+  "incident_references": 44374,
+  "ambiguous_references_over_30_days_excluded": 2,
+  "primary_window": {
+    "radius_km": 5,
+    "calendar_day_half_window": 3
+  },
+  "date_zone_assumption": "Peru local calendar day (UTC-5); full day uncertainty preserved",
+  "geolocation_is_verified_ignition_location": false,
+  "unmatched_is_proven_omission": false,
+  "ground_incident_independence_established": false,
+  "coverage_corrected": false,
+  "satellite_point_selection": "same one platform per instrument/country/week as the published empirical series",
+  "source_groups_not_pooled": true,
+  "satellite_points_indexed": {
+    "MODIS": 155836,
+    "VIIRS": 941666
+  },
+  "date_quality": {
+    "conflicting_date_fields_excluded": 33,
+    "dates_repaired_from_components": 8,
+    "dates_unresolved": 0
+  },
+  "spearman_rank_rounding_decimals": 6,
+  "temporal_controls": "same locations shifted -28 and +28 calendar days; not true fire-free controls",
+  "model_changed_from_registry_results": false,
+  "correlation_validates_global_scale": false,
+  "registry_geometry_note": "mapped points can represent affected areas or reporting locations; code groups can have many locations",
+  "raw_dates_not_strictly_parseable": 13
+}

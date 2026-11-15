@@ -1,0 +1,37 @@
+{
+  "version": "bootstrap-calendar-units-correction-v1",
+  "superseded_method": "empirical-positive-pair-v1",
+  "replacement_method": "empirical-positive-pair-v1.1",
+  "reason": "pandas datetime64 us was previously divided by ns block duration",
+  "point_parameters_unchanged_within": 1e-12,
+  "old_theta": [
+    -1.3800681860879092,
+    -0.7712459260151309,
+    -0.022179032281210518,
+    -0.037762089750324926
+  ],
+  "corrected_theta": [
+    -1.3800681860879092,
+    -0.7712459260151309,
+    -0.022179032281210518,
+    -0.037762089750324926
+  ],
+  "bootstrap_std": [
+    0.019649630556996454,
+    0.03084981468995457,
+    0.010579972268034128,
+    0.023512512638337195
+  ],
+  "training_blocks": 237,
+  "bridge_blocks": 5,
+  "replicates": 100,
+  "discarded_replicates": 0,
+  "failed_attempts": [
+    63014
+  ],
+  "completed_job": 63015,
+  "forecast_model_reselected": false,
+  "test_results_previously_seen": true,
+  "model_selection_changed_after_test": false,
+  "forecast_activity_input_values_unchanged_within": 1e-12
+}

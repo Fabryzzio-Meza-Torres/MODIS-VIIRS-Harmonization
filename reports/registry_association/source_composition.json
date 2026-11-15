@@ -1,0 +1,64 @@
+{
+  "displayFieldName": "",
+  "fieldAliases": {
+    "FTE_INF": "FTE_INF",
+    "ORIGEN": "ORIGEN",
+    "n": "n"
+  },
+  "fields": [
+    {
+      "name": "FTE_INF",
+      "type": "esriFieldTypeString",
+      "alias": "FTE_INF",
+      "length": 50
+    },
+    {
+      "name": "ORIGEN",
+      "type": "esriFieldTypeString",
+      "alias": "ORIGEN",
+      "length": 50
+    },
+    {
+      "name": "n",
+      "type": "esriFieldTypeInteger",
+      "alias": "n"
+    }
+  ],
+  "features": [
+    {
+      "attributes": {
+        "FTE_INF": "DMERNT",
+        "ORIGEN": "INDECI",
+        "n": 21940
+      }
+    },
+    {
+      "attributes": {
+        "FTE_INF": "INDECI",
+        "ORIGEN": "INDECI",
+        "n": 14
+      }
+    },
+    {
+      "attributes": {
+        "FTE_INF": "SINPAD",
+        "ORIGEN": "INDECI",
+        "n": 735
+      }
+    },
+    {
+      "attributes": {
+        "FTE_INF": "DMERNT",
+        "ORIGEN": "MINAM",
+        "n": 31103
+      }
+    },
+    {
+      "attributes": {
+        "FTE_INF": "DMERNT",
+        "ORIGEN": "ORORATECH",
+        "n": 701
+      }
+    }
+  ]
+}

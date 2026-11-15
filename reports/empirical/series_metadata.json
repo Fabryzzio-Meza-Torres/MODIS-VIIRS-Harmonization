@@ -1,7 +1,7 @@
 {
   "status": "empirical_demo",
-  "method_version": "empirical-positive-pair-v1",
-  "source_snapshot_id": "f9da4f1bde5414d4c2455f4b745b299e8deca6c9162e18160e9289c841556dd1",
+  "method_version": "empirical-positive-pair-v1.1",
+  "source_snapshot_id": "c96f4af273ab7587f8a2e120746f0e56b07ee07b9c5e50a236e63c62c1786915",
   "instrument_series": [
     "MODIS",
     "VIIRS"
@@ -26,5 +26,8 @@
   "platform_choice": "one anchor per country/week; bridge only if anchor has no country records",
   "NRT_included": false,
   "calibration_report_folder": "model",
-  "complete_physical_harmonization": false
+  "complete_physical_harmonization": false,
+  "interval_level": 0.95,
+  "calibration_interval_status": "computed_verified_time_blocks",
+  "bootstrap_training_blocks": 237
 }
