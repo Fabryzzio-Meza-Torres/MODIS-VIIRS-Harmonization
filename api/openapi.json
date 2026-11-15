@@ -3,7 +3,7 @@
   "info": {
     "title": "MODIS\u2013VIIRS Series API",
     "description": "Series y soporte de observaci\u00f3n versionados. Fechas UTC; fin exclusivo. La serie final solo se habilita tras publicar un m\u00e9todo validado.",
-    "version": "0.2.0"
+    "version": "0.3.0"
   },
   "paths": {
     "/health": {
@@ -455,6 +455,23 @@
             }
           },
           {
+            "name": "region_id",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string",
+                  "pattern": "^\\d{2}$"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Region Id"
+            }
+          },
+          {
             "name": "limit",
             "in": "query",
             "required": false,
@@ -546,6 +563,23 @@
             }
           },
           {
+            "name": "region_id",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string",
+                  "pattern": "^\\d{2}$"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Region Id"
+            }
+          },
+          {
             "name": "instrument",
             "in": "query",
             "required": false,
@@ -563,6 +597,20 @@
                 }
               ],
               "title": "Instrument"
+            }
+          },
+          {
+            "name": "week_selection",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "enum": [
+                "starts_within",
+                "overlap"
+              ],
+              "type": "string",
+              "default": "starts_within",
+              "title": "Week Selection"
             }
           },
           {
@@ -653,6 +701,23 @@
             }
           },
           {
+            "name": "region_id",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string",
+                  "pattern": "^\\d{2}$"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Region Id"
+            }
+          },
+          {
             "name": "limit",
             "in": "query",
             "required": false,
@@ -685,6 +750,166 @@
                 "schema": {
                   "$ref": "#/components/schemas/ForecastPage"
                 }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v1/regions": {
+      "get": {
+        "summary": "Regions",
+        "operationId": "regions_v1_regions_get",
+        "parameters": [
+          {
+            "name": "limit",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "maximum": 1000,
+              "minimum": 1,
+              "default": 100,
+              "title": "Limit"
+            }
+          },
+          {
+            "name": "offset",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "maximum": 1000000,
+              "minimum": 0,
+              "default": 0,
+              "title": "Offset"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RegionPage"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v1/regions/locate": {
+      "get": {
+        "summary": "Locate",
+        "operationId": "locate_v1_regions_locate_get",
+        "parameters": [
+          {
+            "name": "latitude",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "number",
+              "maximum": 90,
+              "minimum": -90,
+              "title": "Latitude"
+            }
+          },
+          {
+            "name": "longitude",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "number",
+              "maximum": 180,
+              "minimum": -180,
+              "title": "Longitude"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/LocatedRegion"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v1/regions/geometry": {
+      "get": {
+        "summary": "Geometries",
+        "operationId": "geometries_v1_regions_geometry_get",
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v1/regions/{region_id}/geometry": {
+      "get": {
+        "summary": "Geometry",
+        "operationId": "geometry_v1_regions__region_id__geometry_get",
+        "parameters": [
+          {
+            "name": "region_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "pattern": "^\\d{2}$",
+              "title": "Region Id"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {}
               }
             }
           },
@@ -991,6 +1216,32 @@
         "type": "object",
         "title": "HTTPValidationError"
       },
+      "LocatedRegion": {
+        "properties": {
+          "region": {
+            "$ref": "#/components/schemas/RegionInfo"
+          },
+          "boundary_matches": {
+            "items": {
+              "type": "string"
+            },
+            "type": "array",
+            "title": "Boundary Matches"
+          },
+          "metadata": {
+            "additionalProperties": true,
+            "type": "object",
+            "title": "Metadata"
+          }
+        },
+        "type": "object",
+        "required": [
+          "region",
+          "boundary_matches",
+          "metadata"
+        ],
+        "title": "LocatedRegion"
+      },
       "NationalRecord": {
         "properties": {
           "week_start_utc": {
@@ -1269,6 +1520,88 @@
           "coverage_status"
         ],
         "title": "RawRecord"
+      },
+      "RegionInfo": {
+        "properties": {
+          "region_id": {
+            "type": "string",
+            "title": "Region Id"
+          },
+          "name": {
+            "type": "string",
+            "title": "Name"
+          },
+          "bbox": {
+            "items": {
+              "type": "number"
+            },
+            "type": "array",
+            "title": "Bbox"
+          }
+        },
+        "type": "object",
+        "required": [
+          "region_id",
+          "name",
+          "bbox"
+        ],
+        "title": "RegionInfo"
+      },
+      "RegionPage": {
+        "properties": {
+          "metadata": {
+            "additionalProperties": true,
+            "type": "object",
+            "title": "Metadata"
+          },
+          "data": {
+            "items": {
+              "$ref": "#/components/schemas/RegionInfo"
+            },
+            "type": "array",
+            "title": "Data"
+          },
+          "pagination": {
+            "$ref": "#/components/schemas/RegionPagination"
+          }
+        },
+        "type": "object",
+        "required": [
+          "metadata",
+          "data",
+          "pagination"
+        ],
+        "title": "RegionPage"
+      },
+      "RegionPagination": {
+        "properties": {
+          "limit": {
+            "type": "integer",
+            "title": "Limit"
+          },
+          "offset": {
+            "type": "integer",
+            "title": "Offset"
+          },
+          "next_offset": {
+            "anyOf": [
+              {
+                "type": "integer"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Next Offset"
+          }
+        },
+        "type": "object",
+        "required": [
+          "limit",
+          "offset",
+          "next_offset"
+        ],
+        "title": "RegionPagination"
       },
       "SeriesPage": {
         "properties": {

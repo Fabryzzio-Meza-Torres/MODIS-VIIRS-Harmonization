@@ -72,7 +72,7 @@ class CellRecord(BaseModel):
 def create_app(database_path=None, origins=None):
     database = Path(database_path or os.environ.get(
         'FIRMS_API_DB', Path(__file__).with_name('firms.sqlite'))).resolve()
-    app = FastAPI(title='MODIS–VIIRS Series API', version='0.2.0',
+    app = FastAPI(title='MODIS–VIIRS Series API', version='0.3.0',
         description='Series y soporte de observación versionados. Fechas UTC; fin exclusivo. '
                     'La serie final solo se habilita tras publicar un método validado.')
     origins = origins if origins is not None else [
@@ -170,6 +170,10 @@ def create_app(database_path=None, origins=None):
 
     from history_api import router
     app.include_router(router())
+    web=Path(__file__).resolve().parents[1]/'web'
+    if web.is_dir():
+        from fastapi.staticfiles import StaticFiles
+        app.mount('/visor',StaticFiles(directory=web,html=True),name='regional_viewer')
     return app
 
 

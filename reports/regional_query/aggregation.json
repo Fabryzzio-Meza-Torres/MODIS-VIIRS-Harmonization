@@ -1,0 +1,23 @@
+{
+  "country": "PER",
+  "administrative_level": "departments including Callao",
+  "regions": 25,
+  "boundary_source": "https://geoservidorperu.minam.gob.pe/arcgis/rest/services/ServicioCFOI/MapServer/15",
+  "source_boundary_sha256": "914563c76db856651f5cca3f73d99bd2014155b5b690a5ba9f95a13dae0ffb1e",
+  "points_assigned": 1322019,
+  "candidate_source_points": 1326209,
+  "outside_country_excluded": 4190,
+  "multi_region_point_matches": 66,
+  "point_tie_rule": "lowest IDDPTO, single assignment",
+  "regional_rows_with_records": 31056,
+  "national_count_conservation_verified": true,
+  "national_estimates_conservation_verified": true,
+  "count_assignment": "exact point containment in the same generalized MINAM polygons used by the country domain",
+  "cells_mapping": "all positive-area department intersections; not a distribution of detections by area",
+  "forecast_mapping": "a forecast concerns the entire cell; department intersection does not rescale probability",
+  "region_interval_method": "shared global factor quantile times regional count; cell bands are not summed",
+  "method_version": "empirical-positive-pair-v1.1",
+  "coverage_corrected": false,
+  "source_snapshot_id": "c96f4af273ab7587f8a2e120746f0e56b07ee07b9c5e50a236e63c62c1786915",
+  "elapsed_seconds": 28.385765300000003
+}

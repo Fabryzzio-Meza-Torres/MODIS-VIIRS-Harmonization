@@ -31,3 +31,8 @@ y puede ejecutarse sin restaurarla. Ver entrega/EXPLICACION_Y_GUIA.txt.
 
 coverage_corrected=false: no afirmar que todos los incendios históricos se recuperan.
 El pronóstico es de registros satelitales, no de ignición física.
+
+CONSULTAS REGIONALES: /v1/regions y parametro region_id en series, celdas y pronostico.
+Visor: http://127.0.0.1:8000/visor/
+Datos: regions.geojson, regional_series.csv.gz, region_cells.csv, regional_metadata.json.
+Detalles: api/REGIONES_Y_FECHAS.txt. La resolucion sigue siendo semanal.

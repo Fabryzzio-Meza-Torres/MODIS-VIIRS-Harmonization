@@ -1,0 +1,85 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Consulta las series comparables MODIS y VIIRS de Perú por departamento y fechas.">
+  <title>Comparación regional · Fire Shift Calendar</title>
+  <link rel="stylesheet" href="styles.css">
+  <script type="module" src="app.js"></script>
+</head>
+<body>
+  <a class="skip-link" href="#filters">Ir a los filtros</a>
+  <header class="topbar">
+    <a class="brand" href="./" aria-label="Fire Shift Calendar, inicio">
+      <svg width="31" height="31" viewBox="0 0 32 32" aria-hidden="true"><rect x="1" y="1" width="30" height="30" rx="7" fill="#183552"/><path d="M6 21 12 14 17 17 26 8" fill="none" stroke="#fb923c" stroke-width="2"/><path d="M6 25 12 20 18 22 26 15" fill="none" stroke="#67d8f2" stroke-width="2"/></svg>
+      <span>Fire Shift Calendar</span>
+    </a>
+    <div class="toplinks"><span class="country-label">Perú</span><a href="/docs" target="_blank" rel="noopener">Explorar la API</a></div>
+  </header>
+  <main>
+    <section class="intro" aria-labelledby="page-title">
+      <div><h1 id="page-title">Compara la actividad térmica por región</h1>
+        <p>Un mismo territorio y una escala común para las detecciones de MODIS y VIIRS.</p></div>
+      <span id="connection" class="connection" role="status">Conectando con los datos</span>
+    </section>
+    <form id="filters" class="filters">
+      <label class="region-field">Departamento
+        <select id="region" name="region_id" disabled><option value="">Cargando departamentos…</option></select>
+      </label>
+      <label>Desde<input id="from" name="start" type="date" min="2000-11-06" max="2026-07-26" value="2013-01-07" required></label>
+      <label>Hasta, incluido<input id="to" name="end" type="date" min="2000-11-06" max="2026-07-26" value="2026-07-26" required></label>
+      <button id="compare" class="primary" type="submit" disabled>Comparar</button>
+      <button id="all-history" class="text-button" type="button" disabled>Todo el histórico</button>
+    </form>
+    <p id="error" class="error" role="alert" hidden></p>
+    <div class="workspace">
+      <section class="chart-panel" aria-labelledby="chart-title">
+        <div class="panel-heading">
+          <div><h2 id="chart-title">Cusco</h2><p id="period">Selecciona un lugar y un período.</p></div>
+          <button id="download" class="secondary" type="button" disabled>Descargar CSV</button>
+        </div>
+        <div class="chart-options">
+          <div class="legend" aria-label="Instrumentos"><span><i class="modis"></i>MODIS</span><span><i class="viirs"></i>VIIRS</span></div>
+          <label class="check"><input type="checkbox" id="raw">Conteos originales</label>
+          <label class="check"><input type="checkbox" id="bands">Bandas de calibración</label>
+        </div>
+        <div id="chart-wrap" class="chart-wrap" aria-busy="true">
+          <svg id="chart" tabindex="0" role="img" aria-labelledby="chart-title chart-description"></svg>
+          <p id="chart-description" class="sr-only">Comparación semanal. Usa las flechas izquierda y derecha para consultar valores. Los valores ausentes quedan como huecos.</p>
+          <p id="empty" class="chart-empty">Cargando las series históricas…</p>
+          <div id="tooltip" class="tooltip" hidden></div>
+        </div>
+        <div id="availability" class="availability" aria-live="polite"></div>
+        <p class="resolution-note">Datos semanales, de lunes a domingo. Se incluyen las semanas completas que intersectan las fechas elegidas.</p>
+        <div class="method-note"><strong>Escala empírica comparable.</strong> La corrección completa de cobertura observacional sigue pendiente. Un valor ausente no confirma ausencia de incendios.</div>
+      </section>
+      <aside class="map-panel" aria-labelledby="map-title">
+        <div class="panel-heading"><div><h2 id="map-title">Elige un territorio</h2><p>Selecciona un departamento en el mapa.</p></div></div>
+        <svg id="map" viewBox="0 0 270 370" role="group" aria-label="Departamentos del Perú"></svg>
+        <p id="map-selection" class="map-selection">Cargando el mapa…</p>
+        <details class="coordinate-search">
+          <summary>Buscar con coordenadas</summary>
+          <form id="locate">
+            <label>Latitud<input id="latitude" type="number" min="-90" max="90" step="any" value="-13.5319" required></label>
+            <label>Longitud<input id="longitude" type="number" min="-180" max="180" step="any" value="-71.9675" required></label>
+            <button class="secondary" type="submit">Ubicar departamento</button>
+          </form>
+          <p id="location-status" role="status"></p>
+        </details>
+        <p class="map-source">Límites oficiales MINAM, generalizados. Incluye la Provincia Constitucional del Callao.</p>
+      </aside>
+    </div>
+    <details id="table-details" class="table-panel">
+      <summary>Consultar los valores semanales</summary>
+      <div class="table-scroll"><table><caption class="sr-only">Valores de la comparación seleccionada</caption>
+        <thead><tr><th>Inicio de semana</th><th>Instrumento</th><th>Plataforma</th><th>Original</th><th>Comparable</th><th>Estado</th></tr></thead>
+        <tbody id="table-body"></tbody>
+      </table></div>
+      <button id="more" class="secondary" type="button" hidden>Mostrar más semanas</button>
+    </details>
+    <footer>NASA FIRMS · Modelos MODIS–VIIRS · Conteos reportados, no incendios independientes</footer>
+  </main>
+  <noscript>Activa JavaScript para filtrar las series o consulta los datos en <a href="/docs">la API</a>.</noscript>
+</body>
+</html>

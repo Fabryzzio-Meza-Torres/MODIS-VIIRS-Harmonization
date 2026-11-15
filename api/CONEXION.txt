@@ -40,3 +40,6 @@ GET /v1/empirical/cells?limit=100
 GET /v1/forecasts?limit=100
 Esta serie tiene dos instrumentos y coverage_corrected=false. No sustituye la correccion completa.
 FIRMS_HISTORY_DB configura el snapshot history.sqlite. Ver pipeline/REPRODUCIR.txt.
+
+CONSULTAS POR DEPARTAMENTO Y FECHAS: /v1/regions, /v1/regions/locate y region_id en /v1/empirical/series.
+Visor: /visor/. Ver REGIONES_Y_FECHAS.txt y POSTMAN_REGIONES.postman_collection.json.

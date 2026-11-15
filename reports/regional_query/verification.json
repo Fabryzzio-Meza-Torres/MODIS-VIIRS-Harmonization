@@ -1,0 +1,74 @@
+{
+  "api_version": "0.3.0",
+  "calibration_version": "empirical-positive-pair-v1.1",
+  "national_raw_conservation": 1322019,
+  "spatial_query_plan": [
+    [
+      3,
+      0,
+      186,
+      "SCAN i VIRTUAL TABLE INDEX 2:B0D1B2D3"
+    ],
+    [
+      11,
+      0,
+      45,
+      "SEARCH r USING INTEGER PRIMARY KEY (rowid=?)"
+    ]
+  ],
+  "temporal_query_plan": [
+    [
+      3,
+      0,
+      49,
+      "SEARCH regional_series USING INDEX regional_instrument_time (region_id=? AND instrument=? AND week_start_utc>? AND week_start_utc<?)"
+    ]
+  ],
+  "local_warm_sql_median_ms": 0.7855500002733606,
+  "benchmark_scope": "30 local SQLite reads for Cusco MODIS 2013-2026; not an end-to-end or remote latency guarantee",
+  "api_unit_tests": 34,
+  "point_assignment_unit_tests": 2,
+  "browser_checks": {
+    "region_dates_export": true,
+    "keyboard_map": true,
+    "coordinate_lookup": true,
+    "empty_state_preserves_unknown": true,
+    "invalid_date_feedback": true,
+    "mobile_no_overflow": true,
+    "no_javascript_errors": true,
+    "mobile_date_values_visible_320_390": true
+  },
+  "http_requests": [
+    {
+      "request": "Departamentos",
+      "status": 200
+    },
+    {
+      "request": "Ubicar Cusco por coordenadas",
+      "status": 200
+    },
+    {
+      "request": "Comparar Cusco cuatro semanas",
+      "status": 200
+    },
+    {
+      "request": "Fechas parciales, semanas completas",
+      "status": 200
+    },
+    {
+      "request": "Celdas en Cusco",
+      "status": 200
+    },
+    {
+      "request": "Pronostico en celdas que intersectan Cusco",
+      "status": 200
+    },
+    {
+      "request": "Poligono de Cusco",
+      "status": 200
+    }
+  ],
+  "coverage_corrected": false,
+  "web_reference": "https://magenta-monstera-242d04.netlify.app/#panorama",
+  "reference_implementation_modified": false
+}

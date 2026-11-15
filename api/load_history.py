@@ -11,7 +11,7 @@ def number(value,integer=False):
     if value is None or value=='':return None
     return int(float(value)) if integer else float(value)
 
-def load(source,out):
+def load(source,out,regional_assets=None):
     root=Path(source);out=Path(out);staging=out.with_suffix('.building.sqlite')
     if staging.exists():raise RuntimeError('Previous staging exists; inspect it before retrying.')
     with closing(sqlite3.connect(staging)) as db,db:
@@ -49,7 +49,11 @@ def load(source,out):
         for table in ['cells','cell_series','national_series','forecasts']:
             print(table,db.execute('SELECT count(*) FROM '+table).fetchone()[0])
     os.replace(staging,out)
+    if regional_assets is not None:
+        from add_regions import enrich
+        enrich(out,regional_assets)
 
 if __name__=='__main__':
     p=argparse.ArgumentParser();p.add_argument('--source',type=Path,required=True);p.add_argument('--out',type=Path,required=True)
-    a=p.parse_args();load(a.source,a.out)
+    p.add_argument('--regional-assets',type=Path)
+    a=p.parse_args();load(a.source,a.out,a.regional_assets)

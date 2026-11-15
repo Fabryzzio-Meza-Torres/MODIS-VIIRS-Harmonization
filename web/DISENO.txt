@@ -1,0 +1,21 @@
+Extensión operativa de consulta regional para Fire Shift Calendar.
+Referencia aportada: https://magenta-monstera-242d04.netlify.app/#panorama
+
+Se conserva la identidad del prototipo: azul oscuro, Inter, contraste naranja/cian.
+El objetivo de esta superficie es seleccionar territorio y fechas y leer dos series.
+No reemplaza ni publica la web Netlify existente.
+
+Paleta: fondo #091525; panel #10243b; superficie #183552; texto #f4f7fb;
+MODIS #fb923c; VIIRS #67d8f2; selección geográfica verde azulado.
+Una familia tipográfica variable Inter, autoalojada con licencia SIL OFL.
+
+La comparación ocupa el área principal y el mapa es un selector secundario.
+Las curvas mantienen huecos, la resolución semanal es explícita y el CSV exporta
+trazabilidad. Los filtros no modifican los modelos ni las probabilidades.
+El layout pasa a una columna en móvil y conserva tabla, foco y controles nativos.
+
+Revisión: funcionamiento de filtros, mapa por teclado, coordenadas, rangos parciales,
+datos ausentes, CSV y ausencia de desbordamiento horizontal comprobados en navegador.
+El detector señaló Inter como fuente frecuente. Se conserva por continuidad con
+la referencia aportada y por tratarse de una extensión operativa; no se cambia
+la identidad tipográfica al añadir el filtro.

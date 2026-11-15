@@ -1,0 +1,186 @@
+{
+  "info": {
+    "name": "Fire Shift Calendar - Regiones y fechas",
+    "_postman_id": "f00aecf9-c421-4f06-b103-4636ca4aa587",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "auth": {
+    "type": "noauth"
+  },
+  "variable": [
+    {
+      "key": "base_url",
+      "value": "http://127.0.0.1:8000"
+    }
+  ],
+  "item": [
+    {
+      "name": "Departamentos",
+      "request": {
+        "method": "GET",
+        "url": "{{base_url}}/v1/regions",
+        "header": [
+          {
+            "key": "Accept",
+            "value": "application/json"
+          }
+        ]
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test(\"HTTP 200\", () => pm.response.to.have.status(200));"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "Ubicar Cusco por coordenadas",
+      "request": {
+        "method": "GET",
+        "url": "{{base_url}}/v1/regions/locate?latitude=-13.5319&longitude=-71.9675",
+        "header": [
+          {
+            "key": "Accept",
+            "value": "application/json"
+          }
+        ]
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test(\"HTTP 200\", () => pm.response.to.have.status(200));"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "Comparar Cusco cuatro semanas",
+      "request": {
+        "method": "GET",
+        "url": "{{base_url}}/v1/empirical/series?region_id=08&start=2023-08-07&end=2023-09-04&limit=1000",
+        "header": [
+          {
+            "key": "Accept",
+            "value": "application/json"
+          }
+        ]
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test(\"HTTP 200\", () => pm.response.to.have.status(200));"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "Fechas parciales, semanas completas",
+      "request": {
+        "method": "GET",
+        "url": "{{base_url}}/v1/empirical/series?region_id=08&start=2023-08-10&end=2023-08-17&week_selection=overlap",
+        "header": [
+          {
+            "key": "Accept",
+            "value": "application/json"
+          }
+        ]
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test(\"HTTP 200\", () => pm.response.to.have.status(200));"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "Celdas en Cusco",
+      "request": {
+        "method": "GET",
+        "url": "{{base_url}}/v1/empirical/cells?region_id=08&limit=10",
+        "header": [
+          {
+            "key": "Accept",
+            "value": "application/json"
+          }
+        ]
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test(\"HTTP 200\", () => pm.response.to.have.status(200));"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "Pronostico en celdas que intersectan Cusco",
+      "request": {
+        "method": "GET",
+        "url": "{{base_url}}/v1/forecasts?region_id=08&limit=10",
+        "header": [
+          {
+            "key": "Accept",
+            "value": "application/json"
+          }
+        ]
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test(\"HTTP 200\", () => pm.response.to.have.status(200));"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "Poligono de Cusco",
+      "request": {
+        "method": "GET",
+        "url": "{{base_url}}/v1/regions/08/geometry",
+        "header": [
+          {
+            "key": "Accept",
+            "value": "application/json"
+          }
+        ]
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test(\"HTTP 200\", () => pm.response.to.have.status(200));"
+            ]
+          }
+        }
+      ]
+    }
+  ]
+}

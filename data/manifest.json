@@ -47,15 +47,32 @@
       "sha256": "e216456dc60033efe6c7e6ac0a4b4b70c2ebd9efbc06e917bb2ac4f51dbc4a25"
     },
     "history.sqlite.gz": {
-      "bytes": 11213827,
-      "sha256": "e8be13683d2dbfbadcfa92584f6bb4cba0f15c976cc4987cbe41e9dff438c9ac"
+      "bytes": 12963016,
+      "sha256": "0cb042300e6bdc55491892e468985322b1faa3aeb8b202c782fc8616cad500ec"
+    },
+    "regions.geojson": {
+      "bytes": 310927,
+      "sha256": "84a88c8a41cdfb801b6f4125774fd2ad41fd288ce7325b9c5aa39032de5784db"
+    },
+    "regional_series.csv.gz": {
+      "bytes": 515688,
+      "sha256": "d89cc65d5175fa10ed997ee95e850224cd372ff3e256cf4edfd797bcb534461b"
+    },
+    "region_cells.csv": {
+      "bytes": 383798,
+      "sha256": "fc52869b2c68e6a0c26b571eb528b74945dde9343e7950a24c9cde7de42e2c22"
+    },
+    "regional_metadata.json": {
+      "bytes": 1298,
+      "sha256": "a4b7746142389f25606feb13376eff81d06347b1e7a1349e28e9165d0b993df5"
     }
   },
   "snapshot": {
     "file": "history.sqlite.gz",
-    "compressed_sha256": "e8be13683d2dbfbadcfa92584f6bb4cba0f15c976cc4987cbe41e9dff438c9ac",
-    "uncompressed_sha256": "8b3248ace4d7c86cbed9dbfcb9bcc1836957acbc762cdab05d668bf8e6cd7e3f",
-    "uncompressed_bytes": 65507328
+    "compressed_sha256": "0cb042300e6bdc55491892e468985322b1faa3aeb8b202c782fc8616cad500ec",
+    "uncompressed_sha256": "e705eee4a6b438858019c94365655c7cef37474e7070ef9e38073c77110fad05",
+    "uncompressed_bytes": 72515584
   },
-  "text_files_line_endings": "LF; exact dataset bytes preserved by .gitattributes"
+  "text_files_line_endings": "LF; exact dataset bytes preserved by .gitattributes",
+  "api_schema_version": "regional-query-v1"
 }
