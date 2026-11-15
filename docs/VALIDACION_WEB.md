@@ -2,6 +2,8 @@
 
 Sección integrada en `web/index.html`, ancla `#validacion`. Reutiliza la tipografía Inter, la paleta, los controles y el ritmo del visor existente. No modifica el modelo, la armonización ni la API del compañero.
 
+Publicada en [Evidencia y contraste con registros oficiales](https://modis-viirs-harmonization-production.up.railway.app/visor/#validacion). Verificación pública de las 13 particiones y los dos documentos, con hora UTC y huella del catálogo: `reports/validation_web/public_HTTP_verification.json`. Revisión independiente de interfaz: **ship**, con los dos hallazgos iniciales resueltos, en `reports/validation_web/finish_review.md`.
+
 ## Qué se publica
 
 El catálogo contiene **las 15 140 referencias atribuidas a INDECI** elegibles para el contraste de 2013-01-07 a 2025-12-31, conservando sus 22 473 ubicaciones reportadas. No se seleccionaron únicamente ejemplos favorables:

@@ -1,0 +1,20 @@
+{
+  "status": "verified",
+  "base_url": "https://modis-viirs-harmonization-production.up.railway.app",
+  "verified_at": "2026-11-15T23:22:07.874398+00:00",
+  "catalog_references": 15140,
+  "year_partitions_verified": 13,
+  "source_document_hashes_verified": 2,
+  "summary_sha256": "da2580d31ec0959348d2298c4d20f4c32ca6e88b235a2a6d352543581a5cdde7",
+  "checks": [
+    "section_html",
+    "all_year_hashes",
+    "all_reference_counts",
+    "unmatched_retained",
+    "document_hashes",
+    "historical_api_preserved",
+    "forecast_metadata_preserved"
+  ],
+  "code_commit": "4e92bb41c6b0224b0423820c5a917b6b8bbce77f",
+  "public_bytes_match_local_catalog": true
+}
