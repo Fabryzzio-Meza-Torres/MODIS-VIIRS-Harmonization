@@ -1,0 +1,69 @@
+Entrega empirica Peru, version empirical-positive-pair-v1.
+Python 3.13. La correccion fisica completa de cobertura sigue pendiente.
+
+Datos originales: cuatro ZIP FIRMS, uno por MODIS, Suomi-NPP, NOAA-20 y NOAA-21.
+Colocarlos en una carpeta privada, sin subirlos al repositorio.
+La preparacion conserva los originales y genera inventario y hashes.
+No se necesita Earthdata para volver a procesar estos CSV ya descargados.
+
+Desde la raiz del repositorio, con un entorno virtual activado:
+  python -m pip install -r pipeline/requirements.txt
+  python pipeline/bootstrap_inputs.py --zip-folder RUTA_A_LOS_ZIP --artifacts RUTA_ARTEFACTOS
+  python pipeline/run_pipeline.py --artifacts RUTA_ARTEFACTOS --workers 8
+
+bootstrap_inputs.py descarga el limite oficial MINAM generalizado y refina dos
+departamentos. Este servicio publico puede cambiar: los hashes y metadatos del
+lote original estan en los informes. La clasificacion exacta cerca de fronteras
+depende del detalle geometrico. No se promete que una futura descarga sea identica.
+
+La ejecucion mantiene el protocolo temporal previamente fijado. Repetirla sobre
+datos cambiados no mantiene un test desconocido: debe declararse como nuevo lote.
+No elegir variantes a partir de los resultados finales 2024-2025.
+
+Preparar y servir la API, desde la raiz del repositorio:
+  python -m pip install -r api/requirements.txt
+  python api/load_history.py --source RUTA_ARTEFACTOS/23_demo_historica --out api/history.sqlite
+  python -m uvicorn api:app --app-dir api --host 127.0.0.1 --port 8000
+
+La API historica empirica funciona aunque no exista firms.sqlite (dataset antiguo).
+/health devuelve si la base antigua existe; consultar /v1/empirical/metadata para
+confirmar que el lote historico y el pronostico estan disponibles.
+En despliegue: usar FIRMS_HISTORY_DB con ruta absoluta al SQLite, y configurar
+FIRMS_CORS_ORIGINS para los dominios del dashboard. No almacenar claves en frontend.
+
+Documentacion: http://127.0.0.1:8000/docs
+Series nacionales, ambas lineas y end exclusivo:
+  /v1/empirical/series?start=2000-11-06&end=2026-07-27&limit=1000
+Serie por instrumento: agregar instrument=MODIS o instrument=VIIRS.
+Serie por celda: agregar cell_id=laea10_1_2 (primero descubrir IDs validos en cells).
+Celdas: /v1/empirical/cells?bbox=-76,-10,-74,-8&limit=1000
+Pronostico: /v1/forecasts?limit=100
+Metadatos: /v1/empirical/metadata
+Paginar con pagination.next_offset hasta null. Los resultados son JSON tipado.
+Cliente JavaScript: api/cliente.js, utilizable desde HTML, React o Next.js.
+
+IMPORTANTE: /v1/series conserva la puerta de publicacion para cobertura completa.
+No confundir esa ruta con /v1/empirical/series, que declara coverage_corrected=false.
+MODIS: semanas 2000-11-06 a 2026-07-26. VIIRS: 2012-02-06 a 2026-07-26.
+Antes de 2012 VIIRS permanece unavailable. No se inventan detecciones historicas.
+No se suman satelites del mismo instrumento. Factor comun no equivale a incendios.
+Bandas de calibracion: no son intervalos de todos los incendios omitidos.
+
+Pronostico experimental: presencia de registros en 10km/semana, no ignicion fisica.
+Semana objetivo fija 2026-11-16 a 2026-11-22, historia anual y estacionalidad;
+no es un servicio de prediccion continuamente actualizado ni usa clima reciente.
+No cubre automaticamente el cambio de plataformas de 2026. No es una alerta operativa.
+Se informa el resultado desfavorable frente a climatologia en areas vistas en 2025.
+
+Tests de calibracion: python -m unittest discover -s pipeline -p test_calibration.py -v
+Tests HTTP con snapshot generado: python -m unittest discover -s api -p 'test*.py' -v
+Notebooks 09 y 10 incluyen outputs ejecutados para revisar sin los ZIP originales.
+Para reejecutarlos, instalar dependencias y definir FIRMS_ARTIFACTS_DIR=RUTA_ARTEFACTOS.
+El notebook resume los artefactos; el entrenamiento se ejecuta por pipeline, no en cada celda.
+
+Fuentes: NASA FIRMS; limites oficiales MINAM; Sofiev y Kouznetsov (2026),
+https://gmd.copernicus.org/articles/19/10123/2026/.
+Su operador FRP no se presenta como una correccion de nuestros conteos.
+La comparacion sistematica con incidentes reportados en tierra queda pendiente.
+
+Informe de validacion disponible por API: GET /v1/validation.

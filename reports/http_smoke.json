@@ -1,0 +1,14 @@
+{
+  "health": {
+    "status": 200
+  },
+  "series": {
+    "status": 200
+  },
+  "forecast": {
+    "status": 200
+  },
+  "validation": {
+    "status": 200
+  }
+}

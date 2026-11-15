@@ -1,0 +1,42 @@
+API REST local de consulta (sin dependencia de frontend).
+
+Inicio desde PowerShell en la carpeta de trabajo:
+  powershell -NoProfile -ExecutionPolicy Bypass -File outputs/16_api/iniciar_api.ps1
+
+Documentacion interactiva: http://127.0.0.1:8000/docs
+OpenAPI: http://127.0.0.1:8000/openapi.json
+Inventario: GET /v1/datasets
+Celdas: GET /v1/cells?limit=100&offset=0
+Conteos originales: GET /v1/raw-series?cell_id=laea10_1_2&start=2013-01-01&end=2024-01-01
+Serie final: GET /v1/series?cell_id=laea10_1_2&start=2013-01-01&end=2024-01-01
+Baseline nacional: GET /v1/baselines/national?start=2013-01-01&end=2024-01-01
+Area experimental: GET /v1/coverage/pilot?cell_id=laea10_1_2
+
+Las fechas son UTC. end es exclusivo. Se filtra por fecha de inicio de semana.
+El calendario semanal comienza los lunes. Conteos originales ausentes siguen desconocidos.
+La paginacion devuelve next_offset (null al terminar). Limite maximo por pagina: 1000.
+La serie final responde 503 / harmonization_not_published hasta publicar un metodo validado.
+Los otros endpoints no sustituyen esa serie: conservan su etiqueta original o experimental.
+No usar conteos nacionales como correccion local ni sumar areas de granulos como area unica.
+
+Configurar base de datos: FIRMS_API_DB (ruta al SQLite).
+CORS: FIRMS_CORS_ORIGINS (origenes separados por coma; por defecto * para datos publicos,
+sin cookies ni credenciales). Servicio local: 127.0.0.1:8000.
+Los datos se preparan por lotes con prepare_data.py; ninguna peticion entrena el modelo.
+La API es de lectura y no contiene credenciales de Earthdata.
+
+Publicacion del lote final, DESPUES de validar y revisar el metodo:
+  python publish_series.py --database firms.sqlite --csv serie.csv --manifest manifiesto.json --validation-report validacion.json
+El manifiesto exige method_version, reference_scale, source_snapshot_id, interval_level,
+validation_status=accepted, human_reviewed=true, data_sha256 y validation_report_sha256.
+No se ha creado un manifiesto de aceptacion para datos reales: falta validar el armonizador.
+La publicacion valida esquema, semanas UTC, estados, intervalos, versiones y hashes.
+Si falla, la transaccion conserva el lote anterior. No entrena ni certifica el metodo cientifico.
+
+ENTREGA HISTORICA EMPIRICA DISPONIBLE:
+GET /v1/empirical/metadata
+GET /v1/empirical/series?start=2000-11-06&end=2026-07-27
+GET /v1/empirical/cells?limit=100
+GET /v1/forecasts?limit=100
+Esta serie tiene dos instrumentos y coverage_corrected=false. No sustituye la correccion completa.
+FIRMS_HISTORY_DB configura el snapshot history.sqlite. Ver pipeline/REPRODUCIR.txt.

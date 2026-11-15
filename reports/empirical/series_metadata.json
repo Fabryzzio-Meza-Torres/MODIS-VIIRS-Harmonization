@@ -1,0 +1,30 @@
+{
+  "status": "empirical_demo",
+  "method_version": "empirical-positive-pair-v1",
+  "source_snapshot_id": "f9da4f1bde5414d4c2455f4b745b299e8deca6c9162e18160e9289c841556dd1",
+  "instrument_series": [
+    "MODIS",
+    "VIIRS"
+  ],
+  "country": "PER",
+  "grid_km": 10,
+  "time_unit": "UTC week",
+  "MODIS_start": "2000-11-06",
+  "VIIRS_start": "2012-02-06",
+  "last_week_start": "2026-07-20",
+  "last_week_end": "2026-07-26",
+  "coverage_corrected": false,
+  "missing_policy": "unavailable; never a confirmed zero fire count",
+  "uncertainty_kind": "28-day block Bayesian-bootstrap calibration-factor band only",
+  "interval_is_full_fire_uncertainty": false,
+  "reference": "geometric-mean response of Aqua and Suomi-NPP equals one",
+  "cell_rows_with_records": 513756,
+  "national_calendar_rows": 2684,
+  "count_unit": "reported detections on the geometric-mean Aqua/SNPP response scale",
+  "period_status_note": "before Aqua/VIIRS overlap and in 2026, response stability is extrapolated; factor-only bands omit this structural uncertainty",
+  "fusion_for_forecast": "mean of available empirical instrument estimates; not a sum or recovered physical activity",
+  "platform_choice": "one anchor per country/week; bridge only if anchor has no country records",
+  "NRT_included": false,
+  "calibration_report_folder": "model",
+  "complete_physical_harmonization": false
+}

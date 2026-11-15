@@ -1,0 +1,1430 @@
+{
+  "openapi": "3.1.0",
+  "info": {
+    "title": "MODIS\u2013VIIRS Series API",
+    "description": "Series y soporte de observaci\u00f3n versionados. Fechas UTC; fin exclusivo. La serie final solo se habilita tras publicar un m\u00e9todo validado.",
+    "version": "0.2.0"
+  },
+  "paths": {
+    "/health": {
+      "get": {
+        "summary": "Health",
+        "operationId": "health_health_get",
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v1/datasets": {
+      "get": {
+        "summary": "Datasets",
+        "operationId": "datasets_v1_datasets_get",
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v1/cells": {
+      "get": {
+        "summary": "Cells",
+        "operationId": "cells_v1_cells_get",
+        "parameters": [
+          {
+            "name": "limit",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "maximum": 1000,
+              "minimum": 1,
+              "default": 100,
+              "title": "Limit"
+            }
+          },
+          {
+            "name": "offset",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "maximum": 1000000,
+              "minimum": 0,
+              "default": 0,
+              "title": "Offset"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Page_CellRecord_"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v1/raw-series": {
+      "get": {
+        "summary": "Raw Series",
+        "operationId": "raw_series_v1_raw_series_get",
+        "parameters": [
+          {
+            "name": "cell_id",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "pattern": "^laea10_-?\\d{1,5}_-?\\d{1,5}$",
+              "title": "Cell Id"
+            }
+          },
+          {
+            "name": "start",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "date",
+              "title": "Start"
+            }
+          },
+          {
+            "name": "end",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "date",
+              "title": "End"
+            }
+          },
+          {
+            "name": "limit",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "maximum": 1000,
+              "minimum": 1,
+              "default": 100,
+              "title": "Limit"
+            }
+          },
+          {
+            "name": "offset",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "maximum": 1000000,
+              "minimum": 0,
+              "default": 0,
+              "title": "Offset"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Page_RawRecord_"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v1/series": {
+      "get": {
+        "summary": "Series",
+        "operationId": "series_v1_series_get",
+        "parameters": [
+          {
+            "name": "cell_id",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "pattern": "^laea10_-?\\d{1,5}_-?\\d{1,5}$",
+              "title": "Cell Id"
+            }
+          },
+          {
+            "name": "start",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "date",
+              "title": "Start"
+            }
+          },
+          {
+            "name": "end",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "date",
+              "title": "End"
+            }
+          },
+          {
+            "name": "limit",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "maximum": 1000,
+              "minimum": 1,
+              "default": 100,
+              "title": "Limit"
+            }
+          },
+          {
+            "name": "offset",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "maximum": 1000000,
+              "minimum": 0,
+              "default": 0,
+              "title": "Offset"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Page_SeriesRecord_"
+                }
+              }
+            }
+          },
+          "503": {
+            "description": "Dataset not loaded or final harmonization not published"
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v1/baselines/national": {
+      "get": {
+        "summary": "National",
+        "operationId": "national_v1_baselines_national_get",
+        "parameters": [
+          {
+            "name": "start",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "date",
+              "title": "Start"
+            }
+          },
+          {
+            "name": "end",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "date",
+              "title": "End"
+            }
+          },
+          {
+            "name": "limit",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "maximum": 1000,
+              "minimum": 1,
+              "default": 100,
+              "title": "Limit"
+            }
+          },
+          {
+            "name": "offset",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "maximum": 1000000,
+              "minimum": 0,
+              "default": 0,
+              "title": "Offset"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Page_NationalRecord_"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v1/coverage/pilot": {
+      "get": {
+        "summary": "Pilot",
+        "operationId": "pilot_v1_coverage_pilot_get",
+        "parameters": [
+          {
+            "name": "cell_id",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "pattern": "^laea10_-?\\d{1,5}_-?\\d{1,5}$",
+              "title": "Cell Id"
+            }
+          },
+          {
+            "name": "limit",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "maximum": 1000,
+              "minimum": 1,
+              "default": 100,
+              "title": "Limit"
+            }
+          },
+          {
+            "name": "offset",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "maximum": 1000000,
+              "minimum": 0,
+              "default": 0,
+              "title": "Offset"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Page_CoverageRecord_"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v1/empirical/metadata": {
+      "get": {
+        "summary": "Info",
+        "operationId": "info_v1_empirical_metadata_get",
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v1/validation": {
+      "get": {
+        "summary": "Validation",
+        "operationId": "validation_v1_validation_get",
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v1/empirical/cells": {
+      "get": {
+        "summary": "Cells",
+        "operationId": "cells_v1_empirical_cells_get",
+        "parameters": [
+          {
+            "name": "bbox",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Bbox"
+            }
+          },
+          {
+            "name": "limit",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "maximum": 1000,
+              "minimum": 1,
+              "default": 100,
+              "title": "Limit"
+            }
+          },
+          {
+            "name": "offset",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "maximum": 1000000,
+              "minimum": 0,
+              "default": 0,
+              "title": "Offset"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/CellPage"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v1/empirical/series": {
+      "get": {
+        "summary": "Series",
+        "operationId": "series_v1_empirical_series_get",
+        "parameters": [
+          {
+            "name": "start",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "date",
+              "title": "Start"
+            }
+          },
+          {
+            "name": "end",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "date",
+              "title": "End"
+            }
+          },
+          {
+            "name": "cell_id",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string",
+                  "pattern": "^laea10_-?\\d{1,5}_-?\\d{1,5}$"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Cell Id"
+            }
+          },
+          {
+            "name": "instrument",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "enum": [
+                    "MODIS",
+                    "VIIRS"
+                  ],
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Instrument"
+            }
+          },
+          {
+            "name": "limit",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "maximum": 1000,
+              "minimum": 1,
+              "default": 100,
+              "title": "Limit"
+            }
+          },
+          {
+            "name": "offset",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "maximum": 1000000,
+              "minimum": 0,
+              "default": 0,
+              "title": "Offset"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/SeriesPage"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v1/forecasts": {
+      "get": {
+        "summary": "Forecasts",
+        "operationId": "forecasts_v1_forecasts_get",
+        "parameters": [
+          {
+            "name": "bbox",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Bbox"
+            }
+          },
+          {
+            "name": "cell_id",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string",
+                  "pattern": "^laea10_-?\\d{1,5}_-?\\d{1,5}$"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Cell Id"
+            }
+          },
+          {
+            "name": "limit",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "maximum": 1000,
+              "minimum": 1,
+              "default": 100,
+              "title": "Limit"
+            }
+          },
+          {
+            "name": "offset",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "maximum": 1000000,
+              "minimum": 0,
+              "default": 0,
+              "title": "Offset"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ForecastPage"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "CellPage": {
+        "properties": {
+          "metadata": {
+            "additionalProperties": true,
+            "type": "object",
+            "title": "Metadata"
+          },
+          "data": {
+            "items": {
+              "$ref": "#/components/schemas/GeographicCell"
+            },
+            "type": "array",
+            "title": "Data"
+          },
+          "pagination": {
+            "$ref": "#/components/schemas/PageInfo"
+          }
+        },
+        "type": "object",
+        "required": [
+          "metadata",
+          "data",
+          "pagination"
+        ],
+        "title": "CellPage"
+      },
+      "CellRecord": {
+        "properties": {
+          "cell_id": {
+            "type": "string",
+            "title": "Cell Id"
+          }
+        },
+        "type": "object",
+        "required": [
+          "cell_id"
+        ],
+        "title": "CellRecord"
+      },
+      "CoverageRecord": {
+        "properties": {
+          "fire_file": {
+            "type": "string",
+            "title": "Fire File"
+          },
+          "geo_product": {
+            "type": "string",
+            "title": "Geo Product"
+          },
+          "roi_cell_area_km2": {
+            "type": "number",
+            "title": "Roi Cell Area Km2"
+          },
+          "candidate_usable_area_km2": {
+            "type": "number",
+            "title": "Candidate Usable Area Km2"
+          },
+          "area_status": {
+            "type": "string",
+            "title": "Area Status"
+          }
+        },
+        "type": "object",
+        "required": [
+          "fire_file",
+          "geo_product",
+          "roi_cell_area_km2",
+          "candidate_usable_area_km2",
+          "area_status"
+        ],
+        "title": "CoverageRecord"
+      },
+      "EmpiricalRecord": {
+        "properties": {
+          "week_start_utc": {
+            "type": "string",
+            "format": "date",
+            "title": "Week Start Utc"
+          },
+          "instrument": {
+            "type": "string",
+            "enum": [
+              "MODIS",
+              "VIIRS"
+            ],
+            "title": "Instrument"
+          },
+          "platform": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Platform"
+          },
+          "raw_count": {
+            "anyOf": [
+              {
+                "type": "integer"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Raw Count"
+          },
+          "harmonized_count": {
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Harmonized Count"
+          },
+          "lower_bound": {
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Lower Bound"
+          },
+          "upper_bound": {
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Upper Bound"
+          },
+          "coverage_status": {
+            "type": "string",
+            "const": "unknown",
+            "title": "Coverage Status",
+            "default": "unknown"
+          },
+          "estimation_status": {
+            "type": "string",
+            "enum": [
+              "estimated",
+              "unavailable"
+            ],
+            "title": "Estimation Status",
+            "default": "unavailable"
+          }
+        },
+        "type": "object",
+        "required": [
+          "week_start_utc",
+          "instrument"
+        ],
+        "title": "EmpiricalRecord"
+      },
+      "ForecastPage": {
+        "properties": {
+          "metadata": {
+            "additionalProperties": true,
+            "type": "object",
+            "title": "Metadata"
+          },
+          "data": {
+            "items": {
+              "$ref": "#/components/schemas/ForecastRecord"
+            },
+            "type": "array",
+            "title": "Data"
+          },
+          "pagination": {
+            "$ref": "#/components/schemas/PageInfo"
+          }
+        },
+        "type": "object",
+        "required": [
+          "metadata",
+          "data",
+          "pagination"
+        ],
+        "title": "ForecastPage"
+      },
+      "ForecastRecord": {
+        "properties": {
+          "cell_id": {
+            "type": "string",
+            "title": "Cell Id"
+          },
+          "center_lon": {
+            "type": "number",
+            "title": "Center Lon"
+          },
+          "center_lat": {
+            "type": "number",
+            "title": "Center Lat"
+          },
+          "country_area_km2": {
+            "type": "number",
+            "title": "Country Area Km2"
+          },
+          "record_probability": {
+            "type": "number",
+            "title": "Record Probability"
+          },
+          "rank": {
+            "type": "integer",
+            "title": "Rank"
+          },
+          "target_week_start": {
+            "type": "string",
+            "format": "date",
+            "title": "Target Week Start"
+          },
+          "target_week_end": {
+            "type": "string",
+            "format": "date",
+            "title": "Target Week End"
+          },
+          "quality_flag": {
+            "type": "string",
+            "title": "Quality Flag"
+          }
+        },
+        "type": "object",
+        "required": [
+          "cell_id",
+          "center_lon",
+          "center_lat",
+          "country_area_km2",
+          "record_probability",
+          "rank",
+          "target_week_start",
+          "target_week_end",
+          "quality_flag"
+        ],
+        "title": "ForecastRecord"
+      },
+      "GeographicCell": {
+        "properties": {
+          "cell_id": {
+            "type": "string",
+            "title": "Cell Id"
+          },
+          "center_lon": {
+            "type": "number",
+            "title": "Center Lon"
+          },
+          "center_lat": {
+            "type": "number",
+            "title": "Center Lat"
+          },
+          "country_area_km2": {
+            "type": "number",
+            "title": "Country Area Km2"
+          }
+        },
+        "type": "object",
+        "required": [
+          "cell_id",
+          "center_lon",
+          "center_lat",
+          "country_area_km2"
+        ],
+        "title": "GeographicCell"
+      },
+      "HTTPValidationError": {
+        "properties": {
+          "detail": {
+            "items": {
+              "$ref": "#/components/schemas/ValidationError"
+            },
+            "type": "array",
+            "title": "Detail"
+          }
+        },
+        "type": "object",
+        "title": "HTTPValidationError"
+      },
+      "NationalRecord": {
+        "properties": {
+          "week_start_utc": {
+            "type": "string",
+            "format": "date",
+            "title": "Week Start Utc"
+          },
+          "raw_aqua": {
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Raw Aqua"
+          },
+          "raw_snpp": {
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Raw Snpp"
+          },
+          "aqua_equivalent_estimate": {
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Aqua Equivalent Estimate"
+          },
+          "coverage_status": {
+            "type": "string",
+            "title": "Coverage Status"
+          },
+          "method_version": {
+            "type": "string",
+            "title": "Method Version"
+          }
+        },
+        "type": "object",
+        "required": [
+          "week_start_utc",
+          "raw_aqua",
+          "raw_snpp",
+          "aqua_equivalent_estimate",
+          "coverage_status",
+          "method_version"
+        ],
+        "title": "NationalRecord"
+      },
+      "PageInfo": {
+        "properties": {
+          "limit": {
+            "type": "integer",
+            "title": "Limit"
+          },
+          "offset": {
+            "type": "integer",
+            "title": "Offset"
+          },
+          "next_offset": {
+            "anyOf": [
+              {
+                "type": "integer"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Next Offset"
+          }
+        },
+        "type": "object",
+        "required": [
+          "limit",
+          "offset",
+          "next_offset"
+        ],
+        "title": "PageInfo"
+      },
+      "Page_CellRecord_": {
+        "properties": {
+          "metadata": {
+            "additionalProperties": true,
+            "type": "object",
+            "title": "Metadata"
+          },
+          "data": {
+            "items": {
+              "$ref": "#/components/schemas/CellRecord"
+            },
+            "type": "array",
+            "title": "Data"
+          },
+          "pagination": {
+            "$ref": "#/components/schemas/Pagination"
+          }
+        },
+        "type": "object",
+        "required": [
+          "metadata",
+          "data",
+          "pagination"
+        ],
+        "title": "Page[CellRecord]"
+      },
+      "Page_CoverageRecord_": {
+        "properties": {
+          "metadata": {
+            "additionalProperties": true,
+            "type": "object",
+            "title": "Metadata"
+          },
+          "data": {
+            "items": {
+              "$ref": "#/components/schemas/CoverageRecord"
+            },
+            "type": "array",
+            "title": "Data"
+          },
+          "pagination": {
+            "$ref": "#/components/schemas/Pagination"
+          }
+        },
+        "type": "object",
+        "required": [
+          "metadata",
+          "data",
+          "pagination"
+        ],
+        "title": "Page[CoverageRecord]"
+      },
+      "Page_NationalRecord_": {
+        "properties": {
+          "metadata": {
+            "additionalProperties": true,
+            "type": "object",
+            "title": "Metadata"
+          },
+          "data": {
+            "items": {
+              "$ref": "#/components/schemas/NationalRecord"
+            },
+            "type": "array",
+            "title": "Data"
+          },
+          "pagination": {
+            "$ref": "#/components/schemas/Pagination"
+          }
+        },
+        "type": "object",
+        "required": [
+          "metadata",
+          "data",
+          "pagination"
+        ],
+        "title": "Page[NationalRecord]"
+      },
+      "Page_RawRecord_": {
+        "properties": {
+          "metadata": {
+            "additionalProperties": true,
+            "type": "object",
+            "title": "Metadata"
+          },
+          "data": {
+            "items": {
+              "$ref": "#/components/schemas/RawRecord"
+            },
+            "type": "array",
+            "title": "Data"
+          },
+          "pagination": {
+            "$ref": "#/components/schemas/Pagination"
+          }
+        },
+        "type": "object",
+        "required": [
+          "metadata",
+          "data",
+          "pagination"
+        ],
+        "title": "Page[RawRecord]"
+      },
+      "Page_SeriesRecord_": {
+        "properties": {
+          "metadata": {
+            "additionalProperties": true,
+            "type": "object",
+            "title": "Metadata"
+          },
+          "data": {
+            "items": {
+              "$ref": "#/components/schemas/SeriesRecord"
+            },
+            "type": "array",
+            "title": "Data"
+          },
+          "pagination": {
+            "$ref": "#/components/schemas/Pagination"
+          }
+        },
+        "type": "object",
+        "required": [
+          "metadata",
+          "data",
+          "pagination"
+        ],
+        "title": "Page[SeriesRecord]"
+      },
+      "Pagination": {
+        "properties": {
+          "limit": {
+            "type": "integer",
+            "title": "Limit"
+          },
+          "offset": {
+            "type": "integer",
+            "title": "Offset"
+          },
+          "next_offset": {
+            "anyOf": [
+              {
+                "type": "integer"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Next Offset"
+          }
+        },
+        "type": "object",
+        "required": [
+          "limit",
+          "offset",
+          "next_offset"
+        ],
+        "title": "Pagination"
+      },
+      "RawRecord": {
+        "properties": {
+          "week_start_utc": {
+            "type": "string",
+            "format": "date",
+            "title": "Week Start Utc"
+          },
+          "platform": {
+            "type": "string",
+            "title": "Platform"
+          },
+          "raw_count": {
+            "type": "integer",
+            "title": "Raw Count"
+          },
+          "coverage_status": {
+            "type": "string",
+            "title": "Coverage Status"
+          }
+        },
+        "type": "object",
+        "required": [
+          "week_start_utc",
+          "platform",
+          "raw_count",
+          "coverage_status"
+        ],
+        "title": "RawRecord"
+      },
+      "SeriesPage": {
+        "properties": {
+          "metadata": {
+            "additionalProperties": true,
+            "type": "object",
+            "title": "Metadata"
+          },
+          "data": {
+            "items": {
+              "$ref": "#/components/schemas/EmpiricalRecord"
+            },
+            "type": "array",
+            "title": "Data"
+          },
+          "pagination": {
+            "$ref": "#/components/schemas/PageInfo"
+          }
+        },
+        "type": "object",
+        "required": [
+          "metadata",
+          "data",
+          "pagination"
+        ],
+        "title": "SeriesPage"
+      },
+      "SeriesRecord": {
+        "properties": {
+          "week_start_utc": {
+            "type": "string",
+            "format": "date",
+            "title": "Week Start Utc"
+          },
+          "harmonized_count": {
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Harmonized Count"
+          },
+          "lower_bound": {
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Lower Bound"
+          },
+          "upper_bound": {
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Upper Bound"
+          },
+          "coverage_status": {
+            "type": "string",
+            "enum": [
+              "valid",
+              "partial",
+              "unknown",
+              "no_observation"
+            ],
+            "title": "Coverage Status"
+          },
+          "estimation_status": {
+            "type": "string",
+            "enum": [
+              "estimated",
+              "imputed",
+              "unavailable"
+            ],
+            "title": "Estimation Status"
+          },
+          "platforms_used": {
+            "items": {
+              "type": "string"
+            },
+            "type": "array",
+            "title": "Platforms Used"
+          },
+          "method_version": {
+            "type": "string",
+            "title": "Method Version"
+          },
+          "source_snapshot_id": {
+            "type": "string",
+            "title": "Source Snapshot Id"
+          }
+        },
+        "type": "object",
+        "required": [
+          "week_start_utc",
+          "harmonized_count",
+          "lower_bound",
+          "upper_bound",
+          "coverage_status",
+          "estimation_status",
+          "platforms_used",
+          "method_version",
+          "source_snapshot_id"
+        ],
+        "title": "SeriesRecord"
+      },
+      "ValidationError": {
+        "properties": {
+          "loc": {
+            "items": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "integer"
+                }
+              ]
+            },
+            "type": "array",
+            "title": "Location"
+          },
+          "msg": {
+            "type": "string",
+            "title": "Message"
+          },
+          "type": {
+            "type": "string",
+            "title": "Error Type"
+          },
+          "input": {
+            "title": "Input"
+          },
+          "ctx": {
+            "type": "object",
+            "title": "Context"
+          }
+        },
+        "type": "object",
+        "required": [
+          "loc",
+          "msg",
+          "type"
+        ],
+        "title": "ValidationError"
+      }
+    }
+  }
+}

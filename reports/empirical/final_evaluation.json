@@ -1,0 +1,10 @@
+{
+  "model_sha256_before_test": "1d19bb19cb10413ef7e3b813954cbf941462a93f8a0185c11fdd56dbb7214065",
+  "model_changed_during_test": false,
+  "evaluation": "conditional allocation on co-positive pairs, not recovery of real wildfire counts",
+  "test_period": "complete weeks within each of 2024 and 2025",
+  "tuning_after_test": false,
+  "coverage_corrected": false,
+  "final_test_evaluated": true,
+  "model_json_is_frozen_pre_test_snapshot": true
+}

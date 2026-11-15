@@ -218,3 +218,16 @@ __marimo__/
 
 # Streamlit
 .streamlit/secrets.toml
+
+# Local FIRMS/coverage artifacts and credentials
+*.sqlite
+*.sqlite-journal
+*.pkl
+*.npz
+*.csv.gz
+*.jsonl.gz
+artifacts/
+.env
+.env.*
+.netrc
+_netrc
