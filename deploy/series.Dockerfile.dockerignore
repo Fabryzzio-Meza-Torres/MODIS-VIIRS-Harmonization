@@ -9,3 +9,4 @@
 !data/manifest.json
 !deploy/
 !deploy/series.Dockerfile
+!deploy/check_image.py

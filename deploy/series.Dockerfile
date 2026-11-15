@@ -11,7 +11,11 @@ COPY data/history.sqlite.gz data/manifest.json ./data/
 # Build fails on a corrupt snapshot. The verified database is part of the image,
 # so ephemeral filesystem resets do not require another network download.
 RUN python api/restaurar_snapshot.py \
+    && chmod 0444 api/history.sqlite \
     && useradd --uid 10001 --create-home apiuser
+COPY deploy/check_image.py ./deploy/check_image.py
 USER apiuser
+# Verify the database and spatial queries with the actual non-root runtime user.
+RUN python deploy/check_image.py
 EXPOSE 8000
 CMD ["python", "api/serve.py"]
