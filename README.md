@@ -13,23 +13,36 @@ fuego**. Los guarda en Postgres y los sirve con una API FastAPI. La consulta pri
   variable `SNPP_ZIP`. MODIS, NOAA-20 y NOAA-21 se bajan por la API.
 - Opcional: GPU NVIDIA con `cupy-cuda12x` para el índice en memoria.
 
-## Opción rápida: restaurar la base ya construida
+## Deploy con Docker (recomendado)
 
-La base completa (tablas `events`, `detections`, `static_sources`, `meta` y sus índices) está
-publicada como archivo del Release
-[`eventos-db-v1`](https://github.com/Fabryzzio-Meza-Torres/MODIS-VIIRS-Harmonization/releases/tag/eventos-db-v1)
-(`fires.dump`, 132 MB, PostgreSQL 14 o superior). No hace falta la MAP_KEY ni correr el pipeline.
+Un comando levanta Postgres y la API. La primera vez, la API baja la base ya construida
+(`fires.dump`, 132 MB) de
+[Google Drive](https://drive.google.com/file/d/1k76VcDl7RQq5hpKhayTXl_3URC_kQIAl/view?usp=sharing),
+verifica su sha256, la restaura y arranca. Las siguientes veces usa la base guardada en el
+volumen y no baja nada. No hace falta la MAP_KEY ni correr el pipeline.
 
 ```bash
-curl -L -o fires.dump https://github.com/Fabryzzio-Meza-Torres/MODIS-VIIRS-Harmonization/releases/download/eventos-db-v1/fires.dump
-sha256sum fires.dump   # 5382be98a0221e528995f2d44470d03f0e2bcc2307bc0a61410744c745aa7e71
-createdb fires && pg_restore --no-owner -d fires fires.dump
-
-python3 -m venv .venv && .venv/bin/pip install -r requirements.txt
-.venv/bin/uvicorn src.api.main:app --host 0.0.0.0 --port 8000
+POSTGRES_PASSWORD=una_clave docker compose up -d --build
+docker compose logs -f api        # ~3 min la primera vez: descarga + restauración
 ```
 
-`--no-owner` evita errores de "role does not exist" al restaurar en otra máquina.
+La API queda en `http://<servidor>:8000` (docs en `/docs`). Otro puerto: `API_PORT=8080`.
+El servidor necesita unos 2 GB de RAM (la API carga ~2 millones de puntos en su índice).
+Para empezar de cero: `docker compose down -v`.
+
+**Sin Docker**, en cualquier Linux con PostgreSQL 14 o superior, el mismo script hace todo:
+
+```bash
+python3 -m venv .venv && .venv/bin/pip install -r requirements.txt
+createdb fires
+DATABASE_URL=postgresql:///fires PYTHON=.venv/bin/python bash deploy/bootstrap.sh
+```
+
+Variables de `deploy/bootstrap.sh`: `DATABASE_URL`, `PORT` (8000), `DUMP_URL` y `DUMP_SHA256`
+(para usar otra copia de la base), `KEEP_DUMP=1` (no borrar el archivo bajado).
+
+Restauración manual del dump: `createdb fires && pg_restore --no-owner -d fires fires.dump`
+(sha256 `5382be98a0221e528995f2d44470d03f0e2bcc2307bc0a61410744c745aa7e71`).
 
 ## Opción completa: reconstruir la base desde FIRMS
 

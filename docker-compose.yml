@@ -1,0 +1,34 @@
+# Levanta Postgres + API. La primera vez la API baja el dump de Google Drive y restaura la base;
+# las siguientes usa la base guardada en el volumen pgdata.
+#
+#   POSTGRES_PASSWORD=una_clave docker compose up -d --build
+#   docker compose logs -f api        # ver el avance
+services:
+  db:
+    image: postgres:15
+    environment:
+      POSTGRES_USER: fires
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-fires}
+      POSTGRES_DB: fires
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U fires -d fires"]
+      interval: 5s
+      retries: 30
+    restart: unless-stopped
+
+  api:
+    build: .
+    depends_on:
+      db:
+        condition: service_healthy
+    environment:
+      DATABASE_URL: postgresql://fires:${POSTGRES_PASSWORD:-fires}@db:5432/fires
+      INDEX_BACKEND: kdtree
+    ports:
+      - "${API_PORT:-8000}:8000"
+    restart: unless-stopped
+
+volumes:
+  pgdata:
