@@ -22,7 +22,7 @@ Doce semanas de salida no significan doce semanas de clima diario preciso. Los m
 | --- | --- | --- |
 | Nuestra API/snapshot | Historia armonizada semanal, malla y regiones MINAM | Snapshot local y público coinciden |
 | Rama `deploy-docker` del compañero | Detecciones individuales, eventos y fuentes fijas | Respaldo descargado y SHA-256 verificado |
-| Cuatro ZIP FIRMS originales | Reconstrucción de filtros sin mirar el futuro | Disponibles localmente; preparación pendiente |
+| Cuatro ZIP FIRMS originales | Reconstrucción de filtros sin mirar el futuro | Preparados; NOAA-20 usado para etiquetas y NRT del piloto |
 | Meteorología NASA POWER observada | Temperatura, humedad, precipitación y viento pasados | 135.750 registros diarios en 25 puntos regionales; sin pronóstico futuro utilizado |
 | NRT NOAA-20 | Variables recientes | 40.384 detecciones preparadas desde la descarga original; refresco automático y transferencia SP/NRT pendientes |
 
@@ -113,19 +113,19 @@ Estos porcentajes representan entregables previstos; no tiempo consumido ni cali
 
 | Paso | Entregable revisable | Avance acumulado |
 | --- | --- | --- |
-| 1 | Auditoría de fuentes y propuesta de contrato | 20 %: preparado para revisión |
-| 2 | Dataset experimental reproducible y cortes temporales comprobados; disponibilidad histórica simulada explícita | 45 %: preparado para revisión |
-| 3 | Baselines, LightGBM y evaluación temporal/departamentos reservados | 70 %: terminado, preparado para revisión |
-| 4 | Calibración, errores regionales y piloto con NRT | 90 %: terminado; API local preparada para revisión |
-| 5 | API, pruebas desde la web y documentación de uso | 100 % de la versión experimental acordada |
+| 1 | Auditoría de fuentes y propuesta de contrato | 20 %: terminado y revisado |
+| 2 | Dataset experimental reproducible y cortes temporales comprobados; disponibilidad histórica simulada explícita | 45 %: terminado y revisado |
+| 3 | Baselines, LightGBM y evaluación temporal/departamentos reservados | 70 %: terminado y revisado |
+| 4 | Calibración, errores regionales y piloto con NRT | 90 %: terminado y revisado |
+| 5 | API, comprobaciones HTTP/CORS para conexión web y documentación | 100 %: versión experimental aprobada, publicada y verificada |
 
 Al terminar cada paso se presentan resultados y decisiones; el siguiente comienza después de tu revisión. Ningún porcentaje sustituye los criterios de aceptación.
 
 ## Integración prevista
 
-Se entrenó con archivos/snapshots versionados, sin pedir millones de registros a la API por cada ejecución. El piloto generó 300 predicciones en un snapshot que la API local ya lee. La tarea periódica de actualización aún no está implementada: esta emisión caduca el 22 de noviembre de 2026 a las 00:00 de Lima. Resultados, vigencia y pruebas están en `PILOTO_PRONOSTICOS.md`.
+Se entrenó con archivos/snapshots versionados, sin pedir millones de registros a la API por cada ejecución. El piloto generó 300 predicciones en un snapshot que la API pública ya lee. La tarea periódica de actualización aún no está implementada: esta emisión caduca el 22 de noviembre de 2026 a las 00:00 de Lima. Resultados, vigencia y pruebas están en `PILOTO_PRONOSTICOS.md`.
 
-Ruta implementada y probada localmente, pendiente de aprobación para publicarse:
+Ruta aprobada, publicada y verificada en Railway:
 
 ```text
 GET /v1/fire-risk?region_id=08&target_week_start=AAAA-MM-DD
@@ -135,4 +135,4 @@ Cada resultado identificará región, emisión, semana objetivo, anticipación, 
 
 La prioridad para gobiernos se calculará aparte, cruzando probabilidad con población, áreas protegidas y capacidad de respuesta. No sumaremos probabilidades por celda para inventar una probabilidad regional ni presentaremos ese ranking como pérdidas humanas esperadas.
 
-**Decisiones incorporadas:** el equipo prioriza inicio de nuevos incendios por región y semana futura, con hasta 12 semanas de anticipación. NOAA-20 es la referencia aprobada. El piloto usa nuevos episodios detectados como etiqueta indirecta; no se validó ignición física. Siguiente revisión: resultados de la emisión y autorización para publicar la versión experimental. El uso operativo para protección de vidas requiere validación y revisión institucional adicionales al piloto.
+**Decisiones incorporadas:** el equipo prioriza inicio de nuevos incendios por región y semana futura, con hasta 12 semanas de anticipación. NOAA-20 es la referencia aprobada. El piloto usa nuevos episodios detectados como etiqueta indirecta; no se validó ignición física. La entrega experimental está aprobada y publicada. El uso operativo para protección de vidas requiere validación y revisión institucional adicionales al piloto.

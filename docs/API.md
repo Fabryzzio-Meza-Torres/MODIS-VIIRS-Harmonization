@@ -1,6 +1,8 @@
 # Nuestra API MODIS–VIIRS Perú
 
-Estado documentado: 15 de noviembre de 2026. API `0.3.0`.
+Estado documentado: 15 de noviembre de 2026. API `0.4.0`.
+
+Esta versión añade el pronóstico regional experimental: `GET /v1/fire-risk?region_id=08&target_week_start=2026-11-16`, `/v1/fire-risk/outlook` y `/v1/fire-risk/metadata`. Son 25 regiones por 12 semanas, con probabilidades de nuevos episodios detectados, sin ignición física verificada. Esta emisión vence el 22 de noviembre de 2026 a las 00:00 de Lima y aún requiere renovación manual. Uso, límites y Postman: [piloto de pronósticos](PILOTO_PRONOSTICOS.md).
 
 ## Qué hicimos
 

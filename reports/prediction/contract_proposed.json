@@ -1,5 +1,5 @@
 {
-  "status": "local_inference_and_API_verified_pending_release_review",
+  "status": "experimental_release_approved_published_verified",
   "scope": "experimental_regional_weekly_new_fire_onset_forecast",
   "model_trained": true,
   "country": "PER",
@@ -27,10 +27,10 @@
   "evaluation_status": "Frozen training and evaluation completed; see model reports",
   "NRT_ingestion_ready": true,
   "weather_ingestion_ready": true,
-  "stages_completed": 4,
+  "stages_completed": 5,
   "stages_total": 5,
-  "milestone_progress_percent": 90,
-  "public_api_modified": false,
+  "milestone_progress_percent": 100,
+  "public_api_modified": true,
   "prediction_unit": "Peru administrative region and specified future ISO week",
   "internal_spatial_support": "10 km grid permitted for features; output is regional",
   "target_semantics": "physical wildfire initiation is the desired outcome; satellite first detection is a proxy requiring label validation",
@@ -92,5 +92,8 @@
   "calibration_out_of_sample_improvement_demonstrated": false,
   "NRT_inference_pilot_completed": true,
   "automatic_refresh_configured": false,
-  "API_version_prepared": "0.4.0"
+  "API_version_prepared": "0.4.0",
+  "release_evidence": "pilot/public_HTTP_verification.json",
+  "public_API_version": "0.4.0",
+  "public_base_url": "https://modis-viirs-harmonization-production.up.railway.app"
 }

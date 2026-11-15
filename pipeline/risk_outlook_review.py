@@ -96,13 +96,13 @@ display(pd.Series({k:meta[k] for k in ['NRT_last_acquisition_utc','NRT_ingested_
     'reference_cutoff_exclusive','weather_value_days_used','weather_last_source_day',
     'NRT_SP_transfer_validated','NRT_type0_assumed','automatic_refresh_configured',
     'physical_ignition_probability_verified','calibration_improvement_demonstrated']},name='valor').to_frame())
-for name in ['pilot_verification.json','feature_parity_report.json','local_api_review.json','docker_HTTP_verification.json']:
+for name in ['pilot_verification.json','feature_parity_report.json','local_api_review.json','docker_HTTP_verification.json','public_HTTP_verification.json']:
     evidence=json.loads((folder/name).read_text(encoding='utf-8'))
     print(name);display(evidence)
 
 # %% [markdown]
 # ## 5. Consulta por región y semana
-# Endpoint preparado localmente, pendiente de revisión y publicación:
+# Endpoint aprobado, publicado y verificado en Railway:
 # `/v1/fire-risk?region_id=08&target_week_start=2026-11-16`.
 # La respuesta conserva versión, fechas de emisión/objetivo, calidad de insumos
 # y porcentaje. La selección de una región en la web puede usar `/v1/regions`.
@@ -115,4 +115,4 @@ display(example['data'])
 print('Estado del objetivo:',example['metadata']['target_period_status'])
 print('Vigente hasta:',example['metadata']['valid_until'])
 print('Interpretación:',example['metadata']['interpretation_es'])
-print('Pendiente: revisión humana y autorización para publicar el snapshot experimental.')
+print('Publicación experimental aprobada; evidencia HTTP pública en reports/prediction/pilot/public_HTTP_verification.json.')

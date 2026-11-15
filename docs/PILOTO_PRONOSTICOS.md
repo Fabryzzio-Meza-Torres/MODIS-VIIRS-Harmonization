@@ -1,6 +1,6 @@
 # Piloto regional: qué entregamos y cómo probarlo
 
-Estado: **90 % de la versión experimental**, preparado localmente para revisión. No se ha publicado esta ruta en Railway ni se ha configurado actualización automática.
+Estado: **100 % de la entrega experimental aprobada**, publicada y verificada el 15 de noviembre de 2026. API `0.4.0`, en https://modis-viirs-harmonization-production.up.railway.app. La actualización automática y la validación de ignición física siguen pendientes como trabajo posterior.
 
 ## Qué significa el porcentaje
 
@@ -38,7 +38,7 @@ python -m pip install -r api/requirements.txt
 python -m uvicorn api:app --app-dir api --host 127.0.0.1 --port 8010
 ```
 
-En Postman importa `api/POSTMAN_FIRE_RISK.postman_collection.json`. Su variable `base_url` apunta a `http://127.0.0.1:8010`. La URL pública existente solo podrá usarse para estas rutas después de aprobar y desplegar esta versión.
+En Postman importa `api/POSTMAN_FIRE_RISK.postman_collection.json`. Su variable `base_url` apunta a `https://modis-viirs-harmonization-production.up.railway.app`. Para probar un servidor local, cámbiala a `http://127.0.0.1:8010`.
 
 ```http
 GET /v1/fire-risk/metadata
@@ -74,4 +74,4 @@ Notebook ejecutado de revisión: `notebooks/17_piloto_pronosticos_regionales.ipy
 
 El contenedor final se construyó y verificó como usuario sin privilegios. Once comprobaciones HTTP sobre `http://127.0.0.1:8010` pasaron, incluyendo histórico, ubicación, CORS y las rutas nuevas. En este equipo está corriendo el contenedor local `modis-viirs-risk-review-20261115`; Swagger está en `/docs`. Para detener solamente ese visor de revisión: `docker stop modis-viirs-risk-review-20261115`. No usar ese comando si se quiere continuar probando en Postman.
 
-Pendiente de esta revisión: autorizar la publicación experimental en el dominio actual. La API pública del compañero sigue siendo independiente; su respaldo se empleó para contraste, no se declara fusionado por compartir este proyecto.
+Publicación aprobada por el usuario. Las once comprobaciones también pasaron sobre la URL pública: evidencia en `reports/prediction/pilot/public_HTTP_verification.json`, con commit del código y hora UTC de verificación. La API pública del compañero sigue siendo independiente; su respaldo se empleó para contraste, no se declara fusionado por compartir este proyecto.

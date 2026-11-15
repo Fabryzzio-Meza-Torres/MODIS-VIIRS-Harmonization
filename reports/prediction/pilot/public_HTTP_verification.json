@@ -1,0 +1,22 @@
+{
+  "status": "verified",
+  "base_url": "https://modis-viirs-harmonization-production.up.railway.app",
+  "checks": [
+    "snapshot",
+    "cors",
+    "regions",
+    "point_location",
+    "regional_series_values",
+    "forecast",
+    "no_public_index_rebuild",
+    "risk_metadata",
+    "risk_grid_300",
+    "risk_region_week",
+    "risk_cors"
+  ],
+  "events_integration": "not_included_in_this_service",
+  "risk_snapshot_id": "298c81cf5373e5cef02882a81f5525a14b383d94cfcb9340a1a323be36f61e19",
+  "verified_at": "2026-11-15T21:16:45.067698+00:00",
+  "code_commit": "375aa69d8176b34cf85ef28f7f786f04c7440153",
+  "public_api_modified": true
+}
