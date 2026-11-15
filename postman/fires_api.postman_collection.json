@@ -1,0 +1,848 @@
+{
+  "info": {
+    "name": "Eventos de fuego Perú (FastAPI)",
+    "description": "API de src/api/main.py. Arráncala con: .venv/bin/uvicorn src.api.main:app --host 0.0.0.0 --port 8000\n\nCada petición tiene tests. Para correrlos todos: clic en la colección → Run → Run collection. «Un evento» y «Detecciones del evento» usan el evento que guarda «Eventos: región (bbox) + fechas», así que ejecútalas en orden.",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "variable": [
+    {
+      "key": "baseUrl",
+      "value": "http://localhost:8000"
+    },
+    {
+      "key": "eventId",
+      "value": ""
+    },
+    {
+      "key": "eventNdet",
+      "value": ""
+    }
+  ],
+  "item": [
+    {
+      "name": "1. Salud y totales",
+      "request": {
+        "method": "GET",
+        "description": "Totales de la base y estado del índice en memoria.",
+        "url": {
+          "raw": "{{baseUrl}}/health",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "health"
+          ]
+        }
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test('responde 200', () => pm.response.to.have.status(200));",
+              "pm.test('responde en menos de 3 s', () => pm.expect(pm.response.responseTime).to.be.below(3000));",
+              "const body = pm.response.json();",
+              "pm.test('estado ok', () => pm.expect(body.status).to.eql('ok'));",
+              "pm.test('hay eventos y detecciones', () => { pm.expect(body.events).to.be.above(0); pm.expect(body.detections).to.be.above(0); });",
+              "pm.test('el índice está cargado', () => pm.expect(body.index.points).to.eql(body.detections));"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "2. Regiones disponibles",
+      "request": {
+        "method": "GET",
+        "description": "",
+        "url": {
+          "raw": "{{baseUrl}}/regions",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "regions"
+          ]
+        }
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test('responde 200', () => pm.response.to.have.status(200));",
+              "pm.test('responde en menos de 3 s', () => pm.expect(pm.response.responseTime).to.be.below(3000));",
+              "const body = pm.response.json();",
+              "pm.test('incluye peru y ucayali', () => { pm.expect(body).to.have.property('peru'); pm.expect(body).to.have.property('ucayali'); });"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "3. Departamentos disponibles",
+      "request": {
+        "method": "GET",
+        "description": "",
+        "url": {
+          "raw": "{{baseUrl}}/departments",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "departments"
+          ]
+        }
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test('responde 200', () => pm.response.to.have.status(200));",
+              "pm.test('responde en menos de 3 s', () => pm.expect(pm.response.responseTime).to.be.below(3000));",
+              "const body = pm.response.json();",
+              "pm.test('incluye Ucayali, Loreto y Madre de Dios', () => pm.expect(body.departments).to.include.members(['Ucayali', 'Loreto', 'Madre de Dios']));"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "4. Eventos: región (bbox) + fechas",
+      "request": {
+        "method": "GET",
+        "description": "La consulta básica: eventos activos en la región y las fechas, con lat/lon y caja.",
+        "url": {
+          "raw": "{{baseUrl}}/events?bbox=-75.7,-11.5,-70.4,-7.2&start=2024-09-01&end=2024-09-30&limit=200",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "events"
+          ],
+          "query": [
+            {
+              "key": "bbox",
+              "value": "-75.7,-11.5,-70.4,-7.2",
+              "description": "lon_min,lat_min,lon_max,lat_max"
+            },
+            {
+              "key": "start",
+              "value": "2024-09-01"
+            },
+            {
+              "key": "end",
+              "value": "2024-09-30"
+            },
+            {
+              "key": "limit",
+              "value": "200"
+            }
+          ]
+        }
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test('responde 200', () => pm.response.to.have.status(200));",
+              "pm.test('responde en menos de 3 s', () => pm.expect(pm.response.responseTime).to.be.below(3000));",
+              "const body = pm.response.json();",
+              "const [x0, y0, x1, y1] = pm.request.url.query.get('bbox').split(',').map(Number);",
+              "pm.test('hay eventos', () => pm.expect(body.total).to.be.above(0));",
+              "pm.test('cada evento tiene lat y lon numéricos', () => body.events.forEach(e => { pm.expect(e.lat).to.be.a('number'); pm.expect(e.lon).to.be.a('number'); }));",
+              "pm.test('la caja de cada evento toca la región', () => body.events.forEach(e => { pm.expect(e.lon_max).to.be.at.least(x0); pm.expect(e.lon_min).to.be.at.most(x1); pm.expect(e.lat_max).to.be.at.least(y0); pm.expect(e.lat_min).to.be.at.most(y1); }));",
+              "pm.test('cada evento estuvo activo en las fechas', () => body.events.forEach(e => { pm.expect(new Date(e.t_start) <= new Date('2024-10-01T00:00:00Z')).to.be.true; pm.expect(new Date(e.t_end) >= new Date('2024-09-01T00:00:00Z')).to.be.true; }));",
+              "// Guarda el evento con más detecciones para las peticiones 11 y 12.",
+              "const big = body.events.reduce((a, b) => (b.n_det > a.n_det ? b : a));",
+              "pm.collectionVariables.set('eventId', big.event_id);",
+              "pm.collectionVariables.set('eventNdet', big.n_det);"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "5. Eventos: región por nombre + confianza alta",
+      "request": {
+        "method": "GET",
+        "description": "",
+        "url": {
+          "raw": "{{baseUrl}}/events?region=ucayali&start=2019-08-15&end=2019-09-30&min_confidence=alta",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "events"
+          ],
+          "query": [
+            {
+              "key": "region",
+              "value": "ucayali"
+            },
+            {
+              "key": "start",
+              "value": "2019-08-15"
+            },
+            {
+              "key": "end",
+              "value": "2019-09-30"
+            },
+            {
+              "key": "min_confidence",
+              "value": "alta"
+            }
+          ]
+        }
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test('responde 200', () => pm.response.to.have.status(200));",
+              "pm.test('responde en menos de 3 s', () => pm.expect(pm.response.responseTime).to.be.below(3000));",
+              "const body = pm.response.json();",
+              "pm.test('hay eventos', () => pm.expect(body.total).to.be.above(0));",
+              "pm.test('todos tienen confianza alta', () => body.events.forEach(e => pm.expect(e.confidence).to.eql('alta')));"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "6. Eventos: por departamento",
+      "request": {
+        "method": "GET",
+        "description": "",
+        "url": {
+          "raw": "{{baseUrl}}/events?department=Ucayali&start=2024-09-24&end=2024-09-25&min_confidence=media",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "events"
+          ],
+          "query": [
+            {
+              "key": "department",
+              "value": "Ucayali"
+            },
+            {
+              "key": "start",
+              "value": "2024-09-24"
+            },
+            {
+              "key": "end",
+              "value": "2024-09-25"
+            },
+            {
+              "key": "min_confidence",
+              "value": "media"
+            }
+          ]
+        }
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test('responde 200', () => pm.response.to.have.status(200));",
+              "pm.test('responde en menos de 3 s', () => pm.expect(pm.response.responseTime).to.be.below(3000));",
+              "const body = pm.response.json();",
+              "pm.test('hay eventos', () => pm.expect(body.total).to.be.above(0));",
+              "pm.test('todos son de Ucayali', () => body.events.forEach(e => pm.expect(e.department).to.eql('Ucayali')));"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "7. Tipos de evento y cuántos hay",
+      "request": {
+        "method": "GET",
+        "description": "Qué significa cada tipo de evento y cuántos hay en la base.",
+        "url": {
+          "raw": "{{baseUrl}}/event-types",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "event-types"
+          ]
+        }
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test('responde 200', () => pm.response.to.have.status(200));",
+              "pm.test('responde en menos de 3 s', () => pm.expect(pm.response.responseTime).to.be.below(3000));",
+              "const body = pm.response.json();",
+              "pm.test('5 tipos', () => pm.expect(body.map(t => t.event_type)).to.have.members(['foco_aislado', 'incendio', 'incendio_prolongado', 'quema_persistente', 'foco_recurrente']));",
+              "pm.test('cada tipo tiene descripción y conteo', () => body.forEach(t => { pm.expect(t.description).to.be.a('string'); pm.expect(t.events).to.be.above(0); }));"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "8. Zonas de quema persistente (oeste de Pucallpa, 2022–2024)",
+      "request": {
+        "method": "GET",
+        "description": "La zona donde están los eventos más largos de Perú: muchas quemas separadas a la vez durante semanas.",
+        "url": {
+          "raw": "{{baseUrl}}/events?bbox=-75.10,-8.10,-74.85,-7.90&start=2022-01-01&end=2024-12-31&event_type=quema_persistente",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "events"
+          ],
+          "query": [
+            {
+              "key": "bbox",
+              "value": "-75.10,-8.10,-74.85,-7.90"
+            },
+            {
+              "key": "start",
+              "value": "2022-01-01"
+            },
+            {
+              "key": "end",
+              "value": "2024-12-31"
+            },
+            {
+              "key": "event_type",
+              "value": "quema_persistente",
+              "description": "foco_aislado | incendio | incendio_prolongado | quema_persistente | foco_recurrente (o varios separados por coma)"
+            }
+          ]
+        }
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test('responde 200', () => pm.response.to.have.status(200));",
+              "pm.test('responde en menos de 3 s', () => pm.expect(pm.response.responseTime).to.be.below(3000));",
+              "const body = pm.response.json();",
+              "pm.test('hay zonas de quema persistente', () => pm.expect(body.total).to.be.above(0));",
+              "pm.test('todas son quema_persistente y duran más de 22 días', () => body.events.forEach(e => { pm.expect(e.event_type).to.eql('quema_persistente'); pm.expect(e.duration_days).to.be.above(22); }));",
+              "pm.test('varios focos por día', () => body.events.forEach(e => pm.expect(e.foci_per_day).to.be.at.least(2)));"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "9. Eventos: con el índice KD-tree / GPU",
+      "request": {
+        "method": "GET",
+        "description": "",
+        "url": {
+          "raw": "{{baseUrl}}/events?bbox=-75.7,-11.5,-70.4,-7.2&start=2024-09-01&end=2024-09-30&engine=index&limit=200",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "events"
+          ],
+          "query": [
+            {
+              "key": "bbox",
+              "value": "-75.7,-11.5,-70.4,-7.2"
+            },
+            {
+              "key": "start",
+              "value": "2024-09-01"
+            },
+            {
+              "key": "end",
+              "value": "2024-09-30"
+            },
+            {
+              "key": "engine",
+              "value": "index",
+              "description": "postgres (GiST) | index (KD-tree/GPU)"
+            },
+            {
+              "key": "limit",
+              "value": "200"
+            }
+          ]
+        }
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test('responde 200', () => pm.response.to.have.status(200));",
+              "pm.test('responde en menos de 3 s', () => pm.expect(pm.response.responseTime).to.be.below(3000));",
+              "const body = pm.response.json();",
+              "pm.test('hay eventos', () => pm.expect(body.total).to.be.above(0));",
+              "pm.test('cada evento tiene al menos una detección en la región (hits)', () => body.events.forEach(e => pm.expect(e.hits).to.be.above(0)));"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "10. Eventos en GeoJSON (para geojson.io)",
+      "request": {
+        "method": "GET",
+        "description": "",
+        "url": {
+          "raw": "{{baseUrl}}/events?region=nororiente_2024&start=2024-09-20&end=2024-09-26&min_confidence=alta&format=geojson",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "events"
+          ],
+          "query": [
+            {
+              "key": "region",
+              "value": "nororiente_2024"
+            },
+            {
+              "key": "start",
+              "value": "2024-09-20"
+            },
+            {
+              "key": "end",
+              "value": "2024-09-26"
+            },
+            {
+              "key": "min_confidence",
+              "value": "alta"
+            },
+            {
+              "key": "format",
+              "value": "geojson"
+            }
+          ]
+        }
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test('responde 200', () => pm.response.to.have.status(200));",
+              "pm.test('responde en menos de 3 s', () => pm.expect(pm.response.responseTime).to.be.below(3000));",
+              "const body = pm.response.json();",
+              "pm.test('es un FeatureCollection', () => pm.expect(body.type).to.eql('FeatureCollection'));",
+              "pm.test('cada feature es un punto [lon, lat]', () => body.features.forEach(f => { pm.expect(f.geometry.type).to.eql('Point'); pm.expect(f.geometry.coordinates).to.have.lengthOf(2); }));"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "11. Eventos cerca de un punto (radio + fechas)",
+      "request": {
+        "method": "GET",
+        "description": "",
+        "url": {
+          "raw": "{{baseUrl}}/events/near?lat=-8.38&lon=-74.55&radius_km=25&start=2024-09-01&end=2024-09-30",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "events",
+            "near"
+          ],
+          "query": [
+            {
+              "key": "lat",
+              "value": "-8.38",
+              "description": "Pucallpa"
+            },
+            {
+              "key": "lon",
+              "value": "-74.55"
+            },
+            {
+              "key": "radius_km",
+              "value": "25"
+            },
+            {
+              "key": "start",
+              "value": "2024-09-01"
+            },
+            {
+              "key": "end",
+              "value": "2024-09-30"
+            }
+          ]
+        }
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test('responde 200', () => pm.response.to.have.status(200));",
+              "pm.test('responde en menos de 3 s', () => pm.expect(pm.response.responseTime).to.be.below(3000));",
+              "const body = pm.response.json();",
+              "pm.test('hay eventos', () => pm.expect(body.count).to.be.above(0));",
+              "pm.test('cada uno tiene detecciones dentro del radio', () => body.events.forEach(e => pm.expect(e.hits).to.be.above(0)));"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "12. k eventos más cercanos en espacio-tiempo",
+      "request": {
+        "method": "GET",
+        "description": "",
+        "url": {
+          "raw": "{{baseUrl}}/events/nearest?lat=-8.38&lon=-74.55&t=2024-09-15T18:00:00Z&k=10",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "events",
+            "nearest"
+          ],
+          "query": [
+            {
+              "key": "lat",
+              "value": "-8.38"
+            },
+            {
+              "key": "lon",
+              "value": "-74.55"
+            },
+            {
+              "key": "t",
+              "value": "2024-09-15T18:00:00Z"
+            },
+            {
+              "key": "k",
+              "value": "10"
+            }
+          ]
+        }
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test('responde 200', () => pm.response.to.have.status(200));",
+              "pm.test('responde en menos de 3 s', () => pm.expect(pm.response.responseTime).to.be.below(3000));",
+              "const body = pm.response.json();",
+              "pm.test('devuelve k eventos', () => pm.expect(body.count).to.eql(10));",
+              "pm.test('ordenados del más cercano al más lejano', () => { const d = body.events.map(e => e.distance_km); pm.expect(d).to.eql([...d].sort((a, b) => a - b)); });"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "13. Un evento (el más grande de «Eventos: región + fechas»)",
+      "request": {
+        "method": "GET",
+        "description": "",
+        "url": {
+          "raw": "{{baseUrl}}/events/{{eventId}}",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "events",
+            "{{eventId}}"
+          ]
+        }
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test('responde 200', () => pm.response.to.have.status(200));",
+              "pm.test('responde en menos de 3 s', () => pm.expect(pm.response.responseTime).to.be.below(3000));",
+              "const body = pm.response.json();",
+              "pm.test('tiene tipo de evento', () => pm.expect(body.event_type).to.be.oneOf(['foco_aislado', 'incendio', 'incendio_prolongado', 'quema_persistente', 'foco_recurrente']));",
+              "pm.test('es el evento pedido', () => pm.expect(body.event_id).to.eql(Number(pm.collectionVariables.get('eventId'))));",
+              "pm.test('inicio antes que fin', () => pm.expect(new Date(body.t_start) <= new Date(body.t_end)).to.be.true);",
+              "pm.test('el centro está dentro de su caja', () => { pm.expect(body.lat).to.be.within(body.lat_min, body.lat_max); pm.expect(body.lon).to.be.within(body.lon_min, body.lon_max); });"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "14. Detecciones del evento",
+      "request": {
+        "method": "GET",
+        "description": "",
+        "url": {
+          "raw": "{{baseUrl}}/events/{{eventId}}/detections",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "events",
+            "{{eventId}}",
+            "detections"
+          ]
+        }
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test('responde 200', () => pm.response.to.have.status(200));",
+              "pm.test('responde en menos de 3 s', () => pm.expect(pm.response.responseTime).to.be.below(3000));",
+              "const body = pm.response.json();",
+              "pm.test('tantas detecciones como n_det del evento', () => pm.expect(body.count).to.eql(Number(pm.collectionVariables.get('eventNdet'))));",
+              "pm.test('cada detección tiene lat, lon, hora y satélite', () => body.detections.forEach(d => { pm.expect(d.lat).to.be.a('number'); pm.expect(d.lon).to.be.a('number'); pm.expect(d.t_utc).to.be.a('string'); pm.expect(d.satellite).to.be.a('string'); }));",
+              "pm.test('solo datos SP', () => body.detections.forEach(d => pm.expect(d.processing).to.eql('SP')));"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "15. Fuentes fijas excluidas (zona del Ubinas)",
+      "request": {
+        "method": "GET",
+        "description": "",
+        "url": {
+          "raw": "{{baseUrl}}/static-sources?bbox=-71.5,-17,-70.5,-16",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "static-sources"
+          ],
+          "query": [
+            {
+              "key": "bbox",
+              "value": "-71.5,-17,-70.5,-16"
+            }
+          ]
+        }
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test('responde 200', () => pm.response.to.have.status(200));",
+              "pm.test('responde en menos de 3 s', () => pm.expect(pm.response.responseTime).to.be.below(3000));",
+              "const body = pm.response.json();",
+              "pm.test('hay fuentes fijas', () => pm.expect(body.count).to.be.above(0));",
+              "pm.test('incluye celdas de volcán', () => pm.expect(body.static_sources.some(s => s.reason.startsWith('volcán'))).to.be.true);"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "16. Info del índice",
+      "request": {
+        "method": "GET",
+        "description": "",
+        "url": {
+          "raw": "{{baseUrl}}/index",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "index"
+          ]
+        }
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test('responde 200', () => pm.response.to.have.status(200));",
+              "pm.test('responde en menos de 3 s', () => pm.expect(pm.response.responseTime).to.be.below(3000));",
+              "const body = pm.response.json();",
+              "pm.test('tiene backend y puntos', () => { pm.expect(body.backend).to.be.oneOf(['hybrid', 'kdtree', 'cuda']); pm.expect(body.points).to.be.above(0); });"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "17. Parámetros del método (meta)",
+      "request": {
+        "method": "GET",
+        "description": "",
+        "url": {
+          "raw": "{{baseUrl}}/meta",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "meta"
+          ]
+        }
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test('responde 200', () => pm.response.to.have.status(200));",
+              "pm.test('responde en menos de 3 s', () => pm.expect(pm.response.responseTime).to.be.below(3000));",
+              "const body = pm.response.json();",
+              "pm.test('parámetros calibrados: 1,25 km y 5 días', () => { pm.expect(body.link_km).to.eql('1.25'); pm.expect(body.link_days).to.eql('5.0'); });",
+              "pm.test('solo datos SP', () => pm.expect(body.processing).to.eql('SP'));"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "18. Error: departamento desconocido → 404",
+      "request": {
+        "method": "GET",
+        "description": "",
+        "url": {
+          "raw": "{{baseUrl}}/events?department=Atlantis&start=2024-09-01&end=2024-09-02",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "events"
+          ],
+          "query": [
+            {
+              "key": "department",
+              "value": "Atlantis"
+            },
+            {
+              "key": "start",
+              "value": "2024-09-01"
+            },
+            {
+              "key": "end",
+              "value": "2024-09-02"
+            }
+          ]
+        }
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test('responde 404', () => pm.response.to.have.status(404));"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "19. Error: bbox mal escrito → 422",
+      "request": {
+        "method": "GET",
+        "description": "",
+        "url": {
+          "raw": "{{baseUrl}}/events?bbox=-75,-11&start=2024-09-01&end=2024-09-02",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "events"
+          ],
+          "query": [
+            {
+              "key": "bbox",
+              "value": "-75,-11"
+            },
+            {
+              "key": "start",
+              "value": "2024-09-01"
+            },
+            {
+              "key": "end",
+              "value": "2024-09-02"
+            }
+          ]
+        }
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test('responde 422', () => pm.response.to.have.status(422));"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "20. Reconstruir índice (tarda unos segundos)",
+      "request": {
+        "method": "POST",
+        "description": "",
+        "url": {
+          "raw": "{{baseUrl}}/index/rebuild?backend=auto",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "index",
+            "rebuild"
+          ],
+          "query": [
+            {
+              "key": "backend",
+              "value": "auto",
+              "description": "auto (KD-tree + GPU) | kdtree | cuda"
+            }
+          ]
+        }
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test('responde 200', () => pm.response.to.have.status(200));",
+              "pm.test('índice reconstruido', () => pm.expect(pm.response.json().points).to.be.above(0));"
+            ]
+          }
+        }
+      ]
+    }
+  ]
+}
