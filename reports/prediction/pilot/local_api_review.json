@@ -1,0 +1,17 @@
+{
+  "stage": "local_only_pending_release_review",
+  "API_version": "0.4.0",
+  "HTTP_status": 200,
+  "cors_passed": true,
+  "API_tests_passed": 43,
+  "inference_tests_passed": 5,
+  "public_api_modified": false,
+  "snapshot_id": "298c81cf5373e5cef02882a81f5525a14b383d94cfcb9340a1a323be36f61e19",
+  "causal_label_tests_passed": 3,
+  "model_tests_passed": 2,
+  "total_distinct_unit_tests_passed": 53,
+  "Docker_build_passed": true,
+  "Docker_nonroot_checks_passed": true,
+  "HTTP_checks_passed": 11,
+  "local_review_url": "http://127.0.0.1:8010/docs"
+}

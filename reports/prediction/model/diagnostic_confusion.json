@@ -1,0 +1,18 @@
+{
+  "threshold": 0.5,
+  "threshold_is_operational_policy": false,
+  "labels": [
+    "no new episode recorded",
+    "new episode recorded"
+  ],
+  "matrix_true_rows_predicted_columns": [
+    [
+      2888,
+      2111
+    ],
+    [
+      1019,
+      23232
+    ]
+  ]
+}

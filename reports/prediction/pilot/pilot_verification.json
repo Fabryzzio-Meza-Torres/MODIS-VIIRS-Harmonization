@@ -1,0 +1,17 @@
+{
+  "status": "forecast_grid_generated_for_review",
+  "rows": 300,
+  "regions": 25,
+  "leads": 12,
+  "unique_region_lead_keys": 300,
+  "json_sha256": "a36fc84eaeb60e1528822d59b6c345e39ba628c0dbb2817e8b48b3e257a0b513",
+  "model_hash_unchanged": true,
+  "model_retrained": false,
+  "feature_parity_rows": 115350,
+  "future_suffix_does_not_change_NRT_past": true,
+  "issue_time_is_actual_generation_time": true,
+  "estimated_rows": 300,
+  "unavailable_rows": 0,
+  "physical_ignition_probability_verified": false,
+  "public_api_modified": false
+}

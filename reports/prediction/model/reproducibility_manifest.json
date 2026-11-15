@@ -1,0 +1,19 @@
+{
+  "current_reproducible_implementation_sha256": {
+    "pipeline/regional_risk_models.py": "fde2371e1a83d4290f044a73ed38110dc1b62fdd782aa95171d73eabb0ed45eb",
+    "pipeline/train_regional_risk.py": "edbc11fc3a5777f3a9bf45b06660ae65f85764b8b53507b69ceeffeb8a1d5a62",
+    "pipeline/analyze_regional_risk.py": "fa02d63e75ee39b1be1e8239df9ee096bb7f62de3e71a3bc966e7752a92469d1",
+    "pipeline/build_regional_risk_dataset.py": "863546441a898b58440c97f5274ce40c909fb1456ba93f7971c0084315d4b47d",
+    "pipeline/requirements-risk.txt": "85134bc2a3633339b6d03a94deb7adb49f352bab2f8d1aca78fbefcfae0fcaec"
+  },
+  "model_sha256": "68e3ab38955168b2b0c69a7f2f175ef26205e4a23f4b46a3a05ae8041e12ecd4",
+  "dataset_sha256": "a017242f10bf11bfed6ef2f9bac0f6c74b617fc96d7390807e1e61f2bc211368",
+  "software": {
+    "python": "3.13.15",
+    "lightgbm": "4.7.0",
+    "sklearn": "1.9.1",
+    "pandas": "3.0.5",
+    "numpy": "2.5.3"
+  },
+  "source_code_historical_prefit_hash_claimed": false
+}

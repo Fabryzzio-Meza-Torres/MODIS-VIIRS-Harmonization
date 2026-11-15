@@ -1,0 +1,385 @@
+{
+  "status": "retrospective_experimental_dataset_ready_for_review",
+  "rows": 115350,
+  "regions": 25,
+  "leads": [
+    1,
+    2,
+    3,
+    4,
+    5,
+    6,
+    7,
+    8,
+    9,
+    10,
+    11,
+    12
+  ],
+  "features": [
+    "region_id",
+    "lead_weeks",
+    "target_season_sin",
+    "target_season_cos",
+    "center_lon",
+    "center_lat",
+    "log_harmonized_annual_context",
+    "harmonized_annual_context_missing",
+    "harmonized_context_instruments",
+    "log_ref_records_7d",
+    "log_ref_frp_sum_7d",
+    "log_detected_onsets_7d",
+    "log_ref_records_28d",
+    "log_ref_frp_sum_28d",
+    "log_detected_onsets_28d",
+    "log_ref_records_90d",
+    "log_ref_frp_sum_90d",
+    "log_detected_onsets_90d",
+    "days_since_ref_record",
+    "ref_no_records_90d",
+    "t2m_mean_7d",
+    "rh2m_mean_7d",
+    "ws2m_mean_7d",
+    "rain_sum_7d",
+    "t2m_mean_28d",
+    "rh2m_mean_28d",
+    "ws2m_mean_28d",
+    "rain_sum_28d",
+    "t2m_mean_90d",
+    "rh2m_mean_90d",
+    "ws2m_mean_90d",
+    "rain_sum_90d"
+  ],
+  "rows_by_split": {
+    "calibration": 13950,
+    "confirmation_2026": 7050,
+    "retrospective_test": 29250,
+    "selection": 13650,
+    "train": 51450
+  },
+  "rows_by_split_lead": [
+    {
+      "split": "calibration",
+      "lead_weeks": 1,
+      "rows": 1300
+    },
+    {
+      "split": "calibration",
+      "lead_weeks": 2,
+      "rows": 1275
+    },
+    {
+      "split": "calibration",
+      "lead_weeks": 3,
+      "rows": 1250
+    },
+    {
+      "split": "calibration",
+      "lead_weeks": 4,
+      "rows": 1225
+    },
+    {
+      "split": "calibration",
+      "lead_weeks": 5,
+      "rows": 1200
+    },
+    {
+      "split": "calibration",
+      "lead_weeks": 6,
+      "rows": 1175
+    },
+    {
+      "split": "calibration",
+      "lead_weeks": 7,
+      "rows": 1150
+    },
+    {
+      "split": "calibration",
+      "lead_weeks": 8,
+      "rows": 1125
+    },
+    {
+      "split": "calibration",
+      "lead_weeks": 9,
+      "rows": 1100
+    },
+    {
+      "split": "calibration",
+      "lead_weeks": 10,
+      "rows": 1075
+    },
+    {
+      "split": "calibration",
+      "lead_weeks": 11,
+      "rows": 1050
+    },
+    {
+      "split": "calibration",
+      "lead_weeks": 12,
+      "rows": 1025
+    },
+    {
+      "split": "confirmation_2026",
+      "lead_weeks": 1,
+      "rows": 725
+    },
+    {
+      "split": "confirmation_2026",
+      "lead_weeks": 2,
+      "rows": 700
+    },
+    {
+      "split": "confirmation_2026",
+      "lead_weeks": 3,
+      "rows": 675
+    },
+    {
+      "split": "confirmation_2026",
+      "lead_weeks": 4,
+      "rows": 650
+    },
+    {
+      "split": "confirmation_2026",
+      "lead_weeks": 5,
+      "rows": 625
+    },
+    {
+      "split": "confirmation_2026",
+      "lead_weeks": 6,
+      "rows": 600
+    },
+    {
+      "split": "confirmation_2026",
+      "lead_weeks": 7,
+      "rows": 575
+    },
+    {
+      "split": "confirmation_2026",
+      "lead_weeks": 8,
+      "rows": 550
+    },
+    {
+      "split": "confirmation_2026",
+      "lead_weeks": 9,
+      "rows": 525
+    },
+    {
+      "split": "confirmation_2026",
+      "lead_weeks": 10,
+      "rows": 500
+    },
+    {
+      "split": "confirmation_2026",
+      "lead_weeks": 11,
+      "rows": 475
+    },
+    {
+      "split": "confirmation_2026",
+      "lead_weeks": 12,
+      "rows": 450
+    },
+    {
+      "split": "retrospective_test",
+      "lead_weeks": 1,
+      "rows": 2575
+    },
+    {
+      "split": "retrospective_test",
+      "lead_weeks": 2,
+      "rows": 2550
+    },
+    {
+      "split": "retrospective_test",
+      "lead_weeks": 3,
+      "rows": 2525
+    },
+    {
+      "split": "retrospective_test",
+      "lead_weeks": 4,
+      "rows": 2500
+    },
+    {
+      "split": "retrospective_test",
+      "lead_weeks": 5,
+      "rows": 2475
+    },
+    {
+      "split": "retrospective_test",
+      "lead_weeks": 6,
+      "rows": 2450
+    },
+    {
+      "split": "retrospective_test",
+      "lead_weeks": 7,
+      "rows": 2425
+    },
+    {
+      "split": "retrospective_test",
+      "lead_weeks": 8,
+      "rows": 2400
+    },
+    {
+      "split": "retrospective_test",
+      "lead_weeks": 9,
+      "rows": 2375
+    },
+    {
+      "split": "retrospective_test",
+      "lead_weeks": 10,
+      "rows": 2350
+    },
+    {
+      "split": "retrospective_test",
+      "lead_weeks": 11,
+      "rows": 2325
+    },
+    {
+      "split": "retrospective_test",
+      "lead_weeks": 12,
+      "rows": 2300
+    },
+    {
+      "split": "selection",
+      "lead_weeks": 1,
+      "rows": 1275
+    },
+    {
+      "split": "selection",
+      "lead_weeks": 2,
+      "rows": 1250
+    },
+    {
+      "split": "selection",
+      "lead_weeks": 3,
+      "rows": 1225
+    },
+    {
+      "split": "selection",
+      "lead_weeks": 4,
+      "rows": 1200
+    },
+    {
+      "split": "selection",
+      "lead_weeks": 5,
+      "rows": 1175
+    },
+    {
+      "split": "selection",
+      "lead_weeks": 6,
+      "rows": 1150
+    },
+    {
+      "split": "selection",
+      "lead_weeks": 7,
+      "rows": 1125
+    },
+    {
+      "split": "selection",
+      "lead_weeks": 8,
+      "rows": 1100
+    },
+    {
+      "split": "selection",
+      "lead_weeks": 9,
+      "rows": 1075
+    },
+    {
+      "split": "selection",
+      "lead_weeks": 10,
+      "rows": 1050
+    },
+    {
+      "split": "selection",
+      "lead_weeks": 11,
+      "rows": 1025
+    },
+    {
+      "split": "selection",
+      "lead_weeks": 12,
+      "rows": 1000
+    },
+    {
+      "split": "train",
+      "lead_weeks": 1,
+      "rows": 4425
+    },
+    {
+      "split": "train",
+      "lead_weeks": 2,
+      "rows": 4400
+    },
+    {
+      "split": "train",
+      "lead_weeks": 3,
+      "rows": 4375
+    },
+    {
+      "split": "train",
+      "lead_weeks": 4,
+      "rows": 4350
+    },
+    {
+      "split": "train",
+      "lead_weeks": 5,
+      "rows": 4325
+    },
+    {
+      "split": "train",
+      "lead_weeks": 6,
+      "rows": 4300
+    },
+    {
+      "split": "train",
+      "lead_weeks": 7,
+      "rows": 4275
+    },
+    {
+      "split": "train",
+      "lead_weeks": 8,
+      "rows": 4250
+    },
+    {
+      "split": "train",
+      "lead_weeks": 9,
+      "rows": 4225
+    },
+    {
+      "split": "train",
+      "lead_weeks": 10,
+      "rows": 4200
+    },
+    {
+      "split": "train",
+      "lead_weeks": 11,
+      "rows": 4175
+    },
+    {
+      "split": "train",
+      "lead_weeks": 12,
+      "rows": 4150
+    }
+  ],
+  "boundary_rows_purged_for_target_maturity": 7800,
+  "training_target_prevalence": 0.8387755102040816,
+  "label_semantics": "at least one newly detected NOAA-20 vegetation-fire episode in region and target week",
+  "physical_ignition_labels_verified": false,
+  "reference_labels_sha256": "aaa3cbae6acc9b06cdab310bc830e861b8ccbe7e34ea3caf7540db12228ad273",
+  "reference_detections_sha256": "f5035d57f55de679addb1d70b01fbb1b32a38829264c742a74bec968dbb58811",
+  "weather_sha256": "ff5586a5e38ab5057ac7367f03836ebc392a2f9fa0bf5e255a4f23e757d0c283",
+  "training_rows_sha256": "a017242f10bf11bfed6ef2f9bac0f6c74b617fc96d7390807e1e61f2bc211368",
+  "our_snapshot_id": "c96f4af273ab7587f8a2e120746f0e56b07ee07b9c5e50a236e63c62c1786915",
+  "no_future_target_weather_used": true,
+  "historical_available_at_verified": false,
+  "weather_spatial_support": "representative point per department, not areal mean",
+  "model_trained": false,
+  "public_api_modified": false,
+  "temporal_integrity_audit": {
+    "rows_checked": 115350,
+    "features_before_issue_under_stated_delay_assumptions": true,
+    "target_after_issue": true,
+    "target_mature_before_split_end": true,
+    "duplicate_region_issue_lead_rows": 0,
+    "historical_real_release_times_verified": false,
+    "harmonized_annual_missing_rows": 18072
+  }
+}

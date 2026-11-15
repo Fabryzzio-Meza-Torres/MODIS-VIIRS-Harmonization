@@ -1,0 +1,50 @@
+{
+  "status": "development_pilot_not_approved_labels",
+  "physical_ignition_ground_truth": false,
+  "source_sha256": "08ad61dabda0eddf46eec027b77bc3ef5346cccaf4d07a25c7f446fd90a5e63a",
+  "source": "fire_archive_J1V-C2_848899_normalized.csv.gz",
+  "reference_platform": "NOAA-20; single reference, no increase from adding platforms",
+  "confidence": [
+    "nominal",
+    "high"
+  ],
+  "type": 0,
+  "full_history_static_mask_used": false,
+  "time_unit": "America/Lima Monday-Sunday week",
+  "time_scope": [
+    "2018-04-16",
+    "2026-07-27 exclusive"
+  ],
+  "frozen_nonvegetation_mask": {
+    "enabled": true,
+    "cutoff": "2018-04-16 05:00:00+00:00",
+    "known_source_cells": 2892,
+    "excluded_detections": 3317,
+    "rule": "type 1/2/3 observed before cutoff in a rounded 0.005 degree cell; no full-history persistence rule"
+  },
+  "raw_rows_in_buffer": 583503,
+  "exact_duplicate_rows_removed": 0,
+  "country_rows_in_buffer": 578062,
+  "rows_in_pilot": 577813,
+  "sensitivity": [
+    {
+      "radius_m": 1250.0,
+      "quiet_days": 5.0,
+      "new_detected_episode_candidates": 324828,
+      "regional_week_rows": 10800,
+      "positive_regional_weeks": 8933,
+      "regional_positive_fraction": 0.8271296296296297
+    }
+  ],
+  "human_review_cases": 50,
+  "human_review_complete": false,
+  "model_trained": false,
+  "limitations": [
+    "First observed episode is not verified ignition.",
+    "Five days without a nearby detection is not proof of extinguishment.",
+    "Moving fire fronts can produce apparent new episodes.",
+    "Same-timestamp components use one representative original point; border-origin ambiguity needs review.",
+    "Sources classified type 0 can include agricultural burning or persistent sources.",
+    "No independent event reconstruction or real-time arrival latency validated."
+  ]
+}

@@ -1,5 +1,6 @@
 
 # Preserve exact published dataset bytes for SHA256 verification across OSes
 data/** -text
+pipeline/*.py text eol=lf
 entrega/*.zip -text
 entrega/figuras/*.png -text

@@ -1,0 +1,9 @@
+{
+  "model_sha256": "68e3ab38955168b2b0c69a7f2f175ef26205e4a23f4b46a3a05ae8041e12ecd4",
+  "dataset_sha256": "a017242f10bf11bfed6ef2f9bac0f6c74b617fc96d7390807e1e61f2bc211368",
+  "selection_changed": false,
+  "calibration_policy_changed_after_test": false,
+  "importance_period": "2022 selection; marginal feature permutation, not causal effects",
+  "lead_comparison": "same target weeks within each retrospective issue year",
+  "perturbations_prove_NRT_transfer": false
+}

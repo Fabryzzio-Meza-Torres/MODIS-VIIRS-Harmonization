@@ -6,7 +6,7 @@ from urllib.parse import urlsplit
 from urllib.request import Request, urlopen
 
 
-def verify(base, timeout=120):
+def verify(base, timeout=120, require_risk=False):
     parsed = urlsplit(base)
     if parsed.scheme not in ('http', 'https') or not parsed.netloc:
         raise ValueError('Provide the real http(s) base URL')
@@ -39,14 +39,30 @@ def verify(base, timeout=120):
             assert error.code in (404, 405), 'Unexpected administrative endpoint response'
         else:
             raise AssertionError('An administrative endpoint is public')
-    return {'status': 'verified', 'base_url': base,
-            'checks': ['snapshot', 'cors', 'regions', 'point_location',
-                       'regional_series_values', 'forecast', 'no_public_index_rebuild'],
-            'events_integration': 'not_included_in_this_service'}
+    checks=['snapshot','cors','regions','point_location','regional_series_values',
+            'forecast','no_public_index_rebuild']
+    result={'status':'verified','base_url':base,'checks':checks,
+            'events_integration':'not_included_in_this_service'}
+    if require_risk:
+        info=get('/v1/fire-risk/metadata')
+        assert info['forecast_rows']==300
+        assert info['physical_ignition_probability_verified'] is False
+        assert info['refresh_required'] is False,'A refreshed weekly outlook is required'
+        data=get('/v1/fire-risk/outlook?limit=300',origin=True)['data']
+        assert len({(r['region_id'],r['lead_weeks']) for r in data})==300
+        week=info['available_target_weeks'][0]
+        response=get('/v1/fire-risk?region_id=08&target_week_start='+week)
+        assert len(response['data'])==1 and response['data'][0]['region_id']=='08'
+        assert response['metadata']['snapshot_id']==info['snapshot_id']
+        assert all(r['probability'] is None or 0<=r['probability']<=1 for r in data)
+        checks.extend(['risk_metadata','risk_grid_300','risk_region_week','risk_cors'])
+        result['risk_snapshot_id']=info['snapshot_id']
+    return result
 
 
 if __name__ == '__main__':
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument('base_url')
+    parser.add_argument('--require-risk',action='store_true',help='Require the reviewed regional model endpoints')
     args = parser.parse_args()
-    print(json.dumps(verify(args.base_url), ensure_ascii=False, indent=2))
+    print(json.dumps(verify(args.base_url,require_risk=args.require_risk), ensure_ascii=False, indent=2))

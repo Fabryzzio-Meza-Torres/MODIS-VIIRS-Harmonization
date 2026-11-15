@@ -1,0 +1,1141 @@
+{
+  "source": "NASA POWER daily point UTC",
+  "region_points": 25,
+  "parameters": [
+    "T2M",
+    "RH2M",
+    "PRECTOTCORR",
+    "WS2M"
+  ],
+  "spatial_support": "one inside-polygon representative point; not a regional areal mean",
+  "forecast_weather": false,
+  "historical_available_at_verified": false,
+  "historical_reanalysis_vintages_reconstructed": false,
+  "regions": [
+    {
+      "region_id": "01",
+      "name": "AMAZONAS",
+      "longitude": -78.2247540853425,
+      "latitude": -5.005649999999999,
+      "url": "https://power.larc.nasa.gov/api/temporal/daily/point?parameters=T2M%2CRH2M%2CPRECTOTCORR%2CWS2M&community=AG&longitude=-78.22475&latitude=-5.00565&start=20120101&end=20261112&format=JSON&time-standard=UTC",
+      "sha256": "66c9f18f8f9e12f22c27093bbbe0cedcfb62020f115ac36ba74c76db681325ba",
+      "rows": 5430,
+      "complete_rows": 5430,
+      "last_complete_day": "2026-11-12 00:00:00",
+      "header": {
+        "title": "NASA/POWER Source Native Resolution Daily Data",
+        "api": {
+          "version": "v2.10.3",
+          "name": "POWER Daily API"
+        },
+        "sources": [
+          "MERRA2",
+          "GEOSIT",
+          "POWER"
+        ],
+        "fill_value": -999.0,
+        "time_standard": "UTC",
+        "start": "20120101",
+        "end": "20261112"
+      },
+      "parameters": {
+        "T2M": {
+          "units": "C",
+          "longname": "Temperature at 2 Meters"
+        },
+        "RH2M": {
+          "units": "%",
+          "longname": "Relative Humidity at 2 Meters"
+        },
+        "PRECTOTCORR": {
+          "units": "mm/day",
+          "longname": "Precipitation Corrected"
+        },
+        "WS2M": {
+          "units": "m/s",
+          "longname": "Wind Speed at 2 Meters"
+        }
+      }
+    },
+    {
+      "region_id": "02",
+      "name": "ANCASH",
+      "longitude": -77.67741001440922,
+      "latitude": -9.415,
+      "url": "https://power.larc.nasa.gov/api/temporal/daily/point?parameters=T2M%2CRH2M%2CPRECTOTCORR%2CWS2M&community=AG&longitude=-77.67741&latitude=-9.415&start=20120101&end=20261112&format=JSON&time-standard=UTC",
+      "sha256": "d5ff84dda43d2f9407b54c6217d5813a5a09723d808adc01fa0e1d5617b43da3",
+      "rows": 5430,
+      "complete_rows": 5430,
+      "last_complete_day": "2026-11-12 00:00:00",
+      "header": {
+        "title": "NASA/POWER Source Native Resolution Daily Data",
+        "api": {
+          "version": "v2.10.3",
+          "name": "POWER Daily API"
+        },
+        "sources": [
+          "MERRA2",
+          "GEOSIT",
+          "POWER"
+        ],
+        "fill_value": -999.0,
+        "time_standard": "UTC",
+        "start": "20120101",
+        "end": "20261112"
+      },
+      "parameters": {
+        "T2M": {
+          "units": "C",
+          "longname": "Temperature at 2 Meters"
+        },
+        "RH2M": {
+          "units": "%",
+          "longname": "Relative Humidity at 2 Meters"
+        },
+        "PRECTOTCORR": {
+          "units": "mm/day",
+          "longname": "Precipitation Corrected"
+        },
+        "WS2M": {
+          "units": "m/s",
+          "longname": "Wind Speed at 2 Meters"
+        }
+      }
+    },
+    {
+      "region_id": "03",
+      "name": "APURIMAC",
+      "longitude": -72.83843717532467,
+      "latitude": -14.006,
+      "url": "https://power.larc.nasa.gov/api/temporal/daily/point?parameters=T2M%2CRH2M%2CPRECTOTCORR%2CWS2M&community=AG&longitude=-72.83844&latitude=-14.006&start=20120101&end=20261112&format=JSON&time-standard=UTC",
+      "sha256": "441e1d4d3d289fd1ff49d373f3a7bfdc834754b969310b3a1a393fbaf1d3347f",
+      "rows": 5430,
+      "complete_rows": 5430,
+      "last_complete_day": "2026-11-12 00:00:00",
+      "header": {
+        "title": "NASA/POWER Source Native Resolution Daily Data",
+        "api": {
+          "version": "v2.10.3",
+          "name": "POWER Daily API"
+        },
+        "sources": [
+          "MERRA2",
+          "GEOSIT",
+          "POWER"
+        ],
+        "fill_value": -999.0,
+        "time_standard": "UTC",
+        "start": "20120101",
+        "end": "20261112"
+      },
+      "parameters": {
+        "T2M": {
+          "units": "C",
+          "longname": "Temperature at 2 Meters"
+        },
+        "RH2M": {
+          "units": "%",
+          "longname": "Relative Humidity at 2 Meters"
+        },
+        "PRECTOTCORR": {
+          "units": "mm/day",
+          "longname": "Precipitation Corrected"
+        },
+        "WS2M": {
+          "units": "m/s",
+          "longname": "Wind Speed at 2 Meters"
+        }
+      }
+    },
+    {
+      "region_id": "04",
+      "name": "AREQUIPA",
+      "longitude": -72.44379941896821,
+      "latitude": -15.9619,
+      "url": "https://power.larc.nasa.gov/api/temporal/daily/point?parameters=T2M%2CRH2M%2CPRECTOTCORR%2CWS2M&community=AG&longitude=-72.4438&latitude=-15.9619&start=20120101&end=20261112&format=JSON&time-standard=UTC",
+      "sha256": "5bc8ce8d28293467e3e5445ed677d8f3d70a38aa5b766388e2bf83ff2cbe3278",
+      "rows": 5430,
+      "complete_rows": 5430,
+      "last_complete_day": "2026-11-12 00:00:00",
+      "header": {
+        "title": "NASA/POWER Source Native Resolution Daily Data",
+        "api": {
+          "version": "v2.10.3",
+          "name": "POWER Daily API"
+        },
+        "sources": [
+          "MERRA2",
+          "GEOSIT",
+          "POWER"
+        ],
+        "fill_value": -999.0,
+        "time_standard": "UTC",
+        "start": "20120101",
+        "end": "20261112"
+      },
+      "parameters": {
+        "T2M": {
+          "units": "C",
+          "longname": "Temperature at 2 Meters"
+        },
+        "RH2M": {
+          "units": "%",
+          "longname": "Relative Humidity at 2 Meters"
+        },
+        "PRECTOTCORR": {
+          "units": "mm/day",
+          "longname": "Precipitation Corrected"
+        },
+        "WS2M": {
+          "units": "m/s",
+          "longname": "Wind Speed at 2 Meters"
+        }
+      }
+    },
+    {
+      "region_id": "05",
+      "name": "AYACUCHO",
+      "longitude": -74.23188302035072,
+      "latitude": -13.906400000000001,
+      "url": "https://power.larc.nasa.gov/api/temporal/daily/point?parameters=T2M%2CRH2M%2CPRECTOTCORR%2CWS2M&community=AG&longitude=-74.23188&latitude=-13.9064&start=20120101&end=20261112&format=JSON&time-standard=UTC",
+      "sha256": "3f4a2df452b73af6e826e4066ce02c3a90105069c0d27052ff1d8d3911dce93b",
+      "rows": 5430,
+      "complete_rows": 5430,
+      "last_complete_day": "2026-11-12 00:00:00",
+      "header": {
+        "title": "NASA/POWER Source Native Resolution Daily Data",
+        "api": {
+          "version": "v2.10.3",
+          "name": "POWER Daily API"
+        },
+        "sources": [
+          "MERRA2",
+          "GEOSIT",
+          "POWER"
+        ],
+        "fill_value": -999.0,
+        "time_standard": "UTC",
+        "start": "20120101",
+        "end": "20261112"
+      },
+      "parameters": {
+        "T2M": {
+          "units": "C",
+          "longname": "Temperature at 2 Meters"
+        },
+        "RH2M": {
+          "units": "%",
+          "longname": "Relative Humidity at 2 Meters"
+        },
+        "PRECTOTCORR": {
+          "units": "mm/day",
+          "longname": "Precipitation Corrected"
+        },
+        "WS2M": {
+          "units": "m/s",
+          "longname": "Wind Speed at 2 Meters"
+        }
+      }
+    },
+    {
+      "region_id": "06",
+      "name": "CAJAMARCA",
+      "longitude": -78.83763121848739,
+      "latitude": -6.20155,
+      "url": "https://power.larc.nasa.gov/api/temporal/daily/point?parameters=T2M%2CRH2M%2CPRECTOTCORR%2CWS2M&community=AG&longitude=-78.83763&latitude=-6.20155&start=20120101&end=20261112&format=JSON&time-standard=UTC",
+      "sha256": "8646490ac34563862ee614d524f6bc08a392613827ac296461bcea9fa5a7c082",
+      "rows": 5430,
+      "complete_rows": 5430,
+      "last_complete_day": "2026-11-12 00:00:00",
+      "header": {
+        "title": "NASA/POWER Source Native Resolution Daily Data",
+        "api": {
+          "version": "v2.10.3",
+          "name": "POWER Daily API"
+        },
+        "sources": [
+          "MERRA2",
+          "GEOSIT",
+          "POWER"
+        ],
+        "fill_value": -999.0,
+        "time_standard": "UTC",
+        "start": "20120101",
+        "end": "20261112"
+      },
+      "parameters": {
+        "T2M": {
+          "units": "C",
+          "longname": "Temperature at 2 Meters"
+        },
+        "RH2M": {
+          "units": "%",
+          "longname": "Relative Humidity at 2 Meters"
+        },
+        "PRECTOTCORR": {
+          "units": "mm/day",
+          "longname": "Precipitation Corrected"
+        },
+        "WS2M": {
+          "units": "m/s",
+          "longname": "Wind Speed at 2 Meters"
+        }
+      }
+    },
+    {
+      "region_id": "07",
+      "name": "CALLAO",
+      "longitude": -77.13288345723572,
+      "latitude": -11.9436,
+      "url": "https://power.larc.nasa.gov/api/temporal/daily/point?parameters=T2M%2CRH2M%2CPRECTOTCORR%2CWS2M&community=AG&longitude=-77.13288&latitude=-11.9436&start=20120101&end=20261112&format=JSON&time-standard=UTC",
+      "sha256": "b3eebbea3b96381cc37914423f76ad9507560e243325746db11fc0f861364e5d",
+      "rows": 5430,
+      "complete_rows": 5430,
+      "last_complete_day": "2026-11-12 00:00:00",
+      "header": {
+        "title": "NASA/POWER Source Native Resolution Daily Data",
+        "api": {
+          "version": "v2.10.3",
+          "name": "POWER Daily API"
+        },
+        "sources": [
+          "MERRA2",
+          "GEOSIT",
+          "POWER"
+        ],
+        "fill_value": -999.0,
+        "time_standard": "UTC",
+        "start": "20120101",
+        "end": "20261112"
+      },
+      "parameters": {
+        "T2M": {
+          "units": "C",
+          "longname": "Temperature at 2 Meters"
+        },
+        "RH2M": {
+          "units": "%",
+          "longname": "Relative Humidity at 2 Meters"
+        },
+        "PRECTOTCORR": {
+          "units": "mm/day",
+          "longname": "Precipitation Corrected"
+        },
+        "WS2M": {
+          "units": "m/s",
+          "longname": "Wind Speed at 2 Meters"
+        }
+      }
+    },
+    {
+      "region_id": "08",
+      "name": "CUSCO",
+      "longitude": -71.85307480468751,
+      "latitude": -13.3371,
+      "url": "https://power.larc.nasa.gov/api/temporal/daily/point?parameters=T2M%2CRH2M%2CPRECTOTCORR%2CWS2M&community=AG&longitude=-71.85307&latitude=-13.3371&start=20120101&end=20261112&format=JSON&time-standard=UTC",
+      "sha256": "f781f4a4a2af87a1e71f763981058394b7561803c93b9f622f136271a6920684",
+      "rows": 5430,
+      "complete_rows": 5430,
+      "last_complete_day": "2026-11-12 00:00:00",
+      "header": {
+        "title": "NASA/POWER Source Native Resolution Daily Data",
+        "api": {
+          "version": "v2.10.3",
+          "name": "POWER Daily API"
+        },
+        "sources": [
+          "MERRA2",
+          "GEOSIT",
+          "POWER"
+        ],
+        "fill_value": -999.0,
+        "time_standard": "UTC",
+        "start": "20120101",
+        "end": "20261112"
+      },
+      "parameters": {
+        "T2M": {
+          "units": "C",
+          "longname": "Temperature at 2 Meters"
+        },
+        "RH2M": {
+          "units": "%",
+          "longname": "Relative Humidity at 2 Meters"
+        },
+        "PRECTOTCORR": {
+          "units": "mm/day",
+          "longname": "Precipitation Corrected"
+        },
+        "WS2M": {
+          "units": "m/s",
+          "longname": "Wind Speed at 2 Meters"
+        }
+      }
+    },
+    {
+      "region_id": "09",
+      "name": "HUANCAVELICA",
+      "longitude": -75.0146327576598,
+      "latitude": -13.058,
+      "url": "https://power.larc.nasa.gov/api/temporal/daily/point?parameters=T2M%2CRH2M%2CPRECTOTCORR%2CWS2M&community=AG&longitude=-75.01463&latitude=-13.058&start=20120101&end=20261112&format=JSON&time-standard=UTC",
+      "sha256": "e5d16c87b9ae4c650d1441ef8f6ef13272fa8dd2ac906a25ac438449d5ed79a2",
+      "rows": 5430,
+      "complete_rows": 5430,
+      "last_complete_day": "2026-11-12 00:00:00",
+      "header": {
+        "title": "NASA/POWER Source Native Resolution Daily Data",
+        "api": {
+          "version": "v2.10.3",
+          "name": "POWER Daily API"
+        },
+        "sources": [
+          "MERRA2",
+          "GEOSIT",
+          "POWER"
+        ],
+        "fill_value": -999.0,
+        "time_standard": "UTC",
+        "start": "20120101",
+        "end": "20261112"
+      },
+      "parameters": {
+        "T2M": {
+          "units": "C",
+          "longname": "Temperature at 2 Meters"
+        },
+        "RH2M": {
+          "units": "%",
+          "longname": "Relative Humidity at 2 Meters"
+        },
+        "PRECTOTCORR": {
+          "units": "mm/day",
+          "longname": "Precipitation Corrected"
+        },
+        "WS2M": {
+          "units": "m/s",
+          "longname": "Wind Speed at 2 Meters"
+        }
+      }
+    },
+    {
+      "region_id": "10",
+      "name": "HUANUCO",
+      "longitude": -76.3002896875,
+      "latitude": -9.395,
+      "url": "https://power.larc.nasa.gov/api/temporal/daily/point?parameters=T2M%2CRH2M%2CPRECTOTCORR%2CWS2M&community=AG&longitude=-76.30029&latitude=-9.395&start=20120101&end=20261112&format=JSON&time-standard=UTC",
+      "sha256": "ea96cb18826f4c005daf310bf04050773b4f20f02c202592319fc74f6da6f214",
+      "rows": 5430,
+      "complete_rows": 5430,
+      "last_complete_day": "2026-11-12 00:00:00",
+      "header": {
+        "title": "NASA/POWER Source Native Resolution Daily Data",
+        "api": {
+          "version": "v2.10.3",
+          "name": "POWER Daily API"
+        },
+        "sources": [
+          "MERRA2",
+          "GEOSIT",
+          "POWER"
+        ],
+        "fill_value": -999.0,
+        "time_standard": "UTC",
+        "start": "20120101",
+        "end": "20261112"
+      },
+      "parameters": {
+        "T2M": {
+          "units": "C",
+          "longname": "Temperature at 2 Meters"
+        },
+        "RH2M": {
+          "units": "%",
+          "longname": "Relative Humidity at 2 Meters"
+        },
+        "PRECTOTCORR": {
+          "units": "mm/day",
+          "longname": "Precipitation Corrected"
+        },
+        "WS2M": {
+          "units": "m/s",
+          "longname": "Wind Speed at 2 Meters"
+        }
+      }
+    },
+    {
+      "region_id": "11",
+      "name": "ICA",
+      "longitude": -75.62596458406895,
+      "latitude": -14.215,
+      "url": "https://power.larc.nasa.gov/api/temporal/daily/point?parameters=T2M%2CRH2M%2CPRECTOTCORR%2CWS2M&community=AG&longitude=-75.62596&latitude=-14.215&start=20120101&end=20261112&format=JSON&time-standard=UTC",
+      "sha256": "4a8d3a63e5d25f13e84a570fc9cb9a70e5bc4bb1650f7bfe2d97b4f984dbe5b9",
+      "rows": 5430,
+      "complete_rows": 5430,
+      "last_complete_day": "2026-11-12 00:00:00",
+      "header": {
+        "title": "NASA/POWER Source Native Resolution Daily Data",
+        "api": {
+          "version": "v2.10.3",
+          "name": "POWER Daily API"
+        },
+        "sources": [
+          "MERRA2",
+          "GEOSIT",
+          "POWER"
+        ],
+        "fill_value": -999.0,
+        "time_standard": "UTC",
+        "start": "20120101",
+        "end": "20261112"
+      },
+      "parameters": {
+        "T2M": {
+          "units": "C",
+          "longname": "Temperature at 2 Meters"
+        },
+        "RH2M": {
+          "units": "%",
+          "longname": "Relative Humidity at 2 Meters"
+        },
+        "PRECTOTCORR": {
+          "units": "mm/day",
+          "longname": "Precipitation Corrected"
+        },
+        "WS2M": {
+          "units": "m/s",
+          "longname": "Wind Speed at 2 Meters"
+        }
+      }
+    },
+    {
+      "region_id": "12",
+      "name": "JUNIN",
+      "longitude": -74.90300947030497,
+      "latitude": -11.6665,
+      "url": "https://power.larc.nasa.gov/api/temporal/daily/point?parameters=T2M%2CRH2M%2CPRECTOTCORR%2CWS2M&community=AG&longitude=-74.90301&latitude=-11.6665&start=20120101&end=20261112&format=JSON&time-standard=UTC",
+      "sha256": "703558425f5ebeab8cc198fa9c628578cdeecf418a1cc62e73feffdc0157e553",
+      "rows": 5430,
+      "complete_rows": 5430,
+      "last_complete_day": "2026-11-12 00:00:00",
+      "header": {
+        "title": "NASA/POWER Source Native Resolution Daily Data",
+        "api": {
+          "version": "v2.10.3",
+          "name": "POWER Daily API"
+        },
+        "sources": [
+          "MERRA2",
+          "GEOSIT",
+          "POWER"
+        ],
+        "fill_value": -999.0,
+        "time_standard": "UTC",
+        "start": "20120101",
+        "end": "20261112"
+      },
+      "parameters": {
+        "T2M": {
+          "units": "C",
+          "longname": "Temperature at 2 Meters"
+        },
+        "RH2M": {
+          "units": "%",
+          "longname": "Relative Humidity at 2 Meters"
+        },
+        "PRECTOTCORR": {
+          "units": "mm/day",
+          "longname": "Precipitation Corrected"
+        },
+        "WS2M": {
+          "units": "m/s",
+          "longname": "Wind Speed at 2 Meters"
+        }
+      }
+    },
+    {
+      "region_id": "13",
+      "name": "LA LIBERTAD",
+      "longitude": -78.3287796875,
+      "latitude": -7.9551,
+      "url": "https://power.larc.nasa.gov/api/temporal/daily/point?parameters=T2M%2CRH2M%2CPRECTOTCORR%2CWS2M&community=AG&longitude=-78.32878&latitude=-7.9551&start=20120101&end=20261112&format=JSON&time-standard=UTC",
+      "sha256": "452da4cbfdbf28499c1988abb9c7db6454ea46f1639fda52cc563c83ceaaa102",
+      "rows": 5430,
+      "complete_rows": 5430,
+      "last_complete_day": "2026-11-12 00:00:00",
+      "header": {
+        "title": "NASA/POWER Source Native Resolution Daily Data",
+        "api": {
+          "version": "v2.10.3",
+          "name": "POWER Daily API"
+        },
+        "sources": [
+          "MERRA2",
+          "GEOSIT",
+          "POWER"
+        ],
+        "fill_value": -999.0,
+        "time_standard": "UTC",
+        "start": "20120101",
+        "end": "20261112"
+      },
+      "parameters": {
+        "T2M": {
+          "units": "C",
+          "longname": "Temperature at 2 Meters"
+        },
+        "RH2M": {
+          "units": "%",
+          "longname": "Relative Humidity at 2 Meters"
+        },
+        "PRECTOTCORR": {
+          "units": "mm/day",
+          "longname": "Precipitation Corrected"
+        },
+        "WS2M": {
+          "units": "m/s",
+          "longname": "Wind Speed at 2 Meters"
+        }
+      }
+    },
+    {
+      "region_id": "14",
+      "name": "LAMBAYEQUE",
+      "longitude": -80.01746885337819,
+      "latitude": -6.3359000000000005,
+      "url": "https://power.larc.nasa.gov/api/temporal/daily/point?parameters=T2M%2CRH2M%2CPRECTOTCORR%2CWS2M&community=AG&longitude=-80.01747&latitude=-6.3359&start=20120101&end=20261112&format=JSON&time-standard=UTC",
+      "sha256": "bc16faf45f71ca331ed6e11e64316c7758cb34227ffa40d4c0986727dd4c4de6",
+      "rows": 5430,
+      "complete_rows": 5430,
+      "last_complete_day": "2026-11-12 00:00:00",
+      "header": {
+        "title": "NASA/POWER Source Native Resolution Daily Data",
+        "api": {
+          "version": "v2.10.3",
+          "name": "POWER Daily API"
+        },
+        "sources": [
+          "MERRA2",
+          "GEOSIT",
+          "POWER"
+        ],
+        "fill_value": -999.0,
+        "time_standard": "UTC",
+        "start": "20120101",
+        "end": "20261112"
+      },
+      "parameters": {
+        "T2M": {
+          "units": "C",
+          "longname": "Temperature at 2 Meters"
+        },
+        "RH2M": {
+          "units": "%",
+          "longname": "Relative Humidity at 2 Meters"
+        },
+        "PRECTOTCORR": {
+          "units": "mm/day",
+          "longname": "Precipitation Corrected"
+        },
+        "WS2M": {
+          "units": "m/s",
+          "longname": "Wind Speed at 2 Meters"
+        }
+      }
+    },
+    {
+      "region_id": "15",
+      "name": "LIMA",
+      "longitude": -76.65678852941176,
+      "latitude": -11.7929,
+      "url": "https://power.larc.nasa.gov/api/temporal/daily/point?parameters=T2M%2CRH2M%2CPRECTOTCORR%2CWS2M&community=AG&longitude=-76.65679&latitude=-11.7929&start=20120101&end=20261112&format=JSON&time-standard=UTC",
+      "sha256": "bd9be1ea56fa656122421c869684c5d5ecc3a56aaf1100aa92affa17efb69b51",
+      "rows": 5430,
+      "complete_rows": 5430,
+      "last_complete_day": "2026-11-12 00:00:00",
+      "header": {
+        "title": "NASA/POWER Source Native Resolution Daily Data",
+        "api": {
+          "version": "v2.10.3",
+          "name": "POWER Daily API"
+        },
+        "sources": [
+          "MERRA2",
+          "GEOSIT",
+          "POWER"
+        ],
+        "fill_value": -999.0,
+        "time_standard": "UTC",
+        "start": "20120101",
+        "end": "20261112"
+      },
+      "parameters": {
+        "T2M": {
+          "units": "C",
+          "longname": "Temperature at 2 Meters"
+        },
+        "RH2M": {
+          "units": "%",
+          "longname": "Relative Humidity at 2 Meters"
+        },
+        "PRECTOTCORR": {
+          "units": "mm/day",
+          "longname": "Precipitation Corrected"
+        },
+        "WS2M": {
+          "units": "m/s",
+          "longname": "Wind Speed at 2 Meters"
+        }
+      }
+    },
+    {
+      "region_id": "16",
+      "name": "LORETO",
+      "longitude": -74.335044811925,
+      "latitude": -4.3771,
+      "url": "https://power.larc.nasa.gov/api/temporal/daily/point?parameters=T2M%2CRH2M%2CPRECTOTCORR%2CWS2M&community=AG&longitude=-74.33504&latitude=-4.3771&start=20120101&end=20261112&format=JSON&time-standard=UTC",
+      "sha256": "aca1f1e84de10120382e1345ffef6b8da926d72adabe54374fa95d482385f1d8",
+      "rows": 5430,
+      "complete_rows": 5430,
+      "last_complete_day": "2026-11-12 00:00:00",
+      "header": {
+        "title": "NASA/POWER Source Native Resolution Daily Data",
+        "api": {
+          "version": "v2.10.3",
+          "name": "POWER Daily API"
+        },
+        "sources": [
+          "MERRA2",
+          "GEOSIT",
+          "POWER"
+        ],
+        "fill_value": -999.0,
+        "time_standard": "UTC",
+        "start": "20120101",
+        "end": "20261112"
+      },
+      "parameters": {
+        "T2M": {
+          "units": "C",
+          "longname": "Temperature at 2 Meters"
+        },
+        "RH2M": {
+          "units": "%",
+          "longname": "Relative Humidity at 2 Meters"
+        },
+        "PRECTOTCORR": {
+          "units": "mm/day",
+          "longname": "Precipitation Corrected"
+        },
+        "WS2M": {
+          "units": "m/s",
+          "longname": "Wind Speed at 2 Meters"
+        }
+      }
+    },
+    {
+      "region_id": "17",
+      "name": "MADRE DE DIOS",
+      "longitude": -70.74271946280992,
+      "latitude": -11.6027,
+      "url": "https://power.larc.nasa.gov/api/temporal/daily/point?parameters=T2M%2CRH2M%2CPRECTOTCORR%2CWS2M&community=AG&longitude=-70.74272&latitude=-11.6027&start=20120101&end=20261112&format=JSON&time-standard=UTC",
+      "sha256": "459192d1aa960f2d464f4a0110696a1d5a4b2acde66b983cb971d65363508105",
+      "rows": 5430,
+      "complete_rows": 5430,
+      "last_complete_day": "2026-11-12 00:00:00",
+      "header": {
+        "title": "NASA/POWER Source Native Resolution Daily Data",
+        "api": {
+          "version": "v2.10.3",
+          "name": "POWER Daily API"
+        },
+        "sources": [
+          "MERRA2",
+          "GEOSIT",
+          "POWER"
+        ],
+        "fill_value": -999.0,
+        "time_standard": "UTC",
+        "start": "20120101",
+        "end": "20261112"
+      },
+      "parameters": {
+        "T2M": {
+          "units": "C",
+          "longname": "Temperature at 2 Meters"
+        },
+        "RH2M": {
+          "units": "%",
+          "longname": "Relative Humidity at 2 Meters"
+        },
+        "PRECTOTCORR": {
+          "units": "mm/day",
+          "longname": "Precipitation Corrected"
+        },
+        "WS2M": {
+          "units": "m/s",
+          "longname": "Wind Speed at 2 Meters"
+        }
+      }
+    },
+    {
+      "region_id": "18",
+      "name": "MOQUEGUA",
+      "longitude": -70.9363416816871,
+      "latitude": -16.89865,
+      "url": "https://power.larc.nasa.gov/api/temporal/daily/point?parameters=T2M%2CRH2M%2CPRECTOTCORR%2CWS2M&community=AG&longitude=-70.93634&latitude=-16.89865&start=20120101&end=20261112&format=JSON&time-standard=UTC",
+      "sha256": "f0a0446634aa90a5fb54e42e88394b78dc151e750836bc25d70c34c8a8c5ce77",
+      "rows": 5430,
+      "complete_rows": 5430,
+      "last_complete_day": "2026-11-12 00:00:00",
+      "header": {
+        "title": "NASA/POWER Source Native Resolution Daily Data",
+        "api": {
+          "version": "v2.10.3",
+          "name": "POWER Daily API"
+        },
+        "sources": [
+          "MERRA2",
+          "GEOSIT",
+          "POWER"
+        ],
+        "fill_value": -999.0,
+        "time_standard": "UTC",
+        "start": "20120101",
+        "end": "20261112"
+      },
+      "parameters": {
+        "T2M": {
+          "units": "C",
+          "longname": "Temperature at 2 Meters"
+        },
+        "RH2M": {
+          "units": "%",
+          "longname": "Relative Humidity at 2 Meters"
+        },
+        "PRECTOTCORR": {
+          "units": "mm/day",
+          "longname": "Precipitation Corrected"
+        },
+        "WS2M": {
+          "units": "m/s",
+          "longname": "Wind Speed at 2 Meters"
+        }
+      }
+    },
+    {
+      "region_id": "19",
+      "name": "PASCO",
+      "longitude": -75.04996379767749,
+      "latitude": -10.3006,
+      "url": "https://power.larc.nasa.gov/api/temporal/daily/point?parameters=T2M%2CRH2M%2CPRECTOTCORR%2CWS2M&community=AG&longitude=-75.04996&latitude=-10.3006&start=20120101&end=20261112&format=JSON&time-standard=UTC",
+      "sha256": "b003ce5b43c274125d64f3ac7b67c1a3fff7fb5a8854f158b283f9b5993fca83",
+      "rows": 5430,
+      "complete_rows": 5430,
+      "last_complete_day": "2026-11-12 00:00:00",
+      "header": {
+        "title": "NASA/POWER Source Native Resolution Daily Data",
+        "api": {
+          "version": "v2.10.3",
+          "name": "POWER Daily API"
+        },
+        "sources": [
+          "MERRA2",
+          "GEOSIT",
+          "POWER"
+        ],
+        "fill_value": -999.0,
+        "time_standard": "UTC",
+        "start": "20120101",
+        "end": "20261112"
+      },
+      "parameters": {
+        "T2M": {
+          "units": "C",
+          "longname": "Temperature at 2 Meters"
+        },
+        "RH2M": {
+          "units": "%",
+          "longname": "Relative Humidity at 2 Meters"
+        },
+        "PRECTOTCORR": {
+          "units": "mm/day",
+          "longname": "Precipitation Corrected"
+        },
+        "WS2M": {
+          "units": "m/s",
+          "longname": "Wind Speed at 2 Meters"
+        }
+      }
+    },
+    {
+      "region_id": "20",
+      "name": "PIURA",
+      "longitude": -80.27009014938923,
+      "latitude": -5.2254,
+      "url": "https://power.larc.nasa.gov/api/temporal/daily/point?parameters=T2M%2CRH2M%2CPRECTOTCORR%2CWS2M&community=AG&longitude=-80.27009&latitude=-5.2254&start=20120101&end=20261112&format=JSON&time-standard=UTC",
+      "sha256": "44093ff8903cdbe718580a52618e02b5a3bd54a1b6947f8240daebed6f32f199",
+      "rows": 5430,
+      "complete_rows": 5430,
+      "last_complete_day": "2026-11-12 00:00:00",
+      "header": {
+        "title": "NASA/POWER Source Native Resolution Daily Data",
+        "api": {
+          "version": "v2.10.3",
+          "name": "POWER Daily API"
+        },
+        "sources": [
+          "MERRA2",
+          "GEOSIT",
+          "POWER"
+        ],
+        "fill_value": -999.0,
+        "time_standard": "UTC",
+        "start": "20120101",
+        "end": "20261112"
+      },
+      "parameters": {
+        "T2M": {
+          "units": "C",
+          "longname": "Temperature at 2 Meters"
+        },
+        "RH2M": {
+          "units": "%",
+          "longname": "Relative Humidity at 2 Meters"
+        },
+        "PRECTOTCORR": {
+          "units": "mm/day",
+          "longname": "Precipitation Corrected"
+        },
+        "WS2M": {
+          "units": "m/s",
+          "longname": "Wind Speed at 2 Meters"
+        }
+      }
+    },
+    {
+      "region_id": "21",
+      "name": "PUNO",
+      "longitude": -70.54992120685648,
+      "latitude": -15.1496195,
+      "url": "https://power.larc.nasa.gov/api/temporal/daily/point?parameters=T2M%2CRH2M%2CPRECTOTCORR%2CWS2M&community=AG&longitude=-70.54992&latitude=-15.14962&start=20120101&end=20261112&format=JSON&time-standard=UTC",
+      "sha256": "db62cf1f0a29f7270f692fd5066226fffbac0dd3811c2acfdbc406ef56e635ca",
+      "rows": 5430,
+      "complete_rows": 5430,
+      "last_complete_day": "2026-11-12 00:00:00",
+      "header": {
+        "title": "NASA/POWER Source Native Resolution Daily Data",
+        "api": {
+          "version": "v2.10.3",
+          "name": "POWER Daily API"
+        },
+        "sources": [
+          "MERRA2",
+          "GEOSIT",
+          "POWER"
+        ],
+        "fill_value": -999.0,
+        "time_standard": "UTC",
+        "start": "20120101",
+        "end": "20261112"
+      },
+      "parameters": {
+        "T2M": {
+          "units": "C",
+          "longname": "Temperature at 2 Meters"
+        },
+        "RH2M": {
+          "units": "%",
+          "longname": "Relative Humidity at 2 Meters"
+        },
+        "PRECTOTCORR": {
+          "units": "mm/day",
+          "longname": "Precipitation Corrected"
+        },
+        "WS2M": {
+          "units": "m/s",
+          "longname": "Wind Speed at 2 Meters"
+        }
+      }
+    },
+    {
+      "region_id": "22",
+      "name": "SAN MARTIN",
+      "longitude": -76.86649832869081,
+      "latitude": -7.098050000000001,
+      "url": "https://power.larc.nasa.gov/api/temporal/daily/point?parameters=T2M%2CRH2M%2CPRECTOTCORR%2CWS2M&community=AG&longitude=-76.8665&latitude=-7.09805&start=20120101&end=20261112&format=JSON&time-standard=UTC",
+      "sha256": "1be52d18006492cf7900ad226339480f79fc3397da15976c261ae05f66d722d4",
+      "rows": 5430,
+      "complete_rows": 5430,
+      "last_complete_day": "2026-11-12 00:00:00",
+      "header": {
+        "title": "NASA/POWER Source Native Resolution Daily Data",
+        "api": {
+          "version": "v2.10.3",
+          "name": "POWER Daily API"
+        },
+        "sources": [
+          "MERRA2",
+          "GEOSIT",
+          "POWER"
+        ],
+        "fill_value": -999.0,
+        "time_standard": "UTC",
+        "start": "20120101",
+        "end": "20261112"
+      },
+      "parameters": {
+        "T2M": {
+          "units": "C",
+          "longname": "Temperature at 2 Meters"
+        },
+        "RH2M": {
+          "units": "%",
+          "longname": "Relative Humidity at 2 Meters"
+        },
+        "PRECTOTCORR": {
+          "units": "mm/day",
+          "longname": "Precipitation Corrected"
+        },
+        "WS2M": {
+          "units": "m/s",
+          "longname": "Wind Speed at 2 Meters"
+        }
+      }
+    },
+    {
+      "region_id": "23",
+      "name": "TACNA",
+      "longitude": -70.23389393063584,
+      "latitude": -17.58915,
+      "url": "https://power.larc.nasa.gov/api/temporal/daily/point?parameters=T2M%2CRH2M%2CPRECTOTCORR%2CWS2M&community=AG&longitude=-70.23389&latitude=-17.58915&start=20120101&end=20261112&format=JSON&time-standard=UTC",
+      "sha256": "c92aeba596f76e4c2723af8bed92b4c9b6012cad78089d0f0031e52eb603a1a9",
+      "rows": 5430,
+      "complete_rows": 5430,
+      "last_complete_day": "2026-11-12 00:00:00",
+      "header": {
+        "title": "NASA/POWER Source Native Resolution Daily Data",
+        "api": {
+          "version": "v2.10.3",
+          "name": "POWER Daily API"
+        },
+        "sources": [
+          "MERRA2",
+          "GEOSIT",
+          "POWER"
+        ],
+        "fill_value": -999.0,
+        "time_standard": "UTC",
+        "start": "20120101",
+        "end": "20261112"
+      },
+      "parameters": {
+        "T2M": {
+          "units": "C",
+          "longname": "Temperature at 2 Meters"
+        },
+        "RH2M": {
+          "units": "%",
+          "longname": "Relative Humidity at 2 Meters"
+        },
+        "PRECTOTCORR": {
+          "units": "mm/day",
+          "longname": "Precipitation Corrected"
+        },
+        "WS2M": {
+          "units": "m/s",
+          "longname": "Wind Speed at 2 Meters"
+        }
+      }
+    },
+    {
+      "region_id": "24",
+      "name": "TUMBES",
+      "longitude": -80.48783541478409,
+      "latitude": -3.8069695,
+      "url": "https://power.larc.nasa.gov/api/temporal/daily/point?parameters=T2M%2CRH2M%2CPRECTOTCORR%2CWS2M&community=AG&longitude=-80.48784&latitude=-3.80697&start=20120101&end=20261112&format=JSON&time-standard=UTC",
+      "sha256": "49666155b389268af7aae1009b9fefeb212f815e62fed3837f75a5d28e7942fb",
+      "rows": 5430,
+      "complete_rows": 5430,
+      "last_complete_day": "2026-11-12 00:00:00",
+      "header": {
+        "title": "NASA/POWER Source Native Resolution Daily Data",
+        "api": {
+          "version": "v2.10.3",
+          "name": "POWER Daily API"
+        },
+        "sources": [
+          "MERRA2",
+          "GEOSIT",
+          "POWER"
+        ],
+        "fill_value": -999.0,
+        "time_standard": "UTC",
+        "start": "20120101",
+        "end": "20261112"
+      },
+      "parameters": {
+        "T2M": {
+          "units": "C",
+          "longname": "Temperature at 2 Meters"
+        },
+        "RH2M": {
+          "units": "%",
+          "longname": "Relative Humidity at 2 Meters"
+        },
+        "PRECTOTCORR": {
+          "units": "mm/day",
+          "longname": "Precipitation Corrected"
+        },
+        "WS2M": {
+          "units": "m/s",
+          "longname": "Wind Speed at 2 Meters"
+        }
+      }
+    },
+    {
+      "region_id": "25",
+      "name": "UCAYALI",
+      "longitude": -73.90355577180087,
+      "latitude": -9.357700000000001,
+      "url": "https://power.larc.nasa.gov/api/temporal/daily/point?parameters=T2M%2CRH2M%2CPRECTOTCORR%2CWS2M&community=AG&longitude=-73.90356&latitude=-9.3577&start=20120101&end=20261112&format=JSON&time-standard=UTC",
+      "sha256": "503473de3c5a24f097958023b7767cd6afc97022aa6bc771ae11aaf89e4da9e9",
+      "rows": 5430,
+      "complete_rows": 5430,
+      "last_complete_day": "2026-11-12 00:00:00",
+      "header": {
+        "title": "NASA/POWER Source Native Resolution Daily Data",
+        "api": {
+          "version": "v2.10.3",
+          "name": "POWER Daily API"
+        },
+        "sources": [
+          "MERRA2",
+          "GEOSIT",
+          "POWER"
+        ],
+        "fill_value": -999.0,
+        "time_standard": "UTC",
+        "start": "20120101",
+        "end": "20261112"
+      },
+      "parameters": {
+        "T2M": {
+          "units": "C",
+          "longname": "Temperature at 2 Meters"
+        },
+        "RH2M": {
+          "units": "%",
+          "longname": "Relative Humidity at 2 Meters"
+        },
+        "PRECTOTCORR": {
+          "units": "mm/day",
+          "longname": "Precipitation Corrected"
+        },
+        "WS2M": {
+          "units": "m/s",
+          "longname": "Wind Speed at 2 Meters"
+        }
+      }
+    }
+  ]
+}

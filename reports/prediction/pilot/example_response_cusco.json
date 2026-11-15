@@ -1,0 +1,117 @@
+{
+  "metadata": {
+    "method_version": "regional-onset-proxy-v0.1",
+    "snapshot_id": "298c81cf5373e5cef02882a81f5525a14b383d94cfcb9340a1a323be36f61e19",
+    "country": "PER",
+    "regions": 25,
+    "forecast_rows": 300,
+    "lead_weeks": [
+      1,
+      2,
+      3,
+      4,
+      5,
+      6,
+      7,
+      8,
+      9,
+      10,
+      11,
+      12
+    ],
+    "selected_model": "lgbm_without_harmonization",
+    "issued_at": "2026-11-15T20:39:33.425766+00:00",
+    "generated_at": "2026-11-15T20:39:40.530402+00:00",
+    "feature_reference_at": "2026-11-15T00:00:00-05:00",
+    "issue_time_backdated_to_feature_reference": false,
+    "target_definition": "at least one new NOAA-20 vegetation-fire detection episode in region during target week",
+    "target_unit": "one Monday-Sunday week in America/Lima; end exclusive",
+    "cumulative_twelve_week_risk": false,
+    "physical_ignition_probability_verified": false,
+    "calibration_kind": "monotonic Platt per lead fitted on 2023; no test-driven policy change",
+    "calibration_improvement_demonstrated": false,
+    "per_forecast_uncertainty_intervals_available": false,
+    "NRT_SP_transfer_validated": false,
+    "NRT_type0_assumed": false,
+    "NRT_type_unavailable_rows": 40384,
+    "NRT_last_acquisition_utc": "2026-11-13T18:47:00+00:00",
+    "NRT_last_acquisition_age_hours_at_issue": 49.875951601666664,
+    "NRT_ingested_at": "2026-11-15T19:57:24.154479+00:00",
+    "reference_cutoff_exclusive": "2026-11-12T05:00:00+00:00",
+    "weather_value_days_used": [
+      "2026-11-07"
+    ],
+    "weather_last_source_day": "2026-11-12",
+    "weather_spatial_support": "one inside-polygon point per department, not areal mean",
+    "future_realized_weather_used": false,
+    "future_weather_forecast_used": false,
+    "automatic_refresh_configured": false,
+    "historical_extractor_parity_rows": 115350,
+    "NRT_future_suffix_prefix_invariance_verified": true,
+    "estimated_rows": 300,
+    "unavailable_rows": 0,
+    "validation_notes": [
+      "2024 ties climatology; improvement is not consistent across years.",
+      "Moquegua and Tacna have some of the largest retrospective errors.",
+      "Region and season dominate model signal; perturbation tests are not NRT outcome validation.",
+      "NRT processing has no confirmed vegetation type in this input download."
+    ],
+    "sources": {
+      "model_sha256": "68e3ab38955168b2b0c69a7f2f175ef26205e4a23f4b46a3a05ae8041e12ecd4",
+      "nrt_sha256": "f1a698c4cbc65d34b34086f41f65d590d1fd023ac7c2fac0d22d99fa88b2b969",
+      "weather_sha256": "ff5586a5e38ab5057ac7367f03836ebc392a2f9fa0bf5e255a4f23e757d0c283",
+      "extractor_sha256": "d9def61a0c2f260579e4392efe2fe7f5afed1fd6d94d291c2053cf12d7c63859",
+      "training_dataset_sha256": "a017242f10bf11bfed6ef2f9bac0f6c74b617fc96d7390807e1e61f2bc211368"
+    },
+    "status": "experimental_snapshot",
+    "snapshot_sha256": "a36fc84eaeb60e1528822d59b6c345e39ba628c0dbb2817e8b48b3e257a0b513",
+    "valid_until": "2026-11-22T00:00:00-05:00",
+    "refresh_required": false,
+    "snapshot_age_hours": 0.2632266613888889,
+    "NRT_last_acquisition_age_hours_now": 50.139178263055555,
+    "available_target_weeks": [
+      "2026-11-16",
+      "2026-11-23",
+      "2026-11-30",
+      "2026-12-07",
+      "2026-12-14",
+      "2026-12-21",
+      "2026-12-28",
+      "2027-01-04",
+      "2027-01-11",
+      "2027-01-18",
+      "2027-01-25",
+      "2027-02-01"
+    ],
+    "interpretation_es": "Probabilidad experimental de al menos un nuevo episodio detectado en la región durante esa semana; no ignición física verificada.",
+    "target_period_status": "upcoming",
+    "prediction_is_recomputed_per_request": false
+  },
+  "data": [
+    {
+      "region_id": "08",
+      "region_name": "CUSCO",
+      "issued_at": "2026-11-15T20:39:33.425766Z",
+      "target_week_start": "2026-11-16",
+      "target_week_end_exclusive": "2026-11-23",
+      "lead_weeks": 1,
+      "probability": 0.9766537735489415,
+      "probability_percent": 97.66537735489415,
+      "estimation_status": "estimated",
+      "quality_status": "experimental",
+      "unavailable_reasons": [],
+      "features_outside_region_training_range": [
+        "days_since_ref_record",
+        "t2m_mean_7d",
+        "t2m_mean_28d",
+        "ws2m_mean_28d",
+        "t2m_mean_90d"
+      ]
+    }
+  ],
+  "pagination": {
+    "limit": 1,
+    "offset": 0,
+    "next_offset": null
+  }
+}

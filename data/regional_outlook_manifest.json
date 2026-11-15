@@ -1,0 +1,10 @@
+{
+  "sha256": "a36fc84eaeb60e1528822d59b6c345e39ba628c0dbb2817e8b48b3e257a0b513",
+  "bytes": 232434,
+  "rows": 300,
+  "snapshot_id": "298c81cf5373e5cef02882a81f5525a14b383d94cfcb9340a1a323be36f61e19",
+  "method_version": "regional-onset-proxy-v0.1",
+  "model_sha256": "68e3ab38955168b2b0c69a7f2f175ef26205e4a23f4b46a3a05ae8041e12ecd4",
+  "issued_at": "2026-11-15T20:39:33.425766+00:00",
+  "purpose": "experimental read-only API snapshot; not physical ignition truth"
+}

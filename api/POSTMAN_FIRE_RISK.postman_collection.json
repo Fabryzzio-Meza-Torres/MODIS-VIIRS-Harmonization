@@ -1,0 +1,67 @@
+{
+  "info": {
+    "name": "Riesgo regional experimental - API pública",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": "Probabilidad experimental de episodios detectados, no igniciones físicas verificadas. Emisión semanal precalculada; consultar vigencia en metadata."
+  },
+  "variable": [
+    {
+      "key": "base_url",
+      "value": "https://modis-viirs-harmonization-production.up.railway.app"
+    }
+  ],
+  "item": [
+    {
+      "name": "Metadata y vigencia",
+      "request": {
+        "method": "GET",
+        "header": [
+          {
+            "key": "Accept",
+            "value": "application/json"
+          }
+        ],
+        "url": "{{base_url}}/v1/fire-risk/metadata"
+      }
+    },
+    {
+      "name": "Cusco semana 1",
+      "request": {
+        "method": "GET",
+        "header": [
+          {
+            "key": "Accept",
+            "value": "application/json"
+          }
+        ],
+        "url": "{{base_url}}/v1/fire-risk?region_id=08&target_week_start=2026-11-16"
+      }
+    },
+    {
+      "name": "Cusco 12 semanas",
+      "request": {
+        "method": "GET",
+        "header": [
+          {
+            "key": "Accept",
+            "value": "application/json"
+          }
+        ],
+        "url": "{{base_url}}/v1/fire-risk/outlook?region_id=08"
+      }
+    },
+    {
+      "name": "Todas las regiones",
+      "request": {
+        "method": "GET",
+        "header": [
+          {
+            "key": "Accept",
+            "value": "application/json"
+          }
+        ],
+        "url": "{{base_url}}/v1/fire-risk/outlook?limit=300"
+      }
+    }
+  ]
+}

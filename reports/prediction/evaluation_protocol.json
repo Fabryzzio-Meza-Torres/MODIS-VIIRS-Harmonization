@@ -1,0 +1,40 @@
+{
+  "target": "at least one newly detected NOAA-20 vegetation-fire episode in region and target week",
+  "physical_ignition_labels_verified": false,
+  "label_rule": "1.25 km, 5 days; same-time components; frozen prior nonvegetation cells",
+  "reference": "NOAA-20 SP type0 nominal/high; selected to support current NOAA-20 NRT",
+  "issue_schedule": "Sunday 00:00 America/Lima",
+  "lead_1": "next Monday (one day after Sunday release)",
+  "lead_12": "eleven weeks after lead 1; output describes one target week, not cumulative 12-week risk",
+  "reference_feature_delay_days_assumed": 3,
+  "weather_release_delay_days_assumed_after_day_end": 7,
+  "historical_available_at_verified": false,
+  "weather_reanalysis_vintage_available_at_verified": false,
+  "harmonization": "frozen empirical v1.1; annual lag only, never FRP adjusted with a count factor",
+  "split_policy": "by issue period with target week ending before period boundary",
+  "splits": {
+    "train": [
+      "2018-08-05",
+      "2022-01-01"
+    ],
+    "selection": [
+      "2022-01-01",
+      "2023-01-01"
+    ],
+    "calibration": [
+      "2023-01-01",
+      "2024-01-01"
+    ],
+    "retrospective_test": [
+      "2024-01-01",
+      "2026-01-01"
+    ],
+    "confirmation_2026": [
+      "2026-01-01",
+      "2026-07-27"
+    ]
+  },
+  "prior_2024_2025_inspection_disclosed": true,
+  "confirmation_2026_performance_not_for_selection": true,
+  "new_model_trained": false
+}

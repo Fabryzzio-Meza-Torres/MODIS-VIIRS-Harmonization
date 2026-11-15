@@ -1,0 +1,23 @@
+{
+  "status": "one_shot_ingestion_verified_not_continuous_refresh",
+  "platform": "NOAA-20",
+  "source": "fire_nrt_J1V-C2_848899_normalized.csv.gz",
+  "source_sha256": "ae4f3e925cc80460c1bd58072c2f8f2472a77160603b6f89a1b802c348ca9568",
+  "source_rows": 44689,
+  "eligible_rows": 40384,
+  "duplicate_rows_removed": 0,
+  "known_static_excluded": 429,
+  "outside_MINAM_excluded": 233,
+  "type_unavailable_rows": 40384,
+  "type0_assumed": false,
+  "first_acquisition_utc": "2026-08-01T05:18:00+00:00",
+  "last_acquisition_utc": "2026-11-13T18:47:00+00:00",
+  "ingested_at": "2026-11-15T19:57:24.154479+00:00",
+  "last_acquisition_age_hours": 49.17337624416666,
+  "source_latest_acquisition_proves_no_newer_data_exist": false,
+  "historical_available_at_known": false,
+  "NRT_SP_transfer_validated": false,
+  "automatic_FIRMS_refresh_configured": false,
+  "NRT_used_as_training_label": false,
+  "model_trained": false
+}

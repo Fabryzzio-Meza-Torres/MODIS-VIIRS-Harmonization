@@ -1,0 +1,46 @@
+{
+  "status": "experimental_models_fitted_calibrated_and_evaluated",
+  "method_version": "regional-onset-proxy-v0.1",
+  "selected": {
+    "all_regions": "lgbm_without_harmonization",
+    "spatial_shadow": "lgbm_without_harmonization"
+  },
+  "model_sha256": "68e3ab38955168b2b0c69a7f2f175ef26205e4a23f4b46a3a05ae8041e12ecd4",
+  "freeze_before_test_sha256": "debff124d07b370d91a3965a3396b5cd981a3dce95de93c1d3978fb17ad72ba5",
+  "protocol_sha256": "5fa48d17b3955609965c60de1d1fa77469720b8443c9d01bbdc264735c01d5c2",
+  "dataset_sha256": "a017242f10bf11bfed6ef2f9bac0f6c74b617fc96d7390807e1e61f2bc211368",
+  "software": {
+    "python": "3.13.15",
+    "lightgbm": "4.7.0",
+    "sklearn": "1.9.1",
+    "pandas": "3.0.5",
+    "numpy": "2.5.3"
+  },
+  "block_comparisons": {
+    "all_regions": {
+      "target_week_blocks": 9,
+      "block_weeks": 13,
+      "replicates": 1000,
+      "brier_gain_selected_vs_calibrated_climatology": 0.0030357683914495667,
+      "lower_95": -0.0008154582330094199,
+      "upper_95": 0.0068246617035049445,
+      "uncertainty_scope": "fixed fitted models; resampled target-week blocks, not row-independent errors or ignition uncertainty"
+    },
+    "spatial_shadow": {
+      "target_week_blocks": 9,
+      "block_weeks": 13,
+      "replicates": 1000,
+      "brier_gain_selected_vs_calibrated_climatology": 0.020590049731693406,
+      "lower_95": 0.015270629504097901,
+      "upper_95": 0.026375395010422718,
+      "uncertainty_scope": "fixed fitted models; resampled target-week blocks, not row-independent errors or ignition uncertainty"
+    }
+  },
+  "serialization_prediction_parity_atol": 1e-12,
+  "retrospective_test_evaluated": true,
+  "confirmation_2026_evaluated_after_freeze": true,
+  "model_selection_from_test": false,
+  "physical_ignition_probability_verified": false,
+  "SP_NRT_transfer_validated": false,
+  "public_api_modified": false
+}

@@ -1,0 +1,267 @@
+{
+  "stage": "input_audit_only",
+  "model_trained": false,
+  "source": {
+    "source_branch": "deploy-docker",
+    "source_commit": "3084cc5681bac763fdd651e01cef1d6a12461520",
+    "url": "https://drive.usercontent.google.com/download?id=1k76VcDl7RQq5hpKhayTXl_3URC_kQIAl&export=download&confirm=t",
+    "sha256": "5382be98a0221e528995f2d44470d03f0e2bcc2307bc0a61410744c745aa7e71",
+    "bytes": 131915596,
+    "format": "PostgreSQL custom dump",
+    "verified": true
+  },
+  "tables": {
+    "meta": {
+      "rows": 10,
+      "columns": [
+        "key",
+        "value"
+      ],
+      "sha256": "cbac31b2b47ec53d0b9543fcb40ae5a44607fee4ec1623ad607764a514e3e167"
+    },
+    "events": {
+      "rows": 795540,
+      "columns": [
+        "event_id",
+        "t_start",
+        "t_end",
+        "duration_days",
+        "n_det",
+        "lat",
+        "lon",
+        "lat_min",
+        "lat_max",
+        "lon_min",
+        "lon_max",
+        "x_km",
+        "y_km",
+        "frp_total",
+        "frp_max",
+        "n_modis",
+        "n_viirs",
+        "passes_modis",
+        "passes_viirs",
+        "frp_modis",
+        "frp_viirs",
+        "satellites",
+        "department",
+        "spread_km",
+        "bearing_deg",
+        "may_split",
+        "may_merge",
+        "confidence",
+        "active_days",
+        "foci_per_day",
+        "n_cells_1km",
+        "reburn_frac",
+        "event_type"
+      ],
+      "sha256": "21001598a62d0d40d77d3534f2544e2c714f2f66b4ec829c1da822cbd393e63e"
+    },
+    "detections": {
+      "rows": 1958951,
+      "columns": [
+        "det_id",
+        "event_id",
+        "instrument",
+        "satellite",
+        "processing",
+        "overpass",
+        "t_utc",
+        "date_local",
+        "department",
+        "lat",
+        "lon",
+        "x_km",
+        "y_km",
+        "scan_km",
+        "track_km",
+        "frp",
+        "confidence",
+        "daynight",
+        "type",
+        "version"
+      ],
+      "sha256": "40d0ee17f60d94f418b9ddff76c55e7709eabb974831ec7ce3bf483e5059a754"
+    },
+    "static_sources": {
+      "rows": 4803,
+      "columns": [
+        "cell",
+        "lat",
+        "lon",
+        "n_det",
+        "first",
+        "last",
+        "years",
+        "months",
+        "months_per_year",
+        "n_type1",
+        "n_type2",
+        "n_type3",
+        "frp_median",
+        "reason"
+      ],
+      "sha256": "961c26228a4fe37f3531205069ef72087beeaf6789997db5a40357db67a9d2c0"
+    }
+  },
+  "companion_metadata": {
+    "link_km": "1.25",
+    "link_days": "5.0",
+    "node_km": "0.5",
+    "processing": "SP",
+    "n_events": "795540",
+    "n_detections": "1958951",
+    "n_static_cells": "4803",
+    "t_min": "2012-01-20 06:33:00+00:00",
+    "t_max": "2026-07-31 20:45:00+00:00",
+    "built_at": "2026-11-15T09:01:02.807628+00:00"
+  },
+  "events": {
+    "types": {
+      "foco_aislado": 659087,
+      "incendio": 136326,
+      "incendio_prolongado": 84,
+      "quema_persistente": 35,
+      "foco_recurrente": 8
+    },
+    "missing_by_column": {
+      "event_id": 0,
+      "t_start": 0,
+      "t_end": 0,
+      "duration_days": 0,
+      "n_det": 0,
+      "lat": 0,
+      "lon": 0,
+      "lat_min": 0,
+      "lat_max": 0,
+      "lon_min": 0,
+      "lon_max": 0,
+      "x_km": 0,
+      "y_km": 0,
+      "frp_total": 0,
+      "frp_max": 0,
+      "n_modis": 0,
+      "n_viirs": 0,
+      "passes_modis": 0,
+      "passes_viirs": 0,
+      "frp_modis": 0,
+      "frp_viirs": 0,
+      "satellites": 0,
+      "department": 0,
+      "spread_km": 0,
+      "bearing_deg": 0,
+      "may_split": 0,
+      "may_merge": 0,
+      "confidence": 0,
+      "active_days": 0,
+      "foci_per_day": 0,
+      "n_cells_1km": 0,
+      "reburn_frac": 0,
+      "event_type": 0
+    },
+    "invalid_time_intervals": 0
+  },
+  "detections": {
+    "time_min": "2012-01-20 06:33:00+00:00",
+    "time_max": "2026-07-31 20:45:00+00:00",
+    "duplicate_ids": 0,
+    "missing_by_column": {
+      "det_id": 0,
+      "event_id": 0,
+      "instrument": 0,
+      "satellite": 0,
+      "processing": 0,
+      "overpass": 0,
+      "t_utc": 0,
+      "date_local": 0,
+      "department": 0,
+      "lat": 0,
+      "lon": 0,
+      "x_km": 0,
+      "y_km": 0,
+      "scan_km": 0,
+      "track_km": 0,
+      "frp": 0,
+      "confidence": 0,
+      "daynight": 0,
+      "type": 0,
+      "version": 0
+    },
+    "invalid_coordinates": 0,
+    "invalid_timestamps": 0,
+    "invalid_or_negative_frp": 0,
+    "missing_event_references": 0,
+    "categories": {
+      "instrument": {
+        "VIIRS": 1762360,
+        "MODIS": 196591
+      },
+      "satellite": {
+        "SNPP": 963630,
+        "Aqua": 163465,
+        "Terra": 33126,
+        "NOAA20": 579812,
+        "NOAA21": 218918
+      },
+      "processing": {
+        "SP": 1958951
+      },
+      "confidence": {
+        "nominal": 1822312,
+        "high": 136639
+      },
+      "type": {
+        "0": 1958951
+      },
+      "daynight": {
+        "N": 161669,
+        "D": 1797282
+      }
+    }
+  },
+  "our_series_metadata": {
+    "status": "empirical_demo",
+    "method_version": "empirical-positive-pair-v1.1",
+    "source_snapshot_id": "c96f4af273ab7587f8a2e120746f0e56b07ee07b9c5e50a236e63c62c1786915",
+    "instrument_series": [
+      "MODIS",
+      "VIIRS"
+    ],
+    "country": "PER",
+    "grid_km": 10,
+    "time_unit": "UTC week",
+    "MODIS_start": "2000-11-06",
+    "VIIRS_start": "2012-02-06",
+    "last_week_start": "2026-07-20",
+    "last_week_end": "2026-07-26",
+    "coverage_corrected": false,
+    "missing_policy": "unavailable; never a confirmed zero fire count",
+    "uncertainty_kind": "28-day block Bayesian-bootstrap calibration-factor band only",
+    "interval_is_full_fire_uncertainty": false,
+    "reference": "geometric-mean response of Aqua and Suomi-NPP equals one",
+    "cell_rows_with_records": 513756,
+    "national_calendar_rows": 2684,
+    "count_unit": "reported detections on the geometric-mean Aqua/SNPP response scale",
+    "period_status_note": "before Aqua/VIIRS overlap and in 2026, response stability is extrapolated; factor-only bands omit this structural uncertainty",
+    "fusion_for_forecast": "mean of available empirical instrument estimates; not a sum or recovered physical activity",
+    "platform_choice": "one anchor per country/week; bridge only if anchor has no country records",
+    "NRT_included": false,
+    "calibration_report_folder": "model",
+    "complete_physical_harmonization": false,
+    "interval_level": 0.95,
+    "calibration_interval_status": "computed_verified_time_blocks",
+    "bootstrap_training_blocks": 237
+  },
+  "our_snapshot_sha256_verified": true,
+  "public_api_snapshot_matches": true,
+  "leakage_findings": [
+    "Event centroids, duration, totals, final type and confidence use detections after issuance.",
+    "Static-source masks in companion archive.py are fitted using the full 2012-2026 archive.",
+    "Event IDs and connected components are constructed retrospectively over the full archive.",
+    "date_local is solar longitude-based time; use t_utc and explicit America/Lima for operational dates.",
+    "Our full weekly estimates are only usable after the week ends, plus actual publication latency.",
+    "SP archives cannot reproduce historical NRT arrival times; operational equivalence is unverified."
+  ],
+  "interpretation": "Filtered retrospective records; absence is not proof of no physical wildfire."
+}

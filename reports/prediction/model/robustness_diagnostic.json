@@ -1,0 +1,35 @@
+{
+  "baseline": {
+    "rows": 29250,
+    "positive_fraction": 0.8290940170940171,
+    "mean_probability": 0.8172282581082283,
+    "brier": 0.07592581647466443,
+    "macro_lead_brier": 0.07583515752020027,
+    "average_precision": 0.9849488096823632,
+    "roc_auc": 0.9317903455335411,
+    "log_loss": 0.24647559523489937,
+    "ece_10_equal_width": 0.021314895786839733,
+    "single_class": false
+  },
+  "scenarios": [
+    {
+      "scenario": "weather_missing",
+      "brier": 0.08053616105394314,
+      "mean_absolute_probability_change": 0.03114147617121558,
+      "is_real_NRT_validation": false
+    },
+    {
+      "scenario": "record_counts_minus30percent",
+      "brier": 0.07598957861373733,
+      "mean_absolute_probability_change": 0.0011347008055827361,
+      "is_real_NRT_validation": false
+    },
+    {
+      "scenario": "record_counts_plus30percent",
+      "brier": 0.07586121185849215,
+      "mean_absolute_probability_change": 0.0014563848040334592,
+      "is_real_NRT_validation": false
+    }
+  ],
+  "selected_model_changed": false
+}

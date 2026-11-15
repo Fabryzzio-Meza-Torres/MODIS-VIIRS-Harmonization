@@ -1,0 +1,29 @@
+{
+  "selected_model": "lgbm_without_harmonization",
+  "calibration_fitted_on": "2023 only",
+  "retrospective_before": {
+    "rows": 29250,
+    "positive_fraction": 0.8290940170940171,
+    "mean_probability": 0.8401348915239976,
+    "brier": 0.07586992513000677,
+    "macro_lead_brier": 0.07576975775039456,
+    "average_precision": 0.9849671183110972,
+    "roc_auc": 0.9318646294926379,
+    "log_loss": 0.24171619393093505,
+    "ece_10_equal_width": 0.014831770920891846,
+    "single_class": false
+  },
+  "retrospective_after": {
+    "rows": 29250,
+    "positive_fraction": 0.8290940170940171,
+    "mean_probability": 0.8172282581082283,
+    "brier": 0.07592581647466443,
+    "macro_lead_brier": 0.07583515752020027,
+    "average_precision": 0.9849488096823632,
+    "roc_auc": 0.9317903455335411,
+    "log_loss": 0.24647559523489937,
+    "ece_10_equal_width": 0.021314895786839733,
+    "single_class": false
+  },
+  "changes_selection": false
+}

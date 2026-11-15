@@ -1,0 +1,59 @@
+{
+  "status": "development_pilot_not_approved_labels",
+  "physical_ignition_ground_truth": false,
+  "source_sha256": "a01ada34384c30e3113233c3e821aa9aad90fe3c7ac44320dafea0d39e2d5e81",
+  "source": "fire_archive_SV-C2_848901_normalized.csv.gz",
+  "reference_platform": "Suomi-NPP; no increase from adding NOAA platforms",
+  "confidence": [
+    "nominal",
+    "high"
+  ],
+  "type": 0,
+  "full_history_static_mask_used": false,
+  "time_unit": "America/Lima Monday-Sunday week",
+  "time_scope": [
+    "2013-01-07",
+    "2014-01-06 exclusive"
+  ],
+  "raw_rows_in_buffer": 59518,
+  "exact_duplicate_rows_removed": 0,
+  "country_rows_in_buffer": 59452,
+  "rows_in_pilot": 59225,
+  "sensitivity": [
+    {
+      "radius_m": 1250.0,
+      "quiet_days": 5.0,
+      "new_detected_episode_candidates": 33057,
+      "regional_week_rows": 1300,
+      "positive_regional_weeks": 1057,
+      "regional_positive_fraction": 0.813076923076923
+    },
+    {
+      "radius_m": 1000.0,
+      "quiet_days": 3.0,
+      "new_detected_episode_candidates": 35704,
+      "regional_week_rows": 1300,
+      "positive_regional_weeks": 1058,
+      "regional_positive_fraction": 0.8138461538461539
+    },
+    {
+      "radius_m": 2500.0,
+      "quiet_days": 7.0,
+      "new_detected_episode_candidates": 23895,
+      "regional_week_rows": 1300,
+      "positive_regional_weeks": 1051,
+      "regional_positive_fraction": 0.8084615384615385
+    }
+  ],
+  "human_review_cases": 50,
+  "human_review_complete": false,
+  "model_trained": false,
+  "limitations": [
+    "First observed episode is not verified ignition.",
+    "Five days without a nearby detection is not proof of extinguishment.",
+    "Moving fire fronts can produce apparent new episodes.",
+    "Same-timestamp components use one representative original point; border-origin ambiguity needs review.",
+    "Sources classified type 0 can include agricultural burning or persistent sources.",
+    "No independent event reconstruction or real-time arrival latency validated."
+  ]
+}

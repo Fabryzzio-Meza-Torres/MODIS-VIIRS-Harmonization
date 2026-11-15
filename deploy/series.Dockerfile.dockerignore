@@ -7,6 +7,8 @@
 !data/
 !data/history.sqlite.gz
 !data/manifest.json
+!data/regional_outlook.json
+!data/regional_outlook_manifest.json
 !deploy/
 !deploy/series.Dockerfile
 !deploy/check_image.py

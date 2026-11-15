@@ -17,4 +17,13 @@ with TestClient(app) as client:
         response = client.get(path)
         assert response.status_code == 200, (path, response.status_code, response.text)
     assert client.get('/v1/regions').json()['data']
+    risk=client.get('/v1/fire-risk/metadata')
+    assert risk.status_code==200,risk.text
+    assert risk.json()['forecast_rows']==300
+    response=client.get('/v1/fire-risk/outlook?region_id=08')
+    if risk.json()['refresh_required']:
+        assert response.status_code==503,response.text
+    else:
+        assert response.status_code==200,response.text
+        assert len(response.json()['data'])==12
 print('Runtime-user snapshot, regional and spatial queries verified')

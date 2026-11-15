@@ -1,0 +1,64 @@
+{
+  "status": "diagnostic_only_not_ignition_validation",
+  "development_period": "2013",
+  "candidates": 33057,
+  "companion_matched": 32785,
+  "companion_event_over_1d_earlier": 1910,
+  "companion_event_over_5d_earlier": 1044,
+  "prior_nonvegetation_cells": 184,
+  "full_history_static_cell_diagnostic_only": 272,
+  "registry_associations": {
+    "INDECI_shift_0": {
+      "references": 68,
+      "candidate_matches": 46,
+      "candidate_fraction": 0.0013915358320476753
+    },
+    "INDECI_shift_-28": {
+      "references": 68,
+      "candidate_matches": 3,
+      "candidate_fraction": 9.075233687267448e-05
+    },
+    "INDECI_shift_28": {
+      "references": 68,
+      "candidate_matches": 2,
+      "candidate_fraction": 6.0501557915116316e-05
+    },
+    "MINAM_shift_0": {
+      "references": 80,
+      "candidate_matches": 9,
+      "candidate_fraction": 0.0002722570106180234
+    },
+    "MINAM_shift_-28": {
+      "references": 80,
+      "candidate_matches": 8,
+      "candidate_fraction": 0.00024200623166046527
+    },
+    "MINAM_shift_28": {
+      "references": 80,
+      "candidate_matches": 7,
+      "candidate_fraction": 0.0002117554527029071
+    },
+    "ORORATECH_shift_0": {
+      "references": 0,
+      "candidate_matches": 0,
+      "candidate_fraction": 0.0
+    },
+    "ORORATECH_shift_-28": {
+      "references": 0,
+      "candidate_matches": 0,
+      "candidate_fraction": 0.0
+    },
+    "ORORATECH_shift_28": {
+      "references": 0,
+      "candidate_matches": 0,
+      "candidate_fraction": 0.0
+    }
+  },
+  "registry_file_sha256": "eba7d32d7a332340d0a07612941c7a5aa18f4ab0ce5ab85d3354f26f1f5add6e",
+  "human_review_cases": 50,
+  "human_review_complete": false,
+  "unmatched_is_false_fire": false,
+  "registry_independence_established": false,
+  "event_aggregation_is_ground_truth": false,
+  "model_trained": false
+}
