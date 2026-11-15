@@ -7,6 +7,8 @@
   <title>Comparación regional · Fire Shift Calendar</title>
   <link rel="stylesheet" href="styles.css">
   <script type="module" src="app.js"></script>
+  <link rel="stylesheet" href="validation.css">
+  <script type="module" src="validation.js"></script>
 </head>
 <body>
   <a class="skip-link" href="#filters">Ir a los filtros</a>
@@ -15,7 +17,7 @@
       <svg width="31" height="31" viewBox="0 0 32 32" aria-hidden="true"><rect x="1" y="1" width="30" height="30" rx="7" fill="#183552"/><path d="M6 21 12 14 17 17 26 8" fill="none" stroke="#fb923c" stroke-width="2"/><path d="M6 25 12 20 18 22 26 15" fill="none" stroke="#67d8f2" stroke-width="2"/></svg>
       <span>Fire Shift Calendar</span>
     </a>
-    <div class="toplinks"><span class="country-label">Perú</span><a href="/docs" target="_blank" rel="noopener">Explorar la API</a></div>
+    <div class="toplinks"><span class="country-label">Perú</span><a href="#validacion">Evidencia</a><a href="/docs" target="_blank" rel="noopener">Explorar la API</a></div>
   </header>
   <main>
     <section class="intro" aria-labelledby="page-title">
@@ -78,6 +80,58 @@
       </table></div>
       <button id="more" class="secondary" type="button" hidden>Mostrar más semanas</button>
     </details>
+    <section id="validacion" class="validation-section" aria-labelledby="validation-title" aria-busy="true">
+      <div class="validation-heading"><div><h2 id="validation-title">Evidencia y contraste con registros oficiales</h2>
+        <p>Explora dónde y cuándo las detecciones satelitales coinciden con registros históricos de incendios en Perú.</p></div>
+        <a href="validation-data/summary.json" download>Descargar metodología y resultados</a></div>
+      <p class="validation-boundary">Este contraste evalúa asociaciones históricas. Una coincidencia no confirma que una detección corresponda al mismo incendio ni valida el pronóstico de igniciones futuras.</p>
+      <p id="validation-loading" role="status">Cargando las evidencias verificadas…</p>
+      <p id="validation-error" class="error" role="alert" hidden></p>
+      <div id="validation-content" hidden>
+        <div class="validation-summary"><h3>Una misma regla para ambos instrumentos</h3>
+          <p id="validation-scope"></p>
+          <div class="validation-table-scroll"><table class="validation-table"><caption>Referencias atribuidas a INDECI con al menos una detección cercana</caption>
+            <thead><tr><th scope="col">Instrumento</th><th scope="col">Fecha del registro</th><th scope="col">28 días antes</th><th scope="col">28 días después</th></tr></thead>
+            <tbody id="validation-primary"></tbody></table></div>
+          <p class="validation-small">En los controles se conserva el lugar y se desplaza la fecha. Sirven para comparar la asociación temporal; no representan periodos demostrados sin incendios. Los instrumentos pueden coincidir con una misma referencia: sus conteos no se suman.</p>
+        </div>
+        <div class="validation-catalog">
+          <h3>Consulta cada referencia y su evidencia</h3>
+          <p>El catálogo incluye coincidencias y casos sin coincidencia. Las referencias con varias ubicaciones se agrupan para no contar cada punto como un incendio distinto.</p>
+          <form id="validation-filters" class="validation-filters">
+            <label>Año<select id="validation-year" name="year"></select></label>
+            <label>Departamento<select id="validation-department" name="department"><option value="">Todos los departamentos</option></select></label>
+            <label>Resultado<select id="validation-status" name="status"><option value="">Todos los resultados</option><option value="both">Coincide con ambos</option><option value="modis">Solo MODIS</option><option value="viirs">Solo VIIRS</option><option value="none">Sin coincidencia</option></select></label>
+            <label class="validation-search">Código o ID del registro<input id="validation-search" type="search" placeholder="Buscar una referencia" maxlength="100"></label>
+            <button id="validation-apply" class="secondary" type="submit">Aplicar filtros</button>
+          </form>
+          <div class="validation-results-heading"><p id="validation-results" role="status" aria-live="polite"></p><a id="validation-download" href="#" download>Descargar evidencia del año</a></div>
+          <div id="validation-cases" class="validation-cases"></div>
+          <div class="validation-paging"><button id="validation-previous" class="secondary" type="button">Anterior</button><span id="validation-page"></span><button id="validation-next" class="secondary" type="button">Siguiente</button></div>
+        </div>
+        <details class="validation-detail"><summary>Un incendio documentado: Dos de Mayo, Curimaná · 2019</summary>
+          <div id="validation-curimana" class="validation-detail-body"></div>
+        </details>
+        <details class="validation-detail"><summary>Sensibilidad, fuentes y límites del contraste</summary>
+          <div class="validation-detail-body"><p>Se fijó una ventana principal de 5 km y ±3 días completos del calendario local. Las distancias de selección se calcularon en una proyección LAEA para Perú; el detalle también muestra la distancia geodésica WGS84. No se inventó una hora exacta de inicio para registros que solo informan el día.</p>
+            <div class="validation-table-scroll"><table class="validation-table"><caption>Cómo cambia la asociación al ampliar la ventana · origen INDECI</caption><thead><tr><th>Ventana</th><th>MODIS</th><th>VIIRS</th></tr></thead><tbody id="validation-sensitivity"></tbody></table></div>
+            <p>Una ventana mayor incluye más coincidencias por construcción. No elegimos el radio más favorable para comunicar precisión. Las ubicaciones del registro pueden representar lugares de reporte o áreas afectadas; no son necesariamente puntos de ignición.</p>
+            <div class="validation-table-scroll"><table class="validation-table"><caption>Otros orígenes del registro, presentados por separado · 5 km y ±3 días</caption><thead><tr><th>Origen</th><th>Referencias</th><th>MODIS</th><th>VIIRS</th></tr></thead><tbody id="validation-origins"></tbody></table></div>
+            <p>La independencia del registro respecto de productos satelitales no está demostrada. MINAM y ORORATECH no se presentan como verificaciones independientes en tierra. Un caso sin coincidencia tampoco demuestra que el sensor omitió un incendio: influyen cobertura, nubes, horarios y precisión del lugar reportado.</p>
+            <p id="validation-provenance"></p>
+            <p><a id="validation-official-source" target="_blank" rel="noopener">Consultar el servicio oficial de MINAM</a> · <a href="https://github.com/Fabryzzio-Meza-Torres/MODIS-VIIRS-Harmonization/blob/main/validacion/12_contraste_registro_MINAM.ipynb" target="_blank" rel="noopener">Revisar el análisis reproducible</a></p>
+          </div>
+        </details>
+        <details class="validation-detail"><summary>Relación temporal con el registro y evaluación del pronóstico</summary>
+          <div class="validation-detail-body"><p>La relación semanal con el registro es descriptiva. Multiplicar una serie por un factor constante conserva su correlación: una correlación alta no demuestra que la armonización sea correcta.</p>
+            <div class="validation-table-scroll"><table class="validation-table"><caption>Correlación de Spearman con referencias INDECI · escala semanal nacional</caption><thead><tr><th>Periodo</th><th>MODIS / Aqua</th><th>VIIRS / Suomi-NPP</th></tr></thead><tbody id="validation-correlations"></tbody></table></div>
+            <h4>El pronóstico se evalúa por separado</h4><p>Sus etiquetas son nuevos episodios detectados, no igniciones físicas confirmadas. Se entrenó con 2018–2021, seleccionó en 2022 y calibró en 2023 antes de abrir las evaluaciones siguientes.</p>
+            <div class="validation-table-scroll"><table class="validation-table"><caption>Error Brier regional · menor es mejor; no es porcentaje de acierto</caption><thead><tr><th>Periodo</th><th>Modelo experimental</th><th>Climatología</th></tr></thead><tbody id="validation-model"></tbody></table></div>
+            <p>El modelo empata con climatología en 2024 y mejora en 2025 y en enero–julio de 2026. La calibración no mejoró la evaluación conjunta y la ventaja no es consistente en todos los años. No se ha validado todavía el porcentaje de riesgo de ignición física futura.</p>
+          </div>
+        </details>
+      </div>
+    </section>
     <footer>NASA FIRMS · Modelos MODIS–VIIRS · Conteos reportados, no incendios independientes</footer>
   </main>
   <noscript>Activa JavaScript para filtrar las series o consulta los datos en <a href="/docs">la API</a>.</noscript>

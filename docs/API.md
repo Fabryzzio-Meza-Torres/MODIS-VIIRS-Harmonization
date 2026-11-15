@@ -2,6 +2,8 @@
 
 Estado documentado: 15 de noviembre de 2026. API `0.4.0`.
 
+El visor incorpora [evidencia histórica y registros oficiales](https://modis-viirs-harmonization-production.up.railway.app/visor/#validacion): catálogo de 15 140 referencias atribuidas a INDECI, con coincidencias y casos sin coincidencia, documentos y trazabilidad. Datos versionados en `/visor/validation-data/summary.json`; [metodología de esta sección](VALIDACION_WEB.md). Es un contraste histórico, no validación de igniciones físicas ni de la probabilidad futura.
+
 Esta versión añade el pronóstico regional experimental: `GET /v1/fire-risk?region_id=08&target_week_start=2026-11-16`, `/v1/fire-risk/outlook` y `/v1/fire-risk/metadata`. Son 25 regiones por 12 semanas, con probabilidades de nuevos episodios detectados, sin ignición física verificada. Esta emisión vence el 22 de noviembre de 2026 a las 00:00 de Lima y aún requiere renovación manual. Uso, límites y Postman: [piloto de pronósticos](PILOTO_PRONOSTICOS.md).
 
 ## Qué hicimos

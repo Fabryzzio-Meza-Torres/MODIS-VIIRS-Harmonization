@@ -1,0 +1,271 @@
+{
+  "schemaVersion": 2,
+  "generatedAt": "2026-11-15T23:18:48.027587+00:00",
+  "title": "Design System: Fire Shift Calendar",
+  "extensions": {
+    "colorMeta": {
+      "bg": {
+        "role": "neutral",
+        "displayName": "Deep navy",
+        "tonalRamp": [
+          "oklch(15% 0.035 255)",
+          "oklch(26% 0.035 255)",
+          "oklch(38% 0.035 255)",
+          "oklch(49% 0.035 255)",
+          "oklch(61% 0.035 255)",
+          "oklch(72% 0.035 255)",
+          "oklch(84% 0.035 255)",
+          "oklch(95% 0.035 255)"
+        ]
+      },
+      "panel": {
+        "role": "neutral",
+        "displayName": "Panel navy",
+        "tonalRamp": [
+          "oklch(15% 0.045 252)",
+          "oklch(26% 0.045 252)",
+          "oklch(38% 0.045 252)",
+          "oklch(49% 0.045 252)",
+          "oklch(61% 0.045 252)",
+          "oklch(72% 0.045 252)",
+          "oklch(84% 0.045 252)",
+          "oklch(95% 0.045 252)"
+        ]
+      },
+      "surface": {
+        "role": "neutral",
+        "displayName": "Raised navy",
+        "tonalRamp": [
+          "oklch(15% 0.055 250)",
+          "oklch(26% 0.055 250)",
+          "oklch(38% 0.055 250)",
+          "oklch(49% 0.055 250)",
+          "oklch(61% 0.055 250)",
+          "oklch(72% 0.055 250)",
+          "oklch(84% 0.055 250)",
+          "oklch(95% 0.055 250)"
+        ]
+      },
+      "line": {
+        "role": "neutral",
+        "displayName": "Slate rule",
+        "tonalRamp": [
+          "oklch(15% 0.035 250)",
+          "oklch(26% 0.035 250)",
+          "oklch(38% 0.035 250)",
+          "oklch(49% 0.035 250)",
+          "oklch(61% 0.035 250)",
+          "oklch(72% 0.035 250)",
+          "oklch(84% 0.035 250)",
+          "oklch(95% 0.035 250)"
+        ]
+      },
+      "text": {
+        "role": "neutral",
+        "displayName": "Cool white",
+        "tonalRamp": [
+          "oklch(15% 0.008 250)",
+          "oklch(26% 0.008 250)",
+          "oklch(38% 0.008 250)",
+          "oklch(49% 0.008 250)",
+          "oklch(61% 0.008 250)",
+          "oklch(72% 0.008 250)",
+          "oklch(84% 0.008 250)",
+          "oklch(95% 0.008 250)"
+        ]
+      },
+      "muted": {
+        "role": "neutral",
+        "displayName": "Blue grey",
+        "tonalRamp": [
+          "oklch(15% 0.035 250)",
+          "oklch(26% 0.035 250)",
+          "oklch(38% 0.035 250)",
+          "oklch(49% 0.035 250)",
+          "oklch(61% 0.035 250)",
+          "oklch(72% 0.035 250)",
+          "oklch(84% 0.035 250)",
+          "oklch(95% 0.035 250)"
+        ]
+      },
+      "orange": {
+        "role": "primary",
+        "displayName": "MODIS orange",
+        "tonalRamp": [
+          "oklch(15% 0.16 55)",
+          "oklch(26% 0.16 55)",
+          "oklch(38% 0.16 55)",
+          "oklch(49% 0.16 55)",
+          "oklch(61% 0.16 55)",
+          "oklch(72% 0.16 55)",
+          "oklch(84% 0.16 55)",
+          "oklch(95% 0.16 55)"
+        ]
+      },
+      "cyan": {
+        "role": "secondary",
+        "displayName": "VIIRS cyan",
+        "tonalRamp": [
+          "oklch(15% 0.11 215)",
+          "oklch(26% 0.11 215)",
+          "oklch(38% 0.11 215)",
+          "oklch(49% 0.11 215)",
+          "oklch(61% 0.11 215)",
+          "oklch(72% 0.11 215)",
+          "oklch(84% 0.11 215)",
+          "oklch(95% 0.11 215)"
+        ]
+      },
+      "focus": {
+        "role": "secondary",
+        "displayName": "Ice focus",
+        "tonalRamp": [
+          "oklch(15% 0.07 210)",
+          "oklch(26% 0.07 210)",
+          "oklch(38% 0.07 210)",
+          "oklch(49% 0.07 210)",
+          "oklch(61% 0.07 210)",
+          "oklch(72% 0.07 210)",
+          "oklch(84% 0.07 210)",
+          "oklch(95% 0.07 210)"
+        ]
+      },
+      "field-border": {
+        "role": "neutral",
+        "displayName": "Field stroke",
+        "tonalRamp": [
+          "oklch(15% 0.045 250)",
+          "oklch(26% 0.045 250)",
+          "oklch(38% 0.045 250)",
+          "oklch(49% 0.045 250)",
+          "oklch(61% 0.045 250)",
+          "oklch(72% 0.045 250)",
+          "oklch(84% 0.045 250)",
+          "oklch(95% 0.045 250)"
+        ]
+      }
+    },
+    "typographyMeta": {
+      "headline": {
+        "displayName": "Headline",
+        "purpose": "Main viewer heading."
+      },
+      "body": {
+        "displayName": "Body",
+        "purpose": "Operational prose and controls."
+      }
+    },
+    "shadows": [
+      {
+        "name": "chart-tooltip",
+        "value": "0 6px 18px #0005",
+        "purpose": "Transient chart inspection tooltip only."
+      }
+    ],
+    "motion": [
+      {
+        "name": "map-fill",
+        "value": "fill 150ms ease-out",
+        "purpose": "Geographic hover; disabled by reduced-motion preference."
+      }
+    ],
+    "breakpoints": [
+      {
+        "name": "workspace-compact",
+        "value": "1000px"
+      },
+      {
+        "name": "mobile",
+        "value": "760px"
+      },
+      {
+        "name": "narrow",
+        "value": "390px"
+      }
+    ],
+    "rampNote": "Tonal ramps are synthesized preview metadata, not implemented tokens or a new palette."
+  },
+  "components": [
+    {
+      "name": "Primary comparison button",
+      "kind": "button",
+      "description": "Primary comparison button from the existing viewer.",
+      "html": "<button class=\"ds-primary\">Comparar</button>",
+      "css": ".ds-primary{font-family:Inter,sans-serif;font-size:14px;line-height:1.6;min-height:43px;font-weight:600;background:var(--orange);color:#172231;padding:10px 24px;border:0;border-radius:8px;cursor:pointer}.ds-primary:hover:not(:disabled){background:#ffad6b}.ds-primary:focus-visible{outline:3px solid var(--focus);outline-offset:3px}.ds-primary:disabled{opacity:.5;cursor:not-allowed}",
+      "refersTo": "button-primary"
+    },
+    {
+      "name": "Secondary button",
+      "kind": "button",
+      "description": "Secondary button from the existing viewer.",
+      "html": "<button class=\"ds-secondary\">Aplicar filtros</button>",
+      "css": ".ds-secondary{font-family:Inter,sans-serif;font-size:14px;line-height:1.6;min-height:43px;font-weight:600;background:transparent;color:var(--text);border:1px solid #607d98;padding:8px 14px;border-radius:8px;cursor:pointer}.ds-secondary:hover:not(:disabled){background:var(--surface)}.ds-secondary:focus-visible{outline:3px solid var(--focus);outline-offset:3px}.ds-secondary:disabled{opacity:.5;cursor:not-allowed}",
+      "refersTo": "button-secondary"
+    },
+    {
+      "name": "Reference search field",
+      "kind": "input",
+      "description": "Reference search field from the existing viewer.",
+      "html": "<label class=\"ds-label\">Código o ID del registro<input class=\"ds-field\" type=\"search\" placeholder=\"Buscar una referencia\"></label>",
+      "css": ".ds-label{font-family:Inter,sans-serif;font-size:14px;line-height:1.6;display:flex;flex-direction:column;gap:6px;font-size:13px;color:var(--muted)}.ds-field{font-family:Inter,sans-serif;font-size:14px;line-height:1.6;min-height:43px;background:var(--panel);color:var(--text);border:1px solid #607d98;padding:9px 12px;border-radius:8px}.ds-field:focus-visible{outline:3px solid var(--focus);outline-offset:3px}",
+      "refersTo": "field"
+    },
+    {
+      "name": "Top navigation links",
+      "kind": "nav",
+      "description": "Top navigation links from the existing viewer.",
+      "html": "<nav class=\"ds-nav\"><a href=\"#validacion\">Evidencia</a><a href=\"#api\">Explorar la API</a></nav>",
+      "css": ".ds-nav{font-family:Inter,sans-serif;font-size:14px;line-height:1.6;display:flex;gap:24px;font-size:13px}.ds-nav a{color:var(--cyan);text-underline-offset:4px}.ds-nav a:focus-visible{outline:3px solid var(--focus);outline-offset:3px}"
+    },
+    {
+      "name": "Analytical panel",
+      "kind": "card",
+      "description": "Analytical panel from the existing viewer.",
+      "html": "<section class=\"ds-panel\"><h2>Cusco</h2><p>Datos semanales, de lunes a domingo.</p></section>",
+      "css": ".ds-panel{font-family:Inter,sans-serif;font-size:14px;line-height:1.6;background:var(--panel);color:var(--text);border:1px solid var(--line);border-radius:12px;padding:24px}.ds-panel h2{font-size:18px;line-height:1.4;font-weight:600;margin:0 0 4px}.ds-panel p{color:var(--muted);margin:0}",
+      "refersTo": "panel"
+    },
+    {
+      "name": "Methodology disclosure",
+      "kind": "custom",
+      "description": "Methodology disclosure from the existing viewer.",
+      "html": "<details class=\"ds-detail\"><summary>Sensibilidad, fuentes y límites del contraste</summary><p>Una ventana mayor incluye más coincidencias por construcción.</p></details>",
+      "css": ".ds-detail{font-family:Inter,sans-serif;font-size:14px;line-height:1.6;color:var(--text);border-top:1px solid var(--line);border-bottom:1px solid var(--line);padding:18px 0}.ds-detail summary{cursor:pointer;font-size:14px;font-weight:600;min-height:26px}.ds-detail summary:focus-visible{outline:3px solid var(--focus);outline-offset:3px}.ds-detail p{padding-top:18px;margin:0;color:var(--muted)}"
+    }
+  ],
+  "narrative": {
+    "northStar": "The analytical viewer",
+    "overview": "This records the existing operational extension of Fire Shift Calendar, rather than a new visual direction. Dark navy surfaces, self-hosted Inter and orange/cyan instrument identification carry the comparison and its historical evidence. The chart is the main comparison surface; the geographic selector supports it.\n\nThe evidence extension uses a reading-and-operating rhythm: a stated interpretation boundary, ruled result tables, native filters and expandable references. It continues the viewer's visual language without presenting historical association as proof of attribution or future ignition risk.",
+    "keyCharacteristics": [
+      "Dark tonal surfaces with visible rules and restrained corners.",
+      "One self-hosted type family and tabular numerals.",
+      "Instrument identity preserved across the analytical viewer.",
+      "Native controls and disclosures with visible keyboard focus.",
+      "Responsive evidence that stacks while retaining source detail."
+    ],
+    "rules": [
+      {
+        "name": "The Instrument Identity Rule",
+        "body": "Preserve orange for MODIS and cyan for VIIRS in the comparison series and legend; retain explicit instrument names alongside color.",
+        "section": "colors"
+      },
+      {
+        "name": "The Evidence Continuity Rule",
+        "body": "Keep reference identifiers, result labels and source detail readable when a summary or evidence column stacks on mobile.",
+        "section": "layout"
+      }
+    ],
+    "dos": [
+      "**Do** preserve the navy, Inter and instrument-color continuity of the viewer.",
+      "**Do** keep instrument names, result labels and interpretation limits explicit beside numerical evidence.",
+      "**Do** use ruled tables and native disclosures for the historical catalogue.",
+      "**Do** retain keyboard focus, local table scrolling and wrapping source identifiers across viewport sizes."
+    ],
+    "donts": [
+      "**Don't** replace established instrument colors or the self-hosted font when extending this viewer.",
+      "**Don't** apply the transient tooltip shadow to persistent evidence rows.",
+      "**Don't** communicate match classification through color alone.",
+      "**Don't** turn unrelated filter results into changes to the full-period evidence totals."
+    ]
+  }
+}

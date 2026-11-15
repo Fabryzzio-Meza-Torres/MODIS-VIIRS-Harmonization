@@ -1,0 +1,41 @@
+{
+  "base_url": "http://127.0.0.1:8011",
+  "checks": [
+    {
+      "viewport": "desktop",
+      "actual_data": true,
+      "unmatched_cases": true,
+      "both_instruments_detail": true,
+      "pagination": true,
+      "source_links": true,
+      "failure_and_recovery": true,
+      "rapid_filter_changes": true,
+      "no_horizontal_overflow": true
+    },
+    {
+      "viewport": "mobile",
+      "actual_data": true,
+      "unmatched_cases": true,
+      "both_instruments_detail": true,
+      "pagination": true,
+      "source_links": true,
+      "failure_and_recovery": true,
+      "rapid_filter_changes": true,
+      "no_horizontal_overflow": true
+    }
+  ],
+  "screenshots": [
+    "desktop-validation.png",
+    "desktop-case.png",
+    "mobile-validation.png",
+    "mobile-case.png"
+  ],
+  "browser_errors": [],
+  "data_tests_passed": 4,
+  "catalog_references": 15140,
+  "catalog_includes_unmatched": true,
+  "primary_results_reproduced": {
+    "MODIS": 2974,
+    "VIIRS": 6830
+  }
+}

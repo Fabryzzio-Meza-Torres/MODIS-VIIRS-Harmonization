@@ -1,0 +1,18 @@
+{
+  "status": "verified",
+  "base_url": "http://127.0.0.1:8011",
+  "verified_at": "2026-11-15T23:18:48.805758+00:00",
+  "catalog_references": 15140,
+  "year_partitions_verified": 13,
+  "source_document_hashes_verified": 2,
+  "summary_sha256": "da2580d31ec0959348d2298c4d20f4c32ca6e88b235a2a6d352543581a5cdde7",
+  "checks": [
+    "section_html",
+    "all_year_hashes",
+    "all_reference_counts",
+    "unmatched_retained",
+    "document_hashes",
+    "historical_api_preserved",
+    "forecast_metadata_preserved"
+  ]
+}
