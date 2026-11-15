@@ -1,3 +1,13 @@
+---
+title: Eventos de fuego Perú
+emoji: 🔥
+colorFrom: red
+colorTo: yellow
+sdk: docker
+app_port: 7860
+pinned: false
+---
+
 # MODIS-VIIRS-Harmonization · eventos de fuego de Perú
 
 NASA Space Apps Challenge 2026 · Perú. Une las detecciones de fuego de MODIS (Terra, Aqua) y
@@ -13,7 +23,42 @@ fuego**. Los guarda en Postgres y los sirve con una API FastAPI. La consulta pri
   variable `SNPP_ZIP`. MODIS, NOAA-20 y NOAA-21 se bajan por la API.
 - Opcional: GPU NVIDIA con `cupy-cuda12x` para el índice en memoria.
 
-## Deploy con Docker (recomendado)
+## Deploy gratis en Hugging Face Spaces
+
+Un solo contenedor con Postgres y la API (`Dockerfile` + `deploy/hf_start.sh`). Al arrancar
+crea la base, baja `fires.dump` de Google Drive, verifica su sha256, la restaura y lanza la API
+en el puerto 7860. El hardware gratis (CPU basic: 2 vCPU, 16 GB de RAM) alcanza y no pide
+tarjeta. El Space se duerme tras 48 h sin visitas; al despertar vuelve a bajar y restaurar la
+base (2–3 min).
+
+1. Crea una cuenta en https://huggingface.co.
+2. **New → Space**: ponle nombre (p. ej. `fuego-peru`), **SDK: Docker → Blank**,
+   **Hardware: CPU basic · Free**, visibilidad **Public** (si es privado, cada petición
+   necesita un token). Crear.
+3. **Settings → Access Tokens → Create new token**, tipo **Write**. Cópialo.
+4. Sube esta rama al Space (cambia `USUARIO` y `fuego-peru`):
+
+   ```bash
+   git clone -b deploy-hf https://github.com/Fabryzzio-Meza-Torres/MODIS-VIIRS-Harmonization.git fuego-hf
+   cd fuego-hf
+   git remote add hf https://huggingface.co/spaces/USUARIO/fuego-peru
+   git push --force hf deploy-hf:main
+   ```
+
+   Usuario: tu usuario de Hugging Face. Contraseña: el token del paso 3.
+   `--force` reemplaza el commit inicial que crea Hugging Face.
+5. En el Space, pestaña **Logs**: primero *Build* (~3 min), luego *Container* hasta ver
+   `Uvicorn running on http://0.0.0.0:7860` (~3 min más).
+6. La API queda en `https://USUARIO-fuego-peru.hf.space`:
+   - Docs: `https://USUARIO-fuego-peru.hf.space/docs`
+   - Prueba: `https://USUARIO-fuego-peru.hf.space/events?region=ucayali&start=2024-09-20&end=2024-09-26`
+   - Postman: importa `postman/fires_api.postman_collection.json` y cambia la variable
+     `baseUrl` a esa URL.
+
+Para actualizar, vuelve a correr `git push hf deploy-hf:main`. El mismo `Dockerfile` sirve en
+cualquier host que corra un solo contenedor (Render, Koyeb, Cloud Run) si tiene ~2 GB de RAM.
+
+## Deploy con Docker Compose (servidor propio)
 
 Un comando levanta Postgres y la API. La primera vez, la API baja la base ya construida
 (`fires.dump`, 132 MB) de
