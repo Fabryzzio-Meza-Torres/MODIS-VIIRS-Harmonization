@@ -1,0 +1,40 @@
+{
+  "verified_at_utc": "2026-11-15T09:25:27.647051+00:00",
+  "implementation_commit": "e6ef897",
+  "scope": "entrega empirica historica Peru, API y pronostico experimental",
+  "full_historical_physical_coverage_corrected": false,
+  "method_version": "empirical-positive-pair-v1.1",
+  "MODIS": {
+    "start": "2000-11-06",
+    "end_inclusive": "2026-07-26",
+    "calendar_weeks": 1342,
+    "weeks_with_estimate": 1332,
+    "unavailable_weeks": 10
+  },
+  "VIIRS": {
+    "start": "2012-02-06",
+    "end_inclusive": "2026-07-26",
+    "calendar_weeks": 755,
+    "weeks_with_estimate": 755,
+    "unavailable_weeks": 0
+  },
+  "full_csv_rows": 2684,
+  "grid_cells": 13405,
+  "primary_cell_series_rows": 513756,
+  "final_model_hash_verified": true,
+  "bootstrap_draws_nondegenerate": true,
+  "live_api_examples_verified": true,
+  "tests_from_verified_v1_1_execution": {
+    "calibration": 5,
+    "api": 22,
+    "frp_operator": 4,
+    "spatiotemporal_match": 3
+  },
+  "remaining": [
+    "correccion fisica completa de cobertura historica",
+    "validacion de independencia de incidentes",
+    "validacion fisica de limites FRP en Peru",
+    "despliegue publico si el equipo lo requiere"
+  ],
+  "push_status_at_verification": "not yet committed at the recorded verification time"
+}

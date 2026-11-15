@@ -1,0 +1,381 @@
+ENTREGA MODIS–VIIRS PERÚ · REVISIÓN 1.1
+Guía para entender, explicar, ejecutar y entregar el trabajo
+
+1. ESTADO REAL DE LA ENTREGA
+
+Está generada la entrega empírica acordada: dos series de conteos comparables,
+API REST, pronóstico experimental, notebooks ejecutados y validaciones.
+
+MODIS: 6 de noviembre de 2000 a 26 de julio de 2026.
+VIIRS: 6 de febrero de 2012 a 26 de julio de 2026.
+
+Las fechas representan semanas completas UTC, de lunes a domingo. El último
+week_start_utc es 2026-07-20; esa semana termina el 26 de julio.
+
+MODIS: 1.342 semanas de calendario; 1.332 con estimación y 10 sin valor.
+VIIRS: 755 semanas desde su inicio, todas con estimación nacional.
+El CSV conjunto tiene 2.684 filas: dos instrumentos por semana desde 2000.
+Sus 587 filas VIIRS anteriores a febrero de 2012 permanecen sin valor.
+
+Las 10 semanas MODIS sin valor empiezan:
+2001-01-15, 2001-04-09, 2001-04-30, 2001-05-07, 2001-06-18,
+2001-06-25, 2002-02-25, 2002-03-18, 2002-03-25 y 2010-02-01.
+
+No tener registros elegibles no demuestra que no hubo incendios ni que no hubo
+observación. Esas semanas se conservan como unavailable, con valor nulo.
+
+La corrección física de toda la cobertura histórica NO está terminada.
+coverage_corrected=false es parte explícita del contrato, no un detalle omitido.
+La entrega actual no recupera todos los incendios que los satélites pudieron omitir.
+
+2. PROBLEMA Y RESULTADO QUE PODEMOS EXPLICAR
+
+MODIS y VIIRS detectan actividad térmica con diferente resolución, respuesta y
+oportunidades de observación. Comparar directamente sus números de puntos puede
+confundir un cambio de instrumento con un cambio de actividad.
+
+Nuestro resultado mantiene DOS líneas por zona y semana, en una escala común de
+conteos reportados ajustados. No convierte cada punto en un incendio independiente.
+Tampoco fuerza que las dos curvas sean idénticas.
+
+El nombre preciso para presentar esta versión es:
+"Armonización empírica de conteos reportados MODIS–VIIRS para Perú".
+
+Se puede decir: "Estandarizamos el espacio, el tiempo y la respuesta relativa
+de las plataformas, conservando faltantes e incertidumbre".
+
+No se debe decir: "Reconstruimos el número verdadero de incendios de todo Perú",
+"corregimos toda la nubosidad histórica" o "predijimos dónde se iniciará un incendio".
+
+3. DATOS Y PREPARACIÓN
+
+Fuente: cuatro ZIP NASA FIRMS entregados por el equipo:
+MODIS C6.1, VIIRS Suomi-NPP C2, NOAA-20 C2 y NOAA-21 C2.
+MODIS incluye las plataformas Terra y Aqua; VIIRS es el instrumento de las otras tres.
+
+Se normalizaron fechas UTC, coordenadas, plataforma, tipo y variables de calidad.
+Se conservaron inventarios, filas de origen y hashes para trazabilidad.
+Se usan productos científicos SP y type=0, con actividad presumiblemente vegetal.
+No se mezclan automáticamente los registros NRT cuyo campo type no está disponible.
+No se impuso un umbral de confianza idéntico entre instrumentos: sus escalas son
+distintas. Los originales conservan esos campos para análisis de sensibilidad.
+
+Para la entrega histórica se retuvieron 2.228.157 detecciones de las cinco plataformas,
+después de filtrar período, semanas completas, tipo y límite oficial de Perú.
+Se agregaron en 855.553 grupos positivos celda–semana–plataforma.
+
+El límite es una unión de departamentos oficiales MINAM, generalizada para este análisis.
+Su detalle es aproximadamente 500 m; dos departamentos se refinaron a unos 100 m.
+La clasificación de puntos muy cerca de la frontera puede depender de ese detalle.
+
+Por qué esas fechas:
+- MODIS empieza en la primera semana completa del archivo: lunes 2000-11-06.
+- VIIRS comienza el lunes 2012-02-06, excluyendo el período inicial problemático.
+- El corte común científico es julio de 2026. La semana que empieza 2026-07-27
+  termina en agosto y no queda íntegramente dentro del corte común.
+
+4. ORGANIZACIÓN ESPACIAL Y TEMPORAL
+
+Se usa una proyección LAEA de área equivalente:
++proj=laea +lat_0=-9 +lon_0=-75 +datum=WGS84 +units=m +no_defs
+
+Se divide Perú en 13.405 celdas de 10 × 10 km que intersectan el país.
+Las celdas de frontera tienen menos de 100 km² de superficie dentro de Perú.
+
+Una celda–semana es un lugar fijo observado durante una semana fija.
+Ejemplo: el cuadrado A durante la semana del 7 al 13 de agosto.
+El siguiente lunes es otra unidad temporal del mismo cuadrado.
+
+El conteo es el número de puntos reportados por una plataforma en esa unidad.
+Presencia de registros solo indica si existe al menos uno: no es lo mismo que
+el número de detecciones, ni confirma ausencia de incendios cuando no hay puntos.
+
+El R-tree sirvió en la etapa anterior para verificar asignaciones geográficas.
+La preparación final de la malla regular asigna puntos por coordenadas proyectadas
+y división entera; el contraste de cercanía usa un árbol espacial-temporal cKDTree.
+No son algoritmos que armonicen por sí solos la sensibilidad de los instrumentos.
+
+5. CÓMO ARMONIZAMOS LOS CONTEOS
+
+Modelo conceptual:
+conteo esperado = actividad compartida × exposición observacional × respuesta.
+
+Las máscaras nacionales completas aún no están procesadas. Por tanto, la exposición
+no puede separarse totalmente de la respuesta: calibramos una respuesta relativa
+EMPÍRICA, que también puede absorber diferencias de oportunidades de observación.
+
+Durante el solapamiento buscamos pares de plataformas con puntos en la misma
+celda–semana. Bajo un supuesto Poisson, al condicionar en la suma de sus conteos
+se obtiene una distribución binomial que elimina la actividad compartida.
+
+Como los CSV contienen positivos y no todos los ceros observados, la distribución
+se condiciona además a que ambas plataformas tengan detecciones. Los pares 1+1
+no informan el contraste y se excluyen.
+
+La referencia común se fija haciendo que la media geométrica de las respuestas
+Aqua y Suomi-NPP sea 1. Ninguno se declara verdad absoluta.
+
+Fórmula de salida:
+conteo_comparable = conteo_reportado / respuesta_estimada
+                 = conteo_reportado × factor
+
+Factores del modelo global seleccionado, aproximadamente:
+Aqua:       1,993784
+Suomi-NPP:  0,501559
+Terra:      4,311475
+NOAA-20:    0,512807
+NOAA-21:    0,520861
+
+Ejemplo: 1 punto Aqua produce 1,994 unidades comparables.
+7 puntos Suomi-NPP producen 3,511 unidades comparables.
+Esos decimales expresan una estimación en la escala común, no fracciones de incendio.
+Las diferencias restantes entre instrumentos son posibles y no se borran a la fuerza.
+
+Esta versión NO es el baseline anterior de VIIRS convertido a unidades Aqua.
+El notebook 07 conserva ese baseline exploratorio; el notebook 09 y la API actual
+usan la escala común simétrica y la revisión empirical-positive-pair-v1.1.
+Las métricas WAPE del baseline anterior no deben atribuirse al modelo actual.
+
+6. CÓMO EVITAMOS INCREMENTOS ARTIFICIALES POR MÁS SATÉLITES
+
+Cada instrumento utiliza una plataforma por semana en todo el país:
+- MODIS prioriza Aqua; Terra permite extender la historia anterior a Aqua.
+- VIIRS prioriza Suomi-NPP; NOAA-20 sirve como puente en una semana sin registros
+  nacionales Suomi-NPP. NOAA-21 está calibrado como puente, pero no fue necesario
+  seleccionarlo en la serie principal publicada.
+
+No se suman Aqua+Terra ni todas las plataformas VIIRS para construir cada línea.
+Tampoco se rellenan huecos locales añadiendo selectivamente otros satélites.
+Terra después de 2023 no se usa como respaldo.
+
+Conteos de plataformas seleccionadas publicados:
+MODIS: 296.234 detecciones originales; VIIRS: 1.025.785.
+Son un subconjunto de las 2.228.157 usadas en la preparación multiplataforma.
+
+Se publican 513.756 filas positivas celda–semana–instrumento.
+La tabla por celda es dispersa: no materializa millones de ceros inventados.
+La API genera el calendario solicitado y devuelve nulos donde no hay estimación.
+
+7. VALIDACIÓN E INCERTIDUMBRE
+
+Se compararon modelos global, estacional y regional-estacional.
+La selección usa 2019–2021 y exige al menos 1 % de mejora de verosimilitud
+para aumentar complejidad. Se conservó el global: las otras mejoras eran menores.
+
+El ajuste de plataformas establecidas usa datos hasta 2021.
+NOAA-21 entra con un puente de marzo–junio de 2023 sin cambiar factores anteriores.
+Se excluyen del ajuste bloques espaciales de 200 km reservados para validación.
+El test final 2024–2025 se abrió después de congelar la selección.
+model.json conserva un snapshot anterior a la evaluación; el resultado ejecutado
+se acredita en final_evaluation.json y final_test_2024_2025.csv.
+
+Resultados MAE condicional, identidad frente a calibración:
+2024, zonas vistas:       1,833 -> 1,099
+2024, zonas reservadas:   2,454 -> 1,261
+2025, zonas vistas:       1,253 -> 0,971
+2025, zonas reservadas:   1,328 -> 0,993
+
+Estos errores miden la asignación del total observado entre dos plataformas en
+pares con detecciones. NO son errores contra el número real de incendios.
+MAE: error absoluto medio; RMSE: penaliza más los errores grandes.
+NLL condicional: mide ajuste a la distribución observacional; menor es mejor.
+
+Bandas al 95 %: 100 réplicas bootstrap con pesos compartidos por bloques de 28 días.
+Hay 237 bloques de entrenamiento y cinco en el puente NOAA-21.
+En el total nacional se suma cada réplica completa, preservando su correlación.
+Las bandas representan incertidumbre del factor bajo el modelo, no toda la
+incertidumbre de incendios omitidos, nubosidad, exposición o supuesto Poisson.
+
+REVISIÓN IMPORTANTE: v1.1 corrigió un error de unidades temporales de pandas
+en el bootstrap. Las bandas anteriores se retiraron. Los parámetros centrales
+y las variables del pronóstico se conservaron, verificados a tolerancia 1e-12.
+Se añadieron pruebas de regresión para fechas en microsegundos y nanosegundos.
+Usar el paquete v1.1 actualizado, no una copia anterior ya descargada.
+
+8. CONTRASTE CON EL REGISTRO OFICIAL MINAM
+
+Se descargaron y conservaron por identificador los 54.493 registros de la capa
+oficial "Registro histórico de incendios 2000–2025".
+La equivalencia exacta con el recurso del portal solicitado no se ha demostrado:
+el portal respondió 403 y usamos el servicio geográfico oficial accesible.
+
+Se revisaron fechas, ubicaciones, duplicados y procedencias INDECI/MINAM/ORORATECH.
+En el período común 2013–2025 quedaron 44.374 referencias de contraste.
+No todas equivalen a incendios independientes; algunas son referencias por
+ubicación y fecha sin código de emergencia utilizable.
+
+Ventana principal fijada: 5 km y ±3 días de calendario.
+Se informan sensibilidades 10 km/±3 días y 25 km/±7 días.
+También se desplazan las fechas −28 y +28 días como controles descriptivos.
+
+En las referencias de origen declarado INDECI, la coincidencia principal fue:
+MODIS: 19,64 %; VIIRS: 45,11 %.
+Al desplazar fechas ±28 días, esas proporciones fueron menores.
+Esto aporta evidencia de asociación temporal y espacial, no una tasa de detección
+de todos los incendios ni una medición de omisiones. La independencia del registro
+respecto de alertas e imágenes satelitales permanece por verificar.
+
+También se correlacionaron registros semanales nacionales. Multiplicar una serie
+por un factor positivo constante conserva la correlación: esa correlación no
+demuestra que la escala armonizada sea correcta.
+
+9. QUÉ HICIMOS CON EL ARTÍCULO
+
+Se implementaron de manera independiente ecuaciones del operador FRP publicado:
+https://doi.org/10.5194/gmd-19-10123-2026
+
+Se verificaron constantes de las tablas, unidades, límites y comportamiento numérico.
+Se documentó una discrepancia entre evaluaciones de tabla y valores resumidos en
+el texto, y A0=0 como supuesto explícito pendiente de confirmar.
+
+El módulo permanece de investigación. No está habilitado como corrección de
+conteos de producción. FRP mide potencia radiativa en MW; no es número de incendios
+y sumar FRP de sobrevuelos no equivale directamente a energía emitida.
+
+10. PRONÓSTICO EXPERIMENTAL ENTREGADO
+
+Semana objetivo fija: 16–22 de noviembre de 2026.
+Una fila representa una celda de 10 km.
+record_probability estima la probabilidad de un registro satelital semanal bajo
+el régimen histórico aprendido. No estima probabilidad física de ignición.
+
+Variables: geografía, fracción de celda dentro de Perú, estacionalidad, actividad
+de aproximadamente un año antes y presencia de registros uno y dos años antes.
+No usa meteorología ni detecciones recientes de noviembre de 2026.
+La actividad comparable usada como variable es la media de instrumentos disponibles,
+no su suma.
+
+Entrenamiento: 2013–2021.
+Calibración de probabilidad: 2022.
+Selección por Brier: 2023.
+Test final: 2024–2025.
+Modelo seleccionado: HistGradientBoostingClassifier, frente a climatología mensual.
+Los negativos de entrenamiento se muestrean al 12,5 % con pesos inversos;
+validación y test conservan su distribución original.
+
+La prueba espacial reserva bloques; en esas zonas sí se dispone de historia
+anterior como variable. No es una prueba en lugares sin datos históricos.
+
+Average precision mide ordenamiento de positivos; Brier mide error de probabilidades.
+Ejemplos en zonas vistas:
+2024: AP 0,470; Brier 0,02897.
+2025: AP 0,346; Brier 0,02536.
+
+El modelo no supera siempre a la climatología. En zonas vistas durante 2025,
+la climatología logra mejor AP y Brier; el resultado se conserva y documenta.
+No se seleccionó otro modelo después de mirar el test.
+
+El pronóstico es una referencia estacional experimental, no una alerta operativa.
+El cambio de plataformas de 2026 todavía no está validado en ese pronóstico.
+El mapa muestra centros de celdas y probabilidades, no coordenadas de ignición.
+
+11. ARCHIVOS PRINCIPALES DEL PAQUETE
+
+data/national_series.csv: dos líneas nacionales, calendario completo desde 2000.
+data/cell_series.csv.gz: valores por celda–semana–instrumento con registros.
+data/cells.csv: identificadores, centros geográficos y superficie dentro de Perú.
+data/forecast_cells.csv.gz: ranking y probabilidad experimental para cada celda.
+data/series_metadata.json: unidad, período, versión, cobertura y limitaciones.
+data/all_platform_calibrations.csv.gz, si está incluido: suplemento con las cinco
+plataformas ajustadas. No sumarlas para reemplazar las dos líneas principales.
+api/history.sqlite: snapshot de consulta; permite usar la API sin los ZIP originales.
+api/: servicio FastAPI, cliente JavaScript, esquema y pruebas.
+pipeline/: preparación, calibración, exportación, pronóstico y reproducibilidad.
+reports/: métricas, factores, trazabilidad, corrección v1.1 y contrastes.
+
+Notebooks recomendados para leer en orden:
+notebooks/09_series_comparables.ipynb
+notebooks/10_pronostico_experimental.ipynb
+notebooks/11_limites_deteccion.ipynb
+validacion/12_contraste_registro_MINAM.ipynb
+
+Los notebooks incluyen outputs ejecutados para revisarlos sin volver a entrenar.
+Para reejecutarlos se necesitan los artefactos preparados, no solo abrir el ZIP.
+pipeline/REPRODUCIR.txt explica cómo reconstruirlos desde los originales.
+
+12. CAMPOS QUE DEBES SABER EXPLICAR
+
+week_start_utc: lunes de la semana; todas las fechas de la serie usan UTC.
+instrument: MODIS o VIIRS.
+platform: satélite/plataforma seleccionada esa semana.
+raw_count: puntos originales reportados por esa plataforma.
+harmonized_count: conteo ajustado en la escala común empírica.
+lower_bound/upper_bound: banda del factor de calibración.
+coverage_status=unknown: no se certifica la cobertura de observación completa.
+estimation_status=estimated: existe un conteo ajustado.
+estimation_status=unavailable: no hay estimación disponible; no significa cero.
+method_version: método utilizado, actualmente empirical-positive-pair-v1.1.
+source_snapshot_id: identifica los insumos y el modelo del lote.
+calibration_period_status: advierte extrapolación anterior al solapamiento o posterior
+  a los períodos de validación.
+record_probability: probabilidad experimental de un registro, entre 0 y 1.
+rank: orden de priorización experimental, 1 corresponde al valor mayor.
+
+13. CÓMO EJECUTAR LA API PARA MOSTRARLA
+
+Descomprimir el paquete en una carpeta. Abrir terminal en esa carpeta.
+Se probó con Python 3.13; se recomienda un entorno virtual.
+
+python -m pip install -r api/requirements.txt
+python -m uvicorn api:app --app-dir api --host 127.0.0.1 --port 8000
+
+Abrir http://127.0.0.1:8000/docs
+
+Si utilizas una copia clonada de Git en lugar del paquete ZIP, primero ejecutar:
+python api/restaurar_snapshot.py
+Esto reconstruye api/history.sqlite desde data/history.sqlite.gz y verifica hashes
+e integridad SQLite. Los ZIP de entrega ya contienen la base descomprimida.
+
+Rutas de la entrega actual:
+GET /v1/empirical/metadata
+GET /v1/empirical/series?start=2000-11-06&end=2026-07-27&limit=1000
+GET /v1/empirical/cells?limit=1000
+GET /v1/forecasts?limit=100
+GET /v1/validation
+
+Agregar instrument=MODIS o instrument=VIIRS para elegir una línea.
+Agregar cell_id para una celda. Primero descubrir IDs válidos en /v1/empirical/cells.
+end es EXCLUSIVO: para incluir hasta el 26 de julio, usar end=2026-07-27.
+Seguir pagination.next_offset hasta null: el máximo por página es 1.000.
+Sin instrument, todo el histórico nacional ocupa 2.684 filas y requiere tres páginas.
+Las consultas bbox usan oeste,sur,este,norte y filtran centros de celda.
+
+IMPORTANTE: /v1/series queda reservado para la corrección completa, aún no publicada.
+Para esta demo usar /v1/empirical/series.
+Es una API local lista para integrar con HTML/JS, React o Next.js. El alojamiento
+público en internet es una tarea de despliegue aparte.
+
+14. CÓMO ENTREGAR Y PUSHEAR TU PARTE
+
+El código y los notebooks anteriores ya estaban subidos al repositorio:
+https://github.com/Fabryzzio-Meza-Torres/MODIS-VIIRS-Harmonization
+Último commit de implementación verificado antes de esta guía: e6ef897.
+La publicación solicitada incorpora también las guías, datos derivados y el paquete.
+Los pasos siguientes sirven para futuras actualizaciones o una copia propia.
+
+En este equipo, la copia de trabajo está en:
+C:\Users\ASUS\Documents\Codex\2026-11-14\vo\work\MODIS-VIIRS-Harmonization
+
+Desde PowerShell:
+cd "C:\Users\ASUS\Documents\Codex\2026-11-14\vo\work\MODIS-VIIRS-Harmonization"
+git status
+git add entrega/EXPLICACION_Y_GUIA.txt entrega/PRESENTACION_90_SEGUNDOS.txt entrega/VERIFICACION_ENTREGA.json entrega/API_EJEMPLOS.json
+git commit -m "Documentar entrega historica Peru y guia de presentacion"
+git push origin main
+
+Si trabajas desde otra copia del mismo repositorio, actualizarla con git pull --ff-only
+y copiar la carpeta entrega antes de añadirla.
+Si el equipo usa otro repositorio, incorporar los directorios de código, notebooks e
+informes que necesite; no copiar .git ni credenciales.
+
+Los ZIP originales, geolocalizaciones grandes, cachés, archivos .env y claves no
+deben subirse a Git. history.sqlite y CSV grandes se entregan por paquete/datos;
+el repositorio conserva código, notebooks e informes para reconstrucción y revisión.
+
+15. FRASE DE CIERRE PARA LA PRESENTACIÓN
+
+"Entregamos el histórico empírico comparable MODIS–VIIRS de Perú, con consultas por
+zona y semana, trazabilidad, validación e incertidumbre, además de un pronóstico
+experimental de registros. La siguiente fase es completar las máscaras de
+observación para corregir físicamente la cobertura histórica y fortalecer la
+validación con eventos independientes."

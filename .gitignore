@@ -231,3 +231,6 @@ artifacts/
 .env.*
 .netrc
 _netrc
+
+# Published derived release datasets (explicitly requested by the owner)
+!data/*.csv.gz

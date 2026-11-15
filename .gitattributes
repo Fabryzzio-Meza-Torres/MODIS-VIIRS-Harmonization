@@ -1,0 +1,5 @@
+
+# Preserve exact published dataset bytes for SHA256 verification across OSes
+data/** -text
+entrega/*.zip -text
+entrega/figuras/*.png -text

@@ -1,0 +1,61 @@
+{
+  "release": "empirical-demo-v1.1",
+  "coverage_corrected": false,
+  "files": {
+    "national_series.csv": {
+      "bytes": 733496,
+      "sha256": "fed21ac29340327ef3fda56633e63cc31aa536d646531163fd36b5b2e51e3f66"
+    },
+    "cell_series.csv.gz": {
+      "bytes": 5999155,
+      "sha256": "41c8adacc67300ea8046eee277052a203ae99072e3353a70c1793b1c68b3165c"
+    },
+    "all_platform_calibrations.csv.gz": {
+      "bytes": 25291510,
+      "sha256": "97321a6d61d16164a3fc59a0d3b120ab9867559602eccdaf9c9b30c55149a488"
+    },
+    "platform_selection.csv": {
+      "bytes": 190851,
+      "sha256": "b479ad73618ac3233c881d861568883cac7331a6c20f70ee6d2de8ae3126ff83"
+    },
+    "series_metadata.json": {
+      "bytes": 1496,
+      "sha256": "8b1963b819863041db25e70db2c7238ee1088b9a47cd5e30715140f22ec04f9f"
+    },
+    "forecast_activity_features.csv.gz": {
+      "bytes": 3297028,
+      "sha256": "96744ae8308b72203d7a419db04d57a959e5fb6ee6a1acb2932eb24e352ccaa2"
+    },
+    "cells.csv": {
+      "bytes": 882814,
+      "sha256": "85c0610ff2509c555089f35b9b347a8b42010f76111bc32f69e6f58a17d49954"
+    },
+    "peru.geojson": {
+      "bytes": 230675,
+      "sha256": "0116c15f4f387dd239f44dd293be9ff1bd1c06e58b4a93f41ae17a125b0fc7c2"
+    },
+    "preparation.json": {
+      "bytes": 1766,
+      "sha256": "f7d1ba0d949b9cfa274238fdcd60f6e675acc1ea75b8c12207d49bcd06c97593"
+    },
+    "forecast_cells.csv.gz": {
+      "bytes": 417500,
+      "sha256": "aab3e3e12f96005ffd600521b8828f0557b1227692c7f0f7e267d2bc992653e6"
+    },
+    "forecast_metadata.json": {
+      "bytes": 1578,
+      "sha256": "e216456dc60033efe6c7e6ac0a4b4b70c2ebd9efbc06e917bb2ac4f51dbc4a25"
+    },
+    "history.sqlite.gz": {
+      "bytes": 11213827,
+      "sha256": "e8be13683d2dbfbadcfa92584f6bb4cba0f15c976cc4987cbe41e9dff438c9ac"
+    }
+  },
+  "snapshot": {
+    "file": "history.sqlite.gz",
+    "compressed_sha256": "e8be13683d2dbfbadcfa92584f6bb4cba0f15c976cc4987cbe41e9dff438c9ac",
+    "uncompressed_sha256": "8b3248ace4d7c86cbed9dbfcb9bcc1836957acbc762cdab05d668bf8e6cd7e3f",
+    "uncompressed_bytes": 65507328
+  },
+  "text_files_line_endings": "LF; exact dataset bytes preserved by .gitattributes"
+}

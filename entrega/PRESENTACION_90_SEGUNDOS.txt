@@ -1,0 +1,55 @@
+GUION BREVE PARA EXPONER TU PARTE
+
+"Nuestro problema es que MODIS y VIIRS observan actividad térmica con distinta
+resolución y respuesta. Por eso, más puntos en VIIRS no implica directamente más
+incendios, y concatenar los datos sin ajustar puede producir cambios artificiales.
+
+Tomamos los archivos científicos FIRMS para Perú, normalizamos sus fechas y
+coordenadas, delimitamos el país con información oficial MINAM y organizamos las
+detecciones en celdas de 10 kilómetros y semanas completas.
+
+Construimos dos series: MODIS desde el 6 de noviembre de 2000 y VIIRS desde el
+6 de febrero de 2012, ambas hasta el 26 de julio de 2026.
+
+En el período de solapamiento calibramos la respuesta relativa de las plataformas.
+Los conteos se expresan en una escala común; ninguno de los dos instrumentos se
+considera la verdad absoluta. Elegimos un modelo global porque las alternativas
+más complejas no mejoraban lo suficiente la validación.
+
+No sumamos satélites para aumentar artificialmente la actividad, y las semanas
+sin información se mantienen sin valor. Validamos con períodos y zonas reservados,
+estimamos bandas de calibración y añadimos un contraste geográfico con MINAM.
+
+Entregamos una API que permite consultar las series por zona y semana, además de
+un mapa experimental de probabilidad de registros futuros basado en estacionalidad.
+
+El alcance actual es empírico: aún falta corregir toda la cobertura histórica.
+El pronóstico no equivale a probabilidad física de que se inicie un incendio."
+
+SI TE PREGUNTAN...
+
+¿Qué variable armonizaron?
+El número de detecciones reportadas por plataforma, celda y semana.
+
+¿Por qué salen decimales?
+Porque son conteos ajustados en una escala común, no incendios observados fraccionados.
+
+¿Las dos líneas deben quedar iguales?
+No. Se calibra una respuesta relativa; continúan diferencias de observación y ruido.
+
+¿Qué significa un nulo?
+Que no hay una estimación disponible. No demuestra que no hubo incendios.
+
+¿Corrigieron toda la nubosidad?
+No. La corrección física de toda la exposición histórica sigue pendiente.
+
+¿La comparación MINAM prueba cuántos incendios se perdieron?
+No. Es un contraste de asociación con registros oficiales; falta probar independencia
+y controlar cobertura, fecha y precisión de ubicación.
+
+¿El modelo predice incendios?
+Predice registros satelitales semanales de forma experimental, con historia estacional.
+Para riesgo físico hacen falta más variables y validación independiente.
+
+¿Cómo consume esto el dashboard?
+Por HTTP/JSON: /v1/empirical/series y /v1/forecasts, con metadatos y paginación.

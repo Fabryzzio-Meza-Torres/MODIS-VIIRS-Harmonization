@@ -1,0 +1,58 @@
+{
+  "start": "2000-11-06 00:00:00+00:00",
+  "end_exclusive": "2026-07-27 00:00:00+00:00",
+  "processing": "SP",
+  "type": 0,
+  "platforms": [
+    "Aqua",
+    "Suomi-NPP",
+    "Terra",
+    "NOAA-20",
+    "NOAA-21"
+  ],
+  "crs": "+proj=laea +lat_0=-9 +lon_0=-75 +datum=WGS84 +units=m +no_defs",
+  "grid_km": 10,
+  "cell_count": 13405,
+  "observed_groups": 855553,
+  "retained_detections": 2228157,
+  "country_area_km2": 1286422.5407867418,
+  "boundary_generalization_degrees": 0.005,
+  "refined_department_generalization_degrees": {
+    "PUNO": 0.001,
+    "TUMBES": 0.001
+  },
+  "invalid_department_geometries_repaired": 2,
+  "boundary_repair_relative_area_changes": [
+    1.709784235626035e-10,
+    4.9397925972568527e-08
+  ],
+  "first_complete_weeks_by_platform": {
+    "Terra": "2000-11-06",
+    "Aqua": "2002-07-08",
+    "Suomi-NPP": "2012-02-06",
+    "NOAA-20": "2018-04-02",
+    "NOAA-21": "2023-03-06"
+  },
+  "boundary_sha256": "914563c76db856651f5cca3f73d99bd2014155b5b690a5ba9f95a13dae0ffb1e",
+  "source_hashes": [
+    {
+      "source": "fire_archive_M-C61_848898.csv",
+      "sha256": "43f8220137449378edd9bba01a4b94f0b4c739374ffd7b89610d20a1ccb9ea40"
+    },
+    {
+      "source": "fire_archive_J1V-C2_848899.csv",
+      "sha256": "08ad61dabda0eddf46eec027b77bc3ef5346cccaf4d07a25c7f446fd90a5e63a"
+    },
+    {
+      "source": "fire_archive_J2V-C2_848900.csv",
+      "sha256": "ab9a8061a2d8f91110ad648ac846567d75b0875dda7a1375dd57513948b110cc"
+    },
+    {
+      "source": "fire_archive_SV-C2_848901.csv",
+      "sha256": "a01ada34384c30e3113233c3e821aa9aad90fe3c7ac44320dafea0d39e2d5e81"
+    }
+  ],
+  "missing_policy": "no row is unknown; never a confirmed zero fire count",
+  "coverage_corrected": false,
+  "test_outcomes_used_for_model_selection": false
+}

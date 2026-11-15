@@ -1,0 +1,188 @@
+{
+  "series": {
+    "request": "/v1/empirical/series?start=2023-08-07&end=2023-08-14",
+    "response": {
+      "metadata": {
+        "status": "empirical_demo",
+        "method_version": "empirical-positive-pair-v1.1",
+        "source_snapshot_id": "c96f4af273ab7587f8a2e120746f0e56b07ee07b9c5e50a236e63c62c1786915",
+        "instrument_series": [
+          "MODIS",
+          "VIIRS"
+        ],
+        "country": "PER",
+        "grid_km": 10,
+        "time_unit": "UTC week",
+        "MODIS_start": "2000-11-06",
+        "VIIRS_start": "2012-02-06",
+        "last_week_start": "2026-07-20",
+        "last_week_end": "2026-07-26",
+        "coverage_corrected": false,
+        "missing_policy": "unavailable; never a confirmed zero fire count",
+        "uncertainty_kind": "28-day block Bayesian-bootstrap calibration-factor band only",
+        "interval_is_full_fire_uncertainty": false,
+        "reference": "geometric-mean response of Aqua and Suomi-NPP equals one",
+        "cell_rows_with_records": 513756,
+        "national_calendar_rows": 2684,
+        "count_unit": "reported detections on the geometric-mean Aqua/SNPP response scale",
+        "period_status_note": "before Aqua/VIIRS overlap and in 2026, response stability is extrapolated; factor-only bands omit this structural uncertainty",
+        "fusion_for_forecast": "mean of available empirical instrument estimates; not a sum or recovered physical activity",
+        "platform_choice": "one anchor per country/week; bridge only if anchor has no country records",
+        "NRT_included": false,
+        "calibration_report_folder": "model",
+        "complete_physical_harmonization": false,
+        "interval_level": 0.95,
+        "calibration_interval_status": "computed_verified_time_blocks",
+        "bootstrap_training_blocks": 237,
+        "artifact_sha256": "bf981a9ae7f65e3503a2d52fe9c0c7560dcd07eae8a6194ef3f352fa8d7364f9",
+        "scope": "PER"
+      },
+      "data": [
+        {
+          "week_start_utc": "2023-08-07",
+          "instrument": "MODIS",
+          "platform": "Aqua",
+          "raw_count": 518,
+          "harmonized_count": 1032.7798562287387,
+          "lower_bound": 1009.8696552013806,
+          "upper_bound": 1050.7360460120926,
+          "coverage_status": "unknown",
+          "estimation_status": "estimated"
+        },
+        {
+          "week_start_utc": "2023-08-07",
+          "instrument": "VIIRS",
+          "platform": "Suomi-NPP",
+          "raw_count": 3073,
+          "harmonized_count": 1541.2907120522373,
+          "lower_bound": 1514.9525578813475,
+          "upper_bound": 1576.2590717070782,
+          "coverage_status": "unknown",
+          "estimation_status": "estimated"
+        }
+      ],
+      "pagination": {
+        "limit": 100,
+        "offset": 0,
+        "next_offset": null
+      }
+    }
+  },
+  "forecast": {
+    "request": "/v1/forecasts?limit=3",
+    "response": {
+      "metadata": {
+        "version": "annual-lag-archive-record-v1",
+        "selected": "annual_lag_gradient_boosting",
+        "target": "at least one selected-anchor MODIS or VIIRS archive detection in the target cell/week",
+        "target_zero": "no archive record; not confirmed absence of fire",
+        "features": [
+          "x_100km",
+          "y_100km",
+          "country_area_fraction",
+          "season_sin",
+          "season_cos",
+          "log_activity_lag52",
+          "record_lag52",
+          "annual_window_log_mean",
+          "record_lag104"
+        ],
+        "fit_period": "2013-2021",
+        "probability_calibration_period": "2022",
+        "model_selection_period": "2023",
+        "selection_metric": "minimum Brier score in seen spatial blocks",
+        "final_test_period": "2024-2025",
+        "final_test_opened": true,
+        "spatial_holdout": "1/7 of fixed 200km blocks; local past annual lags remain available",
+        "training_negative_sampling_probability": 0.125,
+        "inverse_sampling_weighting": true,
+        "current_weather_used": false,
+        "recent_2026_detections_used": false,
+        "physical_fire_risk_probability": false,
+        "coverage_corrected": false,
+        "forecast_is_seasonal_annual_recurrence": true,
+        "noaa_platform_transition_2026_validated": false,
+        "frozen_protocol_sha256": "2d61476bf67532374f17f8daca0c5e1eb8b93839f170c5c21aeb307392542fbe",
+        "elapsed_seconds": 13.678094800000508,
+        "training_rows": 870061,
+        "training_positives": 192725,
+        "cells": 13405,
+        "issued_at_utc": "2026-11-15T03:11:19.947780+00:00",
+        "target_week_start": "2026-11-16",
+        "target_week_end": "2026-11-22",
+        "calibration_intercept": 0.20004679819364246,
+        "calibration_slope": 0.9658351917059768,
+        "artifact_sha256": "72dac6d7034316e6ade99405ee1bcf88060ae5d5c6d049e6b4c082e50dbcd5fe"
+      },
+      "data": [
+        {
+          "cell_id": "laea10_-38_34",
+          "center_lon": -78.38560995998279,
+          "center_lat": -5.865867462379485,
+          "country_area_km2": 100.0,
+          "record_probability": 0.7348005023049534,
+          "rank": 1,
+          "target_week_start": "2026-11-16",
+          "target_week_end": "2026-11-22",
+          "quality_flag": "seasonal_recurrence;unknown_coverage;2026_platform_transition_unvalidated"
+        },
+        {
+          "cell_id": "laea10_-36_34",
+          "center_lon": -78.20500280121999,
+          "center_lat": -5.867345271011719,
+          "country_area_km2": 100.0,
+          "record_probability": 0.716103174335784,
+          "rank": 2,
+          "target_week_start": "2026-11-16",
+          "target_week_end": "2026-11-22",
+          "quality_flag": "seasonal_recurrence;unknown_coverage;2026_platform_transition_unvalidated"
+        },
+        {
+          "cell_id": "laea10_-37_34",
+          "center_lon": -78.29530550761557,
+          "center_lat": -5.866616487414982,
+          "country_area_km2": 100.0,
+          "record_probability": 0.716103174335784,
+          "rank": 3,
+          "target_week_start": "2026-11-16",
+          "target_week_end": "2026-11-22",
+          "quality_flag": "seasonal_recurrence;unknown_coverage;2026_platform_transition_unvalidated"
+        }
+      ],
+      "pagination": {
+        "limit": 3,
+        "offset": 0,
+        "next_offset": 3
+      }
+    }
+  },
+  "cells": {
+    "request": "/v1/empirical/cells?limit=2",
+    "response": {
+      "metadata": {
+        "country": "PER",
+        "grid_km": 10,
+        "bbox_filter": "cell centers; clipped boundary cells may have centers outside Peru"
+      },
+      "data": [
+        {
+          "cell_id": "laea10_-10_-1",
+          "center_lon": -75.86408010848601,
+          "center_lat": -9.044199486187114,
+          "country_area_km2": 100.0
+        },
+        {
+          "cell_id": "laea10_-10_-10",
+          "center_lon": -75.8660836310828,
+          "center_lat": -9.85789677717234,
+          "country_area_km2": 100.0
+        }
+      ],
+      "pagination": {
+        "limit": 2,
+        "offset": 0,
+        "next_offset": 2
+      }
+    }
+  }
+}

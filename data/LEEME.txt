@@ -1,0 +1,33 @@
+DATOS PUBLICADOS · PERÚ · VERSIÓN EMPÍRICA 1.1
+
+national_series.csv: dos series nacionales, semanas 2000-11-06 a 2026-07-20.
+La última semana termina el 26 de julio de 2026. VIIRS empieza 2012-02-06;
+sus filas anteriores permanecen sin valor. MODIS tiene 10 semanas unavailable.
+cell_series.csv.gz: conteos comparables por celda-semana-instrumento.
+all_platform_calibrations.csv.gz: suplemento de las cinco plataformas; no sumarlas
+para sustituir las dos series principales.
+platform_selection.csv: plataforma seleccionada por instrumento y semana.
+cells.csv / peru.geojson: malla y límite generalizado de referencia.
+forecast_cells.csv.gz: pronóstico experimental de registros para 16-22 noviembre 2026.
+forecast_activity_features.csv.gz: actividad agregada utilizada como variable.
+Los JSON documentan versiones, procedencia y limitaciones.
+
+history.sqlite.gz: snapshot comprimido de la API, sin credenciales.
+manifest.json: tamaños y SHA256 de los datos publicados.
+
+Desde la raíz del repositorio:
+  python api/restaurar_snapshot.py
+  python -m pip install -r api/requirements.txt
+  python -m uvicorn api:app --app-dir api --host 127.0.0.1 --port 8000
+
+Abrir http://127.0.0.1:8000/docs
+Rutas: /v1/empirical/series, /v1/empirical/cells, /v1/forecasts, /v1/validation.
+/v1/series sigue reservado para la corrección física completa, aún pendiente.
+La restauración verifica ambos hashes y la integridad SQLite; no reemplaza una
+base diferente salvo que se especifique --replace tras revisarla.
+
+El paquete entrega/ENTREGA_MODIS_VIIRS_PERU_v1_1.zip incluye la base descomprimida
+y puede ejecutarse sin restaurarla. Ver entrega/EXPLICACION_Y_GUIA.txt.
+
+coverage_corrected=false: no afirmar que todos los incendios históricos se recuperan.
+El pronóstico es de registros satelitales, no de ignición física.
