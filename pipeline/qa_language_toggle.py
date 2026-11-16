@@ -20,11 +20,11 @@ def verify(base,output):
             page.get_by_role('combobox',name='Match',exact=True).select_option('both')
             example=page.get_by_test_id('evidence-example').first
             assert 'MODIS and VIIRS' in example.inner_text()
-            example.locator('summary').click()
+            example.locator('summary').press('Enter')
             assert 'Record attributed to INDECI' in example.inner_text()
             assert ' days' in example.inner_text()
             assert 'Code ' in example.inner_text() or 'Record ' in example.inner_text()
-            page.get_by_text('Data provenance and integrity',exact=True).click()
+            page.get_by_text('Data provenance and integrity',exact=True).press('Enter')
             text=page.locator('body').inner_text()
             assert 'rows; downloaded' in text
             assert 'What this comparison validates and what remains open' in text
@@ -34,7 +34,7 @@ def verify(base,output):
             page.get_by_role('combobox',name='Coincidencia',exact=True).select_option('both')
             example=page.get_by_test_id('evidence-example').first
             assert 'MODIS y VIIRS' in example.inner_text()
-            example.locator('summary').click()
+            example.locator('summary').press('Enter')
             assert 'Registro atribuido a INDECI' in example.inner_text()
             assert ' días' in example.inner_text()
             page.reload(wait_until='domcontentloaded')
@@ -46,7 +46,7 @@ def verify(base,output):
             page.locator('button[lang="en"]:visible').first.click()
             page.get_by_test_id('activity-probability').wait_for(timeout=60000)
             assert page.locator('html').get_attribute('lang')=='en'
-            page.get_by_text('Method, evaluation and limitations',exact=True).click()
+            page.get_by_text('Method, evaluation and limitations',exact=True).press('Enter')
             text=page.locator('body').inner_text()
             assert 'The reliability of each exact future percentage' in text
             assert 'No se ha demostrado' not in text and 'Escala: departamento' not in text

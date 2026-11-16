@@ -1,13 +1,23 @@
 import { test } from 'node:test'
 import assert from 'node:assert/strict'
 import { readFileSync } from 'node:fs'
-import { assignToProvinces, buildProvinces, pointInPolygons, pointInProvince, polygonsAreaKm2, ringAreaKm2, strip, unionBbox } from './geo.ts'
+import { assignToProvinces, buildProvinces, pointInPolygons, pointInProvince, polygonsAreaKm2, ringAreaKm2, settlementKindLabel, strip, unionBbox } from './geo.ts'
 import { EVENT_DEPARTMENT } from './departments.ts'
 
 const load = (f: string) => JSON.parse(readFileSync(new URL(`../../public/geo/${f}.geojson`, import.meta.url), 'utf8'))
 const REGIONS: Record<string, string> = {}
 for (const [id, name] of Object.entries(EVENT_DEPARTMENT)) REGIONS[strip(name === 'El Callao' ? 'Callao' : name)] = id
 const provinces = buildProvinces(load('peru_provinces_simplified'), load('peru_province_capitals'), REGIONS)
+
+test('every real capital category has English and Spanish display labels without changing source names', () => {
+  const kinds = load('peru_province_capitals').features.map((f: any) => f.properties.NOMCAT02)
+  assert.deepEqual([...new Set(kinds)].sort(), ['CIUDAD', 'PUEBLO', 'VILLA'])
+  assert.deepEqual([...new Set(kinds.map((k: string) => settlementKindLabel(k, 'en')))].sort(), ['City', 'Town', 'Village'])
+  assert.deepEqual([...new Set(kinds.map((k: string) => settlementKindLabel(k, 'es')))].sort(), ['Ciudad', 'Pueblo', 'Villa'])
+  assert.equal(settlementKindLabel(' ciudad ', 'en'), 'City')
+  assert.equal(settlementKindLabel('UNKNOWN', 'en'), 'Settlement')
+  assert.equal(provinces.find((p) => p.capital?.name === 'PIURA')?.capital?.kind, 'CIUDAD')
+})
 
 test('point in polygon respects holes', () => {
   const square = [[0, 0], [10, 0], [10, 10], [0, 10], [0, 0]], hole = [[4, 4], [6, 4], [6, 6], [4, 6], [4, 4]]

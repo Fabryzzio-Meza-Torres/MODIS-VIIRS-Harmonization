@@ -1,0 +1,14 @@
+{
+  "verified_at_utc": "2026-11-16T03:03:53.261563+00:00",
+  "checks": [
+    {
+      "filename": "indeci_report_2027_2019.pdf",
+      "sha256_verified": true
+    },
+    {
+      "filename": "ana_rd103_2019.pdf",
+      "sha256_verified": true
+    }
+  ],
+  "historical_snapshot_available": true
+}

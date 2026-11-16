@@ -1,9 +1,10 @@
 import { useEffect, useMemo, useRef, useState } from 'react'
 import L from 'leaflet'
 import { fetchGeometry } from './api'
-import { t } from './i18n'
+import { getLang, t } from './i18n'
 import type { Detection, EventRow } from './events'
 import type { Province } from './lib/geo'
+import { settlementKindLabel } from './lib/geo'
 import { COLORS, fmt, makeRamp, NO_DATA, RAMP } from './ui'
 
 const PERU: L.LatLngBoundsLiteral = [[-18.5, -81.5], [0.1, -68.5]]
@@ -129,7 +130,7 @@ export default function PeruMap({ values, label, selected, onSelect, regionName,
       const value = v === undefined || v === null || !provinceLegend ? '' : ` · ${provinceLegend.format(v)}`
       r.poly.getTooltip()?.setContent(`${titled(p.name)} · ${t('provincia', 'province')}${value}`)
       if (r.cap) {
-        const text = `${titled(p.capital!.name)} · ${t('capital de', 'capital of')} ${titled(p.name)} (${titled(p.capital!.kind)})`
+        const text = `${titled(p.capital!.name)} · ${t('capital de', 'capital of')} ${titled(p.name)} (${settlementKindLabel(p.capital!.kind, getLang())})`
         r.cap.setRadius(sel ? 6 : 3.5).unbindTooltip().bindTooltip(text, { permanent: sel, direction: 'top', offset: [0, -6] })
         if (sel) r.cap.bringToFront()
       }

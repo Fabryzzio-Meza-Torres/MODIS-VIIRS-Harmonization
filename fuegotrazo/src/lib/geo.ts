@@ -11,6 +11,15 @@ export interface Province {
 interface Feat { properties: Record<string, any>; geometry: { type: string; coordinates: any } }
 
 export const strip = (s: string) => s.normalize('NFD').replace(/\p{M}/gu, '').toUpperCase().trim()
+/** Translate source settlement categories at display time; keep geographic names and source data intact. */
+export function settlementKindLabel(kind: string, lang: 'en' | 'es' = 'en'): string {
+  const labels: Record<string, { en: string; es: string }> = {
+    CIUDAD: { en: 'City', es: 'Ciudad' },
+    PUEBLO: { en: 'Village', es: 'Pueblo' },
+    VILLA: { en: 'Town', es: 'Villa' },
+  }
+  return labels[strip(kind)]?.[lang] ?? (lang === 'es' ? 'Centro poblado' : 'Settlement')
+}
 const polysOf = (g: Feat['geometry']): Poly[] => (g.type === 'Polygon' ? [g.coordinates] : g.coordinates)
 
 const R_KM = 6371.0088 // mean Earth radius

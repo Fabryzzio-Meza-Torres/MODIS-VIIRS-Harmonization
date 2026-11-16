@@ -1,8 +1,8 @@
 import { useEffect, useMemo, useState, type ReactNode } from 'react'
 import { EVENT_TYPE_CODES, eventTypeLabel, fetchDepartments, fetchDetections, fetchEvent, fetchEventsMeta, useEventPages, type Detection, type EventQuery, type EventRow } from '../events'
-import { locale, t } from '../i18n'
+import { getLang, locale, t } from '../i18n'
 import { checkMapping, eventDepartment } from '../lib/departments'
-import { pointInProvince, type Province } from '../lib/geo'
+import { pointInProvince, settlementKindLabel, type Province } from '../lib/geo'
 import { MAX_RANGE_DAYS } from '../lib/proxy-rules'
 import PeruMap from '../PeruMap'
 import { useApp, useAsync, useProvinces, useRegionTotals } from '../state'
@@ -30,7 +30,7 @@ function Provincias({ provinces, selected, onSelect, regionName }: { provinces: 
             <tr key={p.id} className={`border-t border-line ${p.id === selected ? 'bg-surface' : ''}`}>
               <td className="py-1.5 pr-4"><button className="text-left text-sky underline" aria-pressed={p.id === selected} onClick={() => onSelect(p.id === selected ? null : p.id)}>{titled(p.name)}</button></td>
               <td className="pr-4">{p.capital ? titled(p.capital.name) : <span className="text-muted">{t('sin dato en la fuente', 'not in the source')}</span>}</td>
-              <td className="text-muted">{p.capital ? titled(p.capital.kind) : '—'}</td>
+              <td className="text-muted">{p.capital ? settlementKindLabel(p.capital.kind, getLang()) : '—'}</td>
             </tr>
           ))}</tbody>
         </table>

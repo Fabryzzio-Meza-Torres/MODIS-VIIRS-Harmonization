@@ -1,9 +1,10 @@
 import { useMemo } from 'react'
 import { Bar, BarChart, CartesianGrid, Cell, ResponsiveContainer, Tooltip, XAxis, YAxis } from 'recharts'
 import { eventTypeLabel } from '../events'
-import { locale, t } from '../i18n'
+import { getLang, locale, t } from '../i18n'
 import { per1000km2, summarize } from '../lib/provinceStats'
 import type { ProvinceData } from '../provinceData'
+import { settlementKindLabel } from '../lib/geo'
 import { axis, Card, COLORS, Empty, ErrorBox, fmt, Loading, monthShort, Select, Stat, tooltipStyle } from '../ui'
 
 const titled = (s: string) => s.toLocaleLowerCase('es-PE').replace(/(^|\s)\S/g, (c) => c.toLocaleUpperCase('es-PE'))
@@ -74,7 +75,7 @@ export default function ProvincePanel({ pd, regionName, selectedProvince, onSele
                     <tbody>{listed.map((r) => (
                       <tr key={r.id} className="border-t border-line">
                         <td className="py-1.5 pr-3"><button className="text-left text-sky underline" onClick={() => onSelectProvince(r.id)}>{titled(r.name)}</button></td>
-                        <td className="pr-3">{(() => { const c = provs.find((p) => p.id === r.id)?.capital; return c ? <>{titled(c.name)} <span className="text-xs text-muted">{titled(c.kind)}</span></> : <span className="text-muted">—</span> })()}</td>
+                        <td className="pr-3">{(() => { const c = provs.find((p) => p.id === r.id)?.capital; return c ? <>{titled(c.name)} <span className="text-xs text-muted">{settlementKindLabel(c.kind, getLang())}</span></> : <span className="text-muted">—</span> })()}</td>
                         <td className="pr-3 text-right font-mono">{num(r.events)}</td>
                         {exact && <td className="pr-3 text-right font-mono">{one(r.per1000)}</td>}
                         {exact && <td className="pr-3 text-right font-mono">{fmt.pct(r.share)}</td>}
@@ -97,7 +98,7 @@ export default function ProvincePanel({ pd, regionName, selectedProvince, onSele
             <div className="space-y-5">
               <div className="flex flex-wrap items-center justify-between gap-2 text-sm">
                 <p className="text-muted">
-                  {t('Capital', 'Capital')}: <span className="text-ink">{province.capital ? `${titled(province.capital.name)} (${titled(province.capital.kind)})` : t('sin dato en la fuente', 'not in the source')}</span>
+                  {t('Capital', 'Capital')}: <span className="text-ink">{province.capital ? `${titled(province.capital.name)} (${settlementKindLabel(province.capital.kind, getLang())})` : t('sin dato en la fuente', 'not in the source')}</span>
                   {' · '}{t('Área del polígono (límites 2016, no oficial)', 'Polygon area (2016 boundaries, unofficial)')}: <span className="font-mono text-ink">{num(Math.round(province.areaKm2))} km²</span>
                 </p>
                 <button onClick={() => onSelectProvince(null)} className="rounded-md bg-surface px-3 py-1.5 text-xs hover:bg-line">{t('← Todas las provincias', '← All provinces')}</button>

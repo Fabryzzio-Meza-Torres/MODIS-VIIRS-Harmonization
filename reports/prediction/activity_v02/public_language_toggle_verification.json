@@ -1,0 +1,25 @@
+{
+  "base_url": "https://fuegotrazo-modis-viirs.netlify.app",
+  "verified_at_utc": "2026-11-16T03:05:24.840252+00:00",
+  "checks": [
+    {
+      "device": "desktop",
+      "fresh_default": "en",
+      "toggle_both_directions": true,
+      "saved_preference": true,
+      "expanded_evidence": true,
+      "method_details": true,
+      "translated_error": true
+    },
+    {
+      "device": "mobile",
+      "fresh_default": "en",
+      "toggle_both_directions": true,
+      "saved_preference": true,
+      "expanded_evidence": true,
+      "method_details": true,
+      "translated_error": true
+    }
+  ],
+  "browser_errors": []
+}
