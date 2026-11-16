@@ -1,36 +1,37 @@
-# MODIS-VIIRS-Harmonization · eventos de fuego de Perú
+# MODIS-VIIRS-Harmonization · Peru fire events
 
-NASA Space Apps Challenge 2026 · Perú. Une las detecciones de fuego de MODIS (Terra, Aqua) y
-VIIRS (Suomi NPP, NOAA-20, NOAA-21) de Perú, del 20 ene 2012 al 31 jul 2026, en **eventos de
-fuego**. Los guarda en Postgres y los sirve con una API FastAPI. La consulta principal es
-**región + periodo → eventos con su lat/lon**.
+NASA Space Apps Challenge 2026 · Peru. Merges the MODIS (Terra, Aqua) and VIIRS (Suomi NPP,
+NOAA-20, NOAA-21) fire detections of Peru, from 20 Jan 2012 to 31 Jul 2026, into **fire
+events**. They are stored in Postgres and served by a FastAPI API. The main query is
+**region + period → events with their lat/lon**.
 
-## Requisitos
+## Requirements
 
-- Python 3.11 o superior y PostgreSQL 14 o superior.
-- Una MAP_KEY de FIRMS (gratis) en `.env` (ver `.env.example`).
-- El ZIP de Suomi NPP de Perú descargado de FIRMS (`DL_FIRE_SV-C2_*.zip`); su ruta va en la
-  variable `SNPP_ZIP`. MODIS, NOAA-20 y NOAA-21 se bajan por la API.
-- Opcional: GPU NVIDIA con `cupy-cuda12x` para el índice en memoria.
+- Python 3.11 or later and PostgreSQL 14 or later.
+- A FIRMS MAP_KEY (free) in `.env` (see `.env.example`).
+- The Suomi NPP ZIP for Peru downloaded from FIRMS (`DL_FIRE_SV-C2_*.zip`); its path goes in
+  the `SNPP_ZIP` variable. MODIS, NOAA-20 and NOAA-21 are downloaded through the API.
+- Optional: an NVIDIA GPU with `cupy-cuda12x` for the in-memory index.
 
-## Deploy con Docker (recomendado)
+## Deploy with Docker Compose (recommended)
 
-Un comando levanta Postgres y la API. La primera vez, la API baja la base ya construida
-(`fires.dump`, 132 MB) de
+One command starts Postgres and the API. The first time, the API downloads the prebuilt
+database (`fires.dump`, 132 MB) from
 [Google Drive](https://drive.google.com/file/d/1k76VcDl7RQq5hpKhayTXl_3URC_kQIAl/view?usp=sharing),
-verifica su sha256, la restaura y arranca. Las siguientes veces usa la base guardada en el
-volumen y no baja nada. No hace falta la MAP_KEY ni correr el pipeline.
+checks its sha256, restores it and starts. Later runs use the database stored in the volume
+and download nothing. No MAP_KEY and no pipeline run are needed.
 
 ```bash
-POSTGRES_PASSWORD=una_clave docker compose up -d --build
-docker compose logs -f api        # ~3 min la primera vez: descarga + restauración
+POSTGRES_PASSWORD=a_password docker compose up -d --build
+docker compose logs -f api        # ~3 min the first time: download + restore
 ```
 
-La API queda en `http://<servidor>:8000` (docs en `/docs`). Otro puerto: `API_PORT=8080`.
-El servidor necesita unos 2 GB de RAM (la API carga ~2 millones de puntos en su índice).
-Para empezar de cero: `docker compose down -v`.
+The API is at `http://<server>:8000` (docs at `/docs`). Another port: `API_PORT=8080`.
+The server needs about 2 GB of RAM (the API loads ~2 million points into its index).
+To start from scratch: `docker compose down -v`.
 
-**Sin Docker**, en cualquier Linux con PostgreSQL 14 o superior, el mismo script hace todo:
+**Without Docker**, on any Linux machine with PostgreSQL 14 or later, the same script does
+everything:
 
 ```bash
 python3 -m venv .venv && .venv/bin/pip install -r requirements.txt
@@ -38,53 +39,53 @@ createdb fires
 DATABASE_URL=postgresql:///fires PYTHON=.venv/bin/python bash deploy/bootstrap.sh
 ```
 
-Variables de `deploy/bootstrap.sh`: `DATABASE_URL`, `PORT` (8000), `DUMP_URL` y `DUMP_SHA256`
-(para usar otra copia de la base), `KEEP_DUMP=1` (no borrar el archivo bajado).
+Variables of `deploy/bootstrap.sh`: `DATABASE_URL`, `PORT` (8000), `DUMP_URL` and
+`DUMP_SHA256` (to use another copy of the database), `KEEP_DUMP=1` (keep the downloaded file).
 
-Restauración manual del dump: `createdb fires && pg_restore --no-owner -d fires fires.dump`
+Manual restore of the dump: `createdb fires && pg_restore --no-owner -d fires fires.dump`
 (sha256 `5382be98a0221e528995f2d44470d03f0e2bcc2307bc0a61410744c745aa7e71`).
 
-## Opción completa: reconstruir la base desde FIRMS
+## Full option: rebuild the database from FIRMS
 
 ```bash
 python3 -m venv .venv && .venv/bin/pip install -r requirements.txt
-cp .env.example .env                          # y pon tu MAP_KEY
-createdb fires                                # tu usuario debe existir en Postgres
-export SNPP_ZIP=/ruta/a/DL_FIRE_SV-C2_848901.zip
+cp .env.example .env                          # and add your MAP_KEY
+createdb fires                                # your user must exist in Postgres
+export SNPP_ZIP=/path/to/DL_FIRE_SV-C2_848901.zip
 
-.venv/bin/python -m src.firms.download        # ~35 min (cuota de la API), reanudable
-.venv/bin/python -m src.firms.archive         # ~1,5 min: tabla común, Perú, fuentes fijas
-.venv/bin/python -m src.firms.events          # ~1 min: tabla de eventos
+.venv/bin/python -m src.firms.download        # ~35 min (API quota), resumable
+.venv/bin/python -m src.firms.archive         # ~1.5 min: common table, Peru, static sources
+.venv/bin/python -m src.firms.events          # ~1 min: event table
 .venv/bin/python -m src.firms.load_postgres --dump   # Postgres + data/fires.dump
 
 .venv/bin/uvicorn src.api.main:app --host 0.0.0.0 --port 8000
 ```
 
-`data/` no va a git (el dump pesa más que el límite de 100 MB por archivo de GitHub). La API
-usa `DATABASE_URL` (por defecto `postgresql:///fires`). Documentación interactiva en
-http://localhost:8000/docs. Colección de Postman con tests en
+`data/` is not in git (the dump is larger than GitHub's 100 MB per-file limit). The API uses
+`DATABASE_URL` (default `postgresql:///fires`). Interactive documentation at
+http://localhost:8000/docs. Postman collection with tests in
 `postman/fires_api.postman_collection.json`.
 
-## Consulta principal: región + periodo
+## Main query: region + period
 
 ```
-GET /events?bbox=lon_min,lat_min,lon_max,lat_max&start=AAAA-MM-DD&end=AAAA-MM-DD
+GET /events?bbox=lon_min,lat_min,lon_max,lat_max&start=YYYY-MM-DD&end=YYYY-MM-DD
 ```
 
-Devuelve los eventos **activos** en el periodo (sus fechas se cruzan con `start`–`end`, ambos
-incluidos, en UTC) cuya caja toca la región. Usa los índices GiST de Postgres sobre la caja y el
-periodo de cada evento.
+Returns the events **active** in the period (their dates overlap `start`–`end`, both
+included, in UTC) whose bounding box touches the region. It uses Postgres GiST indexes on the
+box and the period of each event.
 
 ```bash
 curl "http://localhost:8000/events?bbox=-75.7,-11.5,-70.4,-7.2&start=2024-09-20&end=2024-09-26"
 ```
 
-La región también se puede dar como `region=ucayali` (ver `/regions`) o `department=Ucayali`
-(ver `/departments`). Filtros: `min_confidence` (baja, media, alta), `min_det`, `event_type`,
-`limit`/`offset`, `format=geojson` y `engine=index` (índice en memoria; exige al menos una
-detección dentro de la región y el periodo).
+The region can also be given as `region=ucayali` (see `/regions`) or `department=Ucayali`
+(see `/departments`). Filters: `min_confidence` (`baja` low, `media` medium, `alta` high),
+`min_det`, `event_type`, `limit`/`offset`, `format=geojson` and `engine=index` (in-memory index;
+requires at least one detection inside the region and the period).
 
-Cada evento trae, entre otros campos (extracto de una respuesta real):
+Each event includes, among other fields (excerpt from a real response):
 
 ```json
 {
@@ -99,53 +100,56 @@ Cada evento trae, entre otros campos (extracto de una respuesta real):
 }
 ```
 
-`lat`/`lon` es el centro del evento y `lat_min`…`lon_max` su caja. Los puntos del evento se
-piden con `GET /events/{event_id}/detections`.
+`lat`/`lon` is the centre of the event and `lat_min`…`lon_max` its box. The event's points are
+requested with `GET /events/{event_id}/detections`.
 
-Qué significa cada campo (`n_det`, `frp_total`, `spread_km`, `may_split`, `event_type`,
-`hits`…): [`docs/campos_evento.md`](docs/campos_evento.md).
+What each field means (`n_det`, `frp_total`, `spread_km`, `may_split`, `event_type`,
+`hits`…): [`docs/event_fields.md`](docs/event_fields.md).
 
-### Otros endpoints
+### Other endpoints
 
-| Endpoint | Devuelve |
+| Endpoint | Returns |
 |---|---|
-| `GET /events/near?lat&lon&radius_km&start&end` | eventos con detecciones a ≤ radio del punto |
-| `GET /events/nearest?lat&lon&t&k` | k eventos más cercanos en espacio-tiempo |
-| `GET /events/{id}`, `/events/{id}/detections` | ficha y detecciones de un evento |
-| `GET /event-types`, `/regions`, `/departments` | valores posibles de los filtros |
-| `GET /static-sources?bbox` | fuentes fijas excluidas (volcanes, gas, industria) |
-| `GET /health`, `/meta`, `/index`, `POST /index/rebuild` | estado y parámetros |
+| `GET /events/near?lat&lon&radius_km&start&end` | events with detections within the radius of the point |
+| `GET /events/nearest?lat&lon&t&k` | the k nearest events in space-time |
+| `GET /events/{id}`, `/events/{id}/detections` | one event and its detections |
+| `GET /event-types`, `/regions`, `/departments` | allowed values of the filters |
+| `GET /static-sources?bbox` | excluded static sources (volcanoes, gas plants, industry) |
+| `GET /health`, `/meta`, `/index`, `POST /index/rebuild` | status and parameters |
 
-## Método, en breve
+## Method in brief
 
-1. **Datos:** solo el producto estándar (SP) de FIRMS (Giglio et al., 2016; NASA FIRMS, 2026;
-   Schroeder et al., 2014), `type 0` (vegetación), sin confianza baja, recortado al polígono de
-   Perú (Natural Earth, s. f.) y asignado a departamentos (Runfola et al., 2020). Se excluyen
-   fuentes fijas: celdas que FIRMS marcó como volcán, fuente fija o mar, celdas activas casi
-   todo el año y un radio de 2,5 km alrededor de los volcanes.
-2. **Eventos:** dos detecciones son del mismo evento si están a ≤ 1,25 km y ≤ 5 días. Se reducen
-   a nodos de 0,5 km × día, un KD-tree (con el tiempo como tercer eje) encuentra los pares y cada
-   componente conexa del grafo es un evento (Andela et al., 2022; Chen et al., 2022).
-3. **Esqueleto de satélites:** el grafo se arma solo con Suomi NPP + MODIS, presentes todo el
-   periodo. NOAA-20 (desde 2018) y NOAA-21 (desde 2023) se cuelgan del evento más cercano pero no
-   unen eventos. Sin esto, los eventos de más de 30 días pasaban de 23 a 95 solo por sumar
-   satélites.
-4. **Calibración:** 1,25 km y 5 días es la combinación que mejor reproduce los fuegos de GlobFire
-   en Perú 2013–2017 sin partirlos ni fundirlos (Artés et al., 2019; Artés Vivancos y
-   San-Miguel-Ayanz, 2018).
-5. **Tipo de evento:** `foco_aislado` (< 1 día, ≤ 2 km²) e `incendio` (≤ 22 días, el fuego más
-   largo de GlobFire en Perú). Los más largos son `quema_persistente` (≥ 2 focos separados por
-   día), `incendio_prolongado` (1 foco por día) o `foco_recurrente` (siempre en ≤ 5 km²).
-6. **Proyección:** acimutal de Lambert de áreas iguales centrada en Perú (distorsión < 1 %).
+1. **Data:** only the FIRMS standard product (SP) (Giglio et al., 2016; NASA FIRMS, 2026;
+   Schroeder et al., 2014), `type 0` (vegetation), without low confidence, clipped to the Peru
+   polygon (Natural Earth, n.d.) and assigned to departments (Runfola et al., 2020). Static
+   sources are excluded: cells FIRMS flagged as volcano, static land source or offshore, cells
+   active almost all year, and a 2.5 km radius around volcanoes.
+2. **Events:** two detections belong to the same event if they are ≤ 1.25 km and ≤ 5 days
+   apart. They are reduced to 0.5 km × day nodes, a KD-tree (with time as a third axis) finds
+   the pairs, and each connected component of the graph is an event (Andela et al., 2022;
+   Chen et al., 2022).
+3. **Satellite backbone:** the graph is built only with Suomi NPP + MODIS, present over the
+   whole period. NOAA-20 (since 2018) and NOAA-21 (since 2023) attach to the nearest event but
+   do not link events. Without this, events longer than 30 days went from 23 to 95 just by
+   adding satellites.
+4. **Calibration:** 1.25 km and 5 days is the combination that best reproduces the GlobFire
+   fires in Peru 2013–2017 without splitting or merging them (Artés et al., 2019; Artés
+   Vivancos & San-Miguel-Ayanz, 2018).
+5. **Event type** (values stored in Spanish): `foco_aislado` (isolated hotspot: < 1 day,
+   ≤ 2 km²) and `incendio` (fire: ≤ 22 days, the longest GlobFire fire in Peru). The longer ones
+   are `quema_persistente` (persistent burning zone: ≥ 2 separate fronts per day),
+   `incendio_prolongado` (long-lasting fire: 1 front per day) or `foco_recurrente` (recurrent
+   hotspot: always within ≤ 5 km²).
+6. **Projection:** Lambert azimuthal equal-area centred on Peru (distortion < 1 %).
 
-Resultado: 795 540 eventos a partir de 1 958 951 detecciones. La base se contrastó con cifras
-publicadas: focos de SERFOR en Ucayali en 48 horas (El Búho, 2024), el boletín del 12 de
-septiembre de 2024 (Servicio Nacional de Meteorología e Hidrología del Perú [SENAMHI], 2024), el
-récord de septiembre de 2024 (Cáceres, 2024), la emergencia del DS 097-2024-PCM (Presidencia del
-Consejo de Ministros, 2024) y la actividad del volcán Ubinas (Instituto Geofísico del Perú,
-2024).
+Result: 795,540 events from 1,958,951 detections. The database was checked against published
+figures: SERFOR hotspots in Ucayali in 48 hours (El Búho, 2024), the 12 September 2024
+bulletin (Servicio Nacional de Meteorología e Hidrología del Perú [SENAMHI], 2024), the
+September 2024 record (Cáceres, 2024), the emergency of DS 097-2024-PCM (Presidencia del
+Consejo de Ministros, 2024) and the activity of the Ubinas volcano (Instituto Geofísico del
+Perú, 2024).
 
-## Referencias
+## References
 
 Andela, N., Morton, D. C., Schroeder, W., Chen, Y., Brando, P. M., & Randerson, J. T. (2022).
 Tracking and classifying Amazon fire events in near real time. *Science Advances, 8*(30),
@@ -153,53 +157,56 @@ eabd2713. https://doi.org/10.1126/sciadv.abd2713
 
 Artés, T., Oom, D., de Rigo, D., Durrant, T. H., Maianti, P., Libertà, G., & San-Miguel-Ayanz, J.
 (2019). A global wildfire dataset for the analysis of fire regimes and fire behaviour.
-*Scientific Data, 6*, Artículo 296. https://doi.org/10.1038/s41597-019-0312-2
+*Scientific Data, 6*, Article 296. https://doi.org/10.1038/s41597-019-0312-2
 
 Artés Vivancos, T., & San-Miguel-Ayanz, J. (2018). *ESRI shapefiles in monthly resolution*
-[Conjunto de datos]. En *Global wildfire database for GWIS*. PANGAEA.
+[Data set]. In *Global wildfire database for GWIS*. PANGAEA.
 https://doi.org/10.1594/PANGAEA.895898
 
-Cáceres, Z. (2024). *Nota técnica: Incendios forestales en el Perú entre 2002 al 2024*.
-MapBiomas Perú.
+Cáceres, Z. (2024). *Nota técnica: Incendios forestales en el Perú entre 2002 al 2024*
+[Technical note: Forest fires in Peru from 2002 to 2024]. MapBiomas Perú.
 https://old-peru.mapbiomas.org/wp-content/uploads/sites/14/2024/11/Nota-tecnica_-Incendios-forestales-en-el-Peru-2002-2024-1.pdf
 
 Chen, Y., Hantson, S., Andela, N., Coffield, S. R., Graff, C. A., Morton, D. C., Ott, L. E.,
 Foufoula-Georgiou, E., Smyth, P., Goulden, M. L., & Randerson, J. T. (2022). California wildfire
 spread derived using VIIRS satellite observations and an object-based tracking system.
-*Scientific Data, 9*, Artículo 249. https://doi.org/10.1038/s41597-022-01343-0
+*Scientific Data, 9*, Article 249. https://doi.org/10.1038/s41597-022-01343-0
 
-El Búho. (2024, 27 de septiembre). *Amazonía peruana arde: Más de 7 000 focos de calor en 48
-horas*. https://elbuho.pe/2024/09/amazonia-peruana-arde-mas-de-7-000-focos-de-calor-en-48-horas/
+El Búho. (2024, September 27). *Amazonía peruana arde: Más de 7 000 focos de calor en 48
+horas* [The Peruvian Amazon burns: More than 7,000 hotspots in 48 hours].
+https://elbuho.pe/2024/09/amazonia-peruana-arde-mas-de-7-000-focos-de-calor-en-48-horas/
 
 Giglio, L., Schroeder, W., & Justice, C. O. (2016). The collection 6 MODIS active fire detection
 algorithm and fire products. *Remote Sensing of Environment, 178*, 31–41.
 https://doi.org/10.1016/j.rse.2016.02.054
 
-Instituto Geofísico del Perú. (2024). *Reporte vulcanológico diario, 1 de marzo de 2024*.
+Instituto Geofísico del Perú. (2024). *Reporte vulcanológico diario, 1 de marzo de 2024*
+[Daily volcanological report, 1 March 2024].
 https://www.igp.gob.pe/servicios/centro-vulcanologico-nacional/sites/default/files/reportes-vulcanologicos/2024/REPORTE%20VULCANOLOGICO%20DIARIO%201%20DE%20MARZO%20DE%202024.pdf
 
-NASA FIRMS. (2026). *Fire Information for Resource Management System: Detecciones MODIS C6.1 y
-VIIRS 375 m, producto estándar* [Conjunto de datos]. NASA Earth Science Data and Information
-System. Recuperado el 15 de noviembre de 2026, de https://firms.modaps.eosdis.nasa.gov/
+NASA FIRMS. (2026). *Fire Information for Resource Management System: MODIS C6.1 and VIIRS 375 m
+active fire detections, standard product* [Data set]. NASA Earth Science Data and Information
+System. Retrieved November 15, 2026, from https://firms.modaps.eosdis.nasa.gov/
 
-Natural Earth. (s. f.). *Admin 0 – Countries, 1:10m* [Conjunto de datos]. Recuperado el 15 de
-noviembre de 2026, de https://www.naturalearthdata.com/
+Natural Earth. (n.d.). *Admin 0 – Countries, 1:10m* [Data set]. Retrieved November 15, 2026,
+from https://www.naturalearthdata.com/
 
-Presidencia del Consejo de Ministros. (2024, 18 de septiembre). *Gobierno declara en emergencia
-regiones de Amazonas, San Martín y Ucayali por presencia de incendios forestales* [Nota de prensa
-sobre el Decreto Supremo N.° 097-2024-PCM]. Gob.pe.
+Presidencia del Consejo de Ministros. (2024, September 18). *Gobierno declara en emergencia
+regiones de Amazonas, San Martín y Ucayali por presencia de incendios forestales* [Government
+declares a state of emergency in Amazonas, San Martín and Ucayali because of forest fires]
+[Press release on Supreme Decree No. 097-2024-PCM]. Gob.pe.
 https://www.gob.pe/institucion/presidencia/noticias/1024206-gobierno-declara-en-emergencia-regiones-de-amazonas-san-martin-y-ucayali-por-presencia-de-incendios-forestales
 
 Runfola, D., Anderson, A., Baier, H., Crittenden, M., Dowker, E., Fuhrig, S., Goodman, S.,
 Grimsley, G., Layko, R., Melville, G., Mulder, M., Oberman, R., Panganiban, J., Peck, A., Seitz,
 L., Shea, S., Slevin, H., Youngerman, R., & Hobbs, L. (2020). geoBoundaries: A global database of
-political administrative boundaries. *PLOS ONE, 15*(4), Artículo e0231866.
+political administrative boundaries. *PLOS ONE, 15*(4), Article e0231866.
 https://doi.org/10.1371/journal.pone.0231866
 
 Schroeder, W., Oliva, P., Giglio, L., & Csiszar, I. A. (2014). The new VIIRS 375 m active fire
 detection data product: Algorithm description and initial assessment. *Remote Sensing of
 Environment, 143*, 85–96. https://doi.org/10.1016/j.rse.2013.12.008
 
-Servicio Nacional de Meteorología e Hidrología del Perú. (2024, 12 de septiembre). [Boletín de
-focos de calor y condiciones para incendios forestales, publicación de las 12:00 h].
+Servicio Nacional de Meteorología e Hidrología del Perú. (2024, September 12). [Bulletin of
+hotspots and conditions for forest fires, 12:00 h issue].
 https://www.senamhi.gob.pe/load/file/02256SENA-947.pdf
