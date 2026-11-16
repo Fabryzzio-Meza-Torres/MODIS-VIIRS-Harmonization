@@ -1,138 +1,138 @@
-# Modelo de predicción: primer punto de revisión
+# Prediction model: first review checkpoint
 
-Fecha: 2026-11-15. Estado: **modelo experimental entrenado y evaluado; revisión previa a inferencia NRT y publicación**. Avance por entregables: **70 %**. La API pública todavía no se modificó. Resultados: [RESULTADOS_MODELO_EXPERIMENTAL.md](RESULTADOS_MODELO_EXPERIMENTAL.md).
+Date: 2026-11-15. Status: **experimental model trained and evaluated; review before NRT inference and publication**. Progress by deliverables: **70 %**. The public API has not been modified yet. Results: [RESULTADOS_MODELO_EXPERIMENTAL.md](RESULTADOS_MODELO_EXPERIMENTAL.md).
 
-## Objetivo propuesto
+## Proposed objective
 
-**Objetivo confirmado por el equipo:** mostrar un porcentaje de riesgo de inicio de al menos un nuevo incendio en una región de Perú durante una semana futura seleccionada. Usaremos los códigos regionales de nuestra API. Las celdas de 10 km podrán servir como soporte interno de variables; el resultado final es regional.
+**Objective confirmed by the team:** show a percentage risk of at least one new fire starting in a region of Peru during a selected future week. We will use the regional codes of our API. The 10 km cells may serve as internal support for features; the final result is regional.
 
-La variable deseada es un inicio de incendio nuevo, no la continuación de uno existente. Las detecciones satelitales son etiquetas indirectas: el primer registro no demuestra la hora real de ignición ni distingue por sí solo una quema agrícola. Debemos reconstruir inicios sin información futura y contrastar sus etiquetas antes de presentar el porcentaje como probabilidad física de incendio. Los eventos activos y las pérdidas potenciales son salidas separadas.
+The target variable is the start of a new fire, not the continuation of an existing one. Satellite detections are indirect labels: the first record does not prove the real ignition time and does not by itself distinguish agricultural burning. We must rebuild starts without future information and check their labels before presenting the percentage as a physical fire probability. Active events and potential losses are separate outputs.
 
-Ejemplo de interpretación: 60 % para Cusco y una semana futura significa una probabilidad estimada de que se inicie al menos un nuevo incendio elegible allí durante esa semana; no significa que arderá el 60 % de Cusco. Es un ejemplo de contrato, no una predicción calculada.
+Interpretation example: 60 % for Cusco and a future week means an estimated probability that at least one new eligible fire starts there during that week; it does not mean that 60 % of Cusco will burn. It is a contract example, not a computed prediction.
 
-Evaluaremos directamente la etiqueta regional. No sumaremos ni promediaremos probabilidades de celdas ni asumiremos su independencia. También comprobaremos si el resultado se satura cerca del 100 % en regiones grandes; un conteo esperado puede complementar la probabilidad, sin cambiar silenciosamente el objetivo.
+We will evaluate the regional label directly. We will not add or average cell probabilities or assume their independence. We will also check whether the result saturates near 100 % in large regions; an expected count can complement the probability, without silently changing the objective.
 
-La semana objetivo se define de lunes 00:00 a lunes siguiente 00:00 en America/Lima. **Anticipación solicitada: de 1 a 12 semanas.** La semana 1 es la próxima semana completa posterior a la fecha de emisión; la semana 12 empieza once semanas después de la semana 1. El producto debe evaluar cada anticipación por separado y rechazar combinaciones sin soporte suficiente.
+The target week runs from Monday 00:00 to the following Monday 00:00 in America/Lima. **Requested lead time: 1 to 12 weeks.** Week 1 is the next full week after the issue date; week 12 starts eleven weeks after week 1. The product must evaluate each lead time separately and reject combinations without enough support.
 
-Doce semanas de salida no significan doce semanas de clima diario preciso. Los modelos meteorológicos de medio plazo de ECMWF llegan a 15 días y los subestacionales a 46 días. Para plazos mayores se usarán, si disponemos de históricos de emisión verificables, predictores estacionales/probabilísticos; de otro modo se evaluará una referencia histórica/estacional explícita. No usaremos el clima futuro realizado como si se hubiera pronosticado. Fuentes: [ECMWF medio plazo](https://www.ecmwf.int/en/forecasts/documentation-and-support/medium-range-forecasts), [subestacional](https://www.ecmwf.int/en/forecasts/about-our-forecasts/sub-seasonal-range-forecasts) e [índices estacionales de peligro de fuego](https://www.ecmwf.int/en/forecasts/datasets/seasonal-forecast-fire-danger-indices-copernicus-emergency-management-service).
+Twelve output weeks do not mean twelve weeks of accurate daily weather. ECMWF medium-range weather models reach 15 days and sub-seasonal ones 46 days. For longer lead times, seasonal/probabilistic predictors will be used if we have verifiable historical issues; otherwise an explicit historical/seasonal reference will be evaluated. We will not use the realized future weather as if it had been forecast. Sources: [ECMWF medium range](https://www.ecmwf.int/en/forecasts/documentation-and-support/medium-range-forecasts), [sub-seasonal](https://www.ecmwf.int/en/forecasts/about-our-forecasts/sub-seasonal-range-forecasts) and [seasonal fire danger indices](https://www.ecmwf.int/en/forecasts/datasets/seasonal-forecast-fire-danger-indices-copernicus-emergency-management-service).
 
-## Datos ya revisados
+## Data already reviewed
 
-| Fuente | Qué aporta | Estado |
+| Source | What it provides | Status |
 | --- | --- | --- |
-| Nuestra API/snapshot | Historia armonizada semanal, malla y regiones MINAM | Snapshot local y público coinciden |
-| Rama `deploy-docker` del compañero | Detecciones individuales, eventos y fuentes fijas | Respaldo descargado y SHA-256 verificado |
-| Cuatro ZIP FIRMS originales | Reconstrucción de filtros sin mirar el futuro | Preparados; NOAA-20 usado para etiquetas y NRT del piloto |
-| Meteorología NASA POWER observada | Temperatura, humedad, precipitación y viento pasados | 135.750 registros diarios en 25 puntos regionales; sin pronóstico futuro utilizado |
-| NRT NOAA-20 | Variables recientes | 40.384 detecciones preparadas desde la descarga original; refresco automático y transferencia SP/NRT pendientes |
+| Our API/snapshot | Weekly harmonized history, grid and MINAM regions | Local and public snapshots match |
+| Teammate's `deploy-docker` branch | Individual detections, events and static sources | Backup downloaded and SHA-256 verified |
+| Four original FIRMS ZIP files | Rebuilding filters without looking at the future | Prepared; NOAA-20 used for labels and the pilot's NRT |
+| Observed NASA POWER weather | Past temperature, humidity, precipitation and wind | 135,750 daily records at 25 regional points; no future forecast used |
+| NOAA-20 NRT | Recent features | 40,384 detections prepared from the original download; automatic refresh and SP/NRT transfer pending |
 
-**Plataforma de referencia confirmada por el usuario: NOAA-20.** NOAA anunció el cese de entrega de productos Suomi-NPP el 2 de noviembre de 2026. Usamos NOAA-20 para el nuevo objetivo y sus señales recientes; MODIS y Suomi-NPP permanecen en el contexto histórico armonizado. El cambio de referencia no descarta sus series. [Aviso actualizado de NOAA](https://www.nesdis.noaa.gov/news/update-3-cessation-of-suomi-national-polar-orbiting-partnership-s-npp-data-users-november-02-2026-1540-utc-and-decommissioning-issued-october-30-2026-1400-utc).
+**Reference platform confirmed by the user: NOAA-20.** NOAA announced the end of Suomi-NPP product delivery on 2 November 2026. We use NOAA-20 for the new objective and its recent signals; MODIS and Suomi-NPP remain in the harmonized historical context. The change of reference does not discard their series. [Updated NOAA notice](https://www.nesdis.noaa.gov/news/update-3-cessation-of-suomi-national-polar-orbiting-partnership-s-npp-data-users-november-02-2026-1540-utc-and-decommissioning-issued-october-30-2026-1400-utc).
 
-La rama del compañero está fijada al commit `3084cc5681bac763fdd651e01cef1d6a12461520`. Su dump pesa 131.915.596 bytes y tiene SHA-256 `5382be98a0221e528995f2d44470d03f0e2bcc2307bc0a61410744c745aa7e71`.
+The teammate's branch is pinned to commit `3084cc5681bac763fdd651e01cef1d6a12461520`. Its dump is 131,915,596 bytes with SHA-256 `5382be98a0221e528995f2d44470d03f0e2bcc2307bc0a61410744c745aa7e71`.
 
-Se extrajeron los datos sin ejecutar el SQL del respaldo y sin modificar bases existentes:
+The data were extracted without running the backup's SQL and without modifying existing databases:
 
-- 795.540 eventos.
-- 1.958.951 detecciones SP, entre 2012-01-20 y 2026-07-31.
-- 4.803 celdas de fuentes fijas.
-- Cero IDs de detección duplicados, fechas/coordenadas inválidas, FRP negativo o faltante, y referencias a eventos inexistentes en las comprobaciones ejecutadas.
+- 795,540 events.
+- 1,958,951 SP detections, between 2012-01-20 and 2026-07-31.
+- 4,803 static-source cells.
+- Zero duplicated detection IDs, invalid dates/coordinates, negative or missing FRP, and references to non-existent events in the checks that were run.
 
-Esto prueba integridad estructural; no certifica que cada fila sea un incendio real ni sustituye la validación de etiquetas.
+This proves structural integrity; it does not certify that every row is a real fire and does not replace label validation.
 
-## Diferencias que debemos resolver
+## Differences we must resolve
 
-1. **Filtros distintos:** nuestro histórico retiene SP type=0 sin un umbral común de confianza; el compañero excluye confianza baja y fuentes fijas. No sumaremos ambos conteos ni transferiremos nuestros factores a sus agregados sin comprobarlo.
-2. **Geografía distinta:** sus departamentos son geoBoundaries y su LAEA es esférica. Reproyectaremos desde latitud/longitud a nuestra malla; no reutilizaremos directamente su `x_km`, `y_km` o departamento como identificadores equivalentes.
-3. **Campos finales del evento:** centro, duración, tipo, confianza agregada, FRP total y desplazamiento usan el futuro del evento. No serán variables de entrada tal como vienen. Las reconstruiremos, cuando proceda, solo con detecciones previas a la emisión.
-4. **Máscara retrospectiva:** la exclusión de fuentes fijas usa todo 2012–2026. Debemos recalcularla con el pasado disponible o declarar el dump como fuente retrospectiva auxiliar. La evaluación principal no puede presentarse como una simulación operativa limpia usando silenciosamente ese filtro.
-5. **Disponibilidad real:** `t_utc` es hora de adquisición, no de publicación. El backtest SP no demuestra rendimiento con NRT. Se conservarán `acquired_at`, `available_at` y `ingested_at` cuando existan; sus diferencias no se inventarán.
+1. **Different filters:** our history keeps SP type=0 without a common confidence threshold; the teammate excludes low confidence and static sources. We will not add both counts or transfer our factors to their aggregates without checking.
+2. **Different geography:** their departments are geoBoundaries and their LAEA is spherical. We will reproject from latitude/longitude to our grid; we will not reuse their `x_km`, `y_km` or department directly as equivalent identifiers.
+3. **Final event fields:** centre, duration, type, aggregated confidence, total FRP and displacement use the event's future. They will not be input features as they come. Where appropriate, we will rebuild them only with detections before the issue.
+4. **Retrospective mask:** the static-source exclusion uses all of 2012–2026. We must recompute it with the available past or declare the dump an auxiliary retrospective source. The main evaluation cannot be presented as a clean operational simulation while silently using that filter.
+5. **Real availability:** `t_utc` is the acquisition time, not the publication time. The SP backtest does not prove performance with NRT. `acquired_at`, `available_at` and `ingested_at` will be kept when they exist; their differences will not be invented.
 
-## Cómo construiremos cada fila
+## How we will build each row
 
-### Piloto de etiquetas ya ejecutado (desarrollo, 2013)
+### Label pilot already run (development, 2013)
 
-Para comprobar el objetivo antes del entrenamiento, usamos el archivo original SP de Suomi-NPP, type=0 y confianza nominal/alta, sin aplicar la máscara retrospectiva del compañero. Es una plataforma de referencia estable dentro del piloto, no un protocolo final para todo 2012–2026/NRT.
+To check the objective before training, we used the original Suomi-NPP SP file, type=0 and nominal/high confidence, without applying the teammate's retrospective mask. It is a stable reference platform within the pilot, not a final protocol for all of 2012–2026/NRT.
 
-Regla candidata: un episodio comienza con una detección sin otra detección previa a 1,25 km o menos durante los cinco días anteriores. Las detecciones del mismo instante se agrupan espacialmente; si su componente conecta con actividad previa, se trata como continuación. Los episodios pasados no se reescriben cuando llegan observaciones posteriores.
+Candidate rule: an episode starts with a detection that has no other detection within 1.25 km during the previous five days. Detections at the same instant are grouped spatially; if their component connects with previous activity, it is treated as a continuation. Past episodes are not rewritten when later observations arrive.
 
-Se procesaron 59.225 detecciones del periodo objetivo de 2013, más un buffer anterior para evitar inicios falsos por corte del archivo. La regla produjo 33.057 candidatos, con alguna aparición en 1.057 de 1.300 combinaciones región–semana (81,31 %). Con 1 km/3 días y 2,5 km/7 días, la prevalencia regional fue 81,38 % y 80,85 %. Son resultados descriptivos de desarrollo, no métricas del modelo.
+59,225 detections from the 2013 target period were processed, plus an earlier buffer to avoid false starts caused by the file cut-off. The rule produced 33,057 candidates, with at least one occurrence in 1,057 of 1,300 region–week combinations (81.31 %). With 1 km/3 days and 2.5 km/7 days, the regional prevalence was 81.38 % and 80.85 %. These are descriptive development results, not model metrics.
 
-Se generaron 50 casos de inicios/continuaciones para revisión humana. Tres pruebas verifican invariancia frente a añadir futuro, tratamiento conjunto de detecciones simultáneas y límites temporales/espaciales. Todavía pueden aparecer falsos inicios por nubosidad, avance de un frente o quemas agrícolas; primer registro no significa ignición. Las etiquetas no están aprobadas para entrenamiento final.
+50 start/continuation cases were generated for human review. Three tests check invariance to adding the future, joint treatment of simultaneous detections, and temporal/spatial limits. False starts may still appear because of clouds, a moving front or agricultural burning; a first record does not mean ignition. The labels are not approved for final training.
 
-Informes: `reports/prediction/onset_pilot_report.json` y `reports/prediction/regional_prevalence_pilot.csv`. El detalle de detecciones y los 50 casos quedan localmente en el directorio de salida del piloto, sin publicarse ni modificar la API.
+Reports: `reports/prediction/onset_pilot_report.json` and `reports/prediction/regional_prevalence_pilot.csv`. The detection detail and the 50 cases stay locally in the pilot's output directory, without being published or modifying the API.
 
-### Dataset NOAA-20 ya construido
+### NOAA-20 dataset already built
 
-La referencia NOAA-20 cubre del 16 de abril de 2018 al 26 de julio de 2026, en semanas locales completas. Se retuvieron 577.813 detecciones del periodo objetivo; el algoritmo generó 324.828 candidatos de inicio. Son etiquetas indirectas, no un inventario de incendios físicos verificados.
+The NOAA-20 reference covers 16 April 2018 to 26 July 2026, in complete local weeks. 577,813 detections of the target period were kept; the algorithm generated 324,828 start candidates. They are indirect labels, not an inventory of verified physical fires.
 
-El filtro no vegetal se fijó con 2.892 celdas identificadas como type=1/2/3 **antes del 16 de abril de 2018**, sin aprender persistencia de 2018–2026. Se excluyeron 3.317 detecciones del archivo con buffer. No se trasladó la máscara retrospectiva completa del compañero al entrenamiento.
+The non-vegetation filter was fixed with 2,892 cells identified as type=1/2/3 **before 16 April 2018**, without learning persistence from 2018–2026. 3,317 detections were excluded from the file with buffer. The teammate's full retrospective mask was not carried over to training.
 
-La tabla final contiene **115.350 filas región–emisión–semana objetivo**, 25 regiones y anticipaciones 1–12. Incluye 32 variables, contando identificador regional y anticipación. Hay 51.450 filas de entrenamiento, 13.650 de selección, 13.950 de calibración, 29.250 de prueba retrospectiva y 7.050 de confirmación 2026. Se retiraron 7.800 filas cuyas semanas objetivo no terminaban antes del límite de su periodo. Las filas de anticipaciones distintas pueden compartir la misma región/semana objetivo; no son resultados independientes.
+The final table contains **115,350 region–issue–target-week rows**, 25 regions and lead times 1–12. It includes 32 features, counting the regional identifier and the lead time. There are 51,450 training rows, 13,650 selection rows, 13,950 calibration rows, 29,250 retrospective test rows and 7,050 rows for the 2026 confirmation. 7,800 rows whose target weeks did not end before the limit of their period were removed. Rows with different lead times can share the same region/target week; they are not independent results.
 
-El protocolo de emisión para esta versión es domingo 00:00 de Perú; la semana 1 empieza al lunes siguiente y la semana 12 once semanas después. Las variables históricas incluyen recuentos/FRP y candidatos previos a 7/28/90 días, contexto armonizado de un año antes y meteorología pasada. El contexto armonizado ausente permanece nulo, acompañado de un indicador; no se inventan conteos diarios a partir de semanas.
+The issue protocol for this version is Sunday 00:00 Peru time; week 1 starts the following Monday and week 12 eleven weeks later. The historical features include counts/FRP and previous candidates over 7/28/90 days, harmonized context from one year earlier and past weather. Missing harmonized context stays null, together with an indicator; daily counts are not invented from weeks.
 
-Los retardos de tres días para detecciones y siete días después del final de la jornada meteorológica son **supuestos de simulación**, no tiempos de publicación históricos demostrados. Los archivos SP y los reanálisis actuales no permiten reconstruir exactamente qué versión habría estado disponible entonces. Por tanto, los resultados futuros de este dataset serán retrospectivos hasta validar la transferencia a NRT y realizar un piloto prospectivo.
+The delays of three days for detections and seven days after the end of the weather day are **simulation assumptions**, not proven historical publication times. The SP files and current reanalyses do not allow an exact reconstruction of which version would have been available then. Therefore the future results of this dataset will be retrospective until the transfer to NRT is validated and a prospective pilot is run.
 
-Los datos meteorológicos son muestras en un punto interior por departamento, no promedios de superficie. No se ha utilizado meteorología futura realizada. El NRT preparado no aporta el campo type: se conserva desconocido, sin inventar type=0 ni usarlo como etiqueta de entrenamiento. La última adquisición del archivo NOAA-20 es 2026-11-13 18:47 UTC; hay que actualizar la fuente antes de mantener un servicio periódico.
+The weather data are samples at one interior point per department, not area averages. No realized future weather has been used. The prepared NRT does not provide the type field: it is kept unknown, without inventing type=0 or using it as a training label. The last acquisition in the NOAA-20 file is 2026-11-13 18:47 UTC; the source must be updated before running a periodic service.
 
-Evidencia: `reports/prediction/dataset_manifest.json`, `evaluation_protocol.json`, `weather_manifest.json`, `noaa20_label_manifest.json` y `nrt_ingestion_report.json`. Revisión ejecutada: `notebooks/15_dataset_riesgo_regional.ipynb`.
+Evidence: `reports/prediction/dataset_manifest.json`, `evaluation_protocol.json`, `weather_manifest.json`, `noaa20_label_manifest.json` and `nrt_ingestion_report.json`. Executed review: `notebooks/15_dataset_riesgo_regional.ipynb`.
 
-Una fila del modelo final corresponde a región, fecha de emisión y semana objetivo futura. Se podrá preparar una tabla intermedia por celda. Las variables deben estar disponibles antes de la emisión; los datos de la semana futura no pueden entrar como variables.
+A row of the final model corresponds to a region, an issue date and a future target week. An intermediate per-cell table may be prepared. Features must be available before the issue; data from the future week cannot enter as features.
 
-Variables candidatas:
+Candidate features:
 
-- Detecciones previas y FRP por plataforma en ventanas de 1, 7, 30 y 90 días, con controles de duplicados y disponibilidad.
-- Historia armonizada de semanas ya terminadas y publicadas; recurrencia estacional de años anteriores.
-- Señales de actividad cercana calculadas solo con el pasado.
-- Meteorología pasada y pronósticos emitidos antes del corte. No sustituiremos pronósticos históricos por el clima que realmente ocurrió después.
-- Geografía y vegetación con fecha de referencia documentada.
-- Indicadores de datos faltantes, antigüedad de insumos y plataformas disponibles.
+- Previous detections and FRP per platform over 1, 7, 30 and 90-day windows, with duplicate and availability checks.
+- Harmonized history of weeks already finished and published; seasonal recurrence from previous years.
+- Nearby activity signals computed only with the past.
+- Past weather and forecasts issued before the cut-off. We will not replace historical forecasts with the weather that actually happened afterwards.
+- Geography and vegetation with a documented reference date.
+- Indicators of missing data, input age and available platforms.
 
-Etiqueta deseada: al menos un inicio nuevo en la región durante la semana objetivo, bajo un protocolo de episodio/plataformas/filtros que fijaremos antes de entrenar y contrastaremos con referencias. Una etiqueta negativa de archivo representa ausencia de inicio registrado, no ausencia física de fuego. Ventanas incompletas se excluyen o marcan desconocidas. Se distinguirá la detección inicial de la continuación de un episodio previo.
+Desired label: at least one new start in the region during the target week, under an episode/platform/filter protocol that we will fix before training and check against references. A negative label in the archive means no recorded start, not physical absence of fire. Incomplete windows are excluded or marked unknown. The initial detection will be distinguished from the continuation of a previous episode.
 
-La calibración de conteos publicada se tratará como un componente congelado/versionado; se revisará que su fecha de ajuste sea compatible con cada evaluación. Se necesitan datos diarios originales: la serie semanal de la API no se desagrega inventando conteos diarios.
+The published count calibration will be treated as a frozen/versioned component; we will check that its fitting date is compatible with each evaluation. Original daily data are needed: the API's weekly series is not disaggregated by inventing daily counts.
 
-## Modelos y evaluación
+## Models and evaluation
 
-Se compararon climatología regional/estacional, un baseline sencillo y LightGBM para el objetivo de nuevos inicios detectados, con calibración y evaluación por región y anticipación. Nuestro pronóstico experimental semanal anterior sirve como referencia de producto, pero no como comparación directa porque su etiqueta es actividad reportada por celda, no inicio nuevo regional.
+Regional/seasonal climatology, a simple baseline and LightGBM were compared for the objective of new detected starts, with calibration and evaluation by region and lead time. Our earlier weekly experimental forecast serves as a product reference, but not as a direct comparison because its label is reported activity per cell, not a new regional start.
 
-El candidato elegido en selección fue LightGBM sin las variables de contexto armonizado. En prueba quedó prácticamente empatado con climatología en 2024, redujo Brier 8,8 % en 2025 y 3,9 % en la confirmación 2026. La mejora conjunta por bloques incluye cero y la transformación de calibración no mejoró el Brier/ECE retrospectivo conjunto. No se cambió el modelo después de abrir estas evaluaciones. El artefacto está guardado y verificado; aún falta la inferencia actual y su integración.
+The candidate chosen in selection was LightGBM without the harmonized context features. In the test it practically tied with climatology in 2024, reduced Brier by 8.8 % in 2025 and by 3.9 % in the 2026 confirmation. The joint block improvement includes zero, and the calibration transform did not improve the joint retrospective Brier/ECE. The model was not changed after opening these evaluations. The artifact is saved and verified; current inference and its integration are still missing.
 
-- Validación cronológica con ventanas móviles y separación espacial por bloques.
-- Las etiquetas de entrenamiento deben terminar antes del siguiente periodo de evaluación; se aplica una separación acorde al horizonte de siete días.
-- Ajuste de hiperparámetros y calibración probabilística usan periodos separados del de evaluación.
-- PR-AUC, Brier, curva de calibración, falsas alarmas y precisión/recuperación entre las zonas prioritarias. El conjunto de evaluación conserva la prevalencia real.
-- Comparación con y sin datos del compañero, con y sin meteorología y con distintos regímenes de plataformas.
-- 2024–2025 ya se examinaron en el trabajo previo: las comparaciones allí serán retrospectivas. Antes de abrir resultados del nuevo modelo fijaremos el protocolo y reservaremos una evaluación prospectiva.
+- Chronological validation with rolling windows and spatial separation by blocks.
+- Training labels must end before the next evaluation period; a gap matching the seven-day horizon is applied.
+- Hyperparameter tuning and probability calibration use periods separate from the evaluation period.
+- PR-AUC, Brier, calibration curve, false alarms and precision/recall among the priority zones. The evaluation set keeps the real prevalence.
+- Comparison with and without the teammate's data, with and without weather, and with different platform regimes.
+- 2024–2025 were already examined in earlier work: comparisons there will be retrospective. Before opening results of the new model we will fix the protocol and reserve a prospective evaluation.
 
-No elegiremos LightGBM automáticamente: debe mejorar una referencia útil y producir probabilidades suficientemente calibradas. Un porcentaje mal calibrado no se publicará como riesgo confiable.
+We will not choose LightGBM automatically: it must beat a useful reference and produce sufficiently calibrated probabilities. A poorly calibrated percentage will not be published as a reliable risk.
 
-## Entregables y revisiones humanas
+## Deliverables and human reviews
 
-Estos porcentajes representan entregables previstos; no tiempo consumido ni calidad científica.
+These percentages represent planned deliverables; not time spent or scientific quality.
 
-| Paso | Entregable revisable | Avance acumulado |
+| Step | Reviewable deliverable | Cumulative progress |
 | --- | --- | --- |
-| 1 | Auditoría de fuentes y propuesta de contrato | 20 %: terminado y revisado |
-| 2 | Dataset experimental reproducible y cortes temporales comprobados; disponibilidad histórica simulada explícita | 45 %: terminado y revisado |
-| 3 | Baselines, LightGBM y evaluación temporal/departamentos reservados | 70 %: terminado y revisado |
-| 4 | Calibración, errores regionales y piloto con NRT | 90 %: terminado y revisado |
-| 5 | API, comprobaciones HTTP/CORS para conexión web y documentación | 100 %: versión experimental aprobada, publicada y verificada |
+| 1 | Source audit and contract proposal | 20 %: finished and reviewed |
+| 2 | Reproducible experimental dataset and checked time cut-offs; explicit simulated historical availability | 45 %: finished and reviewed |
+| 3 | Baselines, LightGBM and evaluation on held-out time/departments | 70 %: finished and reviewed |
+| 4 | Calibration, regional errors and NRT pilot | 90 %: finished and reviewed |
+| 5 | API, HTTP/CORS checks for web connection and documentation | 100 %: experimental version approved, published and verified |
 
-Al terminar cada paso se presentan resultados y decisiones; el siguiente comienza después de tu revisión. Ningún porcentaje sustituye los criterios de aceptación.
+At the end of each step, results and decisions are presented; the next one starts after your review. No percentage replaces the acceptance criteria.
 
-## Integración prevista
+## Planned integration
 
-Se entrenó con archivos/snapshots versionados, sin pedir millones de registros a la API por cada ejecución. El piloto generó 300 predicciones en un snapshot que la API pública ya lee. La tarea periódica de actualización aún no está implementada: esta emisión caduca el 22 de noviembre de 2026 a las 00:00 de Lima. Resultados, vigencia y pruebas están en `PILOTO_PRONOSTICOS.md`.
+It was trained with versioned files/snapshots, without requesting millions of records from the API on each run. The pilot generated 300 predictions in a snapshot that the public API already reads. The periodic update task is not implemented yet: this issue expires on 22 November 2026 at 00:00 Lima time. Results, validity and tests are in `PILOTO_PRONOSTICOS.md`.
 
-Ruta aprobada, publicada y verificada en Railway:
+Route approved, published and verified on Railway:
 
 ```text
-GET /v1/fire-risk?region_id=08&target_week_start=AAAA-MM-DD
+GET /v1/fire-risk?region_id=08&target_week_start=YYYY-MM-DD
 ```
 
-Cada resultado identificará región, emisión, semana objetivo, anticipación, probabilidad de al menos un inicio nuevo y su significado, calidad/frescura de datos, versión del modelo y del dataset. Si faltan NRT o meteorología necesarios, devolverá un estado explícito o un producto histórico separado; no una probabilidad aparentemente actual.
+Each result will identify the region, issue, target week, lead time, probability of at least one new start and its meaning, data quality/freshness, and model and dataset versions. If the required NRT or weather data are missing, it will return an explicit status or a separate historical product; not a seemingly current probability.
 
-La prioridad para gobiernos se calculará aparte, cruzando probabilidad con población, áreas protegidas y capacidad de respuesta. No sumaremos probabilidades por celda para inventar una probabilidad regional ni presentaremos ese ranking como pérdidas humanas esperadas.
+Priority for governments will be computed separately, crossing probability with population, protected areas and response capacity. We will not add cell probabilities to invent a regional probability, nor present that ranking as expected human losses.
 
-**Decisiones incorporadas:** el equipo prioriza inicio de nuevos incendios por región y semana futura, con hasta 12 semanas de anticipación. NOAA-20 es la referencia aprobada. El piloto usa nuevos episodios detectados como etiqueta indirecta; no se validó ignición física. La entrega experimental está aprobada y publicada. El uso operativo para protección de vidas requiere validación y revisión institucional adicionales al piloto.
+**Decisions incorporated:** the team prioritizes the start of new fires per region and future week, with up to 12 weeks of lead time. NOAA-20 is the approved reference. The pilot uses new detected episodes as an indirect label; physical ignition was not validated. The experimental delivery is approved and published. Operational use for protecting lives requires validation and institutional review beyond the pilot.

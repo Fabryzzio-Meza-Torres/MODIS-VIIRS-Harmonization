@@ -1,44 +1,44 @@
-# Piloto regional: qué entregamos y cómo probarlo
+# Regional pilot: what we deliver and how to test it
 
-Estado: **100 % de la entrega experimental aprobada**, publicada y verificada el 15 de noviembre de 2026. API `0.4.0`, en https://modis-viirs-harmonization-production.up.railway.app. La actualización automática y la validación de ignición física siguen pendientes como trabajo posterior.
+Status: **100 % of the approved experimental delivery**, published and verified on 15 November 2026. API `0.4.0`, at https://modis-viirs-harmonization-production.up.railway.app. Automatic updating and validation of physical ignition remain pending as later work.
 
-## Qué significa el porcentaje
+## What the percentage means
 
-Probabilidad experimental de **al menos un nuevo episodio de fuego detectado por NOAA-20 en todo un departamento durante una semana**. No es porcentaje de superficie que se quemará, gravedad, pérdidas humanas ni probabilidad validada de ignición física. Puede incluir quemas y detecciones tardías. Las etiquetas se reconstruyeron causalmente con una regla espacial de 1.25 km y 5 días, no con agregados futuros del compañero.
+Experimental probability of **at least one new fire episode detected by NOAA-20 anywhere in a department during one week**. It is not the percentage of area that will burn, severity, human losses or a validated probability of physical ignition. It may include agricultural burning and late detections. The labels were rebuilt causally with a spatial rule of 1.25 km and 5 days, not with the teammate's future aggregates.
 
-El modelo ganador es LightGBM, seleccionado antes de abrir la evaluación final. Se compararon climatología, regresión logística y variantes de LightGBM. La variante ganadora excluye el contexto anual armonizado: añadirlo no mejoró la selección. Las series armonizadas siguen siendo un producto histórico separado. No se presenta como un modelo que obligatoriamente usa esas series.
+The winning model is LightGBM, selected before opening the final evaluation. Climatology, logistic regression and LightGBM variants were compared. The winning variant excludes the harmonized annual context: adding it did not improve the selection. The harmonized series are still a separate historical product. It is not presented as a model that necessarily uses those series.
 
-La calibración por plazo se ajustó en 2023. El modelo empata con climatología en 2024 y mejora en 2025 y 2026; la calibración no mejoró la prueba conjunta. Véase `RESULTADOS_MODELO_EXPERIMENTAL.md` para métricas y límites. No se inventaron intervalos de confianza individuales.
+The per-lead-time calibration was fitted on 2023. The model ties with climatology in 2024 and improves in 2025 and 2026; calibration did not improve the joint test. See `RESULTADOS_MODELO_EXPERIMENTAL.md` for metrics and limits. No individual confidence intervals were invented.
 
-## Emisión disponible
+## Available issue
 
-* Emisión real: **15 de noviembre de 2026, 15:39:33 de Lima**.
-* Referencia de variables: domingo 15 de noviembre, 00:00 de Lima. No se retrodató la emisión.
-* 25 departamentos × 12 semanas = **300 resultados**.
-* Primera semana: **16–22 de noviembre de 2026**.
-* Última semana: **1–7 de febrero de 2027**; fin exclusivo: 8 de febrero.
-* Vence para consultas vigentes: **22 de noviembre de 2026, 00:00 de Lima**. Un GET posterior devuelve 503 hasta renovar la emisión; metadata sigue disponible.
+* Actual issue time: **15 November 2026, 15:39:33 Lima time**.
+* Feature reference: Sunday 15 November, 00:00 Lima time. The issue was not backdated.
+* 25 departments × 12 weeks = **300 results**.
+* First week: **16–22 November 2026**.
+* Last week: **1–7 February 2027**; exclusive end: 8 February.
+* Expires for current queries: **22 November 2026, 00:00 Lima time**. A later GET returns 503 until the issue is renewed; metadata stays available.
 
-Ejemplos para la primera semana: Cusco **97.67 %**, Callao **11.07 %**, Tacna **45.83 %**. Los porcentajes altos reflejan que basta un episodio en cualquier lugar del departamento: aproximadamente 84 % de las filas de entrenamiento eran positivas. Cada plazo corresponde a una semana concreta, no al riesgo acumulado de 12 semanas.
+Examples for the first week: Cusco **97.67 %**, Callao **11.07 %**, Tacna **45.83 %**. High percentages reflect that one episode anywhere in the department is enough: about 84 % of the training rows were positive. Each lead time is a specific week, not the cumulative risk over 12 weeks.
 
-## Insumos y verificaciones
+## Inputs and checks
 
-NOAA-20 NRT: última adquisición 13 de noviembre, 18:47 UTC. Para las variables se usaron registros anteriores al 12 de noviembre, 05:00 UTC, con ventana de hasta 90 días. El archivo NRT no confirma tipo de fuego; no se le asignó artificialmente `type=0`. La transferencia SP→NRT no está validada con resultados futuros.
+NOAA-20 NRT: last acquisition 13 November, 18:47 UTC. The features used records before 12 November, 05:00 UTC, with a window of up to 90 days. The NRT file does not confirm the fire type; `type=0` was not artificially assigned to it. The SP→NRT transfer has not been validated with future results.
 
-NASA POWER: un punto interior por departamento, no promedio territorial. Último día meteorológico utilizado: 7 de noviembre, con disponibilidad simulada conservadora. No se usó tiempo futuro realizado ni se inventaron pronósticos meteorológicos diarios a 12 semanas. El modelo depende principalmente de región y estación.
+NASA POWER: one interior point per department, not a territorial average. Last weather day used: 7 November, with a conservative simulated availability. No realized future weather was used and no daily weather forecasts 12 weeks ahead were invented. The model depends mainly on region and season.
 
-El extractor de inferencia reproduce las **115 350 filas** históricas con tolerancia absoluta 1e-12 y mismo patrón de faltantes. Cinco pruebas comprueban causabilidad del corte, datos viejos, variables ausentes y calendarios inválidos. La API pasó 43 pruebas, incluidas integridad, fechas, porcentajes, caducidad y regresiones del histórico.
+The inference extractor reproduces the **115,350** historical rows with an absolute tolerance of 1e-12 and the same pattern of missing values. Five tests check the causality of the cut-off, stale data, missing features and invalid calendars. The API passed 43 tests, including integrity, dates, percentages, expiry and regressions of the historical data.
 
-## API local y Postman
+## Local API and Postman
 
-Desde la raíz del repositorio, con el entorno de API activado:
+From the repository root, with the API environment activated:
 
 ```powershell
 python -m pip install -r api/requirements.txt
 python -m uvicorn api:app --app-dir api --host 127.0.0.1 --port 8010
 ```
 
-En Postman importa `api/POSTMAN_FIRE_RISK.postman_collection.json`. Su variable `base_url` apunta a `https://modis-viirs-harmonization-production.up.railway.app`. Para probar un servidor local, cámbiala a `http://127.0.0.1:8010`.
+In Postman, import `api/POSTMAN_FIRE_RISK.postman_collection.json`. Its `base_url` variable points to `https://modis-viirs-harmonization-production.up.railway.app`. To test a local server, change it to `http://127.0.0.1:8010`.
 
 ```http
 GET /v1/fire-risk/metadata
@@ -47,13 +47,13 @@ GET /v1/fire-risk/outlook?region_id=08
 GET /v1/fire-risk/outlook?limit=300
 ```
 
-La consulta requiere el lunes de la semana. No devuelve pronósticos para cualquier fecha arbitraria fuera de las 12 semanas publicadas. Región inexistente o semana fuera de la emisión: 404. Fecha que no es lunes: 422. Snapshot ausente, corrupto, no emitido o vencido: 503. Un registro sin soporte conserva `probability: null` con la razón; nunca se convierte en cero.
+The query requires the Monday of the week. It does not return forecasts for arbitrary dates outside the 12 published weeks. Unknown region or week outside the issue: 404. Date that is not a Monday: 422. Snapshot missing, corrupt, not issued or expired: 503. A record without support keeps `probability: null` with the reason; it is never turned into zero.
 
-Campos principales: `region_id`, `region_name`, `issued_at`, `target_week_start`, `target_week_end_exclusive`, `lead_weeks`, `probability`, `probability_percent`, `estimation_status`, `quality_status`, `unavailable_reasons` y `features_outside_region_training_range`. Los avisos de rango no son intervalos de confianza.
+Main fields: `region_id`, `region_name`, `issued_at`, `target_week_start`, `target_week_end_exclusive`, `lead_weeks`, `probability`, `probability_percent`, `estimation_status`, `quality_status`, `unavailable_reasons` and `features_outside_region_training_range`. Range warnings are not confidence intervals.
 
-La metadata identifica versión, hashes, fechas de insumos y vigencia. `target_period_status` distingue semana futura y semana ya iniciada. La API sirve un snapshot precalculado, sin reentrenar por petición ni modificar el porcentaje al consultar.
+The metadata identifies the version, hashes, input dates and validity. `target_period_status` distinguishes a future week from a week already started. The API serves a precomputed snapshot, without retraining per request or changing the percentage when queried.
 
-Cliente reutilizable en `web/fire-risk-client.js`:
+Reusable client in `web/fire-risk-client.js`:
 
 ```javascript
 import {createFireRiskClient} from './fire-risk-client.js';
@@ -62,16 +62,16 @@ const result = await risk.week('08', '2026-11-16');
 console.log(result.data[0].probability_percent);
 ```
 
-Si la consulta falla, mostrar “pronóstico no disponible” y la razón. No reutilizar silenciosamente un porcentaje vencido. Las 12 semanas disponibles se consultan en metadata, para que el calendario web limite sus opciones.
+If the query fails, show "forecast not available" and the reason. Do not silently reuse an expired percentage. The 12 available weeks are listed in the metadata, so the web calendar can limit its options.
 
-## Reproducir sin reentrenar
+## Reproduce without retraining
 
-El snapshot API y su manifest están en `data/regional_outlook*.json`. El servicio solo necesita dependencias de API. El modelo entrenado y datos grandes permanecen en los directorios locales `outputs/`, fuera de Git; para regenerar emisiones se necesitan esos artefactos y renovar NRT/meteorología. Los scripts de generación aceptan rutas explícitas; `python pipeline/generate_regional_outlook.py --help` lista sus argumentos.
+The API snapshot and its manifest are in `data/regional_outlook*.json`. The service only needs the API dependencies. The trained model and large data stay in the local `outputs/` directories, outside Git; regenerating issues requires those artifacts and fresh NRT and weather data. The generation scripts accept explicit paths; `python pipeline/generate_regional_outlook.py --help` lists their arguments.
 
-Una nueva emisión se valida, se empaqueta con `pipeline/package_regional_outlook.py` y se despliega. Empaquetar no valida ni actualiza los datos científicos. No se dejó un cron que sirva indefinidamente los porcentajes de esta emisión.
+A new issue is validated, packaged with `pipeline/package_regional_outlook.py` and deployed. Packaging does not validate or update the scientific data. No cron job was left that would serve the percentages of this issue indefinitely.
 
-Notebook ejecutado de revisión: `notebooks/17_piloto_pronosticos_regionales.ipynb`. Evidencias y respuesta local de ejemplo: `reports/prediction/pilot/`.
+Executed review notebook: `notebooks/17_piloto_pronosticos_regionales.ipynb`. Evidence and an example local response: `reports/prediction/pilot/`.
 
-El contenedor final se construyó y verificó como usuario sin privilegios. Once comprobaciones HTTP sobre `http://127.0.0.1:8010` pasaron, incluyendo histórico, ubicación, CORS y las rutas nuevas. En este equipo está corriendo el contenedor local `modis-viirs-risk-review-20261115`; Swagger está en `/docs`. Para detener solamente ese visor de revisión: `docker stop modis-viirs-risk-review-20261115`. No usar ese comando si se quiere continuar probando en Postman.
+The final container was built and checked as an unprivileged user. Eleven HTTP checks against `http://127.0.0.1:8010` passed, including history, location, CORS and the new routes. The local container `modis-viirs-risk-review-20261115` is running on this machine; Swagger is at `/docs`. To stop only that review viewer: `docker stop modis-viirs-risk-review-20261115`. Do not run that command if you want to keep testing in Postman.
 
-Publicación aprobada por el usuario. Las once comprobaciones también pasaron sobre la URL pública: evidencia en `reports/prediction/pilot/public_HTTP_verification.json`, con commit del código y hora UTC de verificación. La API pública del compañero sigue siendo independiente; su respaldo se empleó para contraste, no se declara fusionado por compartir este proyecto.
+Publication approved by the user. The eleven checks also passed against the public URL: evidence in `reports/prediction/pilot/public_HTTP_verification.json`, with the code commit and the UTC time of verification. The teammate's public API is still independent; its backup was used for comparison, and it is not declared merged just because it shares this project.
