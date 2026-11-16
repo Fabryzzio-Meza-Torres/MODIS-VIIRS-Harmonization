@@ -21,7 +21,7 @@ coverage_corrected remains false. Missing estimates remain null.
 
 Historical dates use UTC weeks starting on Monday. The end parameter is exclusive.
 Follow pagination.next_offset until null. The maximum page size is 1,000.
-See REGIONES_Y_FECHAS.txt for geographic queries and arbitrary calendar ranges.
+See REGIONS_AND_DATES.txt for geographic queries and arbitrary calendar ranges.
 
 Regional episode-proxy prototype:
   GET /v1/fire-risk/metadata

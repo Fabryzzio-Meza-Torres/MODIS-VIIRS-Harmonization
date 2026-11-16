@@ -53,12 +53,12 @@ NASA FIRMS supplies the satellite observations; NASA POWER supplies the regional
 ## Documentation
 
 - [API reference](docs/API.md)
-- [Harmonization methodology](docs/METODOLOGIA.md)
-- [Regional forecast pilot](docs/PILOTO_PRONOSTICOS.md)
-- [Model evaluation](docs/RESULTADOS_MODELO_EXPERIMENTAL.md)
-- [Historical evidence catalog](docs/VALIDACION_WEB.md)
+- [Harmonization methodology](docs/METHODOLOGY.md)
+- [Regional forecast pilot](docs/FORECAST_PILOT.md)
+- [Model evaluation](docs/EXPERIMENTAL_MODEL_RESULTS.md)
+- [Historical evidence catalog](docs/WEB_VALIDATION.md)
 - [Dashboard setup and data semantics](fuegotrazo/README.md)
-- [Reproduction instructions](pipeline/REPRODUCIR.txt)
+- [Reproduction instructions](pipeline/REPRODUCE.txt)
 
 Documentation is in English. The public interface remains in Spanish for its intended audience. Existing filenames, field identifiers, official source documents and versioned release archives retain their original names and contents where required for compatibility and traceability.
 

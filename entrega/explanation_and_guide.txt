@@ -245,7 +245,7 @@ validacion/12_contraste_registro_MINAM.ipynb
 
 Notebooks include executed outputs to review them without retraining.
 To rerun them, the prepared artifacts are needed, not just unzipping the ZIP.
-pipeline/REPRODUCIR.txt explains how to reconstruct them from the originals.
+pipeline/REPRODUCE.txt explains how to reconstruct them from the originals.
 
 12. FIELDS YOU MUST KNOW HOW TO EXPLAIN
 
@@ -310,7 +310,7 @@ C:\Users\ASUS\Documents\Codex\2026-11-14\vo\work\MODIS-VIIRS-Harmonization
 From PowerShell:
 cd "C:\Users\ASUS\Documents\Codex\2026-11-14\vo\work\MODIS-VIIRS-Harmonization"
 git status
-git add entrega/EXPLICACION_Y_GUIA.txt entrega/PRESENTACION_90_SEGUNDOS.txt entrega/VERIFICACION_ENTREGA.json entrega/API_EJEMPLOS.json
+git add entrega/explanation_and_guide.txt entrega/PRESENTACION_90_SEGUNDOS.txt entrega/VERIFICACION_ENTREGA.json entrega/API_EJEMPLOS.json
 git commit -m "Documentar entrega historica Peru y guia de presentacion"
 git push origin main
 

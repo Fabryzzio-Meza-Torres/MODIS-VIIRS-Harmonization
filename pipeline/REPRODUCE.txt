@@ -54,7 +54,7 @@ Regional episode-proxy experiment:
   python pipeline/train_regional_risk.py --help
   python pipeline/generate_regional_outlook.py --help
 The required original training, weather and NRT artifacts remain outside Git.
-See docs/RESULTADOS_MODELO_EXPERIMENTAL.md and docs/PILOTO_PRONOSTICOS.md.
+See docs/EXPERIMENTAL_MODEL_RESULTS.md and docs/FORECAST_PILOT.md.
 A renamed target requires its own labels, fitting and evaluation.
 
 Checks:

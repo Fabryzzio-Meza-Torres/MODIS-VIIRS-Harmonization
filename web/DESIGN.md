@@ -180,4 +180,4 @@ The evidence filters cover year, department, result and reference search. Result
 - **Don't** communicate match classification through color alone.
 - **Don't** turn unrelated filter results into changes to the full-period evidence totals.
 
-Recorded from `styles.css`, `validation.css`, `index.html`, `app.js`, `validation.js` and `DISENO.txt`; product interpretation checked against `../docs/VALIDACION_WEB.md`. The completed scoped review is `../../../outputs/41_validacion_web/qa-final/finish_review.md` (ship); its four desktop/mobile captures document the final built surfaces. No new identity decisions are introduced here.
+Recorded from `styles.css`, `validation.css`, `index.html`, `app.js`, `validation.js` and `DESIGN_NOTES.txt`; product interpretation checked against `../docs/WEB_VALIDATION.md`. The completed scoped review is `../../../outputs/41_validacion_web/qa-final/finish_review.md` (ship); its four desktop/mobile captures document the final built surfaces. No new identity decisions are introduced here.

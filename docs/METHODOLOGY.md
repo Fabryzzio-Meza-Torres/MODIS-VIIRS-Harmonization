@@ -120,7 +120,7 @@ The later plan with LightGBM, weather data, NRT and prioritization of population
 - [Simple EDA](../notebooks/00_EDA_simple_MODIS_VIIRS.ipynb) and [sensor diagnostics](../notebooks/03_diagnostico_sensores.ipynb).
 - [Earlier baseline](../notebooks/07_baseline_armonizacion.ipynb) and [current comparable series](../notebooks/09_series_comparables.ipynb).
 - [Experimental forecast](../notebooks/10_pronostico_experimental.ipynb), [detection limits](../notebooks/11_limites_deteccion.ipynb) and [MINAM comparison](../validacion/12_contraste_registro_MINAM.ipynb).
-- [Series metadata](../data/series_metadata.json), [calibration results](../reports/empirical/), [regional validation](../reports/regional_query/verification.json) and [reproduction guide](../pipeline/REPRODUCIR.txt).
+- [Series metadata](../data/series_metadata.json), [calibration results](../reports/empirical/), [regional validation](../reports/regional_query/verification.json) and [reproduction guide](../pipeline/REPRODUCE.txt).
 - [Documentation of our API](API.md).
 
 **Main limitation:** we deliver an empirical harmonization of reported counts. The physical correction of the full historical coverage, undetected fires and the integration of events are still pending.

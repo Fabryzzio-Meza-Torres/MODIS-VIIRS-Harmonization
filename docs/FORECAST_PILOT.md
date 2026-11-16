@@ -8,7 +8,7 @@ Experimental probability of **at least one new fire episode detected by NOAA-20 
 
 The winning model is LightGBM, selected before opening the final evaluation. Climatology, logistic regression and LightGBM variants were compared. The winning variant excludes the harmonized annual context: adding it did not improve the selection. The harmonized series are still a separate historical product. It is not presented as a model that necessarily uses those series.
 
-The per-lead-time calibration was fitted on 2023. The model ties with climatology in 2024 and improves in 2025 and 2026; calibration did not improve the joint test. See `RESULTADOS_MODELO_EXPERIMENTAL.md` for metrics and limits. No individual confidence intervals were invented.
+The per-lead-time calibration was fitted on 2023. The model ties with climatology in 2024 and improves in 2025 and 2026; calibration did not improve the joint test. See `EXPERIMENTAL_MODEL_RESULTS.md` for metrics and limits. No individual confidence intervals were invented.
 
 ## Available issue
 

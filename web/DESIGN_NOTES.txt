@@ -28,5 +28,5 @@ The historical-evidence section uses the same typography, surfaces and ruled
 tables. It provides full denominators, source links, matched and unmatched records,
 and native disclosures for detailed evidence and methodological limits.
 
-See DESIGN.md for the extracted visual system and docs/VALIDACION_WEB.md for
+See DESIGN.md for the extracted visual system and docs/WEB_VALIDATION.md for
 the scientific interpretation of the evidence catalog.

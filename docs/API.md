@@ -2,9 +2,9 @@
 
 Documented state: 15 November 2026. API `0.4.0`.
 
-The viewer includes [historical evidence and official records](https://modis-viirs-harmonization-production.up.railway.app/visor/#validacion): a catalog of 15,140 references attributed to INDECI, with matches and non-matches, documents and traceability. Versioned data in `/visor/validation-data/summary.json`; [methodology of this section](VALIDACION_WEB.md). It is a historical comparison, not a validation of physical ignitions or of the future probability.
+The viewer includes [historical evidence and official records](https://modis-viirs-harmonization-production.up.railway.app/visor/#validacion): a catalog of 15,140 references attributed to INDECI, with matches and non-matches, documents and traceability. Versioned data in `/visor/validation-data/summary.json`; [methodology of this section](WEB_VALIDATION.md). It is a historical comparison, not a validation of physical ignitions or of the future probability.
 
-This version adds the experimental regional forecast: `GET /v1/fire-risk?region_id=08&target_week_start=2026-11-16`, `/v1/fire-risk/outlook` and `/v1/fire-risk/metadata`. It covers 25 regions over 12 weeks, with probabilities of new detected episodes, without verified physical ignition. This issue expires on 22 November 2026 at 00:00 Lima time and still requires manual renewal. Usage, limits and Postman: [forecast pilot](PILOTO_PRONOSTICOS.md).
+This version adds the experimental regional forecast: `GET /v1/fire-risk?region_id=08&target_week_start=2026-11-16`, `/v1/fire-risk/outlook` and `/v1/fire-risk/metadata`. It covers 25 regions over 12 weeks, with probabilities of new detected episodes, without verified physical ignition. This issue expires on 22 November 2026 at 00:00 Lima time and still requires manual renewal. Usage, limits and Postman: [forecast pilot](FORECAST_PILOT.md).
 
 ## What we did
 
@@ -121,4 +121,4 @@ The local API is at `http://localhost:8000/docs`. To verify the real deployment:
 python deploy/verify_public.py https://modis-viirs-harmonization-production.up.railway.app
 ```
 
-Integration with the events API and the new model with weather data and NRT are pending work. The methodology of the delivered version is in [METODOLOGIA.md](METODOLOGIA.md).
+Integration with the events API and the new model with weather data and NRT are pending work. The methodology of the delivered version is in [METHODOLOGY.md](METHODOLOGY.md).

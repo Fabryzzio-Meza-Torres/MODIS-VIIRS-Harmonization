@@ -32,5 +32,5 @@ Use /v1/empirical/series for the historical comparison.
 coverage_corrected=false means that recovery of all historical fires is not claimed.
 Forecasts concern satellite records or episode proxies, not verified ignitions.
 
-Documentation: docs/API.md, docs/METODOLOGIA.md and api/REGIONES_Y_FECHAS.txt.
+Documentation: docs/API.md, docs/METHODOLOGY.md and api/REGIONS_AND_DATES.txt.
 Historical source records and release archives retain their original content.

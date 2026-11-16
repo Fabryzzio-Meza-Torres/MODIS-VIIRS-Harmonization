@@ -1,6 +1,6 @@
 # Regional episode-proxy model: development record
 
-This document records the design and review stages of the original regional episode-proxy experiment. That experimental release was approved, published and verified on 15 November 2026. The milestones below describe delivery stages, not scientific confidence. Results and limitations: [RESULTADOS_MODELO_EXPERIMENTAL.md](RESULTADOS_MODELO_EXPERIMENTAL.md). The broader recorded-activity target is evaluated separately; it must not be inferred by renaming this model's output.
+This document records the design and review stages of the original regional episode-proxy experiment. That experimental release was approved, published and verified on 15 November 2026. The milestones below describe delivery stages, not scientific confidence. Results and limitations: [EXPERIMENTAL_MODEL_RESULTS.md](EXPERIMENTAL_MODEL_RESULTS.md). The broader recorded-activity target is evaluated separately; it must not be inferred by renaming this model's output.
 
 ## Proposed objective
 
@@ -123,7 +123,7 @@ At the end of each step, results and decisions are presented; the next one start
 
 ## Planned integration
 
-It was trained with versioned files/snapshots, without requesting millions of records from the API on each run. The pilot generated 300 predictions in a snapshot that the public API already reads. The periodic update task is not implemented yet: this issue expires on 22 November 2026 at 00:00 Lima time. Results, validity and tests are in `PILOTO_PRONOSTICOS.md`.
+It was trained with versioned files/snapshots, without requesting millions of records from the API on each run. The pilot generated 300 predictions in a snapshot that the public API already reads. The periodic update task is not implemented yet: this issue expires on 22 November 2026 at 00:00 Lima time. Results, validity and tests are in `FORECAST_PILOT.md`.
 
 Route approved, published and verified on Railway:
 
