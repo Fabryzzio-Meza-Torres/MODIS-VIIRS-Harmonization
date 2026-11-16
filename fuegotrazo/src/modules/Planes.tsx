@@ -1,14 +1,20 @@
 import { useMemo, useState } from 'react'
+import { getLang, locale, t } from '../i18n'
 import { Plus, Trash2 } from 'lucide-react'
 import { fetchRisk, fetchRiskMetadata } from '../api'
 import { phases } from '../lib/aggregate'
 import { outcome, percent1, validity } from '../lib/forecast'
-import { buildPlan, PHASE_META, type Priority, type Status, type Task } from '../lib/plan'
+import { buildPlan, phaseText, PHASE_META, type Priority, type Status, type Task } from '../lib/plan'
 import { summarize } from '../lib/summary'
 import { useApp, useAsync, useSeries } from '../state'
-import { Card, downloadCSV, Empty, ErrorBox, fmt, Loading, MONTHS, MONTHS_LONG, PageHeader, Stat, weekLabel } from '../ui'
+import { Card, downloadCSV, Empty, ErrorBox, fmt, INDICATOR_LABEL, Loading, monthShort, monthLong, PageHeader, Stat, weekLabel } from '../ui'
 
 const field = 'w-full rounded-md border border-line bg-surface px-2 py-1 text-sm text-ink'
+const PRIORITY: Priority[] = ['Alta', 'Media', 'Baja']
+const STATUS: Status[] = ['Pendiente', 'En curso', 'Hecho']
+const priorityLabel = (p: Priority) => ({ Alta: t('Alta', 'High'), Media: t('Media', 'Medium'), Baja: t('Baja', 'Low') })[p]
+const statusLabel = (s: Status) => ({ Pendiente: t('Pendiente', 'To do'), 'En curso': t('En curso', 'In progress'), Hecho: t('Hecho', 'Done') })[s]
+const phaseLabel = (p: keyof typeof PHASE_META) => phaseText(p, getLang()).label
 const todayLima = () => new Intl.DateTimeFormat('en-CA', { timeZone: 'America/Lima' }).format(new Date())
 
 /** Persisted per territory in this browser only (localStorage); nothing is sent anywhere. */
@@ -28,16 +34,16 @@ function Pronostico({ region }: { region: string | null }) {
   const risk = useAsync((s) => (ok && region && week ? fetchRisk(region, week, s) : Promise.resolve(null)), [ok, region, week])
   const row = risk.data?.data[0]
   const o = row ? outcome(row) : null
-  const pct = o?.available ? percent1(o.percent) : null
+  const pct = o?.available ? percent1(o.percent, locale()) : null
   return (
     <div className="rounded-lg bg-surface p-4 text-sm">
-      <h3 className="font-semibold">Pronóstico experimental de la semana más próxima</h3>
-      {!region ? <p className="mt-1 text-muted">Elige un departamento en el filtro superior: el pronóstico es regional.</p>
+      <h3 className="font-semibold">{t('Pronóstico experimental de la semana más próxima', 'Experimental forecast for the nearest week')}</h3>
+      {!region ? <p className="mt-1 text-muted">{t('Elige un departamento en el filtro superior: el pronóstico es regional.', 'Choose a department in the top filter: the forecast is regional.')}</p>
         : meta.loading || risk.loading ? <div aria-busy="true" className="mt-2 h-5 w-72 max-w-full animate-pulse rounded bg-line/60" />
-        : !ok || !pct || !row ? <p className="mt-1 text-muted">Pronóstico no disponible ahora ({meta.error || risk.error ? 'el servicio no respondió' : 'emisión vencida o sin estimación'}). No se muestra ningún porcentaje.</p>
+        : !ok || !pct || !row ? <p className="mt-1 text-muted">{t('Pronóstico no disponible ahora', 'Forecast not available now')} ({meta.error || risk.error ? t('el servicio no respondió', 'the service did not respond') : t('emisión vencida o sin estimación', 'expired issue or no estimate')}). {t('No se muestra ningún porcentaje.', 'No percentage is shown.')}</p>
         : <>
-          <p className="mt-1"><span className="font-mono text-lg">{pct}</span> <span className="text-muted">· probabilidad estimada de un nuevo episodio detectado en el departamento, semana {weekLabel(row.target_week_start, row.target_week_end_exclusive)}</span></p>
-          <p className="mt-1 text-xs text-muted">Experimental. Emisión {fmt.lima(row.issued_at)}. No indica cuánto territorio se quemará, la gravedad ni la ubicación exacta; la ignición física no está verificada. Detalle en la sección «Pronóstico experimental».</p>
+          <p className="mt-1"><span className="font-mono text-lg">{pct}</span> <span className="text-muted">· {t('probabilidad estimada de un nuevo episodio detectado en el departamento, semana', 'estimated probability of a newly detected episode in the department, week')} {weekLabel(row.target_week_start, row.target_week_end_exclusive)}</span></p>
+          <p className="mt-1 text-xs text-muted">{t('Experimental. Emisión', 'Experimental. Issued')} {fmt.lima(row.issued_at)}. {t('No indica cuánto territorio se quemará, la gravedad ni la ubicación exacta; la ignición física no está verificada. Detalle en la sección «Pronóstico experimental».', 'It does not indicate how much territory will burn, the severity or the exact location; physical ignition is not verified. Details in the “Experimental forecast” section.')}</p>
         </>}
     </div>
   )
@@ -50,37 +56,37 @@ export default function Planes() {
   const S = useMemo(() => summarize(years, months, weeks, 'combined', y0, y1), [years, months, weeks, y0, y1])
   const ph = useMemo(() => phases(S.share), [S.share])
   const territory = regionName(region)
-  const [tasks, setTasks] = useStored<Task[]>(`fuegotrazo:plan:${region ?? 'peru'}:`, [])
+  const [tasks, setTasks] = useStored<Task[]>(`fuegotrazo:plan:${region ?? 'peru'}:${getLang()}`, [])
   const [entity, setEntity] = useState('')
   const [confirm, setConfirm] = useState(false)
   const has = S.share.some((x) => x > 0)
 
-  const generate = () => { setTasks(buildPlan(ph, todayLima())); setConfirm(false) }
-  const edit = (id: string, patch: Partial<Task>) => setTasks(tasks.map((t) => (t.id === id ? { ...t, ...patch } : t)))
+  const generate = () => { setTasks(buildPlan(ph, todayLima(), getLang())); setConfirm(false) }
+  const edit = (id: string, patch: Partial<Task>) => setTasks(tasks.map((x) => (x.id === id ? { ...x, ...patch } : x)))
   const add = () => setTasks([...tasks, { id: `custom-${Date.now()}`, phase: 'preparacion', title: '', due: todayLima(), owner: '', priority: 'Media', status: 'Pendiente', notes: '' }])
-  const csv = () => downloadCSV(`plan_preventivo_${region ?? 'peru'}.csv`, tasks.map((t) => ({ fase: PHASE_META[t.phase].label, accion: t.title, fecha: t.due, responsable: t.owner, prioridad: t.priority, estado: t.status, observaciones: t.notes })))
-  const seasonMonths = (k: string) => ph.map((p, m) => (p === k ? MONTHS[m] : null)).filter(Boolean).join(', ')
+  const csv = () => downloadCSV(`${t('plan_preventivo', 'prevention_plan')}_${region ?? 'peru'}.csv`, tasks.map((x) => ({ [t('fase', 'phase')]: phaseLabel(x.phase), [t('accion', 'action')]: x.title, [t('fecha', 'date')]: x.due, [t('responsable', 'owner')]: x.owner, [t('prioridad', 'priority')]: priorityLabel(x.priority), [t('estado', 'status')]: statusLabel(x.status), [t('observaciones', 'notes')]: x.notes })))
+  const seasonMonths = (k: string) => ph.map((p, m) => (p === k ? monthShort()[m] : null)).filter(Boolean).join(', ')
 
   return (
     <>
-      <div className="print:hidden"><PageHeader title="Generador de planes preventivos" subtitle="Arma un plan de acciones para un territorio a partir de su estacionalidad histórica real. Las acciones son una plantilla orientativa que puedes editar; los responsables los defines tú." /></div>
-      <div className="hidden print:block"><h1 className="text-2xl font-semibold">Plan preventivo de incendios forestales · {territory}</h1>{entity && <p>Entidad: {entity}</p>}<p className="text-sm">Generado el {fmt.date(todayLima())} con FuegoTrazo. Orientativo; no reemplaza los avisos oficiales de SENAMHI e INDECI.</p></div>
+      <div className="print:hidden"><PageHeader title={t('Generador de planes preventivos', 'Prevention plan generator')} subtitle={t('Arma un plan de acciones para un territorio a partir de su estacionalidad histórica real. Las acciones son una plantilla orientativa que puedes editar; los responsables los defines tú.', 'Build an action plan for a territory from its real historical seasonality. The actions are an indicative template you can edit; you define who is responsible.')} /></div>
+      <div className="hidden print:block"><h1 className="text-2xl font-semibold">{t('Plan preventivo de incendios forestales', 'Wildfire prevention plan')} · {territory}</h1>{entity && <p>{t('Entidad', 'Organization')}: {entity}</p>}<p className="text-sm">{t('Generado el', 'Generated on')} {fmt.date(todayLima())} {t('con FuegoTrazo. Orientativo; no reemplaza los avisos oficiales de SENAMHI e INDECI.', 'with FuegoTrazo. Indicative; it does not replace the official warnings of SENAMHI and INDECI.')}</p></div>
       {error ? <ErrorBox error={error} retry={retry} /> : loading ? <Loading /> : (
         <div className="space-y-5">
-          <Card title={`Diagnóstico · ${territory}`}
-            subtitle={`Datos armonizados ${y0}–${y1} del ${regionName(region)}. Cambia territorio y años en los filtros superiores.`}>
-            {!has ? <Empty>Sin estimaciones en este periodo.</Empty> : (
+          <Card title={`${t('Diagnóstico', 'Diagnosis')} · ${territory}`}
+            subtitle={t(`Datos armonizados ${y0}–${y1} del ${regionName(region)}. Cambia territorio y años en los filtros superiores.`, `Harmonized data ${y0}–${y1} for ${regionName(region)}. Change territory and years in the top filters.`)}>
+            {!has ? <Empty>{t('Sin estimaciones en este periodo.', 'No estimates in this period.')}</Empty> : (
               <div className="space-y-4">
                 <div className="grid grid-cols-2 gap-3 lg:grid-cols-4">
-                  <Stat label="Total del periodo" value={fmt.n(S.total)} hint="Datos armonizados (promedio MODIS y VIIRS)" />
-                  <Stat label="Variación vs. periodo anterior" value={S.change == null ? '—' : `${S.change > 0 ? '+' : ''}${fmt.pct(S.change)}`} hint={S.priorStart == null ? 'Sin periodo anterior disponible' : `${S.priorStart}–${y0 - 1}`} />
-                  <Stat label="Mes de mayor actividad" value={S.peak < 0 ? '—' : MONTHS_LONG[S.peak]} hint={S.peak < 0 ? undefined : `${fmt.pct(S.share[S.peak])} del total anual medio`} />
-                  <Stat label="Temporada alta" value={seasonMonths('alta') || 'sin pico claro'} hint="Meses con ≥ 1,5 veces la participación uniforme" />
+                  <Stat label={t('Total del periodo', 'Period total')} value={fmt.n(S.total)} hint={INDICATOR_LABEL.combined} />
+                  <Stat label={t('Variación vs. periodo anterior', 'Change vs. previous period')} value={S.change == null ? '—' : `${S.change > 0 ? '+' : ''}${fmt.pct(S.change)}`} hint={S.priorStart == null ? t('Sin periodo anterior disponible', 'No previous period available') : `${S.priorStart}–${y0 - 1}`} />
+                  <Stat label={t('Mes de mayor actividad', 'Most active month')} value={S.peak < 0 ? '—' : monthLong()[S.peak]} hint={S.peak < 0 ? undefined : `${fmt.pct(S.share[S.peak])} ${t('del total anual medio', 'of the mean annual total')}`} />
+                  <Stat label={t('Temporada alta', 'High season')} value={seasonMonths('alta') || t('sin pico claro', 'no clear peak')} hint={t('Meses con ≥ 1,5 veces la participación uniforme', 'Months with ≥ 1.5 times the uniform share')} />
                 </div>
-                <ol className="grid grid-cols-4 gap-1.5 sm:grid-cols-6 lg:grid-cols-12" aria-label="Fases por mes">
+                <ol className="grid grid-cols-4 gap-1.5 sm:grid-cols-6 lg:grid-cols-12" aria-label={t('Fases por mes', 'Phases by month')}>
                   {ph.map((p, m) => (
-                    <li key={m} className="rounded-lg px-2 py-2 text-center" style={{ background: PHASE_META[p].bg, color: PHASE_META[p].fg }} aria-label={`${MONTHS_LONG[m]}: ${PHASE_META[p].label}`}>
-                      <div className="text-xs font-medium">{MONTHS[m]}</div><div className="font-mono text-[11px] opacity-90">{fmt.pct(S.share[m])}</div>
+                    <li key={m} className="rounded-lg px-2 py-2 text-center" style={{ background: PHASE_META[p].bg, color: PHASE_META[p].fg }} aria-label={`${monthLong()[m]}: ${phaseLabel(p)}`}>
+                      <div className="text-xs font-medium">{monthShort()[m]}</div><div className="font-mono text-[11px] opacity-90">{fmt.pct(S.share[m])}</div>
                     </li>
                   ))}
                 </ol>
@@ -89,37 +95,37 @@ export default function Planes() {
             )}
           </Card>
 
-          <Card title="Acciones del plan" subtitle="Plantilla orientativa por fase; fechas calculadas desde hoy según la temporada. Edita, borra o añade lo que corresponda. Se guarda solo en este navegador."
+          <Card title={t('Acciones del plan', 'Plan actions')} subtitle={t('Plantilla orientativa por fase; fechas calculadas desde hoy según la temporada. Edita, borra o añade lo que corresponda. Se guarda solo en este navegador.', 'Indicative template per phase; dates computed from today according to the season. Edit, delete or add as needed. Saved only in this browser.')}
             actions={<div className="flex flex-wrap items-end gap-2 print:hidden">
-              <label className="flex flex-col gap-1 text-xs text-muted">Entidad (opcional)<input className="rounded-md border border-line bg-surface px-2 py-1.5 text-sm text-ink" value={entity} onChange={(e) => setEntity(e.target.value)} placeholder="Ej.: Oficina de Gestión del Riesgo" /></label>
-              {tasks.length > 0 && !confirm ? <button onClick={() => setConfirm(true)} className="rounded-md bg-surface px-3 py-1.5 text-xs hover:bg-line">Regenerar</button>
-                : tasks.length > 0 ? <button onClick={generate} className="rounded-md bg-danger px-3 py-1.5 text-xs font-semibold text-ink">Confirmar: reemplaza tus ediciones</button>
-                : <button onClick={generate} disabled={!has} className="rounded-md bg-fire px-3 py-1.5 text-xs font-semibold text-base disabled:opacity-40">Generar plan</button>}
-              {tasks.length > 0 && <><button onClick={csv} className="rounded-md bg-surface px-3 py-1.5 text-xs hover:bg-line">CSV</button><button onClick={() => window.print()} className="rounded-md bg-surface px-3 py-1.5 text-xs hover:bg-line">Imprimir o guardar PDF</button></>}
+              <label className="flex flex-col gap-1 text-xs text-muted">{t('Entidad (opcional)', 'Organization (optional)')}<input className="rounded-md border border-line bg-surface px-2 py-1.5 text-sm text-ink" value={entity} onChange={(e) => setEntity(e.target.value)} placeholder={t('Ej.: Oficina de Gestión del Riesgo', 'E.g.: Risk Management Office')} /></label>
+              {tasks.length > 0 && !confirm ? <button onClick={() => setConfirm(true)} className="rounded-md bg-surface px-3 py-1.5 text-xs hover:bg-line">{t('Regenerar', 'Regenerate')}</button>
+                : tasks.length > 0 ? <button onClick={generate} className="rounded-md bg-danger px-3 py-1.5 text-xs font-semibold text-ink">{t('Confirmar: reemplaza tus ediciones', 'Confirm: replaces your edits')}</button>
+                : <button onClick={generate} disabled={!has} className="rounded-md bg-fire px-3 py-1.5 text-xs font-semibold text-base disabled:opacity-40">{t('Generar plan', 'Generate plan')}</button>}
+              {tasks.length > 0 && <><button onClick={csv} className="rounded-md bg-surface px-3 py-1.5 text-xs hover:bg-line">CSV</button><button onClick={() => window.print()} className="rounded-md bg-surface px-3 py-1.5 text-xs hover:bg-line">{t('Imprimir o guardar PDF', 'Print or save as PDF')}</button></>}
             </div>}>
-            {tasks.length === 0 ? <Empty>Aún no hay plan para este territorio. Pulsa «Generar plan».</Empty> : (
+            {tasks.length === 0 ? <Empty>{t('Aún no hay plan para este territorio. Pulsa «Generar plan».', 'There is no plan for this territory yet. Press “Generate plan”.')}</Empty> : (
               <>
                 <div className="overflow-x-auto">
                   <table className="w-full min-w-[860px] text-sm">
-                    <thead className="text-left text-xs text-muted"><tr>{['Fase', 'Acción', 'Fecha', 'Responsable', 'Prioridad', 'Estado', ''].map((h) => <th key={h} className="px-1 py-1 font-normal">{h}</th>)}</tr></thead>
-                    <tbody>{tasks.map((t) => (
-                      <tr key={t.id} className="border-t border-line align-top">
-                        <td className="px-1 py-2"><span className="whitespace-nowrap rounded px-1.5 py-0.5 text-[11px]" style={{ background: PHASE_META[t.phase].bg, color: PHASE_META[t.phase].fg }}>{PHASE_META[t.phase].label}</span></td>
-                        <td className="px-1 py-1.5 w-[34%]"><textarea aria-label="Acción" rows={2} className={field} value={t.title} onChange={(e) => edit(t.id, { title: e.target.value })} placeholder="Describe la acción" /></td>
-                        <td className="px-1 py-1.5"><input aria-label="Fecha" type="date" className={field} value={t.due} onChange={(e) => edit(t.id, { due: e.target.value })} /></td>
-                        <td className="px-1 py-1.5"><input aria-label="Responsable" className={field} value={t.owner} onChange={(e) => edit(t.id, { owner: e.target.value })} placeholder="Por definir" /></td>
-                        <td className="px-1 py-1.5"><select aria-label="Prioridad" className={field} value={t.priority} onChange={(e) => edit(t.id, { priority: e.target.value as Priority })}>{['Alta', 'Media', 'Baja'].map((x) => <option key={x}>{x}</option>)}</select></td>
-                        <td className="px-1 py-1.5"><select aria-label="Estado" className={field} value={t.status} onChange={(e) => edit(t.id, { status: e.target.value as Status })}>{['Pendiente', 'En curso', 'Hecho'].map((x) => <option key={x}>{x}</option>)}</select></td>
-                        <td className="px-1 py-1.5 print:hidden"><button aria-label="Eliminar acción" onClick={() => setTasks(tasks.filter((x) => x.id !== t.id))} className="rounded p-1.5 text-muted hover:text-danger"><Trash2 size={15} /></button></td>
+                    <thead className="text-left text-xs text-muted"><tr>{[t('Fase', 'Phase'), t('Acción', 'Action'), t('Fecha', 'Date'), t('Responsable', 'Owner'), t('Prioridad', 'Priority'), t('Estado', 'Status'), ''].map((h) => <th key={h} className="px-1 py-1 font-normal">{h}</th>)}</tr></thead>
+                    <tbody>{tasks.map((k) => (
+                      <tr key={k.id} className="border-t border-line align-top">
+                        <td className="px-1 py-2"><span className="whitespace-nowrap rounded px-1.5 py-0.5 text-[11px]" style={{ background: PHASE_META[k.phase].bg, color: PHASE_META[k.phase].fg }}>{phaseLabel(k.phase)}</span></td>
+                        <td className="px-1 py-1.5 w-[34%]"><textarea aria-label={t('Acción', 'Action')} rows={2} className={field} value={k.title} onChange={(e) => edit(k.id, { title: e.target.value })} placeholder={t('Describe la acción', 'Describe the action')} /></td>
+                        <td className="px-1 py-1.5"><input aria-label={t('Fecha', 'Date')} type="date" className={field} value={k.due} onChange={(e) => edit(k.id, { due: e.target.value })} /></td>
+                        <td className="px-1 py-1.5"><input aria-label={t('Responsable', 'Owner')} className={field} value={k.owner} onChange={(e) => edit(k.id, { owner: e.target.value })} placeholder={t('Por definir', 'To be defined')} /></td>
+                        <td className="px-1 py-1.5"><select aria-label={t('Prioridad', 'Priority')} className={field} value={k.priority} onChange={(e) => edit(k.id, { priority: e.target.value as Priority })}>{PRIORITY.map((x) => <option key={x} value={x}>{priorityLabel(x)}</option>)}</select></td>
+                        <td className="px-1 py-1.5"><select aria-label={t('Estado', 'Status')} className={field} value={k.status} onChange={(e) => edit(k.id, { status: e.target.value as Status })}>{STATUS.map((x) => <option key={x} value={x}>{statusLabel(x)}</option>)}</select></td>
+                        <td className="px-1 py-1.5 print:hidden"><button aria-label={t('Eliminar acción', 'Delete action')} onClick={() => setTasks(tasks.filter((x) => x.id !== k.id))} className="rounded p-1.5 text-muted hover:text-danger"><Trash2 size={15} /></button></td>
                       </tr>
                     ))}</tbody>
                   </table>
                 </div>
-                <button onClick={add} className="mt-3 inline-flex items-center gap-1.5 rounded-md bg-surface px-3 py-1.5 text-xs hover:bg-line print:hidden"><Plus size={14} /> Añadir acción</button>
+                <button onClick={add} className="mt-3 inline-flex items-center gap-1.5 rounded-md bg-surface px-3 py-1.5 text-xs hover:bg-line print:hidden"><Plus size={14} /> {t('Añadir acción', 'Add action')}</button>
               </>
             )}
           </Card>
-          <p className="max-w-[80ch] text-xs text-muted">Las acciones son recomendaciones generales de prevención, no un plan oficial ni una orden. Los datos de contacto verificados están en «Centros de apoyo». Los porcentajes del pronóstico son regionales y experimentales.</p>
+          <p className="max-w-[80ch] text-xs text-muted">{t('Las acciones son recomendaciones generales de prevención, no un plan oficial ni una orden. Los datos de contacto verificados están en «Centros de apoyo». Los porcentajes del pronóstico son regionales y experimentales.', 'The actions are general prevention recommendations, not an official plan or an order. Verified contact details are in “Support centers”. Forecast percentages are regional and experimental.')}</p>
         </div>
       )}
     </>

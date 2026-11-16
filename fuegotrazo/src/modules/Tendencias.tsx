@@ -1,9 +1,10 @@
 import { useMemo, useState } from 'react'
+import { t } from '../i18n'
 import { Area, Bar, CartesianGrid, Cell, ComposedChart, Legend as RLegend, Line, LineChart, ResponsiveContainer, Tooltip, XAxis, YAxis } from 'recharts'
 import { fetchSeries, SERIES_END_EXCL, SERIES_START } from '../api'
 import { rollup, weekly, yearKey } from '../lib/aggregate'
 import { useApp, useAsync, useSeries } from '../state'
-import { axis, Card, COLORS, Empty, ErrorBox, fmt, INDICATOR_LABEL, Loading, MONTHS, PageHeader, pick, Select, tooltipStyle } from '../ui'
+import { axis, Card, COLORS, Empty, ErrorBox, fmt, INDICATOR_LABEL, Loading, monthShort, PageHeader, pick, Select, tooltipStyle } from '../ui'
 
 const PALETTE = ['#FB923C', '#67D8F2', '#14B8A6', '#FBBF24']
 const quantile = (sorted: number[], q: number) => {
@@ -19,21 +20,21 @@ function Evolucion() {
   const [lines, setLines] = useState(true)
   const data = years.filter((y) => y.key >= '2001').map((y) => ({ ...y, v: pick(y, indicator) }))
   return (
-    <Card title="Evolución de la actividad" subtitle={`${regionName(region)} · ${INDICATOR_LABEL[indicator]} por año. 2026 es parcial (hasta el 26 de julio).`}
-      actions={<label className="flex items-center gap-2 text-xs text-muted"><input type="checkbox" checked={lines} onChange={(e) => setLines(e.target.checked)} />Mostrar MODIS y VIIRS</label>}>
+    <Card title={t('Evolución de la actividad', 'Activity evolution')} subtitle={`${regionName(region)} · ${INDICATOR_LABEL[indicator]} ${t('por año', 'per year')}. ${t('2026 es parcial (hasta el 26 de julio).', '2026 is partial (through July 26).')}`}
+      actions={<label className="flex items-center gap-2 text-xs text-muted"><input type="checkbox" checked={lines} onChange={(e) => setLines(e.target.checked)} />{t('Mostrar MODIS y VIIRS', 'Show MODIS and VIIRS')}</label>}>
       {error ? <ErrorBox error={error} retry={retry} /> : loading ? <Loading /> : (
         <ResponsiveContainer width="100%" height={320}>
           <ComposedChart data={data} margin={{ right: 12 }}>
             <CartesianGrid vertical={false} stroke={COLORS.grid} />
             <XAxis dataKey="key" {...axis} interval={2} />
             <YAxis {...axis} tickFormatter={fmt.n} width={52} />
-            <Tooltip {...tooltipStyle} cursor={{ fill: '#17334D' }} labelFormatter={(k) => `${k}${k === '2026' ? ' (parcial)' : ''}`} formatter={(v) => (v == null ? 'sin estimación' : fmt.full(v as number))} />
+            <Tooltip {...tooltipStyle} cursor={{ fill: '#17334D' }} labelFormatter={(k) => `${k}${k === '2026' ? ` (${t('parcial', 'partial')})` : ''}`} formatter={(v) => (v == null ? t('sin estimación', 'no estimate') : fmt.full(v as number))} />
             <RLegend wrapperStyle={{ fontSize: 12 }} />
             <Bar isAnimationActive={false} dataKey="v" name={INDICATOR_LABEL[indicator]} fill="#3A6E9E" radius={[3, 3, 0, 0]}>
               {data.map((d) => <Cell key={d.key} fill={d.key === '2026' ? '#2A4F73' : '#3A6E9E'} fillOpacity={d.key === '2026' ? 0.6 : 1} />)}
             </Bar>
-            {lines && <Line isAnimationActive={false} dataKey="MODIS" name="MODIS armonizado" stroke={COLORS.MODIS} strokeWidth={2} dot={false} connectNulls={false} />}
-            {lines && <Line isAnimationActive={false} dataKey="VIIRS" name="VIIRS armonizado" stroke={COLORS.VIIRS} strokeWidth={2} dot={false} connectNulls={false} />}
+            {lines && <Line isAnimationActive={false} dataKey="MODIS" name={INDICATOR_LABEL.MODIS} stroke={COLORS.MODIS} strokeWidth={2} dot={false} connectNulls={false} />}
+            {lines && <Line isAnimationActive={false} dataKey="VIIRS" name={INDICATOR_LABEL.VIIRS} stroke={COLORS.VIIRS} strokeWidth={2} dot={false} connectNulls={false} />}
           </ComposedChart>
         </ResponsiveContainer>
       )}
@@ -48,7 +49,7 @@ function Estacionalidad() {
   const [picked, setPicked] = useState<number[]>([2024, 2025])
   const [next, setNext] = useState(2023)
 
-  const data = useMemo(() => MONTHS.map((label, m) => {
+  const data = useMemo(() => monthShort().map((label, m) => {
     const at = (y: number) => { const p = months.find((x) => x.key === `${y}-${String(m + 1).padStart(2, '0')}`); return p ? pick(p, indicator) : null }
     const typical: number[] = []
     for (let y = y0; y <= y1; y++) { const v = at(y); if (v != null) typical.push(v) }
@@ -60,18 +61,18 @@ function Estacionalidad() {
   }), [months, y0, y1, indicator, picked])
 
   return (
-    <Card title="Estacionalidad" subtitle={`${regionName(region)} · actividad mensual de los años elegidos frente al patrón ${y0}–${y1} (banda p10–p90 y mediana).`}
+    <Card title={t('Estacionalidad', 'Seasonality')} subtitle={t(`${regionName(region)} · actividad mensual de los años elegidos frente al patrón ${y0}–${y1} (banda p10–p90 y mediana).`, `${regionName(region)} · monthly activity of the chosen years against the ${y0}–${y1} pattern (p10–p90 band and median).`)}
       actions={
         <div className="flex flex-wrap items-center gap-2 text-xs">
           {picked.map((y, i) => (
-            <button key={y} onClick={() => setPicked(picked.filter((p) => p !== y))} className="flex items-center gap-1.5 rounded-full bg-surface px-2.5 py-1" aria-label={`Quitar ${y}`}>
+            <button key={y} onClick={() => setPicked(picked.filter((p) => p !== y))} className="flex items-center gap-1.5 rounded-full bg-surface px-2.5 py-1" aria-label={`${t('Quitar', 'Remove')} ${y}`}>
               <span className="inline-block size-2 rounded-full" style={{ background: PALETTE[i] }} />{y} ×
             </button>
           ))}
           {picked.length < 3 && (
             <>
-              <input type="number" aria-label="Año a añadir" min={2001} max={2026} value={next} onChange={(e) => setNext(+e.target.value)} className="w-20 rounded-md border border-line bg-surface px-2 py-1 font-mono" />
-              <button disabled={next < 2001 || next > 2026 || picked.includes(next)} onClick={() => setPicked([...picked, next])} className="rounded-md bg-surface px-2.5 py-1 hover:bg-line disabled:opacity-40">Añadir año</button>
+              <input type="number" aria-label={t('Año a añadir', 'Year to add')} min={2001} max={2026} value={next} onChange={(e) => setNext(+e.target.value)} className="w-20 rounded-md border border-line bg-surface px-2 py-1 font-mono" />
+              <button disabled={next < 2001 || next > 2026 || picked.includes(next)} onClick={() => setPicked([...picked, next])} className="rounded-md bg-surface px-2.5 py-1 hover:bg-line disabled:opacity-40">{t('Añadir año', 'Add year')}</button>
             </>
           )}
         </div>
@@ -82,10 +83,10 @@ function Estacionalidad() {
             <CartesianGrid vertical={false} stroke={COLORS.grid} />
             <XAxis dataKey="label" {...axis} />
             <YAxis {...axis} tickFormatter={fmt.n} width={52} />
-            <Tooltip {...tooltipStyle} formatter={(v) => (Array.isArray(v) ? `${fmt.full(v[0])} – ${fmt.full(v[1])}` : v == null ? 'sin estimación' : fmt.full(v as number))} />
+            <Tooltip {...tooltipStyle} formatter={(v) => (Array.isArray(v) ? `${fmt.full(v[0])} – ${fmt.full(v[1])}` : v == null ? t('sin estimación', 'no estimate') : fmt.full(v as number))} />
             <RLegend wrapperStyle={{ fontSize: 12 }} />
-            <Area isAnimationActive={false} dataKey="band" name={`Rango típico p10–p90 (${y0}–${y1})`} stroke="none" fill="#94A8BD" fillOpacity={0.2} />
-            <Line isAnimationActive={false} dataKey="median" name="Mediana" stroke="#94A8BD" strokeDasharray="4 4" dot={false} strokeWidth={1.5} />
+            <Area isAnimationActive={false} dataKey="band" name={`${t('Rango típico', 'Typical range')} p10–p90 (${y0}–${y1})`} stroke="none" fill="#94A8BD" fillOpacity={0.2} />
+            <Line isAnimationActive={false} dataKey="median" name={t('Mediana', 'Median')} stroke="#94A8BD" strokeDasharray="4 4" dot={false} strokeWidth={1.5} />
             {picked.map((y, i) => <Line isAnimationActive={false} key={y} dataKey={`y${y}`} name={String(y)} stroke={PALETTE[i]} strokeWidth={2} dot={{ r: 2 }} connectNulls={false} />)}
           </ComposedChart>
         </ResponsiveContainer>
@@ -123,33 +124,33 @@ function Comparador() {
   }, [data, ids, indicator, index, y0, y1])
 
   return (
-    <Card title="Comparador territorial" subtitle="Elige hasta tres departamentos. «Índice» pone en 100 el promedio anual del periodo del filtro para comparar la forma y no el tamaño."
+    <Card title={t('Comparador territorial', 'Territory comparison')} subtitle={t('Elige hasta tres departamentos. «Índice» pone en 100 el promedio anual del periodo del filtro para comparar la forma y no el tamaño.', 'Choose up to three departments. “Index” sets the annual average of the filter period to 100 so you compare shape, not size.')}
       actions={
         <div className="flex flex-wrap items-end gap-3">
-          <Select label="Valores" value={index} onChange={setIndex} options={[{ value: 'total', label: 'Total anual' }, { value: 'index', label: `Índice (${y0}–${y1} = 100)` }]} />
+          <Select label={t('Valores', 'Values')} value={index} onChange={setIndex} options={[{ value: 'total', label: t('Total anual', 'Annual total') }, { value: 'index', label: `${t('Índice', 'Index')} (${y0}–${y1} = 100)` }]} />
           {ids.length < 3 && (
-            <Select label="Añadir departamento" value="" onChange={(v) => v && setIds([...ids, v])}
-              options={[{ value: '', label: 'Elegir…' }, ...regions.filter((r) => !ids.includes(r.region_id)).map((r) => ({ value: r.region_id, label: regionName(r.region_id) }))]} />
+            <Select label={t('Añadir departamento', 'Add department')} value="" onChange={(v) => v && setIds([...ids, v])}
+              options={[{ value: '', label: t('Elegir…', 'Choose…') }, ...regions.filter((r) => !ids.includes(r.region_id)).map((r) => ({ value: r.region_id, label: regionName(r.region_id) }))]} />
           )}
         </div>
       }>
       {ids.length > 0 && (
         <div className="mb-3 flex flex-wrap gap-2 text-xs">
           {ids.map((id, i) => (
-            <button key={id} onClick={() => setIds(ids.filter((x) => x !== id))} aria-label={`Quitar ${regionName(id)}`} className="flex items-center gap-1.5 rounded-full bg-surface px-2.5 py-1">
+            <button key={id} onClick={() => setIds(ids.filter((x) => x !== id))} aria-label={`${t('Quitar', 'Remove')} ${regionName(id)}`} className="flex items-center gap-1.5 rounded-full bg-surface px-2.5 py-1">
               <span className="inline-block size-2 rounded-full" style={{ background: PALETTE[i] }} />{regionName(id)} ×
             </button>
           ))}
         </div>
       )}
-      {ids.length === 0 ? <Empty>Añade un departamento para compararlo.</Empty>
+      {ids.length === 0 ? <Empty>{t('Añade un departamento para compararlo.', 'Add a department to compare it.')}</Empty>
         : error ? <ErrorBox error={error} retry={retry} /> : loading ? <Loading /> : (
           <ResponsiveContainer width="100%" height={300}>
             <LineChart data={rows} margin={{ right: 12 }}>
               <CartesianGrid vertical={false} stroke={COLORS.grid} />
               <XAxis dataKey="y" {...axis} interval={2} />
               <YAxis {...axis} tickFormatter={fmt.n} width={52} />
-              <Tooltip {...tooltipStyle} formatter={(v) => (v == null ? 'sin estimación' : fmt.full(v as number))} />
+              <Tooltip {...tooltipStyle} formatter={(v) => (v == null ? t('sin estimación', 'no estimate') : fmt.full(v as number))} />
               <RLegend wrapperStyle={{ fontSize: 12 }} />
               {ids.map((id, i) => <Line isAnimationActive={false} key={id} dataKey={id} name={regionName(id)} stroke={PALETTE[i]} strokeWidth={2} dot={false} connectNulls={false} />)}
             </LineChart>
@@ -163,7 +164,7 @@ export default function Tendencias() {
   const { filters } = useApp()
   return (
     <>
-      <PageHeader title="Tendencias históricas" subtitle={`Cómo ha cambiado la actividad térmica desde 2001. Indicador: ${INDICATOR_LABEL[filters.indicator].toLowerCase()}. MODIS cubre todo el periodo; VIIRS solo desde febrero de 2012.`} />
+      <PageHeader title={t('Tendencias históricas', 'Historical trends')} subtitle={`${t('Cómo ha cambiado la actividad térmica desde 2001.', 'How thermal activity has changed since 2001.')} ${t('Indicador', 'Indicator')}: ${INDICATOR_LABEL[filters.indicator].toLowerCase()}. ${t('MODIS cubre todo el periodo; VIIRS solo desde febrero de 2012.', 'MODIS covers the whole period; VIIRS only from February 2012.')}`} />
       <div className="space-y-5"><Evolucion /><Estacionalidad /><Comparador /></div>
     </>
   )

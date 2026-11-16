@@ -8,9 +8,9 @@ export interface RiskRow {
 }
 
 /** One decimal, never more precision than the model deserves. Returns null when there is no number. */
-export function percent1(p: number | null | undefined): string | null {
+export function percent1(p: number | null | undefined, locale = 'es-PE'): string | null {
   if (p == null || !Number.isFinite(p)) return null
-  return `${p.toLocaleString('es-PE', { minimumFractionDigits: 1, maximumFractionDigits: 1 })} %`
+  return `${p.toLocaleString(locale, { minimumFractionDigits: 1, maximumFractionDigits: 1 })} %`
 }
 
 export type Validity = { ok: true } | { ok: false; reason: 'refresh_required' | 'expired' | 'invalid_valid_until' }

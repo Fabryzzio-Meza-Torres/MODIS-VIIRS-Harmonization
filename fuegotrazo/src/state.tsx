@@ -3,6 +3,7 @@ import { fetchMetadata, fetchRegions, fetchSeries, SERIES_END_EXCL, SERIES_START
 import { monthKey, rollup, weekly, yearKey, type Period } from './lib/aggregate'
 import { pick } from './ui'
 import { buildProvinces, strip, type Province } from './lib/geo'
+import { t } from './i18n'
 
 export const ROUTES = ['panorama', 'calendario', 'mapa', 'tendencias', 'prevencion', 'pronostico', 'laboratorio', 'planes', 'apoyo', 'informes'] as const
 export type Route = (typeof ROUTES)[number]
@@ -96,7 +97,7 @@ export function AppProvider({ children }: { children: ReactNode }) {
       f.y1 = Math.max(f.y0, f.y1)
       write(state.route, f)
     },
-    regionName: (id) => (id ? titled(regions.find((r) => r.region_id === id)?.name ?? id) : 'Todo el Perú'),
+    regionName: (id) => (id ? titled(regions.find((r) => r.region_id === id)?.name ?? id) : t('Todo el Perú', 'All of Peru')),
   }
   return <AppCtx.Provider value={value}>{children}</AppCtx.Provider>
 }
@@ -124,7 +125,7 @@ export function useRegionTotals() {
 // Provinces and capitals: static files in /public/geo (juaneladio/peru-geojson, MPL-2.0), fetched once.
 let geoFiles: Promise<[any, any]> | null = null
 const loadGeoFiles = () => (geoFiles ??= Promise.all(['peru_provincial_simple', 'peru_capital_provincia'].map((f) =>
-  fetch(`/geo/${f}.geojson`).then((r) => { if (!r.ok) throw new Error(`No se pudo cargar ${f} (${r.status})`); return r.json() }))) as Promise<[any, any]>)
+  fetch(`/geo/${f}.geojson`).then((r) => { if (!r.ok) throw new Error(`${t('No se pudo cargar', 'Could not load')} ${f} (${r.status})`); return r.json() }))) as Promise<[any, any]>)
 
 export function useProvinces() {
   const { regions } = useApp()

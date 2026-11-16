@@ -1,37 +1,51 @@
 import { Component, type ReactNode } from 'react'
+import { locale, t } from './i18n'
 import type { Period } from './lib/aggregate'
 import type { Indicator } from './state'
 
 export const COLORS = { MODIS: '#FB923C', VIIRS: '#67D8F2', combined: '#FBBF24', raw: '#94A8BD', teal: '#14B8A6', grid: '#21405E', muted: '#94A8BD' }
-export const INDICATOR_LABEL: Record<Indicator, string> = {
-  combined: 'Datos armonizados (promedio MODIS y VIIRS)', MODIS: 'MODIS armonizado', VIIRS: 'VIIRS armonizado',
-}
+// getters: evaluated at render time, so they follow the selected language
+export const INDICATOR_LABEL = {
+  get combined() { return t('Datos armonizados (promedio MODIS y VIIRS)', 'Harmonized data (MODIS and VIIRS average)') },
+  get MODIS() { return t('MODIS armonizado', 'MODIS harmonized') },
+  get VIIRS() { return t('VIIRS armonizado', 'VIIRS harmonized') },
+} as Record<Indicator, string>
 export const shiftDay = (iso: string, days: number) => {
   const d = new Date(iso + 'T00:00:00Z'); d.setUTCDate(d.getUTCDate() + days); return d.toISOString().slice(0, 10)
 }
 /** "16 nov – 22 nov 2026" for a Monday-start week with exclusive end. */
 export const weekLabel = (start: string, endExclusive: string) => `${fmt.short(start)} – ${fmt.date(shiftDay(endExclusive, -1))}`
-export const MONTHS = ['Ene', 'Feb', 'Mar', 'Abr', 'May', 'Jun', 'Jul', 'Ago', 'Sep', 'Oct', 'Nov', 'Dic']
-export const MONTHS_LONG = ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre']
+export const monthShort = () => [t('Ene', 'Jan'), t('Feb', 'Feb'), t('Mar', 'Mar'), t('Abr', 'Apr'), t('May', 'May'), t('Jun', 'Jun'), t('Jul', 'Jul'), t('Ago', 'Aug'), t('Sep', 'Sep'), t('Oct', 'Oct'), t('Nov', 'Nov'), t('Dic', 'Dec')]
+export const monthLong = () => [t('Enero', 'January'), t('Febrero', 'February'), t('Marzo', 'March'), t('Abril', 'April'), t('Mayo', 'May'), t('Junio', 'June'), t('Julio', 'July'), t('Agosto', 'August'), t('Septiembre', 'September'), t('Octubre', 'October'), t('Noviembre', 'November'), t('Diciembre', 'December')]
 
-export const monthLabel = (key: string) => `${MONTHS[+key.slice(5, 7) - 1]} ${key.slice(0, 4)}`
+export const monthLabel = (key: string) => `${monthShort()[+key.slice(5, 7) - 1]} ${key.slice(0, 4)}`
 
-const nf = new Intl.NumberFormat('es-PE', { maximumFractionDigits: 0 })
-const cf = new Intl.NumberFormat('es-PE', { notation: 'compact', maximumFractionDigits: 1 })
-const pf = new Intl.NumberFormat('es-PE', { style: 'percent', maximumFractionDigits: 1 })
-const df = new Intl.DateTimeFormat('es-PE', { day: 'numeric', month: 'short', year: 'numeric', timeZone: 'UTC' })
-const dl = new Intl.DateTimeFormat('es-PE', { day: 'numeric', month: 'short', year: 'numeric', hour: '2-digit', minute: '2-digit', hour12: false, timeZone: 'America/Lima' })
-const dutc = new Intl.DateTimeFormat('es-PE', { day: 'numeric', month: 'short', year: 'numeric', hour: '2-digit', minute: '2-digit', hour12: false, timeZone: 'UTC' })
-const dshort = new Intl.DateTimeFormat('es-PE', { day: 'numeric', month: 'short', timeZone: 'UTC' })
+// Intl formatters are cached per language
+const cache = new Map<string, unknown>()
+const memo = <T,>(kind: string, make: (l: string) => T): T => {
+  const k = `${locale()}|${kind}`
+  if (!cache.has(k)) cache.set(k, make(locale()))
+  return cache.get(k) as T
+}
+const nf = () => memo('nf', (l) => new Intl.NumberFormat(l, { maximumFractionDigits: 0 }))
+const cf = () => memo('cf', (l) => new Intl.NumberFormat(l, { notation: 'compact', maximumFractionDigits: 1 }))
+const pf = () => memo('pf', (l) => new Intl.NumberFormat(l, { style: 'percent', maximumFractionDigits: 1 }))
+const d3 = () => memo('d3', (l) => new Intl.NumberFormat(l, { maximumFractionDigits: 3 }))
+const df = () => memo('df', (l) => new Intl.DateTimeFormat(l, { day: 'numeric', month: 'short', year: 'numeric', timeZone: 'UTC' }))
+const dl = () => memo('dl', (l) => new Intl.DateTimeFormat(l, { day: 'numeric', month: 'short', year: 'numeric', hour: '2-digit', minute: '2-digit', hour12: false, timeZone: 'America/Lima' }))
+const dutc = () => memo('dutc', (l) => new Intl.DateTimeFormat(l, { day: 'numeric', month: 'short', year: 'numeric', hour: '2-digit', minute: '2-digit', hour12: false, timeZone: 'UTC' }))
+const dshort = () => memo('dshort', (l) => new Intl.DateTimeFormat(l, { day: 'numeric', month: 'short', timeZone: 'UTC' }))
 export const fmt = {
-  n: (v: number | null | undefined) => (v == null ? '—' : Math.abs(v) >= 10000 ? cf.format(v) : nf.format(v)),
-  full: (v: number | null | undefined) => (v == null ? '—' : nf.format(v)),
-  d2: (v: number | null | undefined) => (v == null ? '—' : v.toLocaleString('es-PE', { maximumFractionDigits: 3 })),
-  pct: (v: number | null | undefined) => (v == null || !Number.isFinite(v) ? '—' : pf.format(v)),
-  date: (iso: string) => df.format(new Date(iso + 'T00:00:00Z')),
-  short: (iso: string) => dshort.format(new Date(iso + 'T00:00:00Z')),
-  lima: (iso: string) => `${dl.format(new Date(iso))} (hora de Lima)`,
-  utc: (iso: string) => `${dutc.format(new Date(iso))} UTC`,
+  n: (v: number | null | undefined) => (v == null ? '—' : Math.abs(v) >= 10000 ? cf().format(v) : nf().format(v)),
+  full: (v: number | null | undefined) => (v == null ? '—' : nf().format(v)),
+  d2: (v: number | null | undefined) => (v == null ? '—' : d3().format(v)),
+  pct: (v: number | null | undefined) => (v == null || !Number.isFinite(v) ? '—' : pf().format(v)),
+  date: (iso: string) => df().format(new Date(iso + 'T00:00:00Z')),
+  short: (iso: string) => dshort().format(new Date(iso + 'T00:00:00Z')),
+  lima: (iso: string) => `${dl().format(new Date(iso))} ${t('(hora de Lima)', '(Lima time)')}`,
+  utc: (iso: string) => `${dutc().format(new Date(iso))} UTC`,
+  /** One-decimal number in the current language, e.g. for rates. */
+  one: (v: number | null | undefined) => (v == null ? '—' : v.toLocaleString(locale(), { maximumFractionDigits: 1 })),
 }
 
 export const pick = (p: Period, ind: Indicator): number | null => p[ind]
@@ -129,18 +143,18 @@ export function Legend({ items }: { items: { color: string; label: string }[] })
 export function Unavailable({ children, reasons }: { children: ReactNode; reasons?: string[] }) {
   return (
     <div role="status" className="rounded-lg border border-amber/60 bg-amber/10 p-4 text-sm">
-      <h3 className="font-semibold text-amber">Pronóstico no disponible</h3>
+      <h3 className="font-semibold text-amber">{t('Pronóstico no disponible', 'Forecast unavailable')}</h3>
       <div className="mt-1 max-w-[70ch] text-ink/90">{children}</div>
-      {!!reasons?.length && <p className="mt-2 text-xs text-muted">Motivos informados por el servicio: <span className="font-mono">{reasons.join(', ')}</span></p>}
-      <p className="mt-2 text-xs text-muted">No se muestra ningún porcentaje: la ausencia de pronóstico no equivale a 0 %.</p>
+      {!!reasons?.length && <p className="mt-2 text-xs text-muted">{t('Motivos informados por el servicio:', 'Reasons reported by the service:')} <span className="font-mono">{reasons.join(', ')}</span></p>}
+      <p className="mt-2 text-xs text-muted">{t('No se muestra ningún porcentaje: la ausencia de pronóstico no equivale a 0 %.', 'No percentage is shown: a missing forecast does not mean 0 %.')}</p>
     </div>
   )
 }
 
 /** Quiet skeleton: no wording on screen (the label is for screen readers only). */
-export const Loading = ({ label = 'Cargando' }: { label?: string }) => (
+export const Loading = ({ label }: { label?: string }) => (
   <div role="status" aria-busy="true" className="space-y-3 py-1">
-    <span className="sr-only">{label}</span>
+    <span className="sr-only">{label ?? t('Cargando', 'Loading')}</span>
     <div className="h-20 animate-pulse rounded-lg bg-surface/60" />
     <div className="h-20 animate-pulse rounded-lg bg-surface/40" />
   </div>
@@ -151,8 +165,8 @@ export const Empty = ({ children }: { children: ReactNode }) => (
 export function ErrorBox({ error, retry }: { error: Error; retry?: () => void }) {
   return (
     <div role="alert" className="rounded-lg border border-danger/50 bg-danger/10 p-4 text-sm">
-      <p>{error.message || 'No pudimos consultar los datos.'} Comprueba tu conexión y vuelve a intentarlo.</p>
-      {retry && <button onClick={retry} className="mt-2 rounded-md bg-surface px-3 py-1.5 text-xs hover:bg-line">Reintentar</button>}
+      <p>{error.message || t('No pudimos consultar los datos.', 'We could not fetch the data.')} {t('Comprueba tu conexión y vuelve a intentarlo.', 'Check your connection and try again.')}</p>
+      {retry && <button onClick={retry} className="mt-2 rounded-md bg-surface px-3 py-1.5 text-xs hover:bg-line">{t('Reintentar', 'Retry')}</button>}
     </div>
   )
 }
@@ -162,7 +176,7 @@ export class Boundary extends Component<{ children: ReactNode }, { error?: Error
   static getDerivedStateFromError(error: Error) { return { error } }
   render() {
     return this.state.error
-      ? <Card title="Este módulo no pudo mostrarse"><ErrorBox error={this.state.error} /></Card>
+      ? <Card title={t('Este módulo no pudo mostrarse', 'This module could not be displayed')}><ErrorBox error={this.state.error} /></Card>
       : this.props.children
   }
 }

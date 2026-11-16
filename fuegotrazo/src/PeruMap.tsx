@@ -1,6 +1,7 @@
 import { useEffect, useMemo, useRef, useState } from 'react'
 import L from 'leaflet'
 import { fetchGeometry } from './api'
+import { t } from './i18n'
 import type { Detection, EventRow } from './events'
 import type { Province } from './lib/geo'
 import { COLORS, fmt, makeRamp, NO_DATA, RAMP } from './ui'
@@ -84,7 +85,7 @@ export default function PeruMap({ values, label, selected, onSelect, regionName,
         color: sel ? '#14B8A6' : '#94A8BD', weight: sel ? 3 : 0.8, dashArray: !dim && v == null ? '3' : undefined,
       })
       if (sel) layer.bringToFront()
-      layer.getTooltip()?.setContent(`${titled(layer.feature.properties!.name)}${dim ? '' : ` · ${v == null ? 'sin estimación' : fmt.full(v)} (${label})`}`)
+      layer.getTooltip()?.setContent(`${titled(layer.feature.properties!.name)}${dim ? '' : ` · ${v == null ? t('sin estimación', 'no estimate') : fmt.full(v)} (${label})`}`)
     })
   }, [ready, values, selected, deptRamp, dim, label])
 
@@ -126,9 +127,9 @@ export default function PeruMap({ values, label, selected, onSelect, regionName,
       })
       if (sel) r.poly.eachLayer((l) => (l as L.Path).bringToFront?.())
       const value = v === undefined || v === null || !provinceLegend ? '' : ` · ${provinceLegend.format(v)}`
-      r.poly.getTooltip()?.setContent(`${titled(p.name)} · provincia${value}`)
+      r.poly.getTooltip()?.setContent(`${titled(p.name)} · ${t('provincia', 'province')}${value}`)
       if (r.cap) {
-        const text = `${titled(p.capital!.name)} · capital de ${titled(p.name)} (${titled(p.capital!.kind)})`
+        const text = `${titled(p.capital!.name)} · ${t('capital de', 'capital of')} ${titled(p.name)} (${titled(p.capital!.kind)})`
         r.cap.setRadius(sel ? 6 : 3.5).unbindTooltip().bindTooltip(text, { permanent: sel, direction: 'top', offset: [0, -6] })
         if (sel) r.cap.bringToFront()
       }
@@ -159,7 +160,7 @@ export default function PeruMap({ values, label, selected, onSelect, regionName,
     const group = L.layerGroup()
     for (const e of events) {
       L.circleMarker([e.lat, e.lon], { radius: 5, weight: 1, color: '#F4F7FB', fillColor: '#F97316', fillOpacity: 0.9 })
-        .bindTooltip(`Evento ${e.event_id} · ${e.n_det} detecciones`)
+        .bindTooltip(`${t('Evento', 'Event')} ${e.event_id} · ${e.n_det} ${t('detecciones', 'detections')}`)
         .on('click', () => cb.current.onSelectEvent?.(e.event_id)).addTo(group)
     }
     group.addTo(map.current!)
@@ -189,10 +190,10 @@ export default function PeruMap({ values, label, selected, onSelect, regionName,
   const selProv = provs.find((p) => p.id === selectedProvince)
   return (
     <div className="relative" onKeyDown={(e) => { if (e.key === 'Escape') up() }}>
-      <div ref={host} tabIndex={0} role="application" aria-label={`Mapa del Perú: ${label}. Escape sube un nivel.`} className="h-[420px] w-full rounded-lg border border-line md:h-[520px]" />
+      <div ref={host} tabIndex={0} role="application" aria-label={`${t('Mapa del Perú', 'Map of Peru')}: ${label}. ${t('Escape sube un nivel.', 'Escape goes up one level.')}`} className="h-[420px] w-full rounded-lg border border-line md:h-[520px]" />
       {selected && (
-        <nav aria-label="Territorio" className="absolute left-14 top-3 z-[500] flex max-w-[calc(100%-4.5rem)] flex-wrap items-center gap-1 rounded-md border border-line bg-panel/90 px-2.5 py-1.5 text-xs backdrop-blur">
-          <button onClick={() => onSelect(null)} className="text-sky hover:underline">Perú</button>
+        <nav aria-label={t('Territorio', 'Territory')} className="absolute left-14 top-3 z-[500] flex max-w-[calc(100%-4.5rem)] flex-wrap items-center gap-1 rounded-md border border-line bg-panel/90 px-2.5 py-1.5 text-xs backdrop-blur">
+          <button onClick={() => onSelect(null)} className="text-sky hover:underline">{t('Perú', 'Peru')}</button>
           <span aria-hidden className="text-muted">›</span>
           {selProv ? <button onClick={() => onSelectProvince?.(null)} className="text-sky hover:underline">{regionName?.(selected) ?? selected}</button>
             : <span aria-current="page" className="text-ink">{regionName?.(selected) ?? selected}</span>}
@@ -202,30 +203,30 @@ export default function PeruMap({ values, label, selected, onSelect, regionName,
       <div className="pointer-events-none absolute bottom-3 left-3 z-[500] max-w-[calc(100%-1.5rem)] rounded-md border border-line bg-panel/90 px-3 py-2 text-xs backdrop-blur">
         {events !== undefined ? (
           <ul className="space-y-1 text-muted">
-            <li className="flex items-center gap-2"><span className="inline-block size-3 rounded-full border border-ink bg-fire" />Evento: punto representativo</li>
-            <li className="flex items-center gap-2"><span className="inline-block size-2 rounded-full" style={{ background: COLORS.MODIS }} />Detección MODIS (evento elegido)</li>
-            <li className="flex items-center gap-2"><span className="inline-block size-2 rounded-full" style={{ background: COLORS.VIIRS }} />Detección VIIRS (evento elegido)</li>
-            {provs.length > 0 && <li className="flex items-center gap-2"><span className="inline-block size-3 rounded-sm border border-viirs" />Provincia</li>}
-            {provs.length > 0 && <li className="flex items-center gap-2"><span className="inline-block size-2.5 rounded-full border border-ink bg-sky" />Capital de provincia</li>}
+            <li className="flex items-center gap-2"><span className="inline-block size-3 rounded-full border border-ink bg-fire" />{t('Evento: punto representativo', 'Event: representative point')}</li>
+            <li className="flex items-center gap-2"><span className="inline-block size-2 rounded-full" style={{ background: COLORS.MODIS }} />{t('Detección MODIS (evento elegido)', 'MODIS detection (chosen event)')}</li>
+            <li className="flex items-center gap-2"><span className="inline-block size-2 rounded-full" style={{ background: COLORS.VIIRS }} />{t('Detección VIIRS (evento elegido)', 'VIIRS detection (chosen event)')}</li>
+            {provs.length > 0 && <li className="flex items-center gap-2"><span className="inline-block size-3 rounded-sm border border-viirs" />{t('Provincia', 'Province')}</li>}
+            {provs.length > 0 && <li className="flex items-center gap-2"><span className="inline-block size-2.5 rounded-full border border-ink bg-sky" />{t('Capital de provincia', 'Province capital')}</li>}
           </ul>
         ) : provs.length > 0 && provinceValues && provinceLegend ? (
           <>
             <div className="mb-1 text-muted">{provinceLegend.title}</div>
-            <div className="flex"><div className="h-2.5 w-7" style={{ background: ZERO }} title="0: sin eventos" />{RAMP.map((c, i) => <div key={c} className="h-2.5 w-7" style={{ background: c }} title={`≥ ${provinceLegend.format(provRamp.breaks[i])}`} />)}</div>
+            <div className="flex"><div className="h-2.5 w-7" style={{ background: ZERO }} title={t('0: sin eventos', '0: no events')} />{RAMP.map((c, i) => <div key={c} className="h-2.5 w-7" style={{ background: c }} title={`≥ ${provinceLegend.format(provRamp.breaks[i])}`} />)}</div>
             <div className="mt-0.5 flex justify-between font-mono text-[10px] text-muted"><span>0</span><span>{provinceLegend.format(provRamp.breaks[RAMP.length - 1])}+</span></div>
-            <div className="mt-1.5 flex items-center gap-1.5 text-muted"><span className="inline-block size-2.5 rounded-full border border-ink bg-sky" />Capital de provincia</div>
+            <div className="mt-1.5 flex items-center gap-1.5 text-muted"><span className="inline-block size-2.5 rounded-full border border-ink bg-sky" />{t('Capital de provincia', 'Province capital')}</div>
           </>
         ) : provs.length > 0 ? (
           <ul className="space-y-1 text-muted">
-            <li className="flex items-center gap-2"><span className="inline-block size-3 rounded-sm border border-viirs" />Provincia</li>
-            <li className="flex items-center gap-2"><span className="inline-block size-2.5 rounded-full border border-ink bg-sky" />Capital de provincia</li>
+            <li className="flex items-center gap-2"><span className="inline-block size-3 rounded-sm border border-viirs" />{t('Provincia', 'Province')}</li>
+            <li className="flex items-center gap-2"><span className="inline-block size-2.5 rounded-full border border-ink bg-sky" />{t('Capital de provincia', 'Province capital')}</li>
           </ul>
         ) : (
           <>
             <div className="mb-1 text-muted">{label}</div>
             <div className="flex">{RAMP.map((c, i) => <div key={c} className="h-2.5 w-7" style={{ background: c }} title={`≥ ${fmt.n(deptRamp.breaks[i])}`} />)}</div>
             <div className="mt-0.5 flex justify-between font-mono text-[10px] text-muted"><span>{fmt.n(deptRamp.breaks[0])}</span><span>{fmt.n(deptRamp.breaks[RAMP.length - 1])}+</span></div>
-            <div className="mt-1.5 flex items-center gap-1.5 text-muted"><span className="inline-block h-2.5 w-3 border border-dashed border-muted" style={{ background: NO_DATA }} />Sin estimación</div>
+            <div className="mt-1.5 flex items-center gap-1.5 text-muted"><span className="inline-block h-2.5 w-3 border border-dashed border-muted" style={{ background: NO_DATA }} />{t('Sin estimación', 'No estimate')}</div>
           </>
         )}
       </div>

@@ -22,3 +22,14 @@ test('directory: unique ids, every institution has at least one real channel, re
   assert.ok(all.every((c) => c.channels.length > 0), 'a card without contact data')
   assert.match(regionalCenter('Cusco').name, /Cusco/)
 })
+
+test('directory: every institution and channel has its English text', () => {
+  for (const c of all) {
+    assert.ok(c.en.gloss && c.en.role, `${c.sigla} lacks English gloss/role`)
+    assert.equal(!!c.note, !!c.en.note, `${c.sigla} note and English note must come together`)
+    for (const ch of c.channels) {
+      assert.ok(ch.en.label, `${c.sigla} ${ch.value} lacks an English label`)
+      assert.equal(!!ch.note, !!ch.en.note, `${c.sigla} ${ch.value} note and English note must come together`)
+    }
+  }
+})

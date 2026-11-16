@@ -1,4 +1,5 @@
 import type { WeekRow } from './lib/aggregate.ts'
+import { t } from './i18n'
 import { ApiError, type RiskRow } from './lib/forecast.ts'
 
 export const API_BASE: string = import.meta.env.VITE_API_BASE ?? 'https://modis-viirs-harmonization-production.up.railway.app'
@@ -15,7 +16,7 @@ export function getJSON<T>(path: string, params: Record<string, string | number>
   const key = url.toString()
   if (!cache.has(key)) {
     const p = fetch(key, { headers: { Accept: 'application/json' } }).then(async (r) => {
-      if (!r.ok) throw new Error(`La API respondió ${r.status} en ${path}`)
+      if (!r.ok) throw new Error(`${t('La API respondió', 'The API responded')} ${r.status} ${t('en', 'at')} ${path}`)
       return r.json()
     })
     p.catch(() => cache.delete(key)) // allow retry after a failure
@@ -51,7 +52,7 @@ async function riskGet<T>(path: string, params: Record<string, string | number>,
   if (!r.ok) {
     let code: string | null = null
     try { const b = await r.json(); code = b?.detail?.code ?? (typeof b?.detail === 'string' ? b.detail : null) } catch { /* body is not JSON */ }
-    throw new ApiError(r.status, code, `La API respondió ${r.status}${code ? ` (${code})` : ''}`)
+    throw new ApiError(r.status, code, `${t('La API respondió', 'The API responded')} ${r.status}${code ? ` (${code})` : ''}`)
   }
   return r.json()
 }
