@@ -3,5 +3,5 @@
 data/** -text
 pipeline/*.py text eol=lf
 web/validation-data/** -text
-entrega/*.zip -text
-entrega/figuras/*.png -text
+delivery/*.zip -text
+delivery/figures/*.png -text

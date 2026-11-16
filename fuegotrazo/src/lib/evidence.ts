@@ -1,3 +1,4 @@
+import { t } from '../i18n'
 /** Read-only historical evidence. Association is not incident attribution. */
 import { API_BASE } from '../api'
 
@@ -23,7 +24,7 @@ export interface EvidenceSummary {
 export const evidenceURL = (file: string) => new URL('/visor/validation-data/' + file, API_BASE).toString()
 export async function fetchEvidenceSummary(signal?: AbortSignal): Promise<EvidenceSummary> {
   const response = await fetch(evidenceURL('summary.json'), { signal })
-  if (!response.ok) throw new Error('No se pudo verificar el catálogo de evidencia.')
+  if (!response.ok) throw new Error(t("No se pudo verificar el catálogo de evidencia.", "The evidence catalog could not be verified."))
   return response.json()
 }
 export function matchingExamples(records: EvidenceCase[]): EvidenceCase[] {
@@ -32,19 +33,19 @@ export function matchingExamples(records: EvidenceCase[]): EvidenceCase[] {
 export async function fetchEvidenceYear(entry: EvidenceSummary['years'][number], signal?: AbortSignal): Promise<{ year: number; data: EvidenceCase[] }> {
   const compressed = 'DecompressionStream' in globalThis && !!entry.compressed_file
   const response = await fetch(evidenceURL(compressed ? entry.compressed_file : entry.file), { signal })
-  if (!response.ok) throw new Error('No se pudieron cargar los ejemplos de ese año.')
+  if (!response.ok) throw new Error(t("No se pudieron cargar los ejemplos de ese año.", "The examples for that year could not be loaded."))
   let raw = await response.arrayBuffer()
   if (compressed) raw = await new Response(new Blob([raw]).stream().pipeThrough(new DecompressionStream('gzip'))).arrayBuffer()
   const digest = await crypto.subtle.digest('SHA-256', raw)
   const hash = Array.from(new Uint8Array(digest), (b) => b.toString(16).padStart(2, '0')).join('')
-  if (hash !== entry.sha256 || raw.byteLength !== entry.bytes) throw new Error('El archivo no coincide con la evidencia versionada.')
+  if (hash !== entry.sha256 || raw.byteLength !== entry.bytes) throw new Error(t("El archivo no coincide con la evidencia versionada.", "The file does not match the versioned evidence."))
   const result = JSON.parse(new TextDecoder().decode(raw)) as { year: number; data: EvidenceCase[] }
-  if (result.year !== entry.year || result.data.length !== entry.references) throw new Error('El archivo corresponde a otra partición del catálogo.')
+  if (result.year !== entry.year || result.data.length !== entry.references) throw new Error(t("El archivo corresponde a otra partición del catálogo.", "The file belongs to a different catalog partition."))
   return { year: result.year, data: matchingExamples(result.data) }
 }
 export function officialRecordURL(source: string, ids: number[]): string {
   const url = new URL(source + '/query')
-  if (url.protocol !== 'https:' || url.hostname !== 'geoservidorperu.minam.gob.pe') throw new Error('Fuente oficial no reconocida.')
+  if (url.protocol !== 'https:' || url.hostname !== 'geoservidorperu.minam.gob.pe') throw new Error(t("Fuente oficial no reconocida.", "Unrecognized official source."))
   url.search = new URLSearchParams({ objectIds: ids.join(','), outFields: 'OBJECTID_1,COD_EMERGE,FEC_EMERGE,FTE_INF,ORIGEN,NOMBDEP', returnGeometry: 'true', outSR: '4326', f: 'pjson' }).toString()
   return url.toString()
 }

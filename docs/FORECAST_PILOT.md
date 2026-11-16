@@ -72,7 +72,7 @@ The API snapshot and its manifest are in `data/regional_outlook*.json`. The serv
 
 A new issue is validated, packaged with `pipeline/package_regional_outlook.py` and deployed. Packaging does not validate or update the scientific data. No cron job was left that would serve the percentages of this issue indefinitely.
 
-Executed review notebook: `notebooks/17_piloto_pronosticos_regionales.ipynb`. Evidence and an example local response: `reports/prediction/pilot/`.
+Executed review notebook: `notebooks/17_regional_forecast_pilot.ipynb`. Evidence and an example local response: `reports/prediction/pilot/`.
 
 The final container was built and checked as an unprivileged user. Eleven HTTP checks against `http://127.0.0.1:8010` passed, including history, location, CORS and the new routes. The local container `modis-viirs-risk-review-20261115` is running on this machine; Swagger is at `/docs`. To stop only that review viewer: `docker stop modis-viirs-risk-review-20261115`. Do not run that command if you want to keep testing in Postman.
 

@@ -21,7 +21,7 @@ export function activityContract(meta: { target_event?: string; supported_spatia
     meta.supported_spatial_units[0] === 'department' && meta.physical_ignition_probability_verified === false
 }
 export function difference1(value: number | null | undefined, locale = 'es-PE'): string {
-  if (value == null || !Number.isFinite(value)) return 'No disponible'
+  if (value == null || !Number.isFinite(value)) return locale.startsWith('es') ? 'No disponible' : 'Unavailable'
   const rounded = Math.round(value * 10) / 10
   const sign = rounded > 0 ? '+' : rounded < 0 ? '−' : ''
   return `${sign}${Math.abs(rounded).toLocaleString(locale, { minimumFractionDigits: 1, maximumFractionDigits: 1 })} pp`

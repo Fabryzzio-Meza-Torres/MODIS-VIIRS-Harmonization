@@ -68,7 +68,7 @@ Verification of physical ignition, human review of labels and prospective evalua
 
 ## Where the evidence is
 
-- [Executed training notebook](../notebooks/16_modelo_riesgo_regional.ipynb).
+- [Executed training notebook](../notebooks/16_regional_risk_model.ipynb).
 - [Protocol fixed before training](../reports/prediction/model/training_protocol_frozen.json).
 - [Selection](../reports/prediction/model/selection_metrics.csv), [evaluation](../reports/prediction/model/evaluation_metrics.csv), [lead times](../reports/prediction/model/evaluation_by_lead.csv) and [regions](../reports/prediction/model/evaluation_by_region.csv).
 - [Report and hashes](../reports/prediction/model/training_evaluation_report.json), [calibration](../reports/prediction/model/calibration_diagnostic.json) and [robustness](../reports/prediction/model/robustness_diagnostic.json).

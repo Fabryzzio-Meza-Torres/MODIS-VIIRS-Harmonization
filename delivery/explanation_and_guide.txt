@@ -238,10 +238,10 @@ pipeline/: preparation, calibration, export, forecast, and reproducibility.
 reports/: metrics, factors, traceability, v1.1 correction, and contrasts.
 
 Recommended notebooks to read in order:
-notebooks/09_series_comparables.ipynb
-notebooks/10_pronostico_experimental.ipynb
-notebooks/11_limites_deteccion.ipynb
-validacion/12_contraste_registro_MINAM.ipynb
+notebooks/09_comparable_time_series.ipynb
+notebooks/10_experimental_forecast.ipynb
+notebooks/11_detection_limits.ipynb
+validation/12_MINAM_registry_comparison.ipynb
 
 Notebooks include executed outputs to review them without retraining.
 To rerun them, the prepared artifacts are needed, not just unzipping the ZIP.
@@ -310,7 +310,7 @@ C:\Users\ASUS\Documents\Codex\2026-11-14\vo\work\MODIS-VIIRS-Harmonization
 From PowerShell:
 cd "C:\Users\ASUS\Documents\Codex\2026-11-14\vo\work\MODIS-VIIRS-Harmonization"
 git status
-git add entrega/explanation_and_guide.txt entrega/PRESENTACION_90_SEGUNDOS.txt entrega/VERIFICACION_ENTREGA.json entrega/API_EJEMPLOS.json
+git add delivery/explanation_and_guide.txt delivery/PRESENTACION_90_SEGUNDOS.txt delivery/VERIFICACION_ENTREGA.json delivery/API_EJEMPLOS.json
 git commit -m "Documentar entrega historica Peru y guia de presentacion"
 git push origin main
 

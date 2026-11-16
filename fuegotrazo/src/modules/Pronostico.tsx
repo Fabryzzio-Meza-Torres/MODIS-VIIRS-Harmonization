@@ -31,7 +31,7 @@ function Evaluation({ meta }: { meta: ActivityMeta }) {
             })}</tbody>
           </table>
         </div>
-        <p>{meta.calibration.observed_pooled_brier_improved ? t("Se evaluó una calibración por plazo, ajustada en 2023.", "Per-horizon calibration, fitted on 2023, was evaluated.") : t("La calibración no redujo el error Brier conjunto de 2024–2025.", "Calibration did not reduce pooled 2024–2025 Brier score.")} No se ha demostrado que cada porcentaje futuro exacto sea fiable.</p>
+        <p>{meta.calibration.observed_pooled_brier_improved ? t("Se evaluó una calibración por plazo, ajustada en 2023.", "Per-horizon calibration, fitted on 2023, was evaluated.") : t("La calibración no redujo el error Brier conjunto de 2024–2025.", "Calibration did not reduce pooled 2024–2025 Brier score.")}{t(' No se ha demostrado que cada porcentaje futuro exacto sea fiable.', ' The reliability of each exact future percentage has not been demonstrated.')}</p>
         <ul className="list-disc space-y-2 pl-5">
           <li>{t("La detección puede incluir quemas agrícolas y anomalías mal clasificadas. No mide daños, superficie quemada ni el inicio físico de un incendio.", "Detections may include agricultural burning and misclassified anomalies. They do not measure damage, burned area or physical ignition.")}</li>
           <li>{t("La cobertura de observación no está corregida por completo: nubes y horarios de paso pueden impedir detectar fuego.", "Observation coverage is not fully corrected: clouds and overpass times can prevent fire detection.")}</li>
@@ -86,11 +86,11 @@ function WeeklyChart({ rows, week, onPick }: { rows: ActivityRow[]; week: string
   return <>
     <p className="mb-3 text-xs text-muted">{t("Barras: estimación del modelo · línea: frecuencia histórica comparable", "Bars: model estimate · line: comparable historical frequency")}</p>
     <ResponsiveContainer width="100%" height={260}>
-      <ComposedChart data={data} margin={{ right: 12 }} aria-label="Weekly probability and historical frequency">
+      <ComposedChart data={data} margin={{ right: 12 }} aria-label={t('Probabilidad y frecuencia histórica por semana', 'Weekly probability and historical frequency')}>
         <CartesianGrid vertical={false} stroke={COLORS.grid} />
         <XAxis dataKey="label" {...axis} interval={0} angle={-30} textAnchor="end" height={48} />
         <YAxis {...axis} domain={[0, 100]} width={48} tickFormatter={(v) => String(v) + ' %'} />
-        <Tooltip {...tooltipStyle} labelFormatter={(_, payload) => { const row = payload?.[0]?.payload; return row ? weekLabel(row.week, row.end) : '' }} formatter={(v) => percent1(v as number) ?? t("No disponible", "Unavailable")} />
+        <Tooltip {...tooltipStyle} labelFormatter={(_, payload) => { const row = payload?.[0]?.payload; return row ? weekLabel(row.week, row.end) : '' }} formatter={(v) => percent1(v as number, locale()) ?? t("No disponible", "Unavailable")} />
         <Bar dataKey="probability" name={t("Modelo", "Model")} isAnimationActive={false} radius={[3, 3, 0, 0]} onClick={(r) => onPick((r as unknown as { week: string }).week)} style={{ cursor: 'pointer' }}>
           {data.map((r) => <Cell key={r.week} fill={r.week === week ? '#FBBF24' : '#3A6E9E'} />)}
         </Bar>

@@ -71,14 +71,14 @@ bridge blocks with 100 replicates. Central parameters and forecast features
 were conserved within 1e-12. See reports/empirical/uncertainty_correction.json.
 
 Official registry comparison:
-  python validacion/registro_minam/download_registry.py --out ARTIFACTS_DIRECTORY/27_contraste_MINAM
-  python validacion/registro_minam/match_registry.py --artifacts ARTIFACTS_DIRECTORY --out ARTIFACTS_DIRECTORY/27_contraste_MINAM
+  python validation/minam_registry/download_registry.py --out ARTIFACTS_DIRECTORY/27_contraste_MINAM
+  python validation/minam_registry/match_registry.py --artifacts ARTIFACTS_DIRECTORY --out ARTIFACTS_DIRECTORY/27_contraste_MINAM
 
 Reloading history.sqlite adds the comparison to /v1/validation.
 The web catalog is rebuilt with pipeline/build_validation_catalog.py.
 Matches are historical associations, not proven sensor-omission rates.
 
-FRP research is under research/frp_operator and notebooks/11_limites_deteccion.ipynb.
+FRP research is under research/frp_operator and notebooks/11_detection_limits.ipynb.
 It is not enabled as a production count correction. The published operator's
 table/text discrepancy and A0=0 assumption remain documented.
 

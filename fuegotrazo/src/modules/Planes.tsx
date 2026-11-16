@@ -42,8 +42,8 @@ function Pronostico({ region }: { region: string | null }) {
         : meta.loading || risk.loading ? <div aria-busy="true" className="mt-2 h-5 w-72 max-w-full animate-pulse rounded bg-line/60" />
         : !ok || !pct || !row ? <p className="mt-1 text-muted">{t('Pronóstico no disponible ahora', 'Forecast not available now')} ({meta.error || risk.error ? t('el servicio no respondió', 'the service did not respond') : t('emisión vencida o sin estimación', 'expired issue or no estimate')}). {t('No se muestra ningún porcentaje.', 'No percentage is shown.')}</p>
         : <>
-          <p className="mt-1"><span className="font-mono text-lg">{pct}</span> <span className="text-muted">· probabilidad estimada de al menos una detección compatible con fuego en el departamento, semana {weekLabel(row.target_week_start, row.target_week_end_exclusive)}</span></p>
-          <p className="mt-1 text-xs text-muted">Experimental. Emisión {fmt.lima(row.issued_at)}. No indica cuánto territorio se quemará, la gravedad ni la ubicación exacta; no se estima una ignición física confirmada. Detalle en la sección «Pronóstico experimental».</p>
+          <p className="mt-1"><span className="font-mono text-lg">{pct}</span> <span className="text-muted">{t("· probabilidad estimada de al menos una detección compatible con fuego en el departamento, semana ", "· estimated probability of at least one detection compatible with fire in the department, week ")}{weekLabel(row.target_week_start, row.target_week_end_exclusive)}</span></p>
+          <p className="mt-1 text-xs text-muted">{t('Experimental. Emisión ', 'Experimental. Issued ')}{fmt.lima(row.issued_at)}{t(". No indica cuánto territorio se quemará, la gravedad ni la ubicación exacta; no se estima una ignición física confirmada. Detalle en la sección «Pronóstico experimental».", ". It does not indicate how much territory will burn, severity or exact location; it does not estimate a confirmed physical ignition. See the “Experimental forecast” section.")}</p>
         </>}
     </div>
   )

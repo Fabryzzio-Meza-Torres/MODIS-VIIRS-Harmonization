@@ -16,12 +16,12 @@ function Pronostico({ region }: { region: string | null }) {
   const meta = useAsync(fetchActivityMetadata, [])
   const ok = !!meta.data && validity(meta.data).ok
   const out = useAsync((s) => (ok && region ? fetchActivityOutlook(region, s) : Promise.resolve(null)), [ok, region])
-  if (!region) return <Empty>El pronóstico es regional: elige un departamento para incluirlo en el informe.</Empty>
-  if (meta.loading || out.loading) return <Loading label="Consultando el pronóstico…" />
-  if (meta.error || out.error || !meta.data || !ok || !out.data) return <Unavailable>El servicio no respondió o la emisión no está vigente.</Unavailable>
+  if (!region) return <Empty>{t("El pronóstico es regional: elige un departamento para incluirlo en el informe.", "The forecast is regional: choose a department to include it in the report.")}</Empty>
+  if (meta.loading || out.loading) return <Loading label={t('Consultando el pronóstico…', 'Loading the forecast…')} />
+  if (meta.error || out.error || !meta.data || !ok || !out.data) return <Unavailable>{t("El servicio no respondió o la emisión no está vigente.", "The service did not respond or the issue is no longer current.")}</Unavailable>
   return (
     <>
-      <p className="mb-3 max-w-[80ch] text-sm text-muted">Experimental · emisión {fmt.lima(meta.data.issued_at)} · vigente hasta {fmt.lima(meta.data.valid_until)}. Probabilidad estimada de al menos una detección compatible con fuego en cualquier lugar del departamento durante cada semana (no acumulada). No indica territorio quemado, gravedad ni ubicación; no se estima una ignición física confirmada.</p>
+      <p className="mb-3 max-w-[80ch] text-sm text-muted">{t('Experimental · emisión ', 'Experimental · issued ')}{fmt.lima(meta.data.issued_at)}{t(' · vigente hasta ', ' · valid until ')}{fmt.lima(meta.data.valid_until)}{t(". Probabilidad estimada de al menos una detección compatible con fuego en cualquier lugar del departamento durante cada semana (no acumulada). No indica territorio quemado, gravedad ni ubicación; no se estima una ignición física confirmada.", ". Estimated probability of at least one detection compatible with fire anywhere in the department during each week (not cumulative). It does not indicate burned area, severity or location; it does not estimate a confirmed physical ignition.")}</p>
       <table className="w-full max-w-xl text-sm">
         <thead className="text-left text-xs text-muted"><tr><th className="py-1 font-normal">{t('Plazo', 'Lead time')}</th><th className="font-normal">{t('Semana (lunes a domingo, Lima)', 'Week (Monday to Sunday, Lima)')}</th><th className="text-right font-normal">{t('Probabilidad', 'Probability')}</th></tr></thead>
         <tbody>{[...out.data.data].sort((a, b) => a.lead_weeks - b.lead_weeks).map((r) => { const o = outcome(r); return (

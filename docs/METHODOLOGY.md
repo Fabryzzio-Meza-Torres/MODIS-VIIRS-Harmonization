@@ -117,9 +117,9 @@ The later plan with LightGBM, weather data, NRT and prioritization of population
 
 ## 8. Evidence to review
 
-- [Simple EDA](../notebooks/00_EDA_simple_MODIS_VIIRS.ipynb) and [sensor diagnostics](../notebooks/03_diagnostico_sensores.ipynb).
-- [Earlier baseline](../notebooks/07_baseline_armonizacion.ipynb) and [current comparable series](../notebooks/09_series_comparables.ipynb).
-- [Experimental forecast](../notebooks/10_pronostico_experimental.ipynb), [detection limits](../notebooks/11_limites_deteccion.ipynb) and [MINAM comparison](../validacion/12_contraste_registro_MINAM.ipynb).
+- [Simple EDA](../notebooks/00_simple_EDA_MODIS_VIIRS.ipynb) and [sensor diagnostics](../notebooks/03_sensor_diagnostics.ipynb).
+- [Earlier baseline](../notebooks/07_harmonization_baseline.ipynb) and [current comparable series](../notebooks/09_comparable_time_series.ipynb).
+- [Experimental forecast](../notebooks/10_experimental_forecast.ipynb), [detection limits](../notebooks/11_detection_limits.ipynb) and [MINAM comparison](../validation/12_MINAM_registry_comparison.ipynb).
 - [Series metadata](../data/series_metadata.json), [calibration results](../reports/empirical/), [regional validation](../reports/regional_query/verification.json) and [reproduction guide](../pipeline/REPRODUCE.txt).
 - [Documentation of our API](API.md).
 

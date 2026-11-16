@@ -30,6 +30,8 @@ test('a difference is in percentage points, not a relative risk ratio', () => {
   assert.match(difference1(20), /^\+20[.,]0 pp$/)
   assert.match(difference1(-.001), /^0[.,]0 pp$/)
   assert.equal(difference1(null), 'No disponible')
+  assert.equal(difference1(null, 'en-US'), 'Unavailable')
+  assert.equal(difference1(NaN, 'es-PE'), 'No disponible')
 })
 
 test('the snapshot expires at the exact exclusive boundary', () => {

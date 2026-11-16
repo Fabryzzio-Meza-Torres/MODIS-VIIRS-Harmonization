@@ -65,3 +65,7 @@ Documentation is in English. The public interface remains in Spanish for its int
 Raw FIRMS archives, authentication files and local training caches are not stored in Git. The repository includes versioned derived snapshots, code, evaluation reports and executed notebooks.
 
 Current experimental forecast: [weekly detected fire activity, API contract and evaluation](docs/OBSERVED_FIRE_ACTIVITY.md).
+
+Repository paths use English names: analysis notebooks are in `notebooks/`, external comparisons in `validation/`, MINAM registry tools in `validation/minam_registry/`, and release materials in `delivery/` with figures in `delivery/figures/`. Existing notebook outputs are preserved. The full rename map is in `reports/repository_renames.json`.
+
+The web application starts in English for first-time visitors. Its language toggle switches the interface to Spanish or English and remembers the selected language for later visits.

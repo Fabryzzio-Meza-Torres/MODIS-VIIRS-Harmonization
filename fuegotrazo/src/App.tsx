@@ -99,8 +99,8 @@ function FilterBar() {
       <YearInput label={t('Hasta', 'To')} value={filters.y1} onChange={(y1) => setFilters({ y1 })} />
       <Select<Indicator> label={t('Indicador', 'Indicator')} value={filters.indicator} onChange={(indicator) => setFilters({ indicator })}
         options={(Object.keys(INDICATOR_LABEL) as Indicator[]).map((k) => ({ value: k, label: INDICATOR_LABEL[k] }))} /></>}
-      {!historicalControls && <p className="max-w-[65ch] text-xs text-muted">{route === 'pronostico' ? 'Escala: departamento completo. La semana se elige en el pronóstico; no se aplican filtros provinciales.' : 'Contraste histórico 2013–2025. El año y los ejemplos se eligen en el catálogo.'}</p>}
-      <div className="ml-auto flex items-center gap-2 text-xs text-muted" title={s ? `Método ${s.method_version} · snapshot ${s.source_snapshot_id}` : undefined}>
+      {!historicalControls && <p className="max-w-[65ch] text-xs text-muted">{route === 'pronostico' ? t("Escala: departamento completo. La semana se elige en el pronóstico; no se aplican filtros provinciales.", "Scope: the whole department. Choose the week in the forecast; province filters do not apply.") : t("Contraste histórico 2013–2025. El año y los ejemplos se eligen en el catálogo.", "Historical comparison, 2013–2025. Choose the year and examples in the catalog.")}</p>}
+      <div className="ml-auto flex items-center gap-2 text-xs text-muted" title={s ? `${t('Método', 'Method')} ${s.method_version} · snapshot ${s.source_snapshot_id}` : undefined}>
         <span className={`inline-block size-2 rounded-full ${s ? 'bg-teal' : 'bg-amber'}`} />
         {s ? <>{t('Series', 'Series')}: {s.method_version} · {t('hasta', 'through')} {fmt.date(s.last_week_end)}</> : t('API de series', 'Series API')}
       </div>

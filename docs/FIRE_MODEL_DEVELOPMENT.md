@@ -75,7 +75,7 @@ The delays of three days for detections and seven days after the end of the weat
 
 The weather data are samples at one interior point per department, not area averages. No realized future weather has been used. The prepared NRT does not provide the type field: it is kept unknown, without inventing type=0 or using it as a training label. The last acquisition in the NOAA-20 file is 2026-11-13 18:47 UTC; the source must be updated before running a periodic service.
 
-Evidence: `reports/prediction/dataset_manifest.json`, `evaluation_protocol.json`, `weather_manifest.json`, `noaa20_label_manifest.json` and `nrt_ingestion_report.json`. Executed review: `notebooks/15_dataset_riesgo_regional.ipynb`.
+Evidence: `reports/prediction/dataset_manifest.json`, `evaluation_protocol.json`, `weather_manifest.json`, `noaa20_label_manifest.json` and `nrt_ingestion_report.json`. Executed review: `notebooks/15_regional_risk_dataset.ipynb`.
 
 A row of the final model corresponds to a region, an issue date and a future target week. An intermediate per-cell table may be prepared. Features must be available before the issue; data from the future week cannot enter as features.
 

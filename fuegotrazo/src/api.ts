@@ -71,7 +71,7 @@ export interface ActivityMeta {
   scientific_sources: { title: string; url: string }[]
 }
 function checkedActivityMeta(meta: ActivityMeta): ActivityMeta {
-  if (!activityContract(meta)) throw new ApiError(502, 'activity_contract_mismatch', 'El servicio no confirma el indicador ni la escala esperados.')
+  if (!activityContract(meta)) throw new ApiError(502, 'activity_contract_mismatch', t("El servicio no confirma el indicador ni la escala esperados.", "The service does not confirm the expected indicator and geographic scope."))
   return meta
 }
 export const fetchActivityMetadata = async (signal?: AbortSignal) =>
@@ -81,7 +81,7 @@ export const fetchActivity = async (regionId: string, week: string, signal?: Abo
     { region_id: regionId, target_week_start: week }, signal)
   checkedActivityMeta(result.metadata)
   if (result.data.some((r) => r.region_id !== regionId || r.target_week_start !== week)) {
-    throw new ApiError(502, 'activity_scope_mismatch', 'La respuesta no corresponde al departamento y la semana elegidos.')
+    throw new ApiError(502, 'activity_scope_mismatch', t("La respuesta no corresponde al departamento y la semana elegidos.", "The response does not match the selected department and week."))
   }
   return result
 }
@@ -90,7 +90,7 @@ export const fetchActivityOutlook = async (regionId: string | null, signal?: Abo
     '/v1/fire-activity/outlook', { ...(regionId ? { region_id: regionId } : {}), limit: 300 }, signal)
   checkedActivityMeta(result.metadata)
   if (regionId && result.data.some((r) => r.region_id !== regionId)) {
-    throw new ApiError(502, 'activity_scope_mismatch', 'La respuesta pertenece a otro departamento.')
+    throw new ApiError(502, 'activity_scope_mismatch', t("La respuesta pertenece a otro departamento.", "The response belongs to another department."))
   }
   return result
 }
