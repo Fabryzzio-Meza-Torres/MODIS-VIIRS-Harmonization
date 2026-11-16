@@ -26,7 +26,7 @@ API setup:
   python api/load_history.py --source ARTIFACTS_DIRECTORY/23_demo_historica --out api/history.sqlite
   python -m uvicorn api:app --app-dir api --host 127.0.0.1 --port 8000
 
-For the bundled snapshot, use python api/restaurar_snapshot.py instead of rebuilding.
+For the bundled snapshot, use python api/restore_snapshot.py instead of rebuilding.
 The historical API can operate without the optional legacy firms.sqlite.
 Check /v1/empirical/metadata rather than interpreting database_available alone.
 

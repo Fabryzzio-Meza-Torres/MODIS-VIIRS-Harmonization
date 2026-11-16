@@ -1,7 +1,7 @@
 from pathlib import Path
 from contextlib import closing
 import gzip,hashlib,json,sqlite3,tempfile,unittest
-from restaurar_snapshot import restore
+from restore_snapshot import restore
 
 class RestoreTests(unittest.TestCase):
     def setUp(self):

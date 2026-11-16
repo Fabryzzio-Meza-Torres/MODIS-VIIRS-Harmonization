@@ -7,7 +7,7 @@ import { EVENT_DEPARTMENT } from './departments.ts'
 const load = (f: string) => JSON.parse(readFileSync(new URL(`../../public/geo/${f}.geojson`, import.meta.url), 'utf8'))
 const REGIONS: Record<string, string> = {}
 for (const [id, name] of Object.entries(EVENT_DEPARTMENT)) REGIONS[strip(name === 'El Callao' ? 'Callao' : name)] = id
-const provinces = buildProvinces(load('peru_provincial_simple'), load('peru_capital_provincia'), REGIONS)
+const provinces = buildProvinces(load('peru_provinces_simplified'), load('peru_province_capitals'), REGIONS)
 
 test('point in polygon respects holes', () => {
   const square = [[0, 0], [10, 0], [10, 10], [0, 10], [0, 0]], hole = [[4, 4], [6, 4], [6, 6], [4, 6], [4, 4]]
@@ -47,7 +47,7 @@ test('area: spherical polygon formula on a known box, holes subtracted, agrees w
   assert.ok(Math.abs(polygonsAreaKm2([[box, hole]]) - ringAreaKm2(box) * 0.75) / ringAreaKm2(box) < 0.01)
   // the file carries its own hectares per fragment: our independent geodesic area must agree for (almost) every province
   const ha = new Map<string, number>()
-  for (const f of load('peru_provincial_simple').features) ha.set(f.properties.FIRST_IDPR, (ha.get(f.properties.FIRST_IDPR) ?? 0) + f.properties.ha / 100)
+  for (const f of load('peru_provinces_simplified').features) ha.set(f.properties.FIRST_IDPR, (ha.get(f.properties.FIRST_IDPR) ?? 0) + f.properties.ha / 100)
   // measured on this file: 10 of 195 provinces differ >2 %, 1 differs >5 % (Yunguyo, 7.7 %); the source computes on the unsimplified polygon
   const rel = (p: (typeof provinces)[number]) => Math.abs(p.areaKm2 / ha.get(p.id)! - 1)
   assert.ok(provinces.every((p) => rel(p) < 0.10), 'a province differs more than 10 % from the source attribute')

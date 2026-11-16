@@ -2,7 +2,7 @@ READ-ONLY SERIES AND FORECAST API
 
 Run from the repository root with Python 3.13:
   python -m pip install -r api/requirements.txt
-  python api/restaurar_snapshot.py
+  python api/restore_snapshot.py
   python -m uvicorn api:app --app-dir api --host 127.0.0.1 --port 8000
 
 Interactive reference: http://127.0.0.1:8000/docs

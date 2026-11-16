@@ -6,12 +6,12 @@
     "validacion/registro_minam": "validation/minam_registry"
   },
   "file_renames": {
-    "entrega/API_EJEMPLOS.json": "delivery/API_EJEMPLOS.json",
-    "entrega/ENTREGA_MODIS_VIIRS_PERU_v1_1.zip": "delivery/ENTREGA_MODIS_VIIRS_PERU_v1_1.zip",
-    "entrega/VERIFICACION_ENTREGA.json": "delivery/VERIFICACION_ENTREGA.json",
+    "entrega/API_EJEMPLOS.json": "delivery/API_EXAMPLES.json",
+    "entrega/ENTREGA_MODIS_VIIRS_PERU_v1_1.zip": "delivery/MODIS_VIIRS_PERU_v1_1.zip",
+    "entrega/VERIFICACION_ENTREGA.json": "delivery/DELIVERY_VERIFICATION.json",
     "entrega/explanation_and_guide.txt": "delivery/explanation_and_guide.txt",
     "entrega/figuras/pronostico.png": "delivery/figures/forecasts.png",
-    "entrega/figuras/series_antes_y_despues.png": "delivery/figures/series_antes_y_despues.png",
+    "entrega/figuras/series_antes_y_despues.png": "delivery/figures/time_series_before_and_after.png",
     "notebooks/00_EDA_simple_MODIS_VIIRS.ipynb": "notebooks/00_simple_EDA_MODIS_VIIRS.ipynb",
     "notebooks/01_preparacion_firms.ipynb": "notebooks/01_firms_preparation.ipynb",
     "notebooks/02_organizacion_espacio_temporal.ipynb": "notebooks/02_spatiotemporal_organization.ipynb",
@@ -52,5 +52,30 @@
   ],
   "executed_notebook_outputs_preserved": 19,
   "historical_release_manifest_preserved": true,
-  "brand_directory_preserved": "fuegotrazo"
+  "brand_directory_preserved": "fuegotrazo",
+  "additional_file_renames": {
+    "api/POSTMAN_REGIONES.postman_collection.json": "api/POSTMAN_REGIONS.postman_collection.json",
+    "api/cliente.js": "api/client.js",
+    "api/iniciar_api.ps1": "api/start_api.ps1",
+    "api/restaurar_snapshot.py": "api/restore_snapshot.py",
+    "delivery/API_EJEMPLOS.json": "delivery/API_EXAMPLES.json",
+    "delivery/VERIFICACION_ENTREGA.json": "delivery/DELIVERY_VERIFICATION.json",
+    "delivery/ENTREGA_MODIS_VIIRS_PERU_v1_1.zip": "delivery/MODIS_VIIRS_PERU_v1_1.zip",
+    "delivery/figures/series_antes_y_despues.png": "delivery/figures/time_series_before_and_after.png",
+    "fuegotrazo/public/geo/peru_capital_provincia.geojson": "fuegotrazo/public/geo/peru_province_capitals.geojson",
+    "fuegotrazo/public/geo/peru_provincial_simple.geojson": "fuegotrazo/public/geo/peru_provinces_simplified.geojson",
+    "web/validation-data/documents/reporte_indeci_2027_2019.pdf": "web/validation-data/documents/indeci_report_2027_2019.pdf",
+    "fuegotrazo/src/modules/Apoyo.tsx": "fuegotrazo/src/modules/Support.tsx",
+    "fuegotrazo/src/modules/Calendario.tsx": "fuegotrazo/src/modules/Calendar.tsx",
+    "fuegotrazo/src/modules/Evidencia.tsx": "fuegotrazo/src/modules/Evidence.tsx",
+    "fuegotrazo/src/modules/Informes.tsx": "fuegotrazo/src/modules/Reports.tsx",
+    "fuegotrazo/src/modules/Laboratorio.tsx": "fuegotrazo/src/modules/HarmonizationLab.tsx",
+    "fuegotrazo/src/modules/Mapa.tsx": "fuegotrazo/src/modules/Map.tsx",
+    "fuegotrazo/src/modules/Panorama.tsx": "fuegotrazo/src/modules/Overview.tsx",
+    "fuegotrazo/src/modules/Planes.tsx": "fuegotrazo/src/modules/Plans.tsx",
+    "fuegotrazo/src/modules/Prevencion.tsx": "fuegotrazo/src/modules/Prevention.tsx",
+    "fuegotrazo/src/modules/Pronostico.tsx": "fuegotrazo/src/modules/Forecast.tsx",
+    "fuegotrazo/src/modules/Tendencias.tsx": "fuegotrazo/src/modules/Trends.tsx"
+  },
+  "binary_and_geographic_source_bytes_preserved": true
 }

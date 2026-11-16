@@ -104,7 +104,7 @@ function renderCaseStudy() {
   container.append(element('p', 'La referencia geográfica proviene de vértices de ribera de ANA junto a la localidad, no de coordenadas del fuego. La proximidad es compatible en espacio y tiempo, pero no atribuye esas detecciones al incendio documentado ni demuestra una omisión de MODIS.'));
   const links = element('p');
   links.append(link('Reporte oficial COEN–INDECI', data.report_source), document.createTextNode(' · '),
-    link('Copia verificada del reporte', new URL('documents/reporte_indeci_2027_2019.pdf', folder)), document.createTextNode(' · '),
+    link('Copia verificada del reporte', new URL('documents/indeci_report_2027_2019.pdf', folder)), document.createTextNode(' · '),
     link('Documento geográfico ANA', data.ANA_source));
   container.append(links);
   for (const doc of data.document_hashes) container.append(element('p', `${doc.file} · SHA-256: ${doc.sha256}`, 'validation-source-hash'));

@@ -124,7 +124,7 @@ export function useRegionTotals() {
 
 // Provinces and capitals: static files in /public/geo (juaneladio/peru-geojson, MPL-2.0), fetched once.
 let geoFiles: Promise<[any, any]> | null = null
-const loadGeoFiles = () => (geoFiles ??= Promise.all(['peru_provincial_simple', 'peru_capital_provincia'].map((f) =>
+const loadGeoFiles = () => (geoFiles ??= Promise.all(['peru_provinces_simplified', 'peru_province_capitals'].map((f) =>
   fetch(`/geo/${f}.geojson`).then((r) => { if (!r.ok) throw new Error(`${t('No se pudo cargar', 'Could not load')} ${f} (${r.status})`); return r.json() }))) as Promise<[any, any]>)
 
 export function useProvinces() {

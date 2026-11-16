@@ -105,13 +105,13 @@ A null value does not mean zero fires. An adjusted count is not a number of inde
 
 `/health` checks that files exist, not the full integrity of the queries. It may show `database_available=false` because the old `firms.sqlite` database is missing, while `historical_snapshot_available=true` identifies the current snapshot. The external check does query data results.
 
-Useful files: [API code](../api/api.py), [historical queries](../api/history_api.py), [Postman](../api/POSTMAN_REGIONES.postman_collection.json), [JavaScript client](../api/cliente.js), [Dockerfile](../deploy/series.Dockerfile) and [public verifier](../deploy/verify_public.py).
+Useful files: [API code](../api/api.py), [historical queries](../api/history_api.py), [Postman](../api/POSTMAN_REGIONS.postman_collection.json), [JavaScript client](../api/client.js), [Dockerfile](../deploy/series.Dockerfile) and [public verifier](../deploy/verify_public.py).
 
 To run locally, from the repository root:
 
 ```bash
 python -m pip install -r api/requirements.txt
-python api/restaurar_snapshot.py
+python api/restore_snapshot.py
 python api/serve.py
 ```
 

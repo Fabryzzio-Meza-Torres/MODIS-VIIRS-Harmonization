@@ -21,7 +21,7 @@ Use Python 3.13 and an isolated environment:
 git clone https://github.com/Fabryzzio-Meza-Torres/MODIS-VIIRS-Harmonization.git
 cd MODIS-VIIRS-Harmonization
 python -m pip install -r api/requirements.txt
-python api/restaurar_snapshot.py
+python api/restore_snapshot.py
 python -m uvicorn api:app --app-dir api --host 127.0.0.1 --port 8000
 ```
 

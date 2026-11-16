@@ -68,6 +68,6 @@ independent forecasts for provinces, districts or postal addresses.
    load_history.py also accepts --regional-assets.
 
 The compressed data/history.sqlite.gz includes the published regional indices.
-Restore with python api/restaurar_snapshot.py. Review any differing existing
+Restore with python api/restore_snapshot.py. Review any differing existing
 database before using --replace. The API viewer is at /visor/; reusable client
-functions are in api/cliente.js. See docs/API.md for the current release.
+functions are in api/client.js. See docs/API.md for the current release.

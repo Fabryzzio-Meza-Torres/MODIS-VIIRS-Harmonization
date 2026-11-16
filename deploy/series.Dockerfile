@@ -12,7 +12,7 @@ COPY data/regional_outlook.json data/regional_outlook_manifest.json ./data/
 COPY data/regional_activity_outlook.json data/regional_activity_outlook_manifest.json ./data/
 # Build fails on a corrupt snapshot. The verified database is part of the image,
 # so ephemeral filesystem resets do not require another network download.
-RUN python api/restaurar_snapshot.py \
+RUN python api/restore_snapshot.py \
     && chmod 0444 api/history.sqlite \
     && useradd --uid 10001 --create-home apiuser
 COPY deploy/check_image.py ./deploy/check_image.py

@@ -275,7 +275,7 @@ python -m uvicorn api:app --app-dir api --host 127.0.0.1 --port 8000
 Open http://127.0.0.1:8000/docs
 
 If you use a cloned Git copy instead of the ZIP package, first run:
-python api/restaurar_snapshot.py
+python api/restore_snapshot.py
 This reconstructs api/history.sqlite from data/history.sqlite.gz and verifies hashes and SQLite integrity. The delivery ZIPs already contain the uncompressed base.
 
 Routes in the current delivery:
@@ -310,7 +310,7 @@ C:\Users\ASUS\Documents\Codex\2026-11-14\vo\work\MODIS-VIIRS-Harmonization
 From PowerShell:
 cd "C:\Users\ASUS\Documents\Codex\2026-11-14\vo\work\MODIS-VIIRS-Harmonization"
 git status
-git add delivery/explanation_and_guide.txt delivery/PRESENTACION_90_SEGUNDOS.txt delivery/VERIFICACION_ENTREGA.json delivery/API_EJEMPLOS.json
+git add delivery/explanation_and_guide.txt delivery/PRESENTACION_90_SEGUNDOS.txt delivery/DELIVERY_VERIFICATION.json delivery/API_EXAMPLES.json
 git commit -m "Documentar entrega historica Peru y guia de presentacion"
 git push origin main
 
