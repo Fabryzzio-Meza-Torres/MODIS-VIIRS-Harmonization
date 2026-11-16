@@ -371,11 +371,3 @@ informes que necesite; no copiar .git ni credenciales.
 Los ZIP originales, geolocalizaciones grandes, cachés, archivos .env y claves no
 deben subirse a Git. history.sqlite y CSV grandes se entregan por paquete/datos;
 el repositorio conserva código, notebooks e informes para reconstrucción y revisión.
-
-15. FRASE DE CIERRE PARA LA PRESENTACIÓN
-
-"Entregamos el histórico empírico comparable MODIS–VIIRS de Perú, con consultas por
-zona y semana, trazabilidad, validación e incertidumbre, además de un pronóstico
-experimental de registros. La siguiente fase es completar las máscaras de
-observación para corregir físicamente la cobertura histórica y fortalecer la
-validación con eventos independientes."
