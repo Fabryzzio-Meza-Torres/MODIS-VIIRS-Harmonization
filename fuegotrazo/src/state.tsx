@@ -4,7 +4,7 @@ import { monthKey, rollup, weekly, yearKey, type Period } from './lib/aggregate'
 import { pick } from './ui'
 import { buildProvinces, strip, type Province } from './lib/geo'
 
-export const ROUTES = ['panorama', 'calendario', 'mapa', 'tendencias', 'prevencion', 'pronostico', 'laboratorio', 'planes', 'apoyo', 'informes'] as const
+export const ROUTES = ['panorama', 'calendario', 'mapa', 'tendencias', 'prevencion', 'pronostico', 'laboratorio', 'validacion', 'planes', 'apoyo', 'informes'] as const
 export type Route = (typeof ROUTES)[number]
 export type Indicator = 'combined' | 'MODIS' | 'VIIRS'
 export interface Filters { region: string | null; province: string | null; y0: number; y1: number; indicator: Indicator }

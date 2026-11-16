@@ -65,7 +65,7 @@ test('proxy handler: fixed upstream, no open proxy, clean error mapping', async 
 })
 
 const row = (o: Partial<RiskRow>): RiskRow => ({ region_id: '08', region_name: 'CUSCO', issued_at: '2026-11-15T20:39:33Z', target_week_start: '2026-11-16', target_week_end_exclusive: '2026-11-23',
-  lead_weeks: 1, probability: 0.9766, probability_percent: 97.66537, estimation_status: 'estimated', quality_status: 'experimental', unavailable_reasons: [], features_outside_region_training_range: [], ...o })
+  lead_weeks: 1, probability: 0.9766537, probability_percent: 97.66537, estimation_status: 'estimated', quality_status: 'experimental', unavailable_reasons: [], features_outside_region_training_range: [], ...o })
 
 test('forecast: one decimal; null never becomes 0 %', () => {
   assert.match(percent1(97.66537)!, /^97[.,]7 %$/); assert.match(percent1(0)!, /^0[.,]0 %$/)

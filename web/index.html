@@ -96,12 +96,12 @@
           <p class="validation-small">En los controles se conserva el lugar y se desplaza la fecha. Sirven para comparar la asociación temporal; no representan periodos demostrados sin incendios. Los instrumentos pueden coincidir con una misma referencia: sus conteos no se suman.</p>
         </div>
         <div class="validation-catalog">
-          <h3>Consulta cada referencia y su evidencia</h3>
-          <p>El catálogo incluye coincidencias y casos sin coincidencia. Las referencias con varias ubicaciones se agrupan para no contar cada punto como un incendio distinto.</p>
+          <h3>Ejemplos con coincidencia documentada</h3>
+          <p>Explora referencias con asociación satelital y consulta sus fuentes. Las referencias con varias ubicaciones se agrupan para no contar cada punto como un incendio distinto.</p>
           <form id="validation-filters" class="validation-filters">
             <label>Año<select id="validation-year" name="year"></select></label>
             <label>Departamento<select id="validation-department" name="department"><option value="">Todos los departamentos</option></select></label>
-            <label>Resultado<select id="validation-status" name="status"><option value="">Todos los resultados</option><option value="both">Coincide con ambos</option><option value="modis">Solo MODIS</option><option value="viirs">Solo VIIRS</option><option value="none">Sin coincidencia</option></select></label>
+            <label>Coincidencia<select id="validation-status" name="status"><option value="">Todas las coincidencias</option><option value="both">Coincide con ambos</option><option value="modis">Solo MODIS</option><option value="viirs">Solo VIIRS</option></select></label>
             <label class="validation-search">Código o ID del registro<input id="validation-search" type="search" placeholder="Buscar una referencia" maxlength="100"></label>
             <button id="validation-apply" class="secondary" type="submit">Aplicar filtros</button>
           </form>
@@ -117,7 +117,7 @@
             <div class="validation-table-scroll"><table class="validation-table"><caption>Cómo cambia la asociación al ampliar la ventana · origen INDECI</caption><thead><tr><th>Ventana</th><th>MODIS</th><th>VIIRS</th></tr></thead><tbody id="validation-sensitivity"></tbody></table></div>
             <p>Una ventana mayor incluye más coincidencias por construcción. No elegimos el radio más favorable para comunicar precisión. Las ubicaciones del registro pueden representar lugares de reporte o áreas afectadas; no son necesariamente puntos de ignición.</p>
             <div class="validation-table-scroll"><table class="validation-table"><caption>Otros orígenes del registro, presentados por separado · 5 km y ±3 días</caption><thead><tr><th>Origen</th><th>Referencias</th><th>MODIS</th><th>VIIRS</th></tr></thead><tbody id="validation-origins"></tbody></table></div>
-            <p>La independencia del registro respecto de productos satelitales no está demostrada. MINAM y ORORATECH no se presentan como verificaciones independientes en tierra. Un caso sin coincidencia tampoco demuestra que el sensor omitió un incendio: influyen cobertura, nubes, horarios y precisión del lugar reportado.</p>
+            <p>La independencia del registro respecto de productos satelitales no está demostrada. MINAM y ORORATECH no se presentan como verificaciones independientes en tierra. La cobertura observacional depende de nubes, horarios de paso y precisión del lugar reportado.</p>
             <p id="validation-provenance"></p>
             <p><a id="validation-official-source" target="_blank" rel="noopener">Consultar el servicio oficial de MINAM</a> · <a href="https://github.com/Fabryzzio-Meza-Torres/MODIS-VIIRS-Harmonization/blob/main/validacion/12_contraste_registro_MINAM.ipynb" target="_blank" rel="noopener">Revisar el análisis reproducible</a></p>
           </div>

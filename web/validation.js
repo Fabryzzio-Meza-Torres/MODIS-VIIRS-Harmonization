@@ -89,7 +89,7 @@ function renderSummary() {
   provenance.append(element('span', `SHA-256 del archivo fuente: ${s.csv_sha256}`, 'validation-source-hash'));
   $('validation-official-source').href = `${summary.source_url}?f=pjson`;
   for (const year of [...summary.years].sort((a, b) => b.year - a.year)) {
-    const option = element('option', `${year.year} · ${integer.format(year.references)} referencias`);
+    const option = element('option', String(year.year));
     option.value = year.year; $('validation-year').append(option);
   }
   for (const name of summary.departments) {
@@ -180,7 +180,7 @@ async function loadYear() {
       {signal: controller.signal, expectedHash: entry.sha256, compressed});
     if (id !== requestId) return;
     if (data.data.length !== entry.references) throw new Error('El número de referencias no coincide con el manifest.');
-    records = data.data;
+    records = data.data.filter((r) => r.matches.length > 0 && r.match_status !== 'none');
     $('validation-download').href = new URL(entry.file, folder);
     $('validation-download').hidden = false;
     applyFilters();

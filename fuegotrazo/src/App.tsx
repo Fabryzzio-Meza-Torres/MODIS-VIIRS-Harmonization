@@ -14,6 +14,7 @@ import Pronostico from './modules/Pronostico'
 import Planes from './modules/Planes'
 import Apoyo from './modules/Apoyo'
 import Informes from './modules/Informes'
+import Evidencia from './modules/Evidencia'
 
 const NAV: { group: string; items: { id: Route; label: string; icon: LucideIcon }[] }[] = [
   { group: 'Exploración', items: [
@@ -31,10 +32,10 @@ const NAV: { group: string; items: { id: Route; label: string; icon: LucideIcon 
     { id: 'apoyo', label: 'Centros de apoyo', icon: LifeBuoy },
     { id: 'informes', label: 'Informes', icon: FileText },
   ] },
-  { group: 'Análisis', items: [{ id: 'laboratorio', label: 'Laboratorio de armonización', icon: FlaskConical }] },
+  { group: 'Análisis', items: [{ id: 'validacion', label: 'Validación y fuentes', icon: FileText }, { id: 'laboratorio', label: 'Laboratorio de armonización', icon: FlaskConical }] },
 ]
 const VIEWS: Record<Route, () => React.JSX.Element> = {
-  panorama: Panorama, calendario: Calendario, mapa: Mapa, tendencias: Tendencias, prevencion: Prevencion, pronostico: Pronostico, laboratorio: Laboratorio, planes: Planes, apoyo: Apoyo, informes: Informes,
+  panorama: Panorama, calendario: Calendario, mapa: Mapa, tendencias: Tendencias, prevencion: Prevencion, pronostico: Pronostico, laboratorio: Laboratorio, validacion: Evidencia, planes: Planes, apoyo: Apoyo, informes: Informes,
 }
 
 function Nav({ onNavigate }: { onNavigate?: () => void }) {
@@ -71,17 +72,19 @@ function Brand() {
 }
 
 function FilterBar() {
-  const { filters, setFilters, regions, meta } = useApp()
+  const { route, filters, setFilters, regions, meta } = useApp()
   const s = meta?.series
+  const historicalControls = route !== 'pronostico' && route !== 'validacion'
   return (
     <div className="flex flex-wrap items-end gap-3 border-b border-line bg-base/90 px-4 py-3 backdrop-blur md:px-8 print:hidden">
       <Select label="Departamento" value={filters.region ?? ''} onChange={(v) => setFilters({ region: v || null })}
-        options={[{ value: '', label: 'Todo el Perú' },
+        options={[{ value: '', label: route === 'pronostico' ? 'Selecciona un departamento' : 'Todo el Perú' },
           ...regions.map((r) => ({ value: r.region_id, label: r.name.toLocaleLowerCase('es-PE').replace(/(^|\s)\S/g, (c) => c.toLocaleUpperCase('es-PE')) }))]} />
-      <YearInput label="Desde" value={filters.y0} onChange={(y0) => setFilters({ y0 })} />
+      {historicalControls && <><YearInput label="Desde" value={filters.y0} onChange={(y0) => setFilters({ y0 })} />
       <YearInput label="Hasta" value={filters.y1} onChange={(y1) => setFilters({ y1 })} />
       <Select<Indicator> label="Indicador" value={filters.indicator} onChange={(indicator) => setFilters({ indicator })}
-        options={(Object.keys(INDICATOR_LABEL) as Indicator[]).map((k) => ({ value: k, label: INDICATOR_LABEL[k] }))} />
+        options={(Object.keys(INDICATOR_LABEL) as Indicator[]).map((k) => ({ value: k, label: INDICATOR_LABEL[k] }))} /></>}
+      {!historicalControls && <p className="max-w-[65ch] text-xs text-muted">{route === 'pronostico' ? 'Escala: departamento completo. La semana se elige en el pronóstico; no se aplican filtros provinciales.' : 'Contraste histórico 2013–2025. El año y los ejemplos se eligen en el catálogo.'}</p>}
       <div className="ml-auto flex items-center gap-2 text-xs text-muted" title={s ? `Método ${s.method_version} · snapshot ${s.source_snapshot_id}` : undefined}>
         <span className={`inline-block size-2 rounded-full ${s ? 'bg-teal' : 'bg-amber'}`} />
         {s ? <>Series: {s.method_version} · hasta {fmt.date(s.last_week_end)}</> : 'API de series'}

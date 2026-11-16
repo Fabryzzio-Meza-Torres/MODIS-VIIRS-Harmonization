@@ -1,6 +1,6 @@
 import { useMemo } from 'react'
 import { Bar, BarChart, CartesianGrid, Cell, ResponsiveContainer, Tooltip, XAxis, YAxis } from 'recharts'
-import { fetchOutlook, fetchRiskMetadata } from '../api'
+import { fetchActivityOutlook, fetchActivityMetadata } from '../api'
 import { fetchEventsMeta, fetchEventsTotal } from '../events'
 import { eventDepartment } from '../lib/departments'
 import { phases } from '../lib/aggregate'
@@ -12,15 +12,15 @@ import { axis, Card, COLORS, downloadCSV, Empty, ErrorBox, fmt, INDICATOR_LABEL,
 
 
 function Pronostico({ region }: { region: string | null }) {
-  const meta = useAsync(fetchRiskMetadata, [])
+  const meta = useAsync(fetchActivityMetadata, [])
   const ok = !!meta.data && validity(meta.data).ok
-  const out = useAsync((s) => (ok && region ? fetchOutlook(region, s) : Promise.resolve(null)), [ok, region])
+  const out = useAsync((s) => (ok && region ? fetchActivityOutlook(region, s) : Promise.resolve(null)), [ok, region])
   if (!region) return <Empty>El pronóstico es regional: elige un departamento para incluirlo en el informe.</Empty>
   if (meta.loading || out.loading) return <Loading label="Consultando el pronóstico…" />
   if (meta.error || out.error || !meta.data || !ok || !out.data) return <Unavailable>El servicio no respondió o la emisión no está vigente.</Unavailable>
   return (
     <>
-      <p className="mb-3 max-w-[80ch] text-sm text-muted">Experimental · emisión {fmt.lima(meta.data.issued_at)} · vigente hasta {fmt.lima(meta.data.valid_until)}. Probabilidad estimada de un nuevo episodio detectado en cualquier lugar del departamento durante cada semana (no acumulada). No indica territorio quemado, gravedad ni ubicación; la ignición física no está verificada.</p>
+      <p className="mb-3 max-w-[80ch] text-sm text-muted">Experimental · emisión {fmt.lima(meta.data.issued_at)} · vigente hasta {fmt.lima(meta.data.valid_until)}. Probabilidad estimada de al menos una detección compatible con fuego en cualquier lugar del departamento durante cada semana (no acumulada). No indica territorio quemado, gravedad ni ubicación; no se estima una ignición física confirmada.</p>
       <table className="w-full max-w-xl text-sm">
         <thead className="text-left text-xs text-muted"><tr><th className="py-1 font-normal">Plazo</th><th className="font-normal">Semana (lunes a domingo, Lima)</th><th className="text-right font-normal">Probabilidad</th></tr></thead>
         <tbody>{[...out.data.data].sort((a, b) => a.lead_weeks - b.lead_weeks).map((r) => { const o = outcome(r); return (

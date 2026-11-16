@@ -1,6 +1,6 @@
 import { useMemo, useState } from 'react'
 import { Plus, Trash2 } from 'lucide-react'
-import { fetchRisk, fetchRiskMetadata } from '../api'
+import { fetchActivity, fetchActivityMetadata } from '../api'
 import { phases } from '../lib/aggregate'
 import { outcome, percent1, validity } from '../lib/forecast'
 import { buildPlan, PHASE_META, type Priority, type Status, type Task } from '../lib/plan'
@@ -22,11 +22,11 @@ function useStored<T>(key: string, init: T) {
 }
 
 function Pronostico({ region }: { region: string | null }) {
-  const meta = useAsync(fetchRiskMetadata, [])
+  const meta = useAsync(fetchActivityMetadata, [])
   const ok = !!meta.data && validity(meta.data).ok
   const week = meta.data?.available_target_weeks[0]
-  const risk = useAsync((s) => (ok && region && week ? fetchRisk(region, week, s) : Promise.resolve(null)), [ok, region, week])
-  const row = risk.data?.data[0]
+  const risk = useAsync((s) => (ok && region && week ? fetchActivity(region, week, s) : Promise.resolve(null)), [ok, region, week])
+  const row = risk.data?.data.find((r) => r.region_id === region && r.target_week_start === week)
   const o = row ? outcome(row) : null
   const pct = o?.available ? percent1(o.percent) : null
   return (
@@ -36,8 +36,8 @@ function Pronostico({ region }: { region: string | null }) {
         : meta.loading || risk.loading ? <div aria-busy="true" className="mt-2 h-5 w-72 max-w-full animate-pulse rounded bg-line/60" />
         : !ok || !pct || !row ? <p className="mt-1 text-muted">Pronóstico no disponible ahora ({meta.error || risk.error ? 'el servicio no respondió' : 'emisión vencida o sin estimación'}). No se muestra ningún porcentaje.</p>
         : <>
-          <p className="mt-1"><span className="font-mono text-lg">{pct}</span> <span className="text-muted">· probabilidad estimada de un nuevo episodio detectado en el departamento, semana {weekLabel(row.target_week_start, row.target_week_end_exclusive)}</span></p>
-          <p className="mt-1 text-xs text-muted">Experimental. Emisión {fmt.lima(row.issued_at)}. No indica cuánto territorio se quemará, la gravedad ni la ubicación exacta; la ignición física no está verificada. Detalle en la sección «Pronóstico experimental».</p>
+          <p className="mt-1"><span className="font-mono text-lg">{pct}</span> <span className="text-muted">· probabilidad estimada de al menos una detección compatible con fuego en el departamento, semana {weekLabel(row.target_week_start, row.target_week_end_exclusive)}</span></p>
+          <p className="mt-1 text-xs text-muted">Experimental. Emisión {fmt.lima(row.issued_at)}. No indica cuánto territorio se quemará, la gravedad ni la ubicación exacta; no se estima una ignición física confirmada. Detalle en la sección «Pronóstico experimental».</p>
         </>}
     </div>
   )

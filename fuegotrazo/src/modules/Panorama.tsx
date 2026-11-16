@@ -45,6 +45,10 @@ territorio: regionName(region),
 
   return (
     <>
+      <aside className="mb-5 flex flex-wrap items-center justify-between gap-3 rounded-lg border border-line px-4 py-3 text-sm">
+        <div><h2 className="font-medium">¿Qué relaciona estas detecciones con registros de incendios?</h2><p className="mt-1 text-xs text-muted">Explora ejemplos documentados, sus fuentes oficiales y los criterios de comparación.</p></div>
+        <a href="#validacion" className="shrink-0 text-sky underline">Ver validación y fuentes</a>
+      </aside>
       <PageHeader title="Panorama de actividad del fuego"
         subtitle={`${regionName(region)} · ${y0}–${y1} · ${INDICATOR_LABEL[indicator]}. Explora cómo se distribuye la actividad térmica en el territorio y a lo largo del tiempo.`} />
       <div className="space-y-5">

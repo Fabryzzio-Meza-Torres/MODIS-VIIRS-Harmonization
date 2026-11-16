@@ -18,11 +18,12 @@ def verify(base,output):
             assert page.locator('#validation-primary tr').count()==2
             assert page.locator('#validation-primary').inner_text().find('45.1 %')>=0
             assert page.locator('#validation-model tr').count()==3
-            page.locator('#validation-status').select_option('none')
-            assert all('Sin coincidencia' in text for text in page.locator('.validation-case summary').all_text_contents())
+            page.locator('#validation-status').select_option('modis')
+            assert all('Solo MODIS' in text for text in page.locator('.validation-case summary').all_text_contents())
+            assert page.locator('#validation-status option[value=none]').count()==0
             page.locator('.validation-case').first.locator('summary').click()
             page.wait_for_selector('.validation-case-body')
-            assert 'No se encontró' in page.locator('.validation-case-body').first.inner_text()
+            assert page.locator('.validation-case').first.locator('.validation-evidence article').count()==1
             page.locator('#validation-status').select_option('both')
             page.locator('.validation-case').first.locator('summary').click()
             page.wait_for_selector('.validation-evidence article')
@@ -63,7 +64,7 @@ def verify(base,output):
             page.locator('#validation-year').select_option('2013')
             page.wait_for_function("document.getElementById('validation-download').href.endsWith('cases-2013.json') && document.querySelectorAll('.validation-case').length > 0")
             assert page.evaluate('document.documentElement.scrollWidth <= innerWidth'),name
-            report['checks'].append({'viewport':name,'actual_data':True,'unmatched_cases':True,
+            report['checks'].append({'viewport':name,'actual_data':True,'matched_examples_only':True,
                 'both_instruments_detail':True,'pagination':True,'source_links':True,
                 'failure_and_recovery':True,'rapid_filter_changes':True,'no_horizontal_overflow':True})
             page.close()

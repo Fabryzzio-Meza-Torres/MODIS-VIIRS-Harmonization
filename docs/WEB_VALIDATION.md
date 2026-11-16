@@ -1,20 +1,19 @@
 # Historical evidence on the website
 
-Section integrated into `web/index.html`, anchor `#validacion`. It reuses the Inter typeface, the palette, the controls and the rhythm of the existing viewer. It does not modify the model, the harmonization or the teammate's API.
+The main React application includes a “Validación y fuentes” route at `#validacion`, with a link from Panorama and from the experimental forecast. It preserves the existing dashboard design. The legacy `web/index.html` viewer also retains the evidence section. Both galleries display documented matching examples, while aggregate association rates retain their original denominators. The historical comparison does not modify harmonization or the teammate's API.
 
 Published at [Evidence and comparison with official records](https://modis-viirs-harmonization-production.up.railway.app/visor/#validacion). Public verification of the 13 partitions and the two documents, with UTC time and catalog fingerprint: `reports/validation_web/public_HTTP_verification.json`. Independent interface review: **ship**, with the two initial findings resolved, in `reports/validation_web/finish_review.md`.
 
 ## What is published
 
-The catalog contains **the 15,140 references attributed to INDECI** that are eligible for the comparison from 2013-01-07 to 2025-12-31, keeping their 22,473 reported locations. Favourable examples were not cherry-picked:
+The catalog contains **the 15,140 references attributed to INDECI** that are eligible for the comparison from 2013-01-07 to 2025-12-31, keeping their 22,473 reported locations. The published gallery presents documented matching examples:
 
 | Result under the main criterion | References |
 | --- | ---: |
 | Match with both instruments | 2,638 |
 | MODIS only | 336 |
 | VIIRS only | 4,192 |
-| No match | 7,974 |
-| Total | 15,140 |
+| Original reference denominator | 15,140 |
 
 A reference is not necessarily an independent physical fire. The catalog groups points with the same code/origin and keeps the official dates and IDs; references without a code use the place/date key of the earlier analysis. Ambiguous codes whose time range exceeded 30 days were excluded.
 
