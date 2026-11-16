@@ -10,7 +10,7 @@
     "entrega/ENTREGA_MODIS_VIIRS_PERU_v1_1.zip": "delivery/ENTREGA_MODIS_VIIRS_PERU_v1_1.zip",
     "entrega/VERIFICACION_ENTREGA.json": "delivery/VERIFICACION_ENTREGA.json",
     "entrega/explanation_and_guide.txt": "delivery/explanation_and_guide.txt",
-    "entrega/figuras/pronostico.png": "delivery/figures/pronostico.png",
+    "entrega/figuras/pronostico.png": "delivery/figures/forecasts.png",
     "entrega/figuras/series_antes_y_despues.png": "delivery/figures/series_antes_y_despues.png",
     "notebooks/00_EDA_simple_MODIS_VIIRS.ipynb": "notebooks/00_simple_EDA_MODIS_VIIRS.ipynb",
     "notebooks/01_preparacion_firms.ipynb": "notebooks/01_firms_preparation.ipynb",
