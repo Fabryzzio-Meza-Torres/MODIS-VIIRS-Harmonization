@@ -1,0 +1,14 @@
+{
+  "base_url": "https://fuegotrazo-modis-viirs.netlify.app",
+  "verified_at_utc": "2026-11-16T03:16:38.395707+00:00",
+  "english_categories_translated": true,
+  "spanish_toggle_restores_categories": true,
+  "english_tooltips": [
+    "Cabana · capital of Pallasca (Village)",
+    "Cabana · capital of Pallasca (Village)"
+  ],
+  "spanish_tooltips": [
+    "Cabana · capital de Pallasca (Pueblo)"
+  ],
+  "proper_place_names_preserved": true
+}
