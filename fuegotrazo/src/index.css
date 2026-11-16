@@ -1,0 +1,20 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+html { color-scheme: dark; }
+body { margin: 0; font-family: Inter, system-ui, sans-serif; }
+:focus-visible { outline: 2px solid #38BDF8; outline-offset: 2px; }
+.leaflet-container { background: #081625; font-family: inherit; }
+.recharts-tooltip-wrapper { outline: none; }
+
+@media print {
+  :root { color-scheme: light; }
+  * { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+  body { background: #fff !important; color: #111 !important; }
+  .bg-base, .bg-panel, .bg-surface { background: #fff !important; }
+  .text-ink, .text-muted { color: #111 !important; }
+  .border-line { border-color: #bbb !important; }
+  section, article > * { break-inside: avoid; }
+  main { padding: 0 !important; }
+}

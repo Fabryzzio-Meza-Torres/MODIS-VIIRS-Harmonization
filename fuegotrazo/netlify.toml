@@ -1,0 +1,12 @@
+[build]
+  command = "npm run build"
+  publish = "dist"
+  # Monorepo: skip the build when nothing inside this folder changed (exit 0 = skip, 1 = build).
+  ignore = "git diff --quiet $CACHED_COMMIT_REF $COMMIT_REF -- ."
+
+[build.environment]
+  NODE_VERSION = "22"
+
+# /api/events/* is served by netlify/functions/events.mts (read-only, allow-listed proxy to the events API).
+[functions]
+  directory = "netlify/functions"

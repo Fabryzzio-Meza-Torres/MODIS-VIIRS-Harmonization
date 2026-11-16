@@ -1,0 +1,6 @@
+node_modules
+dist
+.netlify
+
+# The repository root ignores "lib/" (Python template); this app keeps its logic in src/lib/
+!src/lib/
