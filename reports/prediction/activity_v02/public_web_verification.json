@@ -1,0 +1,21 @@
+{
+  "url": "https://fuegotrazo-modis-viirs.netlify.app",
+  "verified_at_utc": "2026-11-16T02:46:10.736751+00:00",
+  "checks": [
+    {
+      "language": "en",
+      "probability_text": "99.1 %",
+      "activity_contract": true,
+      "matching_official_evidence": true,
+      "layout": true
+    },
+    {
+      "language": "es",
+      "probability_text": "99.1 %",
+      "activity_contract": true,
+      "matching_official_evidence": true,
+      "layout": true
+    }
+  ],
+  "browser_errors": []
+}

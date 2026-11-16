@@ -1,0 +1,35 @@
+{
+  "base_url": "https://modis-viirs-harmonization-production.up.railway.app",
+  "verified_at_utc": "2026-11-16T02:45:32.177505+00:00",
+  "checks": [
+    {
+      "path": "/health",
+      "status": 200
+    },
+    {
+      "path": "/v1/fire-activity/metadata",
+      "status": 200
+    },
+    {
+      "path": "/v1/fire-activity/outlook?limit=300",
+      "status": 200
+    },
+    {
+      "path": "/v1/fire-activity?region_id=20&target_week_start=2026-11-16",
+      "status": 200
+    },
+    {
+      "path": "/v1/empirical/metadata",
+      "status": 200
+    },
+    {
+      "path": "/v1/regions",
+      "status": 200
+    },
+    {
+      "path": "unsupported province",
+      "status": 422
+    }
+  ],
+  "snapshot_sha256": "2f5a799cd0b1b4b2af05da43de6ddd02709ef016ba818f533366fd66fe7deb12"
+}
