@@ -51,6 +51,7 @@ Monday-to-Sunday America/Lima weeks with an exclusive following Monday.
 - The planning module combines observed history with editable action templates stored in the browser. Responsible institutions are not assigned automatically.
 - Support contacts include an official source and verification status. Channels without a confirmed official reference are not published; tests enforce source attribution.
 - Territory reports can be printed to PDF through the browser and exported as monthly CSV data.
+- The interface is available in English (default) and Spanish. The EN/ES switch sits in the top-right corner, the choice is kept in the browser (`localStorage`), and `?lang=es` or `?lang=en` in the URL hash query overrides it. English is the default because the NASA Space Apps Challenge requires all submitted content to be in English. Official institution names, place names and text returned verbatim by the APIs are not translated.
 
 ## Geographic inputs
 

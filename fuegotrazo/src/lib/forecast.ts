@@ -20,17 +20,17 @@ export function activityContract(meta: { target_event?: string; supported_spatia
   return meta.target_event === ACTIVITY_EVENT && meta.supported_spatial_units?.length === 1 &&
     meta.supported_spatial_units[0] === 'department' && meta.physical_ignition_probability_verified === false
 }
-export function difference1(value: number | null | undefined): string {
+export function difference1(value: number | null | undefined, locale = 'es-PE'): string {
   if (value == null || !Number.isFinite(value)) return 'No disponible'
   const rounded = Math.round(value * 10) / 10
   const sign = rounded > 0 ? '+' : rounded < 0 ? '−' : ''
-  return `${sign}${Math.abs(rounded).toLocaleString('es-PE', { minimumFractionDigits: 1, maximumFractionDigits: 1 })} pp`
+  return `${sign}${Math.abs(rounded).toLocaleString(locale, { minimumFractionDigits: 1, maximumFractionDigits: 1 })} pp`
 }
 
 /** One decimal, never more precision than the model deserves. Returns null when there is no number. */
-export function percent1(p: number | null | undefined): string | null {
+export function percent1(p: number | null | undefined, locale = 'es-PE'): string | null {
   if (p == null || !Number.isFinite(p)) return null
-  return `${p.toLocaleString('es-PE', { minimumFractionDigits: 1, maximumFractionDigits: 1 })} %`
+  return `${p.toLocaleString(locale, { minimumFractionDigits: 1, maximumFractionDigits: 1 })} %`
 }
 
 export type Validity = { ok: true } | { ok: false; reason: 'refresh_required' | 'expired' | 'invalid_valid_until' }

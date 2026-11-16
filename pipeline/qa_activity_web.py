@@ -14,7 +14,7 @@ def verify(base,output):
             page.on('pageerror',lambda e:report['errors'].append(str(e)))
             requests=[]
             page.on('request',lambda r:requests.append(r.url))
-            page.goto(base+'/#pronostico?region=20&prov=2007',wait_until='domcontentloaded')
+            page.goto(base+'/#pronostico?region=20&prov=2007&lang=es',wait_until='domcontentloaded')
             page.get_by_test_id('activity-probability').wait_for(timeout=60000)
             text=page.locator('body').inner_text()
             assert '32 de 32' in text

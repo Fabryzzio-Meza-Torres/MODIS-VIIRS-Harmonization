@@ -1,0 +1,328 @@
+{
+  "schemaVersion": 2,
+  "generatedAt": "2026-11-16T02:42:22.834442+00:00",
+  "title": "Design System: FuegoTrazo",
+  "extensions": {
+    "shadows": [],
+    "motion": [
+      {
+        "name": "navigation-color",
+        "value": "150ms cubic-bezier(0.4, 0, 0.2, 1)",
+        "purpose": "Tailwind transition-colors on navigation."
+      },
+      {
+        "name": "loading-pulse",
+        "value": "2s cubic-bezier(0.4, 0, 0.6, 1) infinite",
+        "purpose": "Quiet loading surface pulse; opacity reaches 0.5 midway."
+      }
+    ],
+    "breakpoints": [
+      {
+        "name": "sm",
+        "value": "640px"
+      },
+      {
+        "name": "md",
+        "value": "768px"
+      }
+    ],
+    "focus": {
+      "value": "2px solid #38BDF8",
+      "offset": "2px",
+      "purpose": "Global focus-visible outline."
+    },
+    "chart": {
+      "unselectedBar": "#3A6E9E",
+      "historicalDash": "5 4",
+      "animation": false
+    },
+    "colorMeta": {
+      "base": {
+        "role": "neutral",
+        "displayName": "Base",
+        "tonalRamp": [
+          "oklch(15% 0.0363 251.42)",
+          "oklch(26% 0.0363 251.42)",
+          "oklch(38% 0.0363 251.42)",
+          "oklch(49% 0.0363 251.42)",
+          "oklch(61% 0.0363 251.42)",
+          "oklch(72% 0.0363 251.42)",
+          "oklch(84% 0.0363 251.42)",
+          "oklch(95% 0.0363 251.42)"
+        ],
+        "rampPurpose": "Synthesized palette inspection only; not additional application tokens."
+      },
+      "panel": {
+        "role": "neutral",
+        "displayName": "Panel",
+        "tonalRamp": [
+          "oklch(15% 0.0509 253.25)",
+          "oklch(26% 0.0509 253.25)",
+          "oklch(38% 0.0509 253.25)",
+          "oklch(49% 0.0509 253.25)",
+          "oklch(61% 0.0509 253.25)",
+          "oklch(72% 0.0509 253.25)",
+          "oklch(84% 0.0509 253.25)",
+          "oklch(95% 0.0509 253.25)"
+        ],
+        "rampPurpose": "Synthesized palette inspection only; not additional application tokens."
+      },
+      "surface": {
+        "role": "neutral",
+        "displayName": "Surface",
+        "tonalRamp": [
+          "oklch(15% 0.0580 248.59)",
+          "oklch(26% 0.0580 248.59)",
+          "oklch(38% 0.0580 248.59)",
+          "oklch(49% 0.0580 248.59)",
+          "oklch(61% 0.0580 248.59)",
+          "oklch(72% 0.0580 248.59)",
+          "oklch(84% 0.0580 248.59)",
+          "oklch(95% 0.0580 248.59)"
+        ],
+        "rampPurpose": "Synthesized palette inspection only; not additional application tokens."
+      },
+      "line": {
+        "role": "neutral",
+        "displayName": "Line",
+        "tonalRamp": [
+          "oklch(15% 0.0640 249.28)",
+          "oklch(26% 0.0640 249.28)",
+          "oklch(38% 0.0640 249.28)",
+          "oklch(49% 0.0640 249.28)",
+          "oklch(61% 0.0640 249.28)",
+          "oklch(72% 0.0640 249.28)",
+          "oklch(84% 0.0640 249.28)",
+          "oklch(95% 0.0640 249.28)"
+        ],
+        "rampPurpose": "Synthesized palette inspection only; not additional application tokens."
+      },
+      "ink": {
+        "role": "neutral",
+        "displayName": "Ink",
+        "tonalRamp": [
+          "oklch(15% 0.0062 255.47)",
+          "oklch(26% 0.0062 255.47)",
+          "oklch(38% 0.0062 255.47)",
+          "oklch(49% 0.0062 255.47)",
+          "oklch(61% 0.0062 255.47)",
+          "oklch(72% 0.0062 255.47)",
+          "oklch(84% 0.0062 255.47)",
+          "oklch(95% 0.0062 255.47)"
+        ],
+        "rampPurpose": "Synthesized palette inspection only; not additional application tokens."
+      },
+      "muted": {
+        "role": "neutral",
+        "displayName": "Muted",
+        "tonalRamp": [
+          "oklch(15% 0.0380 249.64)",
+          "oklch(26% 0.0380 249.64)",
+          "oklch(38% 0.0380 249.64)",
+          "oklch(49% 0.0380 249.64)",
+          "oklch(61% 0.0380 249.64)",
+          "oklch(72% 0.0380 249.64)",
+          "oklch(84% 0.0380 249.64)",
+          "oklch(95% 0.0380 249.64)"
+        ],
+        "rampPurpose": "Synthesized palette inspection only; not additional application tokens."
+      },
+      "fire": {
+        "role": "secondary",
+        "displayName": "Fire",
+        "tonalRamp": [
+          "oklch(15% 0.1867 47.60)",
+          "oklch(26% 0.1867 47.60)",
+          "oklch(38% 0.1867 47.60)",
+          "oklch(49% 0.1867 47.60)",
+          "oklch(61% 0.1867 47.60)",
+          "oklch(72% 0.1867 47.60)",
+          "oklch(84% 0.1867 47.60)",
+          "oklch(95% 0.1867 47.60)"
+        ],
+        "rampPurpose": "Synthesized palette inspection only; not additional application tokens."
+      },
+      "danger": {
+        "role": "secondary",
+        "displayName": "Danger",
+        "tonalRamp": [
+          "oklch(15% 0.2078 25.33)",
+          "oklch(26% 0.2078 25.33)",
+          "oklch(38% 0.2078 25.33)",
+          "oklch(49% 0.2078 25.33)",
+          "oklch(61% 0.2078 25.33)",
+          "oklch(72% 0.2078 25.33)",
+          "oklch(84% 0.2078 25.33)",
+          "oklch(95% 0.2078 25.33)"
+        ],
+        "rampPurpose": "Synthesized palette inspection only; not additional application tokens."
+      },
+      "modis": {
+        "role": "secondary",
+        "displayName": "Modis",
+        "tonalRamp": [
+          "oklch(15% 0.1590 55.93)",
+          "oklch(26% 0.1590 55.93)",
+          "oklch(38% 0.1590 55.93)",
+          "oklch(49% 0.1590 55.93)",
+          "oklch(61% 0.1590 55.93)",
+          "oklch(72% 0.1590 55.93)",
+          "oklch(84% 0.1590 55.93)",
+          "oklch(95% 0.1590 55.93)"
+        ],
+        "rampPurpose": "Synthesized palette inspection only; not additional application tokens."
+      },
+      "viirs": {
+        "role": "secondary",
+        "displayName": "Viirs",
+        "tonalRamp": [
+          "oklch(15% 0.1085 215.04)",
+          "oklch(26% 0.1085 215.04)",
+          "oklch(38% 0.1085 215.04)",
+          "oklch(49% 0.1085 215.04)",
+          "oklch(61% 0.1085 215.04)",
+          "oklch(72% 0.1085 215.04)",
+          "oklch(84% 0.1085 215.04)",
+          "oklch(95% 0.1085 215.04)"
+        ],
+        "rampPurpose": "Synthesized palette inspection only; not additional application tokens."
+      },
+      "amber": {
+        "role": "primary",
+        "displayName": "Amber",
+        "tonalRamp": [
+          "oklch(15% 0.1644 84.43)",
+          "oklch(26% 0.1644 84.43)",
+          "oklch(38% 0.1644 84.43)",
+          "oklch(49% 0.1644 84.43)",
+          "oklch(61% 0.1644 84.43)",
+          "oklch(72% 0.1644 84.43)",
+          "oklch(84% 0.1644 84.43)",
+          "oklch(95% 0.1644 84.43)"
+        ],
+        "rampPurpose": "Synthesized palette inspection only; not additional application tokens."
+      },
+      "teal": {
+        "role": "secondary",
+        "displayName": "Teal",
+        "tonalRamp": [
+          "oklch(15% 0.1230 182.50)",
+          "oklch(26% 0.1230 182.50)",
+          "oklch(38% 0.1230 182.50)",
+          "oklch(49% 0.1230 182.50)",
+          "oklch(61% 0.1230 182.50)",
+          "oklch(72% 0.1230 182.50)",
+          "oklch(84% 0.1230 182.50)",
+          "oklch(95% 0.1230 182.50)"
+        ],
+        "rampPurpose": "Synthesized palette inspection only; not additional application tokens."
+      },
+      "sky": {
+        "role": "primary",
+        "displayName": "Sky",
+        "tonalRamp": [
+          "oklch(15% 0.1390 232.66)",
+          "oklch(26% 0.1390 232.66)",
+          "oklch(38% 0.1390 232.66)",
+          "oklch(49% 0.1390 232.66)",
+          "oklch(61% 0.1390 232.66)",
+          "oklch(72% 0.1390 232.66)",
+          "oklch(84% 0.1390 232.66)",
+          "oklch(95% 0.1390 232.66)"
+        ],
+        "rampPurpose": "Synthesized palette inspection only; not additional application tokens."
+      }
+    }
+  },
+  "components": [
+    {
+      "name": "Week button",
+      "kind": "button",
+      "refersTo": "button-week",
+      "description": "An unselected weekly forecast control.",
+      "html": "<button class=\"ds-week\" aria-pressed=\"false\">16 nov <small>plazo 1</small></button>",
+      "css": ".ds-week{font:14px/20px Inter,system-ui,sans-serif;color:#F4F7FB;background:#17334D;border:1px solid #21405E;border-radius:6px;padding:8px 12px;cursor:pointer}.ds-week small{margin-left:8px;font-size:12px;opacity:.8}.ds-week:hover{border-color:#38BDF8}.ds-week:focus-visible{outline:2px solid #38BDF8;outline-offset:2px}"
+    },
+    {
+      "name": "Selected week",
+      "kind": "button",
+      "refersTo": "button-week-selected",
+      "description": "The selected week uses amber and dark text.",
+      "html": "<button class=\"ds-selected\" aria-pressed=\"true\">16 nov <small>plazo 1</small></button>",
+      "css": ".ds-selected{font:14px/20px Inter,system-ui,sans-serif;color:#F4F7FB;background:#FBBF24;color:#081625;border:1px solid #FBBF24;border-radius:6px;padding:8px 12px;cursor:pointer}.ds-selected small{margin-left:8px;font-size:12px;opacity:.8}.ds-selected:hover{border-color:#FBBF24}.ds-selected:focus-visible{outline:2px solid #38BDF8;outline-offset:2px}"
+    },
+    {
+      "name": "Catalog field",
+      "kind": "input",
+      "refersTo": "field",
+      "description": "A labeled evidence catalog search field.",
+      "html": "<label class=\"ds-label\">Código o ID oficial<input class=\"ds-field\" type=\"search\" placeholder=\"Buscar una referencia\"></label>",
+      "css": ".ds-label{display:flex;flex-direction:column;gap:4px;font:12px/16px Inter,system-ui,sans-serif;color:#94A8BD}.ds-field{font:14px/20px Inter,system-ui,sans-serif;color:#F4F7FB;background:#17334D;border:1px solid #21405E;border-radius:6px;padding:6px 12px;max-width:100%}.ds-field:focus-visible{outline:2px solid #38BDF8;outline-offset:2px}"
+    },
+    {
+      "name": "Panel",
+      "kind": "card",
+      "refersTo": "card",
+      "description": "The shared ruled navy content container.",
+      "html": "<section class=\"ds-card\"><h2>Frecuencia histórica comparable</h2><p>Semanas cerradas de años anteriores.</p></section>",
+      "css": ".ds-card{font:14px/20px Inter,system-ui,sans-serif;color:#F4F7FB;background:#10243B;border:1px solid #21405E;border-radius:12px;padding:20px}.ds-card h2{margin:0;font-size:17px;line-height:25.5px;font-weight:600}.ds-card p{margin:4px 0 0;color:#94A8BD}"
+    },
+    {
+      "name": "Experimental status",
+      "kind": "chip",
+      "refersTo": "experimental-chip",
+      "description": "The explicit experimental status of an estimate.",
+      "html": "<span class=\"ds-chip\">Experimental</span>",
+      "css": ".ds-chip{display:inline-block;background:#FBBF24;color:#081625;border-radius:6px;padding:4px 10px;font:600 12px/16px Inter,system-ui,sans-serif}"
+    },
+    {
+      "name": "Module navigation",
+      "kind": "nav",
+      "description": "Active and inactive module navigation treatments.",
+      "html": "<nav class=\"ds-nav\" aria-label=\"Módulos\"><a href=\"#pronostico\" aria-current=\"page\">Pronóstico experimental</a><a href=\"#validacion\">Validación y fuentes</a></nav>",
+      "css": ".ds-nav{background:#10243B;padding:12px;font:14px/20px Inter,system-ui,sans-serif}.ds-nav a{display:block;border-radius:8px;padding:8px 12px;color:#94A8BD;text-decoration:none;transition:background-color .15s,color .15s}.ds-nav a[aria-current]{background:#17334D;color:#F4F7FB}.ds-nav a:hover{background:#17334D99;color:#F4F7FB}.ds-nav a:focus-visible{outline:2px solid #38BDF8;outline-offset:2px}"
+    },
+    {
+      "name": "Evidence disclosure",
+      "kind": "custom",
+      "description": "Native disclosure for inspectable source and witness details.",
+      "html": "<details class=\"ds-evidence\"><summary>Ucayali · 31 ago 2019</summary><p>Detección · hora de Lima</p><a href=\"#registro\">Consultar registro oficial</a></details>",
+      "css": ".ds-evidence{font:14px/20px Inter,system-ui,sans-serif;color:#F4F7FB;background:#10243B;border-bottom:1px solid #21405E;padding:16px}.ds-evidence summary{cursor:pointer;font-weight:500}.ds-evidence p{color:#94A8BD;font-size:12px}.ds-evidence a{color:#38BDF8;text-decoration:underline}.ds-evidence summary:focus-visible{outline:2px solid #38BDF8;outline-offset:2px}.ds-evidence a:focus-visible{outline:2px solid #38BDF8;outline-offset:2px}"
+    }
+  ],
+  "narrative": {
+    "northStar": "The Scientific Observation Desk",
+    "overview": "FuegoTrazo is a navy, ruled scientific dashboard. It places readable numbers, geographic scope, historical context, and inspectable sources in a continuous working surface. The incumbent React application is the visual authority; this record captures its shipped system rather than proposing a new identity.\n\nIts calm density suits comparison and careful reading. Spanish public copy keeps explanations close to the statistic they qualify. Forecast and evidence views share panels, controls, table rules, and disclosures so a reader can move from a weekly estimate to its context without learning another interface.",
+    "keyCharacteristics": [
+      "Deep navy surfaces distinguished by tone and thin rules.",
+      "Compact Inter text with a restrained hierarchy and selective monospace statistics.",
+      "Amber selection, cyan links, and stable instrument colors.",
+      "Visible denominators and progressive disclosure for detailed provenance."
+    ],
+    "rules": [
+      {
+        "name": "The Context Rule",
+        "body": "Color supports a named state or data series; labels and explanatory text carry its meaning.",
+        "section": "colors"
+      },
+      {
+        "name": "The Number and Meaning Rule",
+        "body": "Keep a statistic's label, unit, denominator, and qualification visually adjacent. A large percentage must remain legible as a specific department and week estimate.",
+        "section": "typography"
+      }
+    ],
+    "dos": [
+      "**Do** retain navy tonal layers and thin rules as the main means of grouping information.",
+      "**Do** keep Spanish UI text, visible labels, and underlined source links.",
+      "**Do** present forecast percentages with department, complete week, historical denominator, and a clearly labeled difference in percentage points.",
+      "**Do** keep official evidence details and scientific qualifications available through readable disclosures.",
+      "**Do** preserve wrapping controls and horizontally scrollable tables on small screens."
+    ],
+    "donts": [
+      "**Don't** turn the contextual difference or experimental badge into an official severity classification.",
+      "**Don't** display an unavailable forecast as zero.",
+      "**Don't** replace instrument colors or selected-week semantics with arbitrary decorative accents.",
+      "**Don't** separate enlarged statistics from the context needed to interpret them."
+    ]
+  }
+}

@@ -1,8 +1,9 @@
 import { useMemo, useState } from 'react'
+import { t } from '../i18n'
 import { Bar, BarChart, CartesianGrid, Cell, ErrorBar, Legend as RLegend, ResponsiveContainer, Tooltip, XAxis, YAxis } from 'recharts'
 import type { Period } from '../lib/aggregate'
 import { useApp, useSeries } from '../state'
-import { axis, Card, COLORS, Empty, ErrorBox, fmt, INDICATOR_LABEL, Loading, makeRamp, MONTHS, MONTHS_LONG, NO_DATA, PageHeader, pick, RAMP, tooltipStyle } from '../ui'
+import { axis, Card, COLORS, Empty, ErrorBox, fmt, INDICATOR_LABEL, Loading, makeRamp, monthShort, monthLong, NO_DATA, PageHeader, pick, RAMP, tooltipStyle } from '../ui'
 
 const YEARS = Array.from({ length: 26 }, (_, i) => 2001 + i)
 
@@ -36,49 +37,49 @@ export default function Calendario() {
   const cell = (y: number, m: number) => {
     const k = key(y, m), p = byKey.get(k)
     const v = p ? pick(p, indicator) : null
-    const label = `${MONTHS_LONG[m]} ${y}`
+    const label = `${monthLong()[m]} ${y}`
     const viirsAbsent = !p || (indicator === 'VIIRS' && k < '2012-02')
-    const title = !p ? `${label}: fuera del periodo disponible`
-      : v == null ? `${label}: ${viirsAbsent ? 'VIIRS no observaba' : 'sin estimación'}`
-      : `${label}: ${fmt.full(v)}${k >= '2026-07' ? ' (parcial)' : ''}`
+    const title = !p ? `${label}: ${t('fuera del periodo disponible', 'outside the available period')}`
+      : v == null ? `${label}: ${viirsAbsent ? t('VIIRS no observaba', 'VIIRS was not observing') : t('sin estimación', 'no estimate')}`
+      : `${label}: ${fmt.full(v)}${k >= '2026-07' ? ` (${t('parcial', 'partial')})` : ''}`
     const on = cur.y === y && cur.m === m
     return (
       <button key={k} title={title} aria-label={title} aria-pressed={on} disabled={!p}
         onClick={() => setSel({ y, m })}
         className={`h-[22px] min-w-0 rounded-[3px] text-[9px] leading-none text-base/80 ${on ? 'outline outline-2 outline-ink' : ''} ${y < y0 || y > y1 ? 'opacity-60' : ''}`}
         style={{ background: v == null ? (p ? 'transparent' : 'transparent') : ramp.color(v), border: v == null ? `1px dashed ${NO_DATA}` : undefined, cursor: p ? 'pointer' : 'default' }}>
-        {k >= '2026-07' && p ? 'p' : ''}
+        {k >= '2026-07' && p ? t('p', 'p') : ''}
       </button>
     )
   }
 
   return (
     <>
-      <PageHeader title="Calendario de actividad"
-        subtitle={`${regionName(region)} · ${INDICATOR_LABEL[indicator]}. Identifica los meses y temporadas con mayor actividad histórica; selecciona un mes para ver su detalle. Cada semana se asigna al mes de su lunes (UTC).`} />
+      <PageHeader title={t('Calendario de actividad', 'Activity calendar')}
+        subtitle={`${regionName(region)} · ${INDICATOR_LABEL[indicator]}. ${t('Identifica los meses y temporadas con mayor actividad histórica; selecciona un mes para ver su detalle. Cada semana se asigna al mes de su lunes (UTC).', 'Identify the months and seasons with the highest historical activity; select a month to see its detail. Each week is assigned to the month of its Monday (UTC).')}`} />
       {error ? <ErrorBox error={error} retry={retry} /> : loading ? <Loading /> : (
         <div className="grid gap-5 lg:grid-cols-[minmax(0,3fr)_minmax(0,2fr)]">
-          <Card title="Calendario de recurrencia histórica"
-            subtitle="Años en filas y meses en columnas. «p» = mes con observación incompleta; casilla vacía = sin estimación (no es cero). Los años fuera del filtro se atenúan.">
+          <Card title={t('Calendario de recurrencia histórica', 'Historical recurrence calendar')}
+            subtitle={t('Años en filas y meses en columnas. «p» = mes con observación incompleta; casilla vacía = sin estimación (no es cero). Los años fuera del filtro se atenúan.', 'Years in rows and months in columns. “p” = month with incomplete observation; empty cell = no estimate (not zero). Years outside the filter are dimmed.')}>
             <div className="grid items-center gap-[3px]" style={{ gridTemplateColumns: '2.5rem repeat(12, minmax(0, 1fr))' }}>
               <div />
-              {MONTHS.map((m) => <div key={m} className="text-center text-[10px] text-muted">{m}</div>)}
+              {monthShort().map((m) => <div key={m} className="text-center text-[10px] text-muted">{m}</div>)}
               {YEARS.map((y) => (
                 <div key={y} className="contents">
                   <div className="font-mono text-[10px] text-muted">{y}</div>
-                  {MONTHS.map((_, m) => cell(y, m))}
+                  {monthShort().map((_, m) => cell(y, m))}
                 </div>
               ))}
             </div>
             <div className="mt-4 flex items-center gap-2 text-xs text-muted">
-              <span>Menos</span>
+              <span>{t('Menos', 'Less')}</span>
               <div className="flex">{RAMP.map((c) => <div key={c} className="h-2.5 w-6" style={{ background: c }} />)}</div>
-              <span>Más (cuantiles del territorio)</span>
+              <span>{t('Más (cuantiles del territorio)', 'More (quantiles of the territory)')}</span>
             </div>
           </Card>
 
           <div className="space-y-5">
-            <Card title={`Frente a otros años · ${MONTHS_LONG[cur.m]}`} subtitle={`${MONTHS_LONG[cur.m]} de cada año · ${regionName(region)}. Resaltado: ${cur.y}.`}>
+            <Card title={`${t('Frente a otros años', 'Versus other years')} · ${monthLong()[cur.m]}`} subtitle={t(`${monthLong()[cur.m]} de cada año · ${regionName(region)}. Resaltado: ${cur.y}.`, `${monthLong()[cur.m]} of each year · ${regionName(region)}. Highlighted: ${cur.y}.`)}>
               <ResponsiveContainer width="100%" height={220}>
                 <BarChart data={across} margin={{ right: 8 }}>
                   <CartesianGrid vertical={false} stroke={COLORS.grid} />
@@ -91,15 +92,15 @@ export default function Calendario() {
                 </BarChart>
               </ResponsiveContainer>
             </Card>
-            <Card title={`Semanas de ${MONTHS_LONG[cur.m]} ${cur.y}`}
-              subtitle="Dato armonizado por instrumento; las barras de error son la banda del 95 % del factor de calibración, no la incertidumbre total.">
-              {wdata.length === 0 ? <Empty>No hay semanas disponibles para este mes.</Empty> : (
+            <Card title={t(`Semanas de ${monthLong()[cur.m]} ${cur.y}`, `Weeks of ${monthLong()[cur.m]} ${cur.y}`)}
+              subtitle={t('Dato armonizado por instrumento; las barras de error son la banda del 95 % del factor de calibración, no la incertidumbre total.', 'Harmonized data per instrument; the error bars are the 95 % band of the calibration factor, not the total uncertainty.')}>
+              {wdata.length === 0 ? <Empty>{t('No hay semanas disponibles para este mes.', 'No weeks available for this month.')}</Empty> : (
                 <ResponsiveContainer width="100%" height={220}>
                   <BarChart data={wdata} margin={{ right: 8 }}>
                     <CartesianGrid vertical={false} stroke={COLORS.grid} />
-                    <XAxis dataKey="w" {...axis} tickFormatter={(w: string) => `${+w.slice(8)} ${MONTHS[+w.slice(5, 7) - 1].toLowerCase()}`} />
+                    <XAxis dataKey="w" {...axis} tickFormatter={(w: string) => `${+w.slice(8)} ${monthShort()[+w.slice(5, 7) - 1].toLowerCase()}`} />
                     <YAxis {...axis} tickFormatter={fmt.n} width={44} />
-                    <Tooltip {...tooltipStyle} cursor={{ fill: '#17334D' }} labelFormatter={(w) => `Semana del ${fmt.date(w as string)}`} formatter={(v) => (v == null ? 'sin estimación' : fmt.full(v as number))} />
+                    <Tooltip {...tooltipStyle} cursor={{ fill: '#17334D' }} labelFormatter={(w) => `${t('Semana del', 'Week of')} ${fmt.date(w as string)}`} formatter={(v) => (v == null ? t('sin estimación', 'no estimate') : fmt.full(v as number))} />
                     <RLegend wrapperStyle={{ fontSize: 12 }} />
                     <Bar isAnimationActive={false} dataKey="MODIS" fill={COLORS.MODIS} radius={[3, 3, 0, 0]}><ErrorBar dataKey="MODIS_err" stroke="#F4F7FB" width={4} /></Bar>
                     <Bar isAnimationActive={false} dataKey="VIIRS" fill={COLORS.VIIRS} radius={[3, 3, 0, 0]}><ErrorBar dataKey="VIIRS_err" stroke="#F4F7FB" width={4} /></Bar>

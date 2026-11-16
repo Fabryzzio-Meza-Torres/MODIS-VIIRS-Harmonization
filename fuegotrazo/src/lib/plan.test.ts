@@ -11,7 +11,7 @@ const ph = phases(share)
 test('plan: one block per phase, dates never in the past, today when already inside the phase', () => {
   const t = buildPlan(ph, '2026-08-20') // we are inside the high season
   const alta = t.filter((x) => x.phase === 'alta')
-  assert.equal(alta.length, PHASE_META.alta.tips.length)
+  assert.equal(alta.length, PHASE_META.alta.text.es.tips.length)
   assert.ok(alta.every((x) => x.due === '2026-08-20'))
   assert.ok(t.every((x) => x.due >= '2026-08-20'))
   assert.deepEqual([...new Set(t.map((x) => x.phase))].sort(), ['alta', 'baja', 'cierre', 'preparacion'])

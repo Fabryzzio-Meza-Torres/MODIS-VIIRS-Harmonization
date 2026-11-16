@@ -1,4 +1,5 @@
 import { useCallback, useEffect, useRef, useState } from 'react'
+import { t } from './i18n'
 import { collectPages } from './lib/paging'
 import type { Range } from './lib/provinceStats'
 
@@ -7,10 +8,13 @@ export const EVENTS_BASE = '/api/events'
 // Country bbox as echoed by the events API in `query.bbox` when only a department is sent.
 export const PERU_BBOX = '-81.5,-18.5,-68.5,0.1'
 export const PAGE_SIZE = 200
-export const EVENT_TYPE_LABEL: Record<string, string> = {
-  foco_aislado: 'Foco aislado', incendio: 'Incendio', incendio_prolongado: 'Incendio prolongado',
-  quema_persistente: 'Quema persistente', foco_recurrente: 'Foco recurrente',
+const EVENT_TYPES: Record<string, [string, string]> = {
+  foco_aislado: ['Foco aislado', 'Isolated hotspot'], incendio: ['Incendio', 'Fire'], incendio_prolongado: ['Incendio prolongado', 'Prolonged fire'],
+  quema_persistente: ['Quema persistente', 'Persistent burning'], foco_recurrente: ['Foco recurrente', 'Recurrent hotspot'],
 }
+/** Label for an event_type code; unknown codes are shown as sent by the service. */
+export const eventTypeLabel = (code: string) => { const e = EVENT_TYPES[code]; return e ? t(e[0], e[1]) : code }
+export const EVENT_TYPE_CODES = Object.keys(EVENT_TYPES)
 
 export interface EventRow {
   event_id: number; t_start: string; t_end: string; duration_days: number
@@ -34,7 +38,7 @@ async function get<T>(path: string, params: Record<string, string | number> = {}
   if (!r.ok) {
     let detail = ''
     try { const b = await r.json(); detail = typeof b.detail === 'string' ? b.detail : b.error ?? '' } catch { /* not JSON */ }
-    throw new Error(`La API de eventos respondió ${r.status}${detail ? `: ${detail}` : ''}`)
+    throw new Error(`${t('La API de eventos respondió', 'The events API responded')} ${r.status}${detail ? `: ${detail}` : ''}`)
   }
   return r.json()
 }

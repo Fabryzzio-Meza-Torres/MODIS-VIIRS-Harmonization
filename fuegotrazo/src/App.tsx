@@ -2,6 +2,8 @@ import { useState } from 'react'
 import { CalendarDays, ClipboardList, CloudSun, FileText, FlaskConical, LayoutDashboard, LifeBuoy, Map, Menu, ShieldAlert, TrendingUp, X, type LucideIcon } from 'lucide-react'
 import { API_BASE } from './api'
 import { EVENTS_UPSTREAM } from './lib/proxy-rules'
+import { Languages } from 'lucide-react'
+import { t, useLang, type Lang } from './i18n'
 import { AppProvider, useApp, type Indicator, type Route } from './state'
 import { Boundary, fmt, INDICATOR_LABEL, Select, YearInput } from './ui'
 import Panorama from './modules/Panorama'
@@ -16,23 +18,23 @@ import Apoyo from './modules/Apoyo'
 import Informes from './modules/Informes'
 import Evidencia from './modules/Evidencia'
 
-const NAV: { group: string; items: { id: Route; label: string; icon: LucideIcon }[] }[] = [
-  { group: 'Exploración', items: [
-    { id: 'panorama', label: 'Panorama', icon: LayoutDashboard },
-    { id: 'calendario', label: 'Calendario', icon: CalendarDays },
-    { id: 'mapa', label: 'Mapa de calor', icon: Map },
-    { id: 'tendencias', label: 'Tendencias históricas', icon: TrendingUp },
+const nav = (): { group: string; items: { id: Route; label: string; icon: LucideIcon }[] }[] => [
+  { group: t('Exploración', 'Explore'), items: [
+    { id: 'panorama', label: t('Panorama', 'Overview'), icon: LayoutDashboard },
+    { id: 'calendario', label: t('Calendario', 'Calendar'), icon: CalendarDays },
+    { id: 'mapa', label: t('Mapa de calor', 'Heat map'), icon: Map },
+    { id: 'tendencias', label: t('Tendencias históricas', 'Historical trends'), icon: TrendingUp },
   ] },
-  { group: 'Prevención', items: [
-    { id: 'prevencion', label: 'Prevención', icon: ShieldAlert },
-    { id: 'pronostico', label: 'Pronóstico experimental', icon: CloudSun },
+  { group: t('Prevención', 'Prevention'), items: [
+    { id: 'prevencion', label: t('Prevención', 'Prevention'), icon: ShieldAlert },
+    { id: 'pronostico', label: t('Pronóstico experimental', 'Experimental forecast'), icon: CloudSun },
   ] },
-  { group: 'Planificación', items: [
-    { id: 'planes', label: 'Generador de planes', icon: ClipboardList },
-    { id: 'apoyo', label: 'Centros de apoyo', icon: LifeBuoy },
-    { id: 'informes', label: 'Informes', icon: FileText },
+  { group: t('Planificación', 'Planning'), items: [
+    { id: 'planes', label: t('Generador de planes', 'Plan generator'), icon: ClipboardList },
+    { id: 'apoyo', label: t('Centros de apoyo', 'Support centers'), icon: LifeBuoy },
+    { id: 'informes', label: t('Informes', 'Reports'), icon: FileText },
   ] },
-  { group: 'Análisis', items: [{ id: 'validacion', label: 'Validación y fuentes', icon: FileText }, { id: 'laboratorio', label: 'Laboratorio de armonización', icon: FlaskConical }] },
+  { group: t('Análisis', 'Analysis'), items: [{ id: 'validacion', label: t('Validación y fuentes', 'Validation and sources'), icon: FileText }, { id: 'laboratorio', label: t('Laboratorio de armonización', 'Harmonization lab'), icon: FlaskConical }] },
 ]
 const VIEWS: Record<Route, () => React.JSX.Element> = {
   panorama: Panorama, calendario: Calendario, mapa: Mapa, tendencias: Tendencias, prevencion: Prevencion, pronostico: Pronostico, laboratorio: Laboratorio, validacion: Evidencia, planes: Planes, apoyo: Apoyo, informes: Informes,
@@ -41,8 +43,8 @@ const VIEWS: Record<Route, () => React.JSX.Element> = {
 function Nav({ onNavigate }: { onNavigate?: () => void }) {
   const { route, go } = useApp()
   return (
-    <nav aria-label="Módulos" className="space-y-5">
-      {NAV.map((g) => (
+    <nav aria-label={t('Módulos', 'Modules')} className="space-y-5">
+      {nav().map((g) => (
         <div key={g.group}>
           <div className="mb-1.5 px-3 text-xs text-muted">{g.group}</div>
           <ul className="space-y-0.5">
@@ -66,7 +68,20 @@ function Brand() {
   return (
     <div className="px-3">
       <div className="text-lg font-bold tracking-tight">Fuego<span className="text-fire">Trazo</span></div>
-      <div className="text-xs text-muted">MODIS · VIIRS armonizado</div>
+      <div className="text-xs text-muted">{t('MODIS · VIIRS armonizado', 'MODIS · VIIRS harmonized')}</div>
+    </div>
+  )
+}
+
+function LangSwitch() {
+  const { lang, setLang } = useLang()
+  return (
+    <div role="group" aria-label={t('Idioma', 'Language')} className="flex items-center gap-1 rounded-md border border-line bg-surface p-0.5 text-xs">
+      <Languages size={14} aria-hidden className="mx-1 text-muted" />
+      {([['en', 'EN', 'English'], ['es', 'ES', 'Español']] as [Lang, string, string][]).map(([l, short, name]) => (
+        <button key={l} lang={l} aria-pressed={lang === l} aria-label={name} title={name} onClick={() => setLang(l)}
+          className={`rounded px-2 py-1 font-medium transition-colors ${lang === l ? 'bg-fire text-base' : 'text-muted hover:text-ink'}`}>{short}</button>
+      ))}
     </div>
   )
 }
@@ -77,18 +92,19 @@ function FilterBar() {
   const historicalControls = route !== 'pronostico' && route !== 'validacion'
   return (
     <div className="flex flex-wrap items-end gap-3 border-b border-line bg-base/90 px-4 py-3 backdrop-blur md:px-8 print:hidden">
-      <Select label="Departamento" value={filters.region ?? ''} onChange={(v) => setFilters({ region: v || null })}
-        options={[{ value: '', label: route === 'pronostico' ? 'Selecciona un departamento' : 'Todo el Perú' },
+      <Select label={t('Departamento', 'Department')} value={filters.region ?? ''} onChange={(v) => setFilters({ region: v || null })}
+        options={[{ value: '', label: route === 'pronostico' ? t('Selecciona un departamento', 'Select a department') : t('Todo el Perú', 'All Peru') },
           ...regions.map((r) => ({ value: r.region_id, label: r.name.toLocaleLowerCase('es-PE').replace(/(^|\s)\S/g, (c) => c.toLocaleUpperCase('es-PE')) }))]} />
-      {historicalControls && <><YearInput label="Desde" value={filters.y0} onChange={(y0) => setFilters({ y0 })} />
-      <YearInput label="Hasta" value={filters.y1} onChange={(y1) => setFilters({ y1 })} />
-      <Select<Indicator> label="Indicador" value={filters.indicator} onChange={(indicator) => setFilters({ indicator })}
+      {historicalControls && <><YearInput label={t('Desde', 'From')} value={filters.y0} onChange={(y0) => setFilters({ y0 })} />
+      <YearInput label={t('Hasta', 'To')} value={filters.y1} onChange={(y1) => setFilters({ y1 })} />
+      <Select<Indicator> label={t('Indicador', 'Indicator')} value={filters.indicator} onChange={(indicator) => setFilters({ indicator })}
         options={(Object.keys(INDICATOR_LABEL) as Indicator[]).map((k) => ({ value: k, label: INDICATOR_LABEL[k] }))} /></>}
       {!historicalControls && <p className="max-w-[65ch] text-xs text-muted">{route === 'pronostico' ? 'Escala: departamento completo. La semana se elige en el pronóstico; no se aplican filtros provinciales.' : 'Contraste histórico 2013–2025. El año y los ejemplos se eligen en el catálogo.'}</p>}
       <div className="ml-auto flex items-center gap-2 text-xs text-muted" title={s ? `Método ${s.method_version} · snapshot ${s.source_snapshot_id}` : undefined}>
         <span className={`inline-block size-2 rounded-full ${s ? 'bg-teal' : 'bg-amber'}`} />
-        {s ? <>Series: {s.method_version} · hasta {fmt.date(s.last_week_end)}</> : 'API de series'}
+        {s ? <>{t('Series', 'Series')}: {s.method_version} · {t('hasta', 'through')} {fmt.date(s.last_week_end)}</> : t('API de series', 'Series API')}
       </div>
+      <LangSwitch />
     </div>
   )
 }
@@ -102,9 +118,12 @@ function Shell() {
       <aside className="hidden border-r border-line bg-panel py-6 md:block print:hidden"><div className="sticky top-6 space-y-8"><Brand /><Nav /></div></aside>
       <header className="flex items-center justify-between border-b border-line bg-panel px-4 py-3 md:hidden print:hidden">
         <Brand />
-        <button aria-label={open ? 'Cerrar menú' : 'Abrir menú'} aria-expanded={open} onClick={() => setOpen(!open)} className="rounded-md p-2 hover:bg-surface">
-          {open ? <X size={20} /> : <Menu size={20} />}
-        </button>
+        <div className="flex items-center gap-2">
+          <LangSwitch />
+          <button aria-label={open ? t('Cerrar menú', 'Close menu') : t('Abrir menú', 'Open menu')} aria-expanded={open} onClick={() => setOpen(!open)} className="rounded-md p-2 hover:bg-surface">
+            {open ? <X size={20} /> : <Menu size={20} />}
+          </button>
+        </div>
       </header>
       {open && <div className="border-b border-line bg-panel px-2 py-3 md:hidden"><Nav onNavigate={() => setOpen(false)} /></div>}
       <div className="min-w-0">
@@ -114,10 +133,10 @@ function Shell() {
         </main>
         <footer className="border-t border-line px-4 py-5 text-xs text-muted md:px-8">
           <p className="max-w-[80ch]">
-            Conteos armonizados en una escala común Aqua/Suomi-NPP por semana UTC; no son número de incendios ni cobertura corregida.
-            Sin estimación no significa cero. La banda cubre solo la incertidumbre del factor de calibración. Las detecciones son observaciones; los eventos, agrupaciones de detecciones; los conteos comparables, estimaciones; y el pronóstico, una probabilidad regional experimental.
+            {t('Conteos armonizados en una escala común Aqua/Suomi-NPP por semana UTC; no son número de incendios ni cobertura corregida. Sin estimación no significa cero. La banda cubre solo la incertidumbre del factor de calibración. Las detecciones son observaciones; los eventos, agrupaciones de detecciones; los conteos comparables, estimaciones; y el pronóstico, una probabilidad regional experimental.',
+              'Counts are harmonized to a common Aqua/Suomi-NPP scale per UTC week; they are not a number of fires or a coverage-corrected figure. No estimate does not mean zero. The band covers only the uncertainty of the calibration factor. Detections are observations; events are groupings of detections; comparable counts are estimates; and the forecast is an experimental regional probability.')}
           </p>
-          <p className="mt-2">Datos: <a className="text-sky underline" href={`${API_BASE}/docs`} target="_blank" rel="noreferrer">API de series y pronósticos</a> y API de eventos históricos (<a className="text-sky underline" href={`${EVENTS_UPSTREAM}/docs`} target="_blank" rel="noreferrer">{EVENTS_UPSTREAM.replace('https://', '')}</a>), servicios independientes · NASA Space Apps Challenge 2026</p>
+          <p className="mt-2">{t('Datos', 'Data')}: <a className="text-sky underline" href={`${API_BASE}/docs`} target="_blank" rel="noreferrer">{t('API de series y pronósticos', 'series and forecast API')}</a> {t('y API de eventos históricos', 'and historical events API')} (<a className="text-sky underline" href={`${EVENTS_UPSTREAM}/docs`} target="_blank" rel="noreferrer">{EVENTS_UPSTREAM.replace('https://', '')}</a>), {t('servicios independientes', 'independent services')} · NASA Space Apps Challenge 2026</p>
         </footer>
       </div>
     </div>

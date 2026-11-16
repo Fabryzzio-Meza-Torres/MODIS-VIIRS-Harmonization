@@ -1,4 +1,5 @@
 import { useMemo, useState } from 'react'
+import { t } from './i18n'
 import { fetchEventsMeta, useDepartmentEvents } from './events'
 import { assignToProvinces, unionBbox, type Province } from './lib/geo'
 import { MAX_RANGE_DAYS } from './lib/proxy-rules'
@@ -20,8 +21,8 @@ export function useProvinceData(region: string | null) {
   const coverage = meta.data ? { min: meta.data.t_min.slice(0, 10), max: meta.data.t_max.slice(0, 10) } : null
   const [custom, setCustom] = useState<Range | null>(null)
   const range: Range | null = custom ?? (coverage ? { start: shiftDay(coverage.max, -89), end: coverage.max } : null) // last 90 days of the coverage
-  const rangeError = !range ? null : range.start > range.end ? 'La fecha inicial debe ser anterior o igual a la final.'
-    : spanDays(range) > MAX_RANGE_DAYS ? `El rango máximo es de ${MAX_RANGE_DAYS} días.` : null
+  const rangeError = !range ? null : range.start > range.end ? t('La fecha inicial debe ser anterior o igual a la final.', 'The start date must be on or before the end date.')
+    : spanDays(range) > MAX_RANGE_DAYS ? t(`El rango máximo es de ${MAX_RANGE_DAYS} días.`, `The maximum range is ${MAX_RANGE_DAYS} days.`) : null
   const bbox = useMemo(() => unionBbox(provs), [provs])
   const q = useDepartmentEvents(rangeError ? null : bbox, rangeError ? null : range)
   const assigned = useMemo(() => assignToProvinces(q.events, provs), [q.events, provs])
