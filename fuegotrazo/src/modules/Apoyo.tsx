@@ -5,7 +5,7 @@ import { useApp } from '../state'
 import { Card, downloadCSV, Empty, fmt, PageHeader, Select } from '../ui'
 
 const BADGE: Record<ChannelStatus, string> = {
-  verificado: 'bg-teal/20 text-teal', sin_confirmar: 'bg-amber/20 text-amber',
+  verificado: 'bg-teal/20 text-teal',
 }
 
 function ChannelRow({ ch }: { ch: Channel }) {
@@ -45,7 +45,7 @@ export default function Apoyo() {
     <>
       <PageHeader title="Centros de apoyo" subtitle="Directorio institucional para coordinar la prevención y la respuesta ante incendios forestales." />
       <p role="note" className="mb-5 max-w-[80ch] rounded-lg border border-amber/60 bg-amber/10 p-4 text-sm">
-        Un dato aparece como «verificado» solo si lo leí en la página oficial que se indica, el {fmt.date(VERIFIED_ON)}. Los «sin confirmar» tienen una fuente antigua, oculta o que no pude abrir. Se listan solo los canales que se conocen. En una emergencia en curso confirma siempre el canal en la web de la institución. Esta herramienta no atiende ni reenvía avisos.
+        Solo se listan datos que se leyeron en la página oficial que se indica, el {fmt.date(VERIFIED_ON)}. En una emergencia en curso confirma siempre el canal en la web de la institución. Esta herramienta no atiende ni reenvía avisos.
       </p>
       <Card title="Directorio" subtitle={`${shown.length} instituciones`}
         actions={<div className="flex flex-wrap items-end gap-3">

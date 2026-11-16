@@ -4,11 +4,11 @@ import { CONTACTS, regionalCenter } from '../data/contacts.ts'
 
 const all = [...CONTACTS, regionalCenter('Cusco')]
 
-test('directory: a channel is "verificado" only with an official source URL; placeholders never carry a number', () => {
+test('directory: every channel is verified and cites an official https source; no placeholders', () => {
   for (const c of all) for (const ch of c.channels) {
-    if (ch.status === 'verificado') assert.match(ch.source ?? '', /^https:\/\/.+/, `${c.sigla} ${ch.value} verified without source`)
-    assert.ok(ch.value && !/pendiente/i.test(ch.value), `${c.sigla} has an empty or placeholder channel`)
-    if (ch.status === 'sin_confirmar') assert.ok(ch.note, `${c.sigla} ${ch.value} unconfirmed without explanation`)
+    assert.equal(ch.status, 'verificado', `${c.sigla} ${ch.value} is not verified`)
+    assert.match(ch.source, /^https:\/\/.+/, `${c.sigla} ${ch.value} without source`)
+    assert.ok(ch.value && !/pendiente|confirmar/i.test(ch.value + (ch.note ?? '')), `${c.sigla} has a placeholder or an unconfirmed remark`)
   }
 })
 

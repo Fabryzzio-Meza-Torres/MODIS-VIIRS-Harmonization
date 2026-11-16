@@ -28,7 +28,7 @@ Panorama · Calendario · Mapa de calor (departamentos, provincias y ciudades, e
 - **Mapa con drill-down (Panorama y Mapa de calor):** clic en un departamento → se acerca y se divide en sus provincias con sus capitales (las «ciudades»); clic en una provincia → su panel de datos. Las migas del mapa o Esc suben un nivel. El mapa se monta una sola vez y no se recrea al cambiar de territorio.
 - **Datos por provincia (calculados en la web, API de eventos):** la API de series publica solo departamentos, así que **no hay actividad armonizada ni pronóstico por provincia**. Lo que se muestra son **eventos reales**: se descargan todos los del departamento para el periodo (1 000 por página, 4 en paralelo, tope de 20 páginas) y cada uno se asigna a la provincia que contiene su punto central. Por defecto, los últimos 90 días de la cobertura; máximo 366 días.
 - **Generador de planes:** diagnóstico con datos reales (estacionalidad, variación, pronóstico) y acciones por fase como plantilla editable, guardada solo en tu navegador. Los responsables quedan en blanco.
-- **Centros de apoyo:** cada canal lleva estado y fuente. «Verificado» = leído en la página oficial citada (ver `src/data/contacts.ts`); «sin confirmar» = fuente antigua, oculta o que no se pudo abrir. Solo se listan canales que se conocen. Un test impide marcar como verificado un canal sin fuente oficial.
+- **Centros de apoyo:** cada canal lleva estado y fuente. Solo se listan datos leídos en la página oficial citada (ver `src/data/contacts.ts`); lo que no se pudo confirmar así no se publica. Un test exige que cada canal tenga fuente oficial.
 - **Informes:** informe territorial imprimible (PDF desde el navegador) con CSV mensual.
 
 ## Rigor de los datos por provincia
