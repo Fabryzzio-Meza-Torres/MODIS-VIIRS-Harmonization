@@ -1,74 +1,85 @@
-# FuegoTrazo · datos reales
+# FuegoTrazo dashboard
 
-Visor web de la actividad térmica de MODIS y VIIRS en el Perú. Rehace la interfaz de
-[FuegoTrazo](https://github.com/maritzajimenez-hub/FuegoTrazo) sobre dos APIs públicas
-independientes. **Todo número, gráfico y capa del mapa proviene de ellas**; no hay datos simulados.
+React interface for exploring reported thermal activity in Peru. The application
+uses two independent public APIs. Satellite detections, grouped historical events,
+comparable counts and experimental probabilities are shown as separate products.
 
-| API | Rutas que usa la web |
-|---|---|
-| Series y pronósticos<br>`modis-viirs-harmonization-production.up.railway.app` (`VITE_API_BASE`) | `/v1/regions`, `/v1/regions/geometry`, `/v1/empirical/metadata`, `/v1/empirical/series`, `/v1/validation`, `/v1/fire-risk/metadata`, `/v1/fire-risk/outlook`, `/v1/fire-risk` |
-| Eventos históricos<br>`peru-fire-events-api-production.up.railway.app` | `/meta`, `/departments`, `/events`, `/events/{id}`, `/events/{id}/detections` |
+## Services
 
-No usa `/v1/series` (reservado), ni `/v1/forecasts` (producto anterior por celdas).
+| Service | Environment setting | Main routes |
+| --- | --- | --- |
+| Historical series and forecasts | `VITE_API_BASE`; defaults to the published Railway service | `/v1/regions`, `/v1/regions/geometry`, `/v1/empirical/metadata`, `/v1/empirical/series`, `/v1/validation`, regional forecast routes |
+| Historical events | Fixed upstream in the Netlify function | `/meta`, `/departments`, `/events`, `/events/{id}`, `/events/{id}/detections` |
 
-## Ejecutar
+The application does not use the reserved `/v1/series` endpoint or substitute the
+older cell-based `/v1/forecasts` experiment for the regional forecast.
+
+## Development
 
 ```bash
-npm install
-npm run dev      # desarrollo; /api/events usa el mismo handler que producción
-npm test         # agregaciones, reglas del proxy, mapeo de departamentos, estado del pronóstico
+npm ci
+npm test
+npm run dev
 npm run build
 ```
 
-## Secciones
+The Vite development proxy uses the same event-request rules as production.
+The tests cover aggregations, proxy rules, department mapping, geography,
+province statistics, contacts, planning inputs and forecast availability.
 
-Panorama · Calendario · Mapa de calor (departamentos, provincias y ciudades, eventos) · Tendencias · Prevención · Pronóstico experimental · Generador de planes · Centros de apoyo · Informes · Laboratorio de armonización.
+## Interpreting the products
 
-- **Indicador:** solo datos armonizados (promedio MODIS y VIIRS, MODIS, VIIRS). La comparación con las detecciones originales vive en el Laboratorio.
-- **Mapa con drill-down (Panorama y Mapa de calor):** clic en un departamento → se acerca y se divide en sus provincias con sus capitales (las «ciudades»); clic en una provincia → su panel de datos. Las migas del mapa o Esc suben un nivel. El mapa se monta una sola vez y no se recrea al cambiar de territorio.
-- **Datos por provincia (calculados en la web, API de eventos):** la API de series publica solo departamentos, así que **no hay actividad armonizada ni pronóstico por provincia**. Lo que se muestra son **eventos reales**: se descargan todos los del departamento para el periodo (1 000 por página, 4 en paralelo, tope de 20 páginas) y cada uno se asigna a la provincia que contiene su punto central. Por defecto, los últimos 90 días de la cobertura; máximo 366 días.
-- **Generador de planes:** diagnóstico con datos reales (estacionalidad, variación, pronóstico) y acciones por fase como plantilla editable, guardada solo en tu navegador. Los responsables quedan en blanco.
-- **Centros de apoyo:** cada canal lleva estado y fuente. «Verificado» = leído en la página oficial citada (ver `src/data/contacts.ts`); «sin confirmar» = fuente antigua, oculta o que no se pudo abrir. Solo se listan canales que se conocen. Un test impide marcar como verificado un canal sin fuente oficial.
-- **Informes:** informe territorial imprimible (PDF desde el navegador) con CSV mensual.
+- **Detections:** satellite observations of active-fire or thermal-anomaly pixels.
+  They are not individually verified physical fires.
+- **Events:** algorithmic groups of detections. Event type and confidence come
+  from that grouping process, not from official incident confirmation.
+- **Comparable counts:** statistical estimates on a shared instrument scale.
+  A missing estimate is not zero. Bands are shown only where provided.
+- **Regional forecasts:** experimental probabilities for a whole department
+  during a published target week. They do not identify a point, province,
+  burned fraction, event severity or confirmed physical ignition.
 
-## Rigor de los datos por provincia
+Dates are product-specific: historical series use UTC weeks and exclusive end
+dates; event queries use UTC dates with an inclusive end; regional forecasts use
+Monday-to-Sunday America/Lima weeks with an exclusive following Monday.
 
-- Cada evento cuenta en **una sola** provincia (ninguna en más de una; el solape de polígonos medido en una rejilla sobre el Perú es 0 de 42 473 puntos). Los que caen en ninguna se informan aparte (territorio vecino dentro del rectángulo, o bordes simplificados). **Conciliación visible:** eventos devueltos por la API = dentro de las provincias + fuera.
-- **Descarga completa o mínimo:** solo con la descarga completa se muestran tasas, porcentajes, ranking y coropleta; si se alcanza el tope, el panel lo avisa y las cifras son un mínimo.
-- Fechas UTC con «hasta» inclusivo; la serie temporal agrupa por la **fecha UTC de inicio** del evento y los que empezaron antes del periodo se cuentan aparte.
-- «Por 1 000 km²» usa el **área geodésica del mismo polígono** (2016, simplificado), no un área oficial. Contrastada contra el atributo de la fuente: 195 provincias, todas dentro del 10 % y 185 dentro del 2 %.
-- Verificado contra un cálculo independiente (otro lenguaje, otro algoritmo) para Cusco y Lima: conteos, conciliación, detecciones y FRP coinciden exactamente.
+## Geographic inputs
 
-## Datos geográficos
+Province boundaries and capitals come from
+[juaneladio/peru-geojson](https://github.com/juaneladio/peru-geojson), under MPL-2.0.
+They are simplified 2016 geometries in `public/geo/`, not current official
+cadastral boundaries. They can differ from the APIs' geometries. Fragmented
+source names are joined by identifier in `src/lib/geo.ts`.
 
-Provincias y capitales: [juaneladio/peru-geojson](https://github.com/juaneladio/peru-geojson) (MPL-2.0), límites de 2016 simplificados, en `public/geo/`. Pueden diferir de los límites vigentes y de los de las APIs. La fuente trae fragmentos de provincia con nombres mal escritos (`PUIRA`, `VICTOR FAFARDO`); se unen por identificador (`src/lib/geo.ts`).
+Provincial event statistics use these polygons. Event totals overlapping the
+selected period are reconciled with the displayed onset-date series; events
+starting before the period are counted separately. Area-normalized figures use
+the geodesic area of the displayed simplified polygon, not an official land-area
+statistic. The original validation compared 195 polygons with their source
+area attributes: all differences were within 10%, with 185 within 2%.
 
-## Proxy de eventos
+## Event proxy
 
-La API de eventos no envía `Access-Control-Allow-Origin`, así que el navegador no puede consultarla
-directamente. `netlify/functions/events.mts` sirve `/api/events/*` en el mismo dominio: upstream fijo,
-solo GET, solo las rutas y parámetros de `src/lib/proxy-rules.ts`, rango máximo de 366 días,
-`limit` ≤ 1000, timeout de 20 s y caché de 5 minutos. No acepta URLs arbitrarias.
+The event service did not return cross-origin access headers during integration.
+`netlify/functions/events.mts` exposes the read-only `/api/events/*` proxy on the
+application's own origin. Its upstream is fixed. Allowed paths and parameters
+are defined in `src/lib/proxy-rules.ts`, with a maximum 366-day range,
+`limit <= 1000`, a 20-second timeout and five-minute caching.
+Arbitrary upstream URLs are not accepted.
 
-## Qué es cada dato
+## Deployment
 
-- **Detecciones**: observaciones satelitales (píxeles con fuego).
-- **Eventos**: agrupaciones de detecciones calculadas por la API de eventos; el tipo y la confianza son de ese procesamiento, no una confirmación oficial.
-- **Conteos comparables estimados**: estimaciones estadísticas de la API de series; no son un número verificado de incendios. «Sin estimación» no es cero. Las bandas solo aparecen donde el servicio las entrega.
-- **Pronóstico experimental**: probabilidad regional de al menos un nuevo episodio detectado en una semana concreta. No indica ubicación, extensión ni gravedad. Actualización manual.
+Netlify deploys this directory from the repository's `main` branch:
 
-## Fechas
+- Base directory: `fuegotrazo`
+- Build command: `npm run build`
+- Configuration: `netlify.toml`
 
-Series: semanas UTC, fin exclusivo. Eventos: fechas UTC, fin inclusivo; un evento que empezó antes puede coincidir con el periodo. Pronóstico: semanas de lunes a domingo en America/Lima, fin exclusivo, solo las semanas que ofrece la emisión.
+The ignore rule avoids rebuilding the dashboard for changes outside its source
+directory. The series API Dockerfile has a separate allowlist that excludes this
+application.
 
-## Despliegue
+Optional manual deployment from this directory:
+`npx netlify-cli deploy --prod --build`.
 
-Esta carpeta vive dentro del repositorio `MODIS-VIIRS-Harmonization` (rama `main`) y Netlify la despliega desde ahí:
-
-- **Base directory:** `fuegotrazo`
-- **Build command:** `npm run build` (el resto sale de `netlify.toml`)
-- **Production branch:** `main`
-
-`netlify.toml` incluye una regla `ignore` para que un cambio solo en la API, los datos o los cuadernos no recompile la web. La imagen de la API (`deploy/series.Dockerfile`) usa una lista de archivos permitidos, así que esta carpeta no entra en ella.
-
-Despliegue manual (opcional): `npx netlify-cli deploy --prod --build` desde esta carpeta.
+The interface remains in Spanish; repository documentation is in English.

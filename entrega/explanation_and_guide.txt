@@ -1,3 +1,6 @@
+ARCHIVED V1.1 DELIVERY GUIDE
+This guide records the historical v1.1 release. For current API availability and regional forecast semantics, see docs/API.md and the current forecast documentation. Published release archives retain their original contents.
+
 MODIS–VIIRS PERU DELIVERY · REVISION 1.1
 Guide to understanding, explaining, running, and delivering the work
 

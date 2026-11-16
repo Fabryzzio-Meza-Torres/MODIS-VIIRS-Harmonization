@@ -1,126 +1,126 @@
-# Metodología: investigación, preparación y validación
+# Methodology: research, preparation and validation
 
-Estado documentado: 15 de noviembre de 2026. Método publicado: `empirical-positive-pair-v1.1`.
+Documented state: 15 November 2026. Published method: `empirical-positive-pair-v1.1`.
 
-## 1. Qué problema resolvemos
+## 1. What problem we solve
 
-MODIS y VIIRS tienen distinta resolución y respuesta de detección. Comparar directamente sus cantidades de puntos puede confundir un cambio de instrumento con un cambio de actividad de fuego.
+MODIS and VIIRS have different resolution and detection response. Comparing their point counts directly can mistake a change of instrument for a change in fire activity.
 
-Construimos **dos series de detecciones reportadas ajustadas a una escala común**, por semana y zona de Perú. Armonizar no significa obligar a que coincidan ni convertir puntos en incendios independientes.
+We build **two series of reported detections adjusted to a common scale**, per week and zone of Peru. Harmonizing does not mean forcing them to match, nor turning points into independent fires.
 
-## 2. Cómo investigamos
+## 2. How we researched
 
-El trabajo avanzó mediante pasos revisables: explorar los originales, documentar limitaciones, probar un baseline, definir el estimando común, validar y publicar artefactos reproducibles.
+The work moved forward in reviewable steps: explore the originals, document limitations, test a baseline, define the common estimand, validate and publish reproducible artifacts.
 
-- Consultamos productos y documentación de [NASA FIRMS](https://firms.modaps.eosdis.nasa.gov/content/active_fire/) para distinguir plataformas, procesamiento científico estándar (SP), NRT y variables de calidad.
-- Exploramos fechas, coordenadas, conteos, confianza y diferencias entre sensores. Comparamos agregaciones de 5, 10 y 25 km antes de adoptar la malla de 10 km.
-- Probamos un baseline nacional que convierte VIIRS a unidades Aqua con factores globales o mensuales. Se conserva como referencia; no es el método actual.
-- Revisamos reportes oficiales y noticias sobre incidentes para buscar correspondencias espaciales y temporales. Un reporte periodístico aporta contexto, pero no demuestra por sí solo qué detección corresponde a un incendio.
-- Investigamos límites de detección y FRP en el [artículo de GMD](https://gmd.copernicus.org/articles/19/10123/2026/). Su operador se implementó como investigación independiente y **no está aplicado en la API**. Quedaron documentadas discrepancias entre tablas/texto y un supuesto pendiente de confirmar.
+- We consulted products and documentation from [NASA FIRMS](https://firms.modaps.eosdis.nasa.gov/content/active_fire/) to tell apart platforms, standard scientific processing (SP), NRT and quality variables.
+- We explored dates, coordinates, counts, confidence and differences between sensors. We compared 5, 10 and 25 km aggregations before adopting the 10 km grid.
+- We tested a national baseline that converts VIIRS to Aqua units with global or monthly factors. It is kept as a reference; it is not the current method.
+- We reviewed official reports and news about incidents to look for spatial and temporal matches. A news report gives context, but on its own it does not prove which detection corresponds to a fire.
+- We studied detection limits and FRP in the [GMD article](https://gmd.copernicus.org/articles/19/10123/2026/). Its operator was implemented as independent research and **is not applied in the API**. Discrepancies between tables and text, and one assumption still to be confirmed, were documented.
 
-Los notebooks conservan resultados ejecutados; los scripts, metadatos y hashes permiten rastrear los insumos.
+The notebooks keep executed results; the scripts, metadata and hashes make it possible to trace the inputs.
 
-## 3. Datos y limpieza
+## 3. Data and cleaning
 
-Partimos de cuatro ZIP FIRMS: MODIS C6.1 y VIIRS C2 de Suomi-NPP, NOAA-20 y NOAA-21. MODIS incluye Terra y Aqua: son cinco plataformas en total.
+We started from four FIRMS ZIP files: MODIS C6.1 and VIIRS C2 from Suomi-NPP, NOAA-20 and NOAA-21. MODIS includes Terra and Aqua, so there are five platforms in total.
 
-Normalizamos fechas UTC, coordenadas y nombres de plataformas. Conservamos procedencia y controles de calidad, filtramos productos SP y `type=0`, recortamos al límite de Perú y usamos semanas completas.
+We normalized UTC dates, coordinates and platform names. We kept provenance and quality checks, filtered SP products and `type=0`, clipped to the boundary of Peru and used complete weeks.
 
-No aplicamos el mismo umbral de confianza a ambos instrumentos, porque sus escalas son diferentes. Los NRT no se mezclan automáticamente con los SP; nuestra serie publicada no incluye NRT.
+We did not apply the same confidence threshold to both instruments, because their scales are different. NRT data are not mixed automatically with SP data; our published series does not include NRT.
 
-La preparación retuvo **2.228.157 detecciones**, agregadas en **855.553 grupos positivos celda–semana–plataforma**.
+Preparation retained **2,228,157 detections**, aggregated into **855,553 positive cell–week–platform groups**.
 
-## 4. Organización espacial y temporal
+## 4. Spatial and temporal organization
 
-- Límite de Perú: unión de departamentos oficiales MINAM, con geometrías generalizadas. La ubicación de puntos próximos a fronteras depende de ese detalle geométrico.
-- Malla: **13.405 celdas de 10 × 10 km**, en proyección LAEA de área equivalente centrada en Perú.
-- Tiempo: semanas UTC de lunes a domingo. Una celda–semana es un cuadrado concreto durante una semana concreta.
-- Historia: MODIS desde **2000-11-06** y VIIRS desde **2012-02-06**, hasta **2026-07-26**, respetando el corte de semanas completas.
+- Boundary of Peru: union of the official MINAM departments, with generalized geometries. The assignment of points close to borders depends on that geometric detail.
+- Grid: **13,405 cells of 10 × 10 km**, in an equal-area LAEA projection centred on Peru.
+- Time: UTC weeks from Monday to Sunday. A cell–week is a specific square during a specific week.
+- History: MODIS from **2000-11-06** and VIIRS from **2012-02-06**, up to **2026-07-26**, respecting the complete-week cut-off.
 
-Se selecciona **una plataforma por instrumento y semana en todo el país**. Se prioriza Aqua y Suomi-NPP; se usan puentes documentados cuando falta la plataforma principal a escala nacional. No se suman todos los satélites ni se rellenan selectivamente huecos locales con otras plataformas.
+**One platform per instrument and week is selected for the whole country.** Aqua and Suomi-NPP are preferred; documented bridges are used when the main platform is missing at national scale. Not all satellites are added together, and local gaps are not selectively filled with other platforms.
 
-La serie principal conserva 1.322.019 detecciones originales de las plataformas seleccionadas y 513.756 filas positivas celda–semana–instrumento. En el calendario nacional hay 10 semanas MODIS sin estimación. Los faltantes permanecen nulos.
+The main series keeps 1,322,019 original detections from the selected platforms and 513,756 positive cell–week–instrument rows. The national calendar has 10 MODIS weeks without an estimate. Missing values stay null.
 
-## 5. Modelo de armonización
+## 5. Harmonization model
 
-La idea estadística es:
+The statistical idea is:
 
 ```text
-conteo esperado = actividad compartida × respuesta relativa de la plataforma
-conteo comparable = conteo reportado / respuesta estimada
+expected count = shared activity × relative response of the platform
+comparable count = reported count / estimated response
 ```
 
-La respuesta es empírica: también puede absorber diferencias de oportunidades de observación, porque todavía no corregimos toda la cobertura histórica.
+The response is empirical: it can also absorb differences in observation opportunities, because we do not yet correct the full historical coverage.
 
-Suponemos conteos Poisson para dos plataformas que observan una misma celda–semana. Al condicionar en la suma de sus conteos, obtenemos una distribución binomial que elimina la actividad compartida como parámetro desconocido.
+We assume Poisson counts for two platforms observing the same cell–week. Conditioning on the sum of their counts gives a binomial distribution that removes the shared activity as an unknown parameter.
 
-Como trabajamos con pares donde ambas plataformas registraron detecciones, la verosimilitud se condiciona además a que los dos conteos sean positivos. Los pares `1 + 1` no aportan información sobre su razón y se excluyen.
+Because we work with pairs where both platforms recorded detections, the likelihood is also conditioned on both counts being positive. `1 + 1` pairs carry no information about their ratio and are excluded.
 
-Para fijar la escala hacemos que la media geométrica de las respuestas Aqua y Suomi-NPP sea 1. Ninguno se considera la verdad absoluta. **Es una calibración por máxima verosimilitud condicional; no una regresión que toma MODIS como verdad.**
+To fix the scale, the geometric mean of the Aqua and Suomi-NPP responses is set to 1. Neither is considered the absolute truth. **It is a conditional maximum-likelihood calibration, not a regression that takes MODIS as the truth.**
 
-Factores multiplicativos aproximados del modelo seleccionado:
+Approximate multiplicative factors of the selected model:
 
-| Plataforma | Factor aplicado al conteo |
+| Platform | Factor applied to the count |
 | --- | --- |
-| Aqua | 1,993784 |
-| Suomi-NPP | 0,501559 |
-| Terra | 4,311475 |
-| NOAA-20 | 0,512807 |
-| NOAA-21 | 0,520861 |
+| Aqua | 1.993784 |
+| Suomi-NPP | 0.501559 |
+| Terra | 4.311475 |
+| NOAA-20 | 0.512807 |
+| NOAA-21 | 0.520861 |
 
-Por ejemplo, 7 detecciones Aqua equivalen a unas 13,956 unidades comparables. Los decimales son unidades estadísticas, no fracciones de un incendio.
+For example, 7 Aqua detections are equivalent to about 13.956 comparable units. The decimals are statistical units, not fractions of a fire.
 
-## 6. Cómo validamos
+## 6. How we validated
 
-### Evaluación temporal y espacial
+### Temporal and spatial evaluation
 
-Comparamos candidatos global, estacional y regional-estacional. La selección interna usa 2019–2021 y exige al menos un 1 % de mejora para aumentar complejidad; se conservó el modelo global.
+We compared global, seasonal and regional-seasonal candidates. Internal selection uses 2019–2021 and requires at least a 1 % improvement to add complexity; the global model was kept.
 
-El ajuste de plataformas establecidas usa datos hasta 2021 y reserva bloques espaciales de 200 km. NOAA-21 se calibra mediante un puente de marzo–junio de 2023, manteniendo congelados los factores anteriores. La prueba final de 2024–2025 se evaluó después de fijar el modelo.
+The fit of the established platforms uses data up to 2021 and holds out 200 km spatial blocks. NOAA-21 is calibrated through a March–June 2023 bridge, keeping the earlier factors frozen. The final 2024–2025 test was evaluated after the model was fixed.
 
-Ejemplo de MAE en pares positivos, sin ajuste frente a calibración:
+Example MAE on positive pairs, without adjustment versus calibrated:
 
-| Evaluación | Sin ajuste | Calibrado |
+| Evaluation | No adjustment | Calibrated |
 | --- | --- | --- |
-| 2024, zonas vistas | 1,833 | 1,099 |
-| 2024, zonas reservadas | 2,454 | 1,261 |
-| 2025, zonas vistas | 1,253 | 0,971 |
-| 2025, zonas reservadas | 1,328 | 0,993 |
+| 2024, seen zones | 1.833 | 1.099 |
+| 2024, held-out zones | 2.454 | 1.261 |
+| 2025, seen zones | 1.253 | 0.971 |
+| 2025, held-out zones | 1.328 | 0.993 |
 
-Mide el error al distribuir el total observado entre plataformas, **no el error contra el número real de incendios**. Los años 2024–2025 ya fueron examinados: no deben presentarse como una prueba todavía intacta para futuros modelos.
+It measures the error in splitting the observed total between platforms, **not the error against the real number of fires**. The years 2024–2025 have already been examined: they must not be presented as a still-untouched test for future models.
 
-### Incertidumbre y reproducibilidad
+### Uncertainty and reproducibility
 
-Calculamos bandas del 95 % con 100 réplicas de bootstrap bayesiano por bloques de 28 días. Preservamos la correlación entre factores al agregar resultados.
+We computed 95 % bands with 100 Bayesian bootstrap replicates using 28-day blocks. The correlation between factors is preserved when aggregating results.
 
-La revisión v1.1 corrigió un error de unidades temporales en el bootstrap; las bandas anteriores se retiraron. Los parámetros centrales y las variables del pronóstico permanecieron iguales a tolerancia `1e-12`. Las bandas actuales solo representan incertidumbre de calibración, no toda la incertidumbre de fuego o cobertura.
+Revision v1.1 fixed a time-unit error in the bootstrap; the earlier bands were withdrawn. The central parameters and the forecast variables stayed the same within a `1e-12` tolerance. The current bands only represent calibration uncertainty, not all the uncertainty of fire or coverage.
 
-### Validación geográfica y de integridad
+### Geographic and integrity validation
 
-Verificamos asignaciones de puntos a celdas y casos de frontera. Para las consultas regionales usamos R*Tree como búsqueda de candidatos y contención exacta en el polígono. Los conteos se asignan con las coordenadas originales; un empate de departamentos se resuelve una sola vez por código oficial.
+We checked point-to-cell assignments and border cases. For regional queries we use an R*Tree as a candidate search plus exact containment in the polygon. Counts are assigned with the original coordinates; a tie between departments is resolved once by official code.
 
-La suma regional conserva los conteos nacionales por semana e instrumento: **1.322.019 detecciones en total**. El pipeline rechaza activos regionales de un snapshot incompatible. Los archivos publicados incluyen hashes y la restauración de SQLite comprueba integridad.
+The regional sum preserves the national counts per week and instrument: **1,322,019 detections in total**. The pipeline rejects regional assets from an incompatible snapshot. The published files include hashes, and the SQLite restore checks integrity.
 
-### Contraste con referencias externas
+### Comparison with external references
 
-Descargamos 54.493 registros del [servicio geográfico oficial MINAM](https://geoservidorperu.minam.gob.pe/arcgis/rest/services/ServicioCFOI/MapServer/1); quedaron 44.374 referencias elegibles para 2013–2025 después de auditar fechas, coordenadas, duplicados y procedencias.
+We downloaded 54,493 records from the [official MINAM geographic service](https://geoservidorperu.minam.gob.pe/arcgis/rest/services/ServicioCFOI/MapServer/1); 44,374 eligible references for 2013–2025 remained after auditing dates, coordinates, duplicates and provenance.
 
-La ventana principal fue 5 km y ±3 días de calendario. Evaluamos otras ventanas y desplazamientos de fechas de ±28 días como controles. En referencias de origen INDECI hubo coincidencias del 19,64 % para MODIS y 45,11 % para VIIRS.
+The main window was 5 km and ±3 calendar days. We evaluated other windows and date shifts of ±28 days as controls. For references originating from INDECI, matches were 19.64 % for MODIS and 45.11 % for VIIRS.
 
-Esto indica asociación, no una tasa de detección de todos los incendios. La independencia de las referencias respecto de imágenes satelitales sigue por comprobar. El portal solicitado respondió 403: se usó la capa oficial accesible, sin afirmar que sea exactamente el mismo archivo. Una correlación tampoco valida nuestros factores: multiplicar por una constante positiva no cambia Pearson o Spearman.
+This shows association, not a detection rate of all fires. Whether the references are independent from satellite imagery is still to be checked. The requested portal answered 403: the accessible official layer was used, without claiming it is exactly the same file. A correlation does not validate our factors either: multiplying by a positive constant does not change Pearson or Spearman.
 
-## 7. Pronóstico existente y siguiente etapa
+## 7. Existing forecast and next stage
 
-La entrega contiene un **HistGradientBoostingClassifier experimental** para registros satelitales durante el 16–22 de noviembre de 2026. Usa geografía, estacionalidad e historia de años anteriores; no meteorología ni NRT reciente. Se entrenó en 2013–2021, calibró en 2022, seleccionó en 2023 y evaluó en 2024–2025. No supera siempre a la climatología.
+The delivery contains an **experimental HistGradientBoostingClassifier** for satellite records during 16–22 November 2026. It uses geography, seasonality and the history of previous years; no weather data and no recent NRT. It was trained on 2013–2021, calibrated on 2022, selected on 2023 and evaluated on 2024–2025. It does not always beat climatology.
 
-El plan posterior de LightGBM, meteorología, NRT y priorización de población/áreas protegidas **todavía no está implementado**. Requiere definir las etiquetas, evitar información futura, calibrar probabilidades y evaluar prospectivamente antes de llamarlo riesgo operativo de incendio.
+The later plan with LightGBM, weather data, NRT and prioritization of population and protected areas **is not implemented yet**. It requires defining the labels, avoiding future information, calibrating probabilities and evaluating prospectively before calling it an operational fire risk.
 
-## 8. Evidencias para revisar
+## 8. Evidence to review
 
-- [EDA simple](../notebooks/00_EDA_simple_MODIS_VIIRS.ipynb) y [diagnóstico de sensores](../notebooks/03_diagnostico_sensores.ipynb).
-- [Baseline anterior](../notebooks/07_baseline_armonizacion.ipynb) y [serie comparable actual](../notebooks/09_series_comparables.ipynb).
-- [Pronóstico experimental](../notebooks/10_pronostico_experimental.ipynb), [límites de detección](../notebooks/11_limites_deteccion.ipynb) y [contraste MINAM](../validacion/12_contraste_registro_MINAM.ipynb).
-- [Metadatos de la serie](../data/series_metadata.json), [resultados de calibración](../reports/empirical/), [validación regional](../reports/regional_query/verification.json) y [guía para reproducir](../pipeline/REPRODUCIR.txt).
-- [Documentación de nuestra API](API.md).
+- [Simple EDA](../notebooks/00_EDA_simple_MODIS_VIIRS.ipynb) and [sensor diagnostics](../notebooks/03_diagnostico_sensores.ipynb).
+- [Earlier baseline](../notebooks/07_baseline_armonizacion.ipynb) and [current comparable series](../notebooks/09_series_comparables.ipynb).
+- [Experimental forecast](../notebooks/10_pronostico_experimental.ipynb), [detection limits](../notebooks/11_limites_deteccion.ipynb) and [MINAM comparison](../validacion/12_contraste_registro_MINAM.ipynb).
+- [Series metadata](../data/series_metadata.json), [calibration results](../reports/empirical/), [regional validation](../reports/regional_query/verification.json) and [reproduction guide](../pipeline/REPRODUCIR.txt).
+- [Documentation of our API](API.md).
 
-**Límite principal:** entregamos una armonización empírica de conteos reportados. La corrección física de toda la cobertura histórica, los incendios no detectados y la integración de eventos siguen pendientes.
+**Main limitation:** we deliver an empirical harmonization of reported counts. The physical correction of the full historical coverage, undetected fires and the integration of events are still pending.

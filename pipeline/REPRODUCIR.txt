@@ -1,85 +1,86 @@
-Entrega empirica Peru, version empirical-positive-pair-v1.1.
-Python 3.13. La correccion fisica completa de cobertura sigue pendiente.
+REPRODUCING THE EMPIRICAL PERU RELEASE
 
-Datos originales: cuatro ZIP FIRMS, uno por MODIS, Suomi-NPP, NOAA-20 y NOAA-21.
-Colocarlos en una carpeta privada, sin subirlos al repositorio.
-La preparacion conserva los originales y genera inventario y hashes.
-No se necesita Earthdata para volver a procesar estos CSV ya descargados.
+Published harmonization method: empirical-positive-pair-v1.1.
+Python 3.13 was used. Full physical observation-coverage correction is not complete.
 
-Desde la raiz del repositorio, con un entorno virtual activado:
+Keep the original four FIRMS ZIP files in a private directory: MODIS, Suomi-NPP,
+NOAA-20 and NOAA-21. Preparation preserves the downloads and records their hashes.
+Reprocessing already downloaded CSV files does not require Earthdata login.
+
+From the repository root, with an isolated environment:
   python -m pip install -r pipeline/requirements.txt
-  python pipeline/bootstrap_inputs.py --zip-folder RUTA_A_LOS_ZIP --artifacts RUTA_ARTEFACTOS
-  python pipeline/run_pipeline.py --artifacts RUTA_ARTEFACTOS --workers 8
+  python pipeline/bootstrap_inputs.py --zip-folder ORIGINAL_ZIP_DIRECTORY --artifacts ARTIFACTS_DIRECTORY
+  python pipeline/run_pipeline.py --artifacts ARTIFACTS_DIRECTORY --workers 8
 
-bootstrap_inputs.py descarga el limite oficial MINAM generalizado y refina dos
-departamentos. Este servicio publico puede cambiar: los hashes y metadatos del
-lote original estan en los informes. La clasificacion exacta cerca de fronteras
-depende del detalle geometrico. No se promete que una futura descarga sea identica.
+bootstrap_inputs.py obtains generalized official MINAM geometry and refines two
+departments. Public source data can change. Original hashes and metadata are
+recorded in the reports; a later download is not guaranteed to be byte-identical.
+Boundary assignment depends on geometric detail.
 
-La ejecucion mantiene el protocolo temporal previamente fijado. Repetirla sobre
-datos cambiados no mantiene un test desconocido: debe declararse como nuevo lote.
-No elegir variantes a partir de los resultados finales 2024-2025.
+The temporal protocol remains fixed. Repeating an analysis on changed inputs
+does not create a previously unseen test set. Report it as a new data snapshot
+and do not select variants from final-period performance.
 
-Preparar y servir la API, desde la raiz del repositorio:
+API setup:
   python -m pip install -r api/requirements.txt
-  python api/load_history.py --source RUTA_ARTEFACTOS/23_demo_historica --out api/history.sqlite
+  python api/load_history.py --source ARTIFACTS_DIRECTORY/23_demo_historica --out api/history.sqlite
   python -m uvicorn api:app --app-dir api --host 127.0.0.1 --port 8000
 
-La API historica empirica funciona aunque no exista firms.sqlite (dataset antiguo).
-/health devuelve si la base antigua existe; consultar /v1/empirical/metadata para
-confirmar que el lote historico y el pronostico estan disponibles.
-En despliegue: usar FIRMS_HISTORY_DB con ruta absoluta al SQLite, y configurar
-FIRMS_CORS_ORIGINS para los dominios del dashboard. No almacenar claves en frontend.
+For the bundled snapshot, use python api/restaurar_snapshot.py instead of rebuilding.
+The historical API can operate without the optional legacy firms.sqlite.
+Check /v1/empirical/metadata rather than interpreting database_available alone.
 
-Documentacion: http://127.0.0.1:8000/docs
-Series nacionales, ambas lineas y end exclusivo:
+Queries:
   /v1/empirical/series?start=2000-11-06&end=2026-07-27&limit=1000
-Serie por instrumento: agregar instrument=MODIS o instrument=VIIRS.
-Serie por celda: agregar cell_id=laea10_1_2 (primero descubrir IDs validos en cells).
-Celdas: /v1/empirical/cells?bbox=-76,-10,-74,-8&limit=1000
-Pronostico: /v1/forecasts?limit=100
-Metadatos: /v1/empirical/metadata
-Paginar con pagination.next_offset hasta null. Los resultados son JSON tipado.
-Cliente JavaScript: api/cliente.js, utilizable desde HTML, React o Next.js.
+  /v1/empirical/cells?bbox=-76,-10,-74,-8&limit=1000
+  /v1/empirical/metadata
+Add instrument=MODIS or instrument=VIIRS, region_id or a valid cell_id as needed.
+Follow pagination.next_offset until null. end is exclusive.
 
-IMPORTANTE: /v1/series conserva la puerta de publicacion para cobertura completa.
-No confundir esa ruta con /v1/empirical/series, que declara coverage_corrected=false.
-MODIS: semanas 2000-11-06 a 2026-07-26. VIIRS: 2012-02-06 a 2026-07-26.
-Antes de 2012 VIIRS permanece unavailable. No se inventan detecciones historicas.
-No se suman satelites del mismo instrumento. Factor comun no equivale a incendios.
-Bandas de calibracion: no son intervalos de todos los incendios omitidos.
+MODIS covers 2000-11-06 through 2026-07-26; VIIRS covers 2012-02-06 through
+2026-07-26. Earlier VIIRS values remain unavailable. Platforms from the same
+instrument are not summed. Calibration bands do not cover every missed fire.
+/v1/series remains gated for the full observation-coverage product.
 
-Pronostico experimental: presencia de registros en 10km/semana, no ignicion fisica.
-Semana objetivo fija 2026-11-16 a 2026-11-22, historia anual y estacionalidad;
-no es un servicio de prediccion continuamente actualizado ni usa clima reciente.
-No cubre automaticamente el cambio de plataformas de 2026. No es una alerta operativa.
-Se informa el resultado desfavorable frente a climatologia en areas vistas en 2025.
+Legacy cell forecast:
+  /v1/forecasts?limit=100
+This fixed 16–22 November 2026 experiment estimates a weekly record in a 10 km
+cell using historical activity and seasonality. It is distinct from the regional
+episode-proxy model and does not use recent November weather. Its unfavorable
+2025 comparison with climatology is retained in the evaluation.
 
-Tests de calibracion: python -m unittest discover -s pipeline -p test_calibration.py -v
-Tests HTTP con snapshot generado: python -m unittest discover -s api -p 'test*.py' -v
-Notebooks 09 y 10 incluyen outputs ejecutados para revisar sin los ZIP originales.
-Para reejecutarlos, instalar dependencias y definir FIRMS_ARTIFACTS_DIR=RUTA_ARTEFACTOS.
-El notebook resume los artefactos; el entrenamiento se ejecuta por pipeline, no en cada celda.
+Regional episode-proxy experiment:
+  python -m pip install -r pipeline/requirements-risk.txt
+  python pipeline/train_regional_risk.py --help
+  python pipeline/generate_regional_outlook.py --help
+The required original training, weather and NRT artifacts remain outside Git.
+See docs/RESULTADOS_MODELO_EXPERIMENTAL.md and docs/PILOTO_PRONOSTICOS.md.
+A renamed target requires its own labels, fitting and evaluation.
 
-Fuentes: NASA FIRMS; limites oficiales MINAM; Sofiev y Kouznetsov (2026),
-https://gmd.copernicus.org/articles/19/10123/2026/.
-Su operador FRP no se presenta como una correccion de nuestros conteos.
-La comparacion sistematica con incidentes reportados en tierra queda pendiente.
+Checks:
+  python -m unittest discover -s pipeline -p test_calibration.py -v
+  python -m unittest discover -s api -p 'test*.py' -v
 
-Informe de validacion disponible por API: GET /v1/validation.
+Executed notebooks summarize prepared artifacts rather than retraining in every
+cell. Re-execution requires the corresponding artifacts and dependencies.
+Set FIRMS_ARTIFACTS_DIR to the original artifact directory where required.
 
-REVISION v1.1: corregida la unidad temporal del bootstrap (us -> ns).
-Las bandas v1 se retiran. 237 bloques de entrenamiento y 5 del puente; 100 replicas.
-Los parametros centrales y las variables del pronostico se conservaron (tolerancia 1e-12).
-Ver reports/empirical/uncertainty_correction.json y notebook 09 actualizado.
+Uncertainty revision v1.1 corrects the bootstrap time unit from microseconds to
+nanoseconds. The v1 bands are withdrawn. There are 237 training blocks and five
+bridge blocks with 100 replicates. Central parameters and forecast features
+were conserved within 1e-12. See reports/empirical/uncertainty_correction.json.
 
-CONTRASTE OFICIAL MINAM (opcional, no cambia el modelo):
-python validacion/registro_minam/download_registry.py --out RUTA_ARTEFACTOS/27_contraste_MINAM
-python validacion/registro_minam/match_registry.py --artifacts RUTA_ARTEFACTOS --out RUTA_ARTEFACTOS/27_contraste_MINAM
-Volver a cargar history.sqlite agrega el contraste a /v1/validation.
-Notebook ejecutado: validacion/12_contraste_registro_MINAM.ipynb.
-Los resultados son asociaciones con registros, no tasas demostradas de omision.
+Official registry comparison:
+  python validacion/registro_minam/download_registry.py --out ARTIFACTS_DIRECTORY/27_contraste_MINAM
+  python validacion/registro_minam/match_registry.py --artifacts ARTIFACTS_DIRECTORY --out ARTIFACTS_DIRECTORY/27_contraste_MINAM
 
-LIMITES FRP: research/frp_operator y notebooks/11_limites_deteccion.ipynb.
-Investigacion, no habilitado en produccion. Se documenta discrepancia tabla/texto
-del articulo y A0=0 como supuesto; no se hace correccion inversa de conteos.
+Reloading history.sqlite adds the comparison to /v1/validation.
+The web catalog is rebuilt with pipeline/build_validation_catalog.py.
+Matches are historical associations, not proven sensor-omission rates.
+
+FRP research is under research/frp_operator and notebooks/11_limites_deteccion.ipynb.
+It is not enabled as a production count correction. The published operator's
+table/text discrepancy and A0=0 assumption remain documented.
+
+Sources: NASA FIRMS, official MINAM geometry, and Sofiev and Kouznetsov (2026):
+https://gmd.copernicus.org/articles/19/10123/2026/

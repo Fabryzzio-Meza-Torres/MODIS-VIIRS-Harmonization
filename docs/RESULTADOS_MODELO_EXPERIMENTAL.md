@@ -1,77 +1,77 @@
-# Resultado del entrenamiento experimental regional
+# Result of the experimental regional training
 
-Fecha: 2026-11-15. Versión: `regional-onset-proxy-v0.1`. Avance por entregables: **70 %**. El modelo está entrenado y evaluado; todavía no se publica en la API.
+Date: 2026-11-15. Version: `regional-onset-proxy-v0.1`. Progress by deliverables: **70 %**. The model is trained and evaluated; it is not published in the API yet.
 
-## Qué predice
+## What it predicts
 
-Probabilidad de al menos un **nuevo episodio de fuego detectado por NOAA-20** en una región de Perú durante una semana objetivo, con anticipaciones de 1 a 12 semanas. Es una etiqueta indirecta de inicio; todavía no es una probabilidad validada de ignición física ni distingue automáticamente todas las quemas agrícolas.
+Probability of at least one **new fire episode detected by NOAA-20** in a region of Peru during a target week, with lead times of 1 to 12 weeks. It is an indirect start label; it is not yet a validated probability of physical ignition and does not automatically tell apart every agricultural burn.
 
-La salida describe una semana, no el riesgo acumulado durante doce semanas. Los porcentajes regionales se modelan directamente; no se suman probabilidades de celdas.
+The output describes one week, not the cumulative risk over twelve weeks. Regional percentages are modelled directly; cell probabilities are not added up.
 
-## Qué entrenamos y cómo elegimos
+## What we trained and how we chose
 
-Comparamos ocho candidatos: constante, climatología regional/mensual, regresión logística y cinco variantes LightGBM. Las variantes comprueban complejidad y contribución de meteorología/historia armonizada. No balanceamos artificialmente los datos.
+We compared eight candidates: constant, regional/monthly climatology, logistic regression and five LightGBM variants. The variants test complexity and the contribution of weather and harmonized history. We did not artificially balance the data.
 
-- Ajuste: 2018–2021, con semanas objetivo maduras antes del límite.
-- Selección y parada temprana: 2022.
-- Calibración monotónica de probabilidades por anticipación: 2023.
-- Prueba retrospectiva: 2024–2025, previamente examinados en el proyecto anterior.
-- Confirmación 2026: abierta después de congelar la selección, sin usarla para elegir el modelo.
-- Métrica de selección: media del Brier por anticipación; un modelo más complejo requiere al menos 1 % de mejora frente al candidato sencillo.
+- Fitting: 2018–2021, with target weeks matured before the limit.
+- Selection and early stopping: 2022.
+- Monotonic probability calibration per lead time: 2023.
+- Retrospective test: 2024–2025, previously examined in the earlier project.
+- 2026 confirmation: opened after freezing the selection, without using it to choose the model.
+- Selection metric: mean Brier per lead time; a more complex model needs at least a 1 % improvement over the simpler candidate.
 
-El candidato elegido fue **LightGBM sin las tres variables de contexto armonizado**, con 29 variables. Su Brier de selección fue 0,07017 frente a 0,07297 de climatología: mejora relativa de aproximadamente 3,8 %.
+The chosen candidate was **LightGBM without the three harmonized context features**, with 29 features. Its selection Brier was 0.07017 against 0.07297 for climatology: a relative improvement of about 3.8 %.
 
-Esto no invalida las series armonizadas: son un producto de comparación histórica. En este experimento sus variables anuales no añadieron mejora incremental frente a historia NOAA-20, región, estación y meteorología. El modelo no suma FRP entre plataformas ni aplica factores de conteos al FRP.
+This does not invalidate the harmonized series: they are a historical comparison product. In this experiment their annual features did not add an incremental improvement over NOAA-20 history, region, season and weather. The model does not add FRP across platforms or apply count factors to FRP.
 
-## Resultados fuera del ajuste
+## Results outside the fit
 
-Comparación de probabilidades con la transformación de calibración fijada en 2023. **Brier menor es mejor**; no es un porcentaje de aciertos.
+Comparison of probabilities with the calibration transform fixed in 2023. **Lower Brier is better**; it is not a percentage of correct answers.
 
-| Periodo | Climatología calibrada | LightGBM seleccionado | Lectura |
+| Period | Calibrated climatology | Selected LightGBM | Reading |
 | --- | ---: | ---: | --- |
-| 2024 | 0,08300 | 0,08302 | Prácticamente empatados; candidato ligeramente peor |
-| 2025 | 0,07435 | 0,06782 | Reducción de Brier del 8,8 % |
-| Confirmación 2026 hasta julio | 0,09286 | 0,08919 | Reducción de Brier del 3,9 % |
+| 2024 | 0.08300 | 0.08302 | Practically tied; candidate slightly worse |
+| 2025 | 0.07435 | 0.06782 | 8.8 % Brier reduction |
+| 2026 confirmation up to July | 0.09286 | 0.08919 | 3.9 % Brier reduction |
 
-La mejora conjunta 2024–2025 tiene un intervalo por bloques que incluye cero: ganancia Brier de 0,00304, intervalo percentil del 95 % de **−0,00082 a 0,00682**. Son 1.000 réplicas sobre nueve bloques de semanas objetivo de 13 semanas, manteniendo fijo el modelo. No es un intervalo de incertidumbre de incendios físicos ni incorpora el error del etiquetado.
+The joint 2024–2025 improvement has a block interval that includes zero: a Brier gain of 0.00304, 95 % percentile interval from **−0.00082 to 0.00682**. These are 1,000 replicates over nine blocks of 13 target weeks, keeping the model fixed. It is not an uncertainty interval of physical fires and it does not include the labelling error.
 
-La calibración no garantizó mejora: en 2024–2025 el Brier antes/después fue 0,07587/0,07593 y el ECE de diez intervalos fue 0,01483/0,02131. No cambiamos a la variante sin calibrar después de mirar esta prueba. La transformación aplicada está documentada, pero no se afirma que sus porcentajes sean confiables para todos los departamentos.
+Calibration did not guarantee an improvement: in 2024–2025 the Brier before/after was 0.07587/0.07593 and the ten-bin ECE was 0.01483/0.02131. We did not switch to the uncalibrated variant after looking at this test. The applied transform is documented, but its percentages are not claimed to be reliable for every department.
 
-## Validación espacial, anticipaciones y errores
+## Spatial validation, lead times and errors
 
-Entrenamos un modelo sombra excluyendo los objetivos de Ayacucho, Huánuco, Lima, Piura y Ucayali también de selección y calibración. Sus covariables históricas locales siguen disponibles: no simula regiones sin ninguna historia. El modelo sombra se seleccionó separadamente, sin usar las etiquetas de esos departamentos.
+We trained a shadow model excluding the targets of Ayacucho, Huánuco, Lima, Piura and Ucayali from selection and calibration as well. Their local historical covariates remain available: it does not simulate regions with no history at all. The shadow model was selected separately, without using the labels of those departments.
 
-En los cinco departamentos reservados, el Brier del modelo seleccionado fue 0,07118 en 2024, 0,04791 en 2025 y 0,07579 en la confirmación 2026. Son resultados de un modelo sombra, no los del modelo entrenado con todas las regiones.
+In the five held-out departments, the Brier of the selected model was 0.07118 in 2024, 0.04791 in 2025 and 0.07579 in the 2026 confirmation. These are results of a shadow model, not of the model trained with all regions.
 
-Se calcularon métricas por departamento y por anticipación. Para comparar anticipaciones se añadió una evaluación con las mismas semanas objetivo: los filtros de madurez dejan calendarios diferentes por plazo y podrían hacer parecer que doce semanas son mejores solo porque se evalúan otras estaciones.
+Metrics were computed per department and per lead time. To compare lead times, an evaluation with the same target weeks was added: the maturity filters leave different calendars per lead time and could make twelve weeks look better just because other seasons are evaluated.
 
-Entre los mayores errores regionales aparecen Moquegua y Tacna. No se elige retrospectivamente un modelo diferente para cada región ni se borran esos casos de las métricas.
+Moquegua and Tacna are among the largest regional errors. A different model is not chosen retrospectively for each region, and those cases are not removed from the metrics.
 
-Las etiquetas son frecuentes: el 83,9 % de las filas de entrenamiento son positivas. Por eso no usamos accuracy como argumento principal ni presentamos average precision cercana a 1 como prueba de detección de incendios reales. La regla de capacidad evalúa las cinco regiones prioritarias por emisión/anticipación, sin afirmar que eso maximice vidas protegidas.
+Labels are frequent: 83.9 % of the training rows are positive. That is why we do not use accuracy as the main argument or present an average precision close to 1 as proof of detecting real fires. The capacity rule evaluates the five priority regions per issue/lead time, without claiming that this maximizes protected lives.
 
-## Robustez y límites para el despliegue
+## Robustness and limits for deployment
 
-En perturbaciones retrospectivas, retirar toda la meteorología elevó el Brier a 0,08054 frente a 0,07593 y cambió la probabilidad unos 3,1 puntos porcentuales en promedio. Alterar los conteos un ±30 % cambió mucho menos el resultado. Son diagnósticos sintéticos, no validación de transferencia SP/NRT.
+In retrospective perturbations, removing all weather raised the Brier to 0.08054 against 0.07593 and changed the probability by about 3.1 percentage points on average. Altering the counts by ±30 % changed the result much less. These are synthetic diagnostics, not validation of the SP/NRT transfer.
 
-La importancia por permutación en selección señala principalmente región y estacionalidad. No es evidencia causal de por qué se inicia un incendio.
+Permutation importance in selection points mainly to region and seasonality. It is not causal evidence of why a fire starts.
 
-Pendientes antes de publicar la nueva ruta:
+Pending before publishing the new route:
 
-1. Reproducir las mismas variables en inferencia y generar las 300 combinaciones región/anticipación.
-2. Comprobar frescura, valores faltantes y diferencias de NRT respecto de SP; NRT no aporta type=0 confirmado.
-3. Configurar actualización de insumos y salida explícita cuando no exista soporte.
-4. Integrar y probar el endpoint experimental, conservando semántica, versión y advertencias de validación.
+1. Reproduce the same features at inference and generate the 300 region/lead-time combinations.
+2. Check freshness, missing values and NRT differences from SP; NRT does not provide a confirmed type=0.
+3. Set up input updates and an explicit output when there is no support.
+4. Integrate and test the experimental endpoint, keeping its semantics, version and validation warnings.
 
-La verificación de ignición física, la revisión humana de etiquetas y la evaluación prospectiva siguen pendientes. El uso institucional requiere esa evidencia adicional a esta demostración.
+Verification of physical ignition, human review of labels and prospective evaluation are still pending. Institutional use requires that evidence in addition to this demonstration.
 
-## Dónde está la evidencia
+## Where the evidence is
 
-- [Notebook ejecutado del entrenamiento](../notebooks/16_modelo_riesgo_regional.ipynb).
-- [Protocolo fijado antes del entrenamiento](../reports/prediction/model/training_protocol_frozen.json).
-- [Selección](../reports/prediction/model/selection_metrics.csv), [evaluación](../reports/prediction/model/evaluation_metrics.csv), [anticipaciones](../reports/prediction/model/evaluation_by_lead.csv) y [regiones](../reports/prediction/model/evaluation_by_region.csv).
-- [Informe y hashes](../reports/prediction/model/training_evaluation_report.json), [calibración](../reports/prediction/model/calibration_diagnostic.json) y [robustez](../reports/prediction/model/robustness_diagnostic.json).
-- Código: [estimadores](../pipeline/regional_risk_models.py), [entrenamiento](../pipeline/train_regional_risk.py) y [diagnósticos](../pipeline/analyze_regional_risk.py).
+- [Executed training notebook](../notebooks/16_modelo_riesgo_regional.ipynb).
+- [Protocol fixed before training](../reports/prediction/model/training_protocol_frozen.json).
+- [Selection](../reports/prediction/model/selection_metrics.csv), [evaluation](../reports/prediction/model/evaluation_metrics.csv), [lead times](../reports/prediction/model/evaluation_by_lead.csv) and [regions](../reports/prediction/model/evaluation_by_region.csv).
+- [Report and hashes](../reports/prediction/model/training_evaluation_report.json), [calibration](../reports/prediction/model/calibration_diagnostic.json) and [robustness](../reports/prediction/model/robustness_diagnostic.json).
+- Code: [estimators](../pipeline/regional_risk_models.py), [training](../pipeline/train_regional_risk.py) and [diagnostics](../pipeline/analyze_regional_risk.py).
 
-El archivo `model_freeze_before_test.json` conserva intencionalmente el estado **anterior** a abrir la prueba. El resultado posterior está en `training_evaluation_report.json`; los hashes del modelo y del archivo de congelamiento permanecen iguales.
+The file `model_freeze_before_test.json` intentionally keeps the state **before** opening the test. The later result is in `training_evaluation_report.json`; the hashes of the model and of the freeze file stay the same.
 
-El artefacto entrenado local está en `outputs/39_modelo_riesgo_regional/regional_risk_models.joblib`, fuera del checkout. No necesita reentrenarse para generar predicciones; requiere las mismas variables y versiones. Se comprobó igualdad de predicciones tras guardar y volver a cargar el modelo, con tolerancia absoluta `1e-12`.
+The trained local artifact is in `outputs/39_modelo_riesgo_regional/regional_risk_models.joblib`, outside the checkout. It does not need retraining to generate predictions; it needs the same features and versions. Predictions were checked to be equal after saving and reloading the model, with an absolute tolerance of `1e-12`.

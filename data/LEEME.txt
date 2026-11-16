@@ -1,38 +1,36 @@
-DATOS PUBLICADOS · PERÚ · VERSIÓN EMPÍRICA 1.1
+PUBLISHED DERIVED DATA — PERU — EMPIRICAL RELEASE 1.1
 
-national_series.csv: dos series nacionales, semanas 2000-11-06 a 2026-07-20.
-La última semana termina el 26 de julio de 2026. VIIRS empieza 2012-02-06;
-sus filas anteriores permanecen sin valor. MODIS tiene 10 semanas unavailable.
-cell_series.csv.gz: conteos comparables por celda-semana-instrumento.
-all_platform_calibrations.csv.gz: suplemento de las cinco plataformas; no sumarlas
-para sustituir las dos series principales.
-platform_selection.csv: plataforma seleccionada por instrumento y semana.
-cells.csv / peru.geojson: malla y límite generalizado de referencia.
-forecast_cells.csv.gz: pronóstico experimental de registros para 16-22 noviembre 2026.
-forecast_activity_features.csv.gz: actividad agregada utilizada como variable.
-Los JSON documentan versiones, procedencia y limitaciones.
+national_series.csv: two national weekly series, starting 2000-11-06.
+The last week starts 2026-07-20 and ends 2026-07-26.
+VIIRS begins 2012-02-06; earlier VIIRS values remain unavailable.
+MODIS has 10 unavailable weeks.
 
-history.sqlite.gz: snapshot comprimido de la API, sin credenciales.
-manifest.json: tamaños y SHA256 de los datos publicados.
+cell_series.csv.gz: comparable counts by cell, week and instrument.
+all_platform_calibrations.csv.gz: supplementary five-platform estimates;
+do not sum them to replace the two principal instrument series.
+platform_selection.csv: platform selected per instrument and week.
+cells.csv and peru.geojson: grid and generalized reference boundary.
+regional_series.csv.gz, region_cells.csv and regions.geojson: department queries.
+forecast_cells.csv.gz and forecast_activity_features.csv.gz: legacy fixed-horizon
+cell experiment for 16–22 November 2026, not the newer regional forecast.
 
-Desde la raíz del repositorio:
-  python api/restaurar_snapshot.py
+history.sqlite.gz: compressed read-only API snapshot, with no credentials.
+manifest.json: published dataset sizes and SHA-256 hashes.
+regional_outlook.json and its manifest: versioned regional episode-proxy forecast.
+
+From the repository root:
   python -m pip install -r api/requirements.txt
+  python api/restaurar_snapshot.py
   python -m uvicorn api:app --app-dir api --host 127.0.0.1 --port 8000
 
-Abrir http://127.0.0.1:8000/docs
-Rutas: /v1/empirical/series, /v1/empirical/cells, /v1/forecasts, /v1/validation.
-/v1/series sigue reservado para la corrección física completa, aún pendiente.
-La restauración verifica ambos hashes y la integridad SQLite; no reemplaza una
-base diferente salvo que se especifique --replace tras revisarla.
+Open http://127.0.0.1:8000/docs. Restoration checks hashes and SQLite integrity.
+It does not replace a different database unless --replace is explicitly supplied.
+Published ZIP releases already contain the restored database.
 
-El paquete entrega/ENTREGA_MODIS_VIIRS_PERU_v1_1.zip incluye la base descomprimida
-y puede ejecutarse sin restaurarla. Ver entrega/EXPLICACION_Y_GUIA.txt.
+Use /v1/empirical/series for the historical comparison.
+/v1/series remains reserved for the full observation-coverage correction.
+coverage_corrected=false means that recovery of all historical fires is not claimed.
+Forecasts concern satellite records or episode proxies, not verified ignitions.
 
-coverage_corrected=false: no afirmar que todos los incendios históricos se recuperan.
-El pronóstico es de registros satelitales, no de ignición física.
-
-CONSULTAS REGIONALES: /v1/regions y parametro region_id en series, celdas y pronostico.
-Visor: http://127.0.0.1:8000/visor/
-Datos: regions.geojson, regional_series.csv.gz, region_cells.csv, regional_metadata.json.
-Detalles: api/REGIONES_Y_FECHAS.txt. La resolucion sigue siendo semanal.
+Documentation: docs/API.md, docs/METODOLOGIA.md and api/REGIONES_Y_FECHAS.txt.
+Historical source records and release archives retain their original content.

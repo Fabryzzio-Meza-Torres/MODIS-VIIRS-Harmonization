@@ -1,94 +1,73 @@
-CONSULTAS REGIONALES Y CALENDARIO
+REGIONAL AND CALENDAR QUERIES
 
-El catálogo actual son los 24 departamentos y Callao, con IDDPTO de dos dígitos.
-Ejemplo: 08 = Cusco. No incluye todavía consultas independientes por provincia,
-distrito o dirección postal.
+The catalog contains Peru's 24 departments and Callao, identified by two-digit
+IDDPTO codes. For example, 08 is Cusco. Historical regional queries do not imply
+independent forecasts for provinces, districts or postal addresses.
 
-1. Listar lugares para el selector:
-GET /v1/regions
-Respuesta: metadata, data[{region_id,name,bbox}], pagination.
+1. List departments:
+   GET /v1/regions
+   Response: metadata, data[{region_id,name,bbox}], pagination.
 
-2. Identificar departamento por coordenadas WGS84:
-GET /v1/regions/locate?latitude=-13.5319&longitude=-71.9675
-Devuelve region.region_id=08 y region.name=CUSCO.
-Un R*Tree selecciona candidatos; después se verifica el polígono exacto.
-Si el punto cae en un límite compartido, se informa boundary_ambiguous=true
-y se elige determinísticamente el menor IDDPTO, igual que en el procesamiento.
-Los límites MINAM están generalizados; la precisión no es catastral.
+2. Locate a WGS84 coordinate:
+   GET /v1/regions/locate?latitude=-13.5319&longitude=-71.9675
+   Returns Cusco (08). An R-tree selects candidates, followed by an exact polygon
+   test. Shared-boundary matches are reported; the lowest IDDPTO is the deterministic
+   tie-break. MINAM boundaries are generalized and are not cadastral geometry.
 
-3. Obtener las dos líneas en una región y período:
-GET /v1/empirical/series?region_id=08&start=2023-08-07&end=2023-09-04
-El objeto metadata.region identifica el departamento de la comparación.
-La ausencia de region_id y cell_id conserva la consulta nacional.
-region_id y cell_id son alternativas; no se pueden combinar en una misma serie.
-instrument=MODIS o instrument=VIIRS permite elegir solo una línea.
+3. Compare both instruments in a department:
+   GET /v1/empirical/series?region_id=08&start=2023-08-07&end=2023-09-04
+   metadata.region identifies the department. Without region_id or cell_id,
+   the historical endpoint returns the national series. region_id and cell_id
+   cannot be combined. instrument=MODIS or instrument=VIIRS selects one line.
 
-4. Calendarios con fechas arbitrarias:
-Por defecto week_selection=starts_within conserva el contrato previo:
-se eligen semanas cuyo lunes pertenece al intervalo [start,end).
-Con week_selection=overlap se muestran todas las semanas que lo intersectan:
-GET /v1/empirical/series?region_id=08&start=2023-08-10&end=2023-08-17&week_selection=overlap
-En ese caso se devuelven los totales de las semanas que empiezan el 7 y el 14.
-NO se distribuyen proporcionalmente los conteos en días.
-metadata.effective_week_start y effective_end_exclusive describen la cobertura
-temporal real mostrada. end es siempre exclusivo en HTTP.
-El visor recibe "Hasta, incluido" y convierte ese día al siguiente antes de consultar.
+4. Calendar selection:
+   week_selection=starts_within selects weeks whose Monday is in [start,end).
+   week_selection=overlap selects complete weeks that intersect the interval:
+   GET /v1/empirical/series?region_id=08&start=2023-08-10&end=2023-08-17&week_selection=overlap
+   This returns totals for the weeks beginning on 7 and 14 August. It does not
+   allocate weekly counts proportionally to individual days.
+   effective_week_start and effective_end_exclusive report the actual support.
+   An inclusive end date in a UI must be advanced by one day before the HTTP query.
 
-5. Mapas y celdas:
-GET /v1/regions/geometry
-GET /v1/regions/08/geometry
-GET /v1/empirical/cells?region_id=08&limit=1000
-GET /v1/empirical/cells?region_id=08&bbox=-73,-15,-70,-12&limit=1000
-bbox significa oeste,sur,este,norte. Se filtran centros de celda con candidatos
-R*Tree y una comprobación exacta de coordenadas.
-La selección regional de celdas incluye intersecciones de área positiva:
-una celda de frontera puede aparecer en dos departamentos.
+5. Geometry and cells:
+   GET /v1/regions/geometry
+   GET /v1/regions/08/geometry
+   GET /v1/empirical/cells?region_id=08&limit=1000
+   GET /v1/empirical/cells?region_id=08&bbox=-73,-15,-70,-12&limit=1000
+   bbox is west,south,east,north. Cell-center queries combine R-tree candidates
+   with exact coordinate checks. Regional cell membership uses positive-area
+   intersections, so a boundary cell may belong to more than one department.
 
-6. Pronóstico:
-GET /v1/forecasts?region_id=08&limit=10
-La probabilidad corresponde a la celda completa, no se divide por área regional.
-El horizonte sigue fijo en 16-22 de noviembre de 2026; filtrar región no entrena
-otro pronóstico ni cambia ese horizonte.
+6. Count assignment:
+   Original selected-platform detections were classified against the same MINAM
+   department polygons used by the national domain. Counts were not assigned by
+   the center of an entire 10 km cell. All 1,322,019 selected detections were assigned
+   once; 66 multi-polygon cases used the documented tie-break.
+   National counts and estimates were conserved across the regional partition.
+   Regional bands use the shared calibration-factor uncertainty; cell bands were
+   not added as if independent. The method remains empirical-positive-pair-v1.1.
 
-7. Cómo se calcularon los conteos por departamento:
-Se clasificaron los puntos originales de las plataformas nacionales seleccionadas
-dentro de los mismos polígonos MINAM usados por el dominio peruano.
-No se atribuyó todo un cuadrado de 10km al departamento de su centro.
-1.322.019 detecciones seleccionadas se asignaron una sola vez; 66 casos con más
-de un polígono candidato usaron el desempate documentado.
-Se verificó la conservación de conteos y estimaciones nacionales en todas las semanas.
-Las bandas regionales usan la incertidumbre compartida del factor global;
-no se sumaron bandas de celdas como si fueran independientes.
-La calibración científica no se reentrenó; sigue empirical-positive-pair-v1.1.
-coverage_corrected continúa false. Los huecos regionales permanecen unavailable.
+7. Indices:
+   region_spatial_index: SQLite R-tree for department bounds.
+   cell_spatial_index: SQLite R-tree for cell-center bounding-box queries.
+   regional_series key: (region_id,week_start_utc,instrument).
+   regional_instrument_time index: (region_id,instrument,week_start_utc).
+   Spatial indices find candidates; B-tree indices resolve instrument/time queries.
 
-8. Índices:
-region_spatial_index: SQLite R*Tree de límites regionales.
-cell_spatial_index: SQLite R*Tree para consultas de centros por bbox.
-regional_series: clave (region_id,week_start_utc,instrument).
-regional_instrument_time: índice (region_id,instrument,week_start_utc).
-R*Tree resuelve candidatos espaciales; B-tree resuelve región/instrumento/fechas.
-No es necesario usar KD-tree para buscar qué polígono contiene una coordenada.
+8. Forecast scope:
+   GET /v1/fire-risk/metadata documents the regional episode-proxy prototype.
+   Its probabilities apply to whole departments and specified published weeks.
+   The older GET /v1/forecasts?region_id=08&limit=10 is a distinct fixed-horizon
+   cell experiment for 16–22 November 2026. Filtering does not retrain either model.
 
-9. Visor de referencia integrado:
-Iniciar la API y abrir http://127.0.0.1:8000/visor/
-El visor es HTML/CSS/JavaScript sin framework, con fuentes locales y sin Google Maps.
-Incluye selector, fechas, mapa departamental, consulta por coordenadas,
-dos líneas, bandas opcionales, tabla y descarga CSV con trazabilidad.
-Usa la identidad del prototipo compartido como referencia flexible; no lo despliega
-ni modifica la página Netlify existente.
-api/cliente.js contiene funciones reutilizables para otro frontend o React/Next.
+9. Local reconstruction:
+   python pipeline/build_regions.py --artifacts ARTIFACTS_DIRECTORY --out ARTIFACTS_DIRECTORY/31_consultas_regionales
+   python api/add_regions.py --database api/history.sqlite --assets ARTIFACTS_DIRECTORY/31_consultas_regionales
+   The update checks conservation and integrity before atomic replacement.
+   On failure, the previous snapshot remains available.
+   load_history.py also accepts --regional-assets.
 
-10. Reconstrucción desde los insumos locales:
-python pipeline/build_regions.py --artifacts RUTA_ARTEFACTOS --out RUTA_ARTEFACTOS/31_consultas_regionales
-python api/add_regions.py --database api/history.sqlite --assets RUTA_ARTEFACTOS/31_consultas_regionales
-La segunda orden crea un snapshot nuevo, verifica conservación e integridad y
-lo reemplaza atómicamente. Si falla, conserva la base anterior.
-load_history.py también acepta --regional-assets para reconstrucción conjunta.
-
-Desde Git, data/history.sqlite.gz incluye los nuevos índices cuando el lote regional
-está instalado. Restaurar con python api/restaurar_snapshot.py.
-Si ya existe una base diferente, revisarla y usar --replace para actualizarla.
-
-Fuentes: NASA FIRMS; límites oficiales MINAM:
-https://geoservidorperu.minam.gob.pe/arcgis/rest/services/ServicioCFOI/MapServer/15
+The compressed data/history.sqlite.gz includes the published regional indices.
+Restore with python api/restaurar_snapshot.py. Review any differing existing
+database before using --replace. The API viewer is at /visor/; reusable client
+functions are in api/cliente.js. See docs/API.md for the current release.

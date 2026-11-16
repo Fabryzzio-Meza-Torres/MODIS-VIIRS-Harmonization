@@ -1,45 +1,47 @@
-API REST local de consulta (sin dependencia de frontend).
+READ-ONLY SERIES AND FORECAST API
 
-Inicio desde PowerShell en la carpeta de trabajo:
-  powershell -NoProfile -ExecutionPolicy Bypass -File outputs/16_api/iniciar_api.ps1
+Run from the repository root with Python 3.13:
+  python -m pip install -r api/requirements.txt
+  python api/restaurar_snapshot.py
+  python -m uvicorn api:app --app-dir api --host 127.0.0.1 --port 8000
 
-Documentacion interactiva: http://127.0.0.1:8000/docs
-OpenAPI: http://127.0.0.1:8000/openapi.json
-Inventario: GET /v1/datasets
-Celdas: GET /v1/cells?limit=100&offset=0
-Conteos originales: GET /v1/raw-series?cell_id=laea10_1_2&start=2013-01-01&end=2024-01-01
-Serie final: GET /v1/series?cell_id=laea10_1_2&start=2013-01-01&end=2024-01-01
-Baseline nacional: GET /v1/baselines/national?start=2013-01-01&end=2024-01-01
-Area experimental: GET /v1/coverage/pilot?cell_id=laea10_1_2
+Interactive reference: http://127.0.0.1:8000/docs
+OpenAPI schema: http://127.0.0.1:8000/openapi.json
+Historical viewer: http://127.0.0.1:8000/visor/
 
-Las fechas son UTC. end es exclusivo. Se filtra por fecha de inicio de semana.
-El calendario semanal comienza los lunes. Conteos originales ausentes siguen desconocidos.
-La paginacion devuelve next_offset (null al terminar). Limite maximo por pagina: 1000.
-La serie final responde 503 / harmonization_not_published hasta publicar un metodo validado.
-Los otros endpoints no sustituyen esa serie: conservan su etiqueta original o experimental.
-No usar conteos nacionales como correccion local ni sumar areas de granulos como area unica.
+Published historical routes:
+  GET /v1/empirical/metadata
+  GET /v1/empirical/series?region_id=08&start=2023-08-07&end=2023-08-14
+  GET /v1/empirical/cells?limit=100
+  GET /v1/regions
+  GET /v1/validation
 
-Configurar base de datos: FIRMS_API_DB (ruta al SQLite).
-CORS: FIRMS_CORS_ORIGINS (origenes separados por coma; por defecto * para datos publicos,
-sin cookies ni credenciales). Servicio local: 127.0.0.1:8000.
-Los datos se preparan por lotes con prepare_data.py; ninguna peticion entrena el modelo.
-La API es de lectura y no contiene credenciales de Earthdata.
+The empirical series contains comparable reported counts, not independent fire counts.
+coverage_corrected remains false. Missing estimates remain null.
 
-Publicacion del lote final, DESPUES de validar y revisar el metodo:
-  python publish_series.py --database firms.sqlite --csv serie.csv --manifest manifiesto.json --validation-report validacion.json
-El manifiesto exige method_version, reference_scale, source_snapshot_id, interval_level,
-validation_status=accepted, human_reviewed=true, data_sha256 y validation_report_sha256.
-No se ha creado un manifiesto de aceptacion para datos reales: falta validar el armonizador.
-La publicacion valida esquema, semanas UTC, estados, intervalos, versiones y hashes.
-Si falla, la transaccion conserva el lote anterior. No entrena ni certifica el metodo cientifico.
+Historical dates use UTC weeks starting on Monday. The end parameter is exclusive.
+Follow pagination.next_offset until null. The maximum page size is 1,000.
+See REGIONES_Y_FECHAS.txt for geographic queries and arbitrary calendar ranges.
 
-ENTREGA HISTORICA EMPIRICA DISPONIBLE:
-GET /v1/empirical/metadata
-GET /v1/empirical/series?start=2000-11-06&end=2026-07-27
-GET /v1/empirical/cells?limit=100
-GET /v1/forecasts?limit=100
-Esta serie tiene dos instrumentos y coverage_corrected=false. No sustituye la correccion completa.
-FIRMS_HISTORY_DB configura el snapshot history.sqlite. Ver pipeline/REPRODUCIR.txt.
+Regional episode-proxy prototype:
+  GET /v1/fire-risk/metadata
+  GET /v1/fire-risk/outlook?region_id=08
+  GET /v1/fire-risk?region_id=08&target_week_start=2026-11-16
 
-CONSULTAS POR DEPARTAMENTO Y FECHAS: /v1/regions, /v1/regions/locate y region_id en /v1/empirical/series.
-Visor: /visor/. Ver REGIONES_Y_FECHAS.txt y POSTMAN_REGIONES.postman_collection.json.
+That prototype concerns newly detected episodes, not verified physical ignitions.
+Use its metadata to check the issue time, available weeks, target and expiry.
+Expired or unsupported forecasts must not be displayed as zero.
+
+The older /v1/forecasts route serves a separate fixed-horizon cell experiment.
+Do not use it as a replacement for the regional product.
+The /v1/series route remains reserved for the full coverage-corrected product.
+It can return 503 until that product is validated and published.
+
+Configuration:
+  FIRMS_HISTORY_DB: absolute path to the historical SQLite snapshot.
+  FIRMS_API_DB: optional legacy database; its absence does not disable the historical snapshot.
+  FIRMS_CORS_ORIGINS: comma-separated origins; public GET requests default to *.
+
+The API reads precomputed artifacts and does not train per request.
+No Earthdata or Google Maps credentials are embedded in the service.
+For the current contract and deployment status, see docs/API.md.

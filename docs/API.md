@@ -1,68 +1,68 @@
-# Nuestra API MODIS–VIIRS Perú
+# Our MODIS–VIIRS Peru API
 
-Estado documentado: 15 de noviembre de 2026. API `0.4.0`.
+Documented state: 15 November 2026. API `0.4.0`.
 
-El visor incorpora [evidencia histórica y registros oficiales](https://modis-viirs-harmonization-production.up.railway.app/visor/#validacion): catálogo de 15 140 referencias atribuidas a INDECI, con coincidencias y casos sin coincidencia, documentos y trazabilidad. Datos versionados en `/visor/validation-data/summary.json`; [metodología de esta sección](VALIDACION_WEB.md). Es un contraste histórico, no validación de igniciones físicas ni de la probabilidad futura.
+The viewer includes [historical evidence and official records](https://modis-viirs-harmonization-production.up.railway.app/visor/#validacion): a catalog of 15,140 references attributed to INDECI, with matches and non-matches, documents and traceability. Versioned data in `/visor/validation-data/summary.json`; [methodology of this section](VALIDACION_WEB.md). It is a historical comparison, not a validation of physical ignitions or of the future probability.
 
-Esta versión añade el pronóstico regional experimental: `GET /v1/fire-risk?region_id=08&target_week_start=2026-11-16`, `/v1/fire-risk/outlook` y `/v1/fire-risk/metadata`. Son 25 regiones por 12 semanas, con probabilidades de nuevos episodios detectados, sin ignición física verificada. Esta emisión vence el 22 de noviembre de 2026 a las 00:00 de Lima y aún requiere renovación manual. Uso, límites y Postman: [piloto de pronósticos](PILOTO_PRONOSTICOS.md).
+This version adds the experimental regional forecast: `GET /v1/fire-risk?region_id=08&target_week_start=2026-11-16`, `/v1/fire-risk/outlook` and `/v1/fire-risk/metadata`. It covers 25 regions over 12 weeks, with probabilities of new detected episodes, without verified physical ignition. This issue expires on 22 November 2026 at 00:00 Lima time and still requires manual renewal. Usage, limits and Postman: [forecast pilot](PILOTO_PRONOSTICOS.md).
 
-## Qué hicimos
+## What we did
 
-Publicamos una API de consulta para comparar la actividad térmica reportada por MODIS y VIIRS en Perú. Devuelve dos series semanales en una escala estadística común, con filtros por departamento, celda y fechas. También incluye un pronóstico experimental y un visor web.
+We published a query API to compare the thermal activity reported by MODIS and VIIRS in Peru. It returns two weekly series on a common statistical scale, with filters by department, cell and dates. It also includes an experimental forecast and a web viewer.
 
-**URL base:** https://modis-viirs-harmonization-production.up.railway.app
+**Base URL:** https://modis-viirs-harmonization-production.up.railway.app
 
-- [Documentación interactiva](https://modis-viirs-harmonization-production.up.railway.app/docs).
-- [Visor regional](https://modis-viirs-harmonization-production.up.railway.app/visor/).
-- Las consultas son `GET`, sin API key. CORS permite consumirlas desde una web externa.
-- El servicio consulta resultados precalculados; no entrena modelos por petición.
+- [Interactive documentation](https://modis-viirs-harmonization-production.up.railway.app/docs).
+- [Regional viewer](https://modis-viirs-harmonization-production.up.railway.app/visor/).
+- All queries are `GET`, with no API key. CORS allows calling them from an external website.
+- The service queries precomputed results; it does not train models per request.
 
-**Alcance:** este dominio publica nuestra API de series. La API de eventos del compañero sigue siendo un servicio separado; todavía no está integrada detrás de esta URL.
+**Scope:** this domain publishes our series API. The teammate's events API is still a separate service; it is not yet integrated behind this URL.
 
-## Datos disponibles
+## Available data
 
-| Serie | Inicio | Último día incluido |
+| Series | Start | Last day included |
 | --- | --- | --- |
 | MODIS | 2000-11-06 | 2026-07-26 |
 | VIIRS | 2012-02-06 | 2026-07-26 |
 
-La unidad es una semana UTC, de lunes a domingo. Hay 13.405 celdas de 10 × 10 km que intersectan Perú y un catálogo de 25 departamentos/Callao. MODIS conserva 10 semanas nacionales sin estimación; antes del inicio de VIIRS sus valores son nulos.
+The unit is a UTC week, Monday to Sunday. There are 13,405 cells of 10 × 10 km that intersect Peru and a catalog of 25 departments/Callao. MODIS keeps 10 national weeks without an estimate; before VIIRS starts, its values are null.
 
-## Rutas principales
+## Main routes
 
-Todas las rutas se agregan a la URL base.
+All routes are appended to the base URL.
 
-| Ruta | Para qué sirve |
+| Route | Purpose |
 | --- | --- |
-| `/health` | Estado del servicio y existencia del snapshot histórico |
-| `/v1/empirical/metadata` | Método, periodo y limitaciones de los datos |
-| `/v1/regions` | Códigos y nombres de departamentos |
-| `/v1/regions/locate?latitude=-13.5319&longitude=-71.9675` | Departamento que contiene una coordenada |
-| `/v1/regions/08/geometry` | Polígono de Cusco en GeoJSON |
-| `/v1/empirical/series` | Series semanales de ambos instrumentos |
-| `/v1/empirical/cells?region_id=08` | Celdas que intersectan Cusco |
-| `/v1/forecasts?region_id=08` | Pronóstico experimental por celda |
-| `/v1/validation` | Resultados y limitaciones de validación |
+| `/health` | Service status and presence of the historical snapshot |
+| `/v1/empirical/metadata` | Method, period and limitations of the data |
+| `/v1/regions` | Department codes and names |
+| `/v1/regions/locate?latitude=-13.5319&longitude=-71.9675` | Department that contains a coordinate |
+| `/v1/regions/08/geometry` | Cusco polygon as GeoJSON |
+| `/v1/empirical/series` | Weekly series of both instruments |
+| `/v1/empirical/cells?region_id=08` | Cells that intersect Cusco |
+| `/v1/forecasts?region_id=08` | Experimental forecast per cell |
+| `/v1/validation` | Validation results and limitations |
 
-`/v1/series` está reservado para una futura serie con corrección completa de cobertura. Para los datos entregados se usa **`/v1/empirical/series`**.
+`/v1/series` is reserved for a future series with full coverage correction. For the delivered data, use **`/v1/empirical/series`**.
 
-## Ejemplo de consulta
+## Query example
 
-Comparación de Cusco durante agosto de 2023:
+Comparison for Cusco during August 2023:
 
 ```text
 GET https://modis-viirs-harmonization-production.up.railway.app/v1/empirical/series?region_id=08&start=2023-08-01&end=2023-09-01
 ```
 
-- `region_id`: código del departamento; `08` es Cusco. Sin filtro de lugar devuelve el total de Perú.
-- `start`: fecha inicial incluida. `end`: fecha final excluida.
-- `instrument=MODIS` o `instrument=VIIRS`: opcional; sin filtro devuelve ambos.
-- `cell_id`: permite consultar una celda; no se combina con `region_id`.
-- `week_selection=starts_within`: comportamiento predeterminado; selecciona semanas cuyo lunes está dentro del intervalo.
-- `week_selection=overlap`: incluye semanas que se cruzan con el intervalo. Devuelve semanas completas, sin repartir sus conteos entre días.
-- `limit` y `offset`: paginación, con máximo de 1.000 registros por petición. Continuar con `pagination.next_offset` hasta que sea `null`.
+- `region_id`: department code; `08` is Cusco. Without a place filter it returns the total for Peru.
+- `start`: first date, included. `end`: last date, excluded.
+- `instrument=MODIS` or `instrument=VIIRS`: optional; without a filter it returns both.
+- `cell_id`: queries a single cell; cannot be combined with `region_id`.
+- `week_selection=starts_within`: default behaviour; selects weeks whose Monday is inside the interval.
+- `week_selection=overlap`: includes weeks that overlap the interval. It returns whole weeks, without splitting their counts across days.
+- `limit` and `offset`: pagination, with a maximum of 1,000 records per request. Continue with `pagination.next_offset` until it is `null`.
 
-En Postman: seleccionar **GET**, pegar la URL y pulsar **Send**.
+In Postman: select **GET**, paste the URL and click **Send**.
 
 ```javascript
 const base = "https://modis-viirs-harmonization-production.up.railway.app";
@@ -77,37 +77,37 @@ const result = await response.json();
 console.table(result.data);
 ```
 
-## Cómo interpretar la respuesta
+## How to read the response
 
-La respuesta contiene `metadata`, `data` y `pagination`.
+The response contains `metadata`, `data` and `pagination`.
 
-| Campo de cada registro | Significado |
+| Field of each record | Meaning |
 | --- | --- |
-| `week_start_utc` | Lunes de la semana |
-| `instrument` / `platform` | Instrumento y plataforma seleccionada |
-| `raw_count` | Número original de detecciones de esa plataforma |
-| `harmonized_count` | Conteo ajustado a la escala común |
-| `lower_bound` / `upper_bound` | Banda del 95 % de incertidumbre del factor de calibración |
-| `coverage_status` | Actualmente `unknown`: no se certifica cobertura completa |
-| `estimation_status` | `estimated` si hay estimación; `unavailable` si falta |
+| `week_start_utc` | Monday of the week |
+| `instrument` / `platform` | Selected instrument and platform |
+| `raw_count` | Original number of detections of that platform |
+| `harmonized_count` | Count adjusted to the common scale |
+| `lower_bound` / `upper_bound` | 95 % uncertainty band of the calibration factor |
+| `coverage_status` | Currently `unknown`: full coverage is not certified |
+| `estimation_status` | `estimated` if there is an estimate; `unavailable` if it is missing |
 
-Un valor nulo no significa cero incendios. Un conteo ajustado tampoco es un número de incendios independientes. La versión del método y el identificador del snapshot están en los metadatos.
+A null value does not mean zero fires. An adjusted count is not a number of independent fires either. The method version and the snapshot identifier are in the metadata.
 
-`record_probability`, en `/v1/forecasts`, es una probabilidad experimental de registro satelital para la semana **16–22 de noviembre de 2026**. No es una probabilidad operativa de ignición ni un pronóstico actualizado diariamente.
+`record_probability`, in `/v1/forecasts`, is an experimental probability of a satellite record for the week of **16–22 November 2026**. It is not an operational ignition probability or a forecast updated daily.
 
-## Implementación, despliegue y pruebas
+## Implementation, deployment and tests
 
-- **FastAPI + SQLite:** snapshot de consulta de solo lectura, publicado comprimido en `data/history.sqlite.gz`.
-- **Geografía:** R*Tree obtiene candidatos y después se comprueba el polígono exacto. Índices B-tree aceleran consultas por región, instrumento y fecha.
-- **Conteos regionales:** se asignan por la ubicación original de cada detección, no por el centro de una celda fronteriza. Las consultas de celdas usan intersección de área; los filtros `bbox` de celdas usan sus centros.
-- **Railway + Docker:** el build restaura el snapshot, verifica SHA-256 e integridad SQLite y permite su lectura al usuario no root. Una comprobación durante el build consulta los datos con ese usuario.
-- **Verificación:** 34 pruebas de API aprobadas en la preparación del despliegue y comprobación externa del dominio: snapshot, CORS, regiones, coordenadas, valores regionales, pronóstico y ausencia de reconstrucción administrativa pública.
+- **FastAPI + SQLite:** read-only query snapshot, published compressed in `data/history.sqlite.gz`.
+- **Geography:** an R*Tree finds candidates and then the exact polygon is checked. B-tree indexes speed up queries by region, instrument and date.
+- **Regional counts:** assigned by the original location of each detection, not by the centre of a border cell. Cell queries use area intersection; cell `bbox` filters use their centres.
+- **Railway + Docker:** the build restores the snapshot, checks SHA-256 and SQLite integrity and makes it readable by the non-root user. A check during the build queries the data as that user.
+- **Verification:** 34 API tests passed while preparing the deployment, plus an external check of the domain: snapshot, CORS, regions, coordinates, regional values, forecast and absence of a public administrative rebuild.
 
-`/health` comprueba existencia de archivos, no toda la integridad de las consultas. Puede mostrar `database_available=false` porque falta la base antigua `firms.sqlite`, mientras `historical_snapshot_available=true` identifica el snapshot actual. La comprobación externa sí consulta resultados de datos.
+`/health` checks that files exist, not the full integrity of the queries. It may show `database_available=false` because the old `firms.sqlite` database is missing, while `historical_snapshot_available=true` identifies the current snapshot. The external check does query data results.
 
-Archivos útiles: [código de la API](../api/api.py), [consultas históricas](../api/history_api.py), [Postman](../api/POSTMAN_REGIONES.postman_collection.json), [cliente JavaScript](../api/cliente.js), [Dockerfile](../deploy/series.Dockerfile) y [verificador público](../deploy/verify_public.py).
+Useful files: [API code](../api/api.py), [historical queries](../api/history_api.py), [Postman](../api/POSTMAN_REGIONES.postman_collection.json), [JavaScript client](../api/cliente.js), [Dockerfile](../deploy/series.Dockerfile) and [public verifier](../deploy/verify_public.py).
 
-Para ejecutar localmente, desde la raíz del repositorio:
+To run locally, from the repository root:
 
 ```bash
 python -m pip install -r api/requirements.txt
@@ -115,10 +115,10 @@ python api/restaurar_snapshot.py
 python api/serve.py
 ```
 
-La API local queda en `http://localhost:8000/docs`. Para verificar el despliegue real:
+The local API is at `http://localhost:8000/docs`. To verify the real deployment:
 
 ```bash
 python deploy/verify_public.py https://modis-viirs-harmonization-production.up.railway.app
 ```
 
-La integración con eventos y el nuevo modelo con meteorología y NRT son trabajo pendiente. La metodología de la versión entregada está en [METODOLOGIA.md](METODOLOGIA.md).
+Integration with the events API and the new model with weather data and NRT are pending work. The methodology of the delivered version is in [METODOLOGIA.md](METODOLOGIA.md).
