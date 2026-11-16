@@ -43,6 +43,15 @@ Dates are product-specific: historical series use UTC weeks and exclusive end
 dates; event queries use UTC dates with an inclusive end; regional forecasts use
 Monday-to-Sunday America/Lima weeks with an exclusive following Monday.
 
+## Application features
+
+- The main indicator compares harmonized instrument counts. Original detections are available in the harmonization laboratory.
+- Department maps support province drill-down and capital markers. Breadcrumbs and Escape move up one level.
+- Province statistics come from the historical events API, not from provincial harmonized series or forecasts. Events are assigned by their representative point. The default window is the last 90 covered days, with a maximum 366-day query and explicit pagination limits.
+- The planning module combines observed history with editable action templates stored in the browser. Responsible institutions are not assigned automatically.
+- Support contacts include an official source and verification status. Channels without a confirmed official reference are not published; tests enforce source attribution.
+- Territory reports can be printed to PDF through the browser and exported as monthly CSV data.
+
 ## Geographic inputs
 
 Province boundaries and capitals come from

@@ -1,6 +1,7 @@
 import { useState } from 'react'
 import { CalendarDays, ClipboardList, CloudSun, FileText, FlaskConical, LayoutDashboard, LifeBuoy, Map, Menu, ShieldAlert, TrendingUp, X, type LucideIcon } from 'lucide-react'
 import { API_BASE } from './api'
+import { EVENTS_UPSTREAM } from './lib/proxy-rules'
 import { AppProvider, useApp, type Indicator, type Route } from './state'
 import { Boundary, fmt, INDICATOR_LABEL, Select, YearInput } from './ui'
 import Panorama from './modules/Panorama'
@@ -113,7 +114,7 @@ function Shell() {
             Conteos armonizados en una escala común Aqua/Suomi-NPP por semana UTC; no son número de incendios ni cobertura corregida.
             Sin estimación no significa cero. La banda cubre solo la incertidumbre del factor de calibración. Las detecciones son observaciones; los eventos, agrupaciones de detecciones; los conteos comparables, estimaciones; y el pronóstico, una probabilidad regional experimental.
           </p>
-          <p className="mt-2">Datos: <a className="text-sky underline" href={`${API_BASE}/docs`} target="_blank" rel="noreferrer">API de series y pronósticos</a> y API de eventos históricos, servicios independientes · NASA Space Apps Challenge 2026</p>
+          <p className="mt-2">Datos: <a className="text-sky underline" href={`${API_BASE}/docs`} target="_blank" rel="noreferrer">API de series y pronósticos</a> y API de eventos históricos (<a className="text-sky underline" href={`${EVENTS_UPSTREAM}/docs`} target="_blank" rel="noreferrer">{EVENTS_UPSTREAM.replace('https://', '')}</a>), servicios independientes · NASA Space Apps Challenge 2026</p>
         </footer>
       </div>
     </div>

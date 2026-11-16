@@ -119,7 +119,7 @@ export default function Planes() {
               </>
             )}
           </Card>
-          <p className="max-w-[80ch] text-xs text-muted">Las acciones son recomendaciones generales de prevención, no un plan oficial ni una orden. Los números de contacto están en «Centros de apoyo» con su estado de verificación. Los porcentajes del pronóstico son regionales y experimentales.</p>
+          <p className="max-w-[80ch] text-xs text-muted">Las acciones son recomendaciones generales de prevención, no un plan oficial ni una orden. Los datos de contacto verificados están en «Centros de apoyo». Los porcentajes del pronóstico son regionales y experimentales.</p>
         </div>
       )}
     </>
