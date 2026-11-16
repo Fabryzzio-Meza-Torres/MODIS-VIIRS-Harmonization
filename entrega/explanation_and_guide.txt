@@ -1,0 +1,317 @@
+MODIS–VIIRS PERU DELIVERY · REVISION 1.1
+Guide to understanding, explaining, running, and delivering the work
+
+1. CURRENT STATE OF THE DELIVERY
+
+The agreed empirical delivery has been generated: two comparable count series, a REST API, an experimental forecast, executed notebooks, and validations.
+
+MODIS: November 6, 2000, to July 26, 2026.
+VIIRS: February 6, 2012, to July 26, 2026.
+
+Dates represent full UTC weeks, from Monday to Sunday. The last week_start_utc is 2026-07-20; that week ends on July 26.
+
+MODIS: 1,342 calendar weeks; 1,332 with an estimation and 10 without a value.
+VIIRS: 755 weeks since its inception, all with a national estimation.
+The joint CSV contains 2,684 rows: two instruments per week since 2000.
+Its 587 VIIRS rows prior to February 2012 remain without a value.
+
+The 10 MODIS weeks without a value begin on:
+2001-01-15, 2001-04-09, 2001-04-30, 2001-05-07, 2001-06-18,
+2001-06-25, 2002-02-25, 2002-03-18, 2002-03-25, and 2010-02-01.
+
+Not having eligible records does not prove that there were no fires or that there was no observation. Those weeks are kept as unavailable, with a null value.
+
+The physical correction of the entire historical coverage is NOT finished.
+coverage_corrected=false is an explicit part of the contract, not an omitted detail.
+The current delivery does not recover all the fires that the satellites might have missed.
+
+2. PROBLEM AND RESULT WE CAN EXPLAIN
+
+MODIS and VIIRS detect thermal activity with different resolution, response, and observation opportunities. Directly comparing their point counts can confuse an instrument change with a change in activity.
+
+Our result maintains TWO lines per zone and week, on a common scale of adjusted reported counts. It does not convert each point into an independent fire. It also does not force the two curves to be identical.
+
+The precise name to present this version is:
+"Empirical harmonization of MODIS–VIIRS reported counts for Peru."
+
+You can say: "We standardized the space, time, and relative response of the platforms, preserving missing data and uncertainty."
+
+You should not say: "We reconstructed the true number of fires for all of Peru," "we corrected all historical cloud cover," or "we predicted where a fire will start."
+
+3. DATA AND PREPARATION
+
+Source: four NASA FIRMS ZIP files delivered by the team:
+MODIS C6.1, VIIRS Suomi-NPP C2, NOAA-20 C2, and NOAA-21 C2.
+MODIS includes the Terra and Aqua platforms; VIIRS is the instrument on the other three.
+
+UTC dates, coordinates, platform, type, and quality variables were normalized.
+Inventories, source rows, and hashes were preserved for traceability.
+Scientific SP products and type=0, with presumably vegetation activity, are used.
+NRT records whose type field is not available are not mixed automatically.
+An identical confidence threshold was not imposed between instruments: their scales are different. The originals retain those fields for sensitivity analysis.
+
+For the historical delivery, 2,228,157 detections from the five platforms were retained, after filtering by period, full weeks, type, and the official boundary of Peru.
+They were aggregated into 855,553 positive cell-week-platform groups.
+
+The boundary is a union of official MINAM departments, generalized for this analysis.
+Its detail is approximately 500 m; two departments were refined to about 100 m.
+The classification of points very close to the border may depend on that detail.
+
+Why those dates:
+- MODIS starts on the first full week of the archive: Monday, 2000-11-06.
+- VIIRS begins on Monday, 2012-02-06, excluding the initial problematic period.
+- The scientific common cutoff is July 2026. The week starting 2026-07-27 ends in August and does not fall entirely within the common cutoff.
+
+4. SPATIAL AND TEMPORAL ORGANIZATION
+
+An equal-area LAEA projection is used:
++proj=laea +lat_0=-9 +lon_0=-75 +datum=WGS84 +units=m +no_defs
+
+Peru is divided into 13,405 10 × 10 km cells that intersect the country.
+Border cells have less than 100 km² of surface area within Peru.
+
+A cell-week is a fixed location observed during a fixed week.
+Example: square A during the week of August 7 to 13.
+The following Monday is another temporal unit of the same square.
+
+The count is the number of points reported by a platform in that unit.
+Presence of records only indicates if at least one exists: it is not the same as the number of detections, nor does it confirm the absence of fires when there are no points.
+
+The R-tree served in the previous stage to verify geographic assignments.
+The final preparation of the regular grid assigns points by projected coordinates and integer division; the proximity contrast uses a cKDTree spatial-temporal tree.
+These are not algorithms that harmonize the instruments' sensitivity on their own.
+
+5. HOW WE HARMONIZED THE COUNTS
+
+Conceptual model:
+expected count = shared activity × observational exposure × response.
+
+The full national masks are not yet processed. Therefore, exposure cannot be entirely separated from the response: we calibrate an EMPIRICAL relative response, which can also absorb differences in observation opportunities.
+
+During the overlap, we look for pairs of platforms with points in the same cell-week. Under a Poisson assumption, conditioning on the sum of their counts yields a binomial distribution that eliminates the shared activity.
+
+Since the CSVs contain positives and not all observed zeros, the distribution is further conditioned on both platforms having detections. 1+1 pairs do not inform the contrast and are excluded.
+
+The common reference is set by making the geometric mean of the Aqua and Suomi-NPP responses equal to 1. Neither is declared absolute truth.
+
+Output formula:
+comparable_count = reported_count / estimated_response
+                 = reported_count × factor
+
+Factors of the selected global model, approximately:
+Aqua:       1.993784
+Suomi-NPP:  0.501559
+Terra:      4.311475
+NOAA-20:    0.512807
+NOAA-21:    0.520861
+
+Example: 1 Aqua point produces 1.994 comparable units.
+7 Suomi-NPP points produce 3.511 comparable units.
+Those decimals express an estimation on the common scale, not fractions of a fire.
+The remaining differences between instruments are possible and are not forcibly erased.
+
+This version is NOT the previous VIIRS baseline converted to Aqua units.
+Notebook 07 retains that exploratory baseline; notebook 09 and the current API use the symmetric common scale and the empirical-positive-pair-v1.1 revision.
+The WAPE metrics from the previous baseline should not be attributed to the current model.
+
+6. HOW WE AVOID ARTIFICIAL INCREASES FROM MORE SATELLITES
+
+Each instrument uses one platform per week across the entire country:
+- MODIS prioritizes Aqua; Terra allows extending the history prior to Aqua.
+- VIIRS prioritizes Suomi-NPP; NOAA-20 serves as a bridge in a week without national Suomi-NPP records. NOAA-21 is calibrated as a bridge but it was not necessary to select it in the published main series.
+
+Aqua+Terra or all VIIRS platforms are not summed to build each line.
+Local gaps are also not filled by selectively adding other satellites.
+Terra after 2023 is not used as a backup.
+
+Published counts of selected platforms:
+MODIS: 296,234 original detections; VIIRS: 1,025,785.
+They are a subset of the 2,228,157 used in the multi-platform preparation.
+
+513,756 positive cell-week-instrument rows are published.
+The table by cell is sparse: it does not materialize millions of invented zeros.
+The API generates the requested calendar and returns nulls where there is no estimation.
+
+7. VALIDATION AND UNCERTAINTY
+
+Global, seasonal, and regional-seasonal models were compared.
+The selection uses 2019–2021 and requires at least a 1% likelihood improvement to increase complexity. The global one was kept: the other improvements were minor.
+
+The adjustment of established platforms uses data up to 2021.
+NOAA-21 enters with a bridge from March–June 2023 without changing previous factors.
+200 km spatial blocks reserved for validation are excluded from the adjustment.
+The final 2024–2025 test was opened after freezing the selection.
+model.json retains a snapshot prior to evaluation; the executed result is credited in final_evaluation.json and final_test_2024_2025.csv.
+
+Conditional MAE results, identity vs. calibration:
+2024, seen zones:       1.833 -> 1.099
+2024, reserved zones:   2.454 -> 1.261
+2025, seen zones:       1.253 -> 0.971
+2025, reserved zones:   1.328 -> 0.993
+
+These errors measure the assignment of the observed total between two platforms in pairs with detections. They are NOT errors against the real number of fires.
+MAE: mean absolute error; RMSE: heavily penalizes large errors.
+Conditional NLL: measures fit to the observational distribution; lower is better.
+
+95% bands: 100 bootstrap replicates with shared weights by 28-day blocks.
+There are 237 training blocks and five in the NOAA-21 bridge.
+In the national total, each complete replicate is summed, preserving its correlation.
+The bands represent factor uncertainty under the model, not all uncertainty from missed fires, cloud cover, exposure, or the Poisson assumption.
+
+IMPORTANT REVISION: v1.1 fixed a pandas temporal units error in the bootstrap. The previous bands were removed. The central parameters and forecast variables were preserved, verified to a tolerance of 1e-12. Regression tests were added for microsecond and nanosecond dates. Use the updated v1.1 package, not a previously downloaded copy.
+
+8. CONTRAST WITH THE OFFICIAL MINAM REGISTRY
+
+The 54,493 records of the official "Historical Registry of Fires 2000–2025" layer were downloaded and preserved by identifier.
+Exact equivalence with the requested portal resource has not been demonstrated: the portal returned a 403, and we used the accessible official geographic service.
+
+Dates, locations, duplicates, and INDECI/MINAM/ORORATECH origins were reviewed.
+In the common period 2013–2025, 44,374 contrast references remained.
+Not all equate to independent fires; some are references by location and date without a usable emergency code.
+
+Fixed main window: 5 km and ±3 calendar days.
+Sensitivities of 10 km/±3 days and 25 km/±7 days are reported.
+Dates are also shifted −28 and +28 days as descriptive controls.
+
+In references with a declared INDECI origin, the main match was:
+MODIS: 19.64%; VIIRS: 45.11%.
+When shifting dates ±28 days, those proportions were lower.
+This provides evidence of temporal and spatial association, not a detection rate of all fires or a measurement of omissions. The independence of the registry regarding alerts and satellite images remains to be verified.
+
+National weekly records were also correlated. Multiplying a series by a constant positive factor preserves the correlation: that correlation does not prove the harmonized scale is correct.
+
+9. WHAT WE DID WITH THE ARTICLE
+
+Equations of the published FRP operator were implemented independently:
+https://doi.org/10.5194/gmd-19-10123-2026
+
+Table constants, units, limits, and numerical behavior were verified.
+A discrepancy was documented between table evaluations and summarized values in the text, with A0=0 as an explicit assumption pending confirmation.
+
+The module remains research-oriented. It is not enabled as a production counts correction. FRP measures radiative power in MW; it is not the number of fires, and summing FRP from flyovers does not directly equate to emitted energy.
+
+10. DELIVERED EXPERIMENTAL FORECAST
+
+Target week fixed: November 16–22, 2026.
+A row represents a 10 km cell.
+record_probability estimates the probability of a weekly satellite record under the learned historical regime. It does not estimate the physical probability of ignition.
+
+Variables: geography, cell fraction within Peru, seasonality, activity from approximately one year prior, and presence of records one and two years prior.
+It does not use meteorology or recent detections from November 2026.
+The comparable activity used as a variable is the average of available instruments, not their sum.
+
+Training: 2013–2021.
+Probability calibration: 2022.
+Brier selection: 2023.
+Final test: 2024–2025.
+Selected model: HistGradientBoostingClassifier, against monthly climatology.
+Training negatives are sampled at 12.5% with inverse weights; validation and test preserve their original distribution.
+
+The spatial test reserves blocks; in those zones, previous history is available as a variable. It is not a test in locations without historical data.
+
+Average precision measures ordering of positives; Brier measures probability error.
+Examples in seen zones:
+2024: AP 0.470; Brier 0.02897.
+2025: AP 0.346; Brier 0.02536.
+
+The model does not always outperform climatology. In zones seen during 2025, climatology achieves better AP and Brier; the result is preserved and documented.
+No other model was selected after looking at the test.
+
+The forecast is an experimental seasonal reference, not an operational alert.
+The 2026 platform change is not yet validated in that forecast.
+The map shows cell centers and probabilities, not ignition coordinates.
+
+11. MAIN FILES IN THE PACKAGE
+
+data/national_series.csv: two national lines, full calendar since 2000.
+data/cell_series.csv.gz: values by cell-week-instrument with records.
+data/cells.csv: identifiers, geographic centers, and surface area within Peru.
+data/forecast_cells.csv.gz: ranking and experimental probability for each cell.
+data/series_metadata.json: unit, period, version, coverage, and limitations.
+data/all_platform_calibrations.csv.gz, if included: supplement with all five adjusted platforms. Do not sum them to replace the two main lines.
+api/history.sqlite: query snapshot; allows using the API without the original ZIPs.
+api/: FastAPI service, JavaScript client, schema, and tests.
+pipeline/: preparation, calibration, export, forecast, and reproducibility.
+reports/: metrics, factors, traceability, v1.1 correction, and contrasts.
+
+Recommended notebooks to read in order:
+notebooks/09_series_comparables.ipynb
+notebooks/10_pronostico_experimental.ipynb
+notebooks/11_limites_deteccion.ipynb
+validacion/12_contraste_registro_MINAM.ipynb
+
+Notebooks include executed outputs to review them without retraining.
+To rerun them, the prepared artifacts are needed, not just unzipping the ZIP.
+pipeline/REPRODUCIR.txt explains how to reconstruct them from the originals.
+
+12. FIELDS YOU MUST KNOW HOW TO EXPLAIN
+
+week_start_utc: Monday of the week; all dates in the series use UTC.
+instrument: MODIS or VIIRS.
+platform: satellite/platform selected that week.
+raw_count: original points reported by that platform.
+harmonized_count: adjusted count on the empirical common scale.
+lower_bound/upper_bound: band of the calibration factor.
+coverage_status=unknown: full observation coverage is not certified.
+estimation_status=estimated: an adjusted count exists.
+estimation_status=unavailable: no estimation is available; it does not mean zero.
+method_version: method used, currently empirical-positive-pair-v1.1.
+source_snapshot_id: identifies the inputs and the batch model.
+calibration_period_status: warns of extrapolation prior to overlap or subsequent to validation periods.
+record_probability: experimental probability of a record, between 0 and 1.
+rank: experimental prioritization order, 1 corresponds to the highest value.
+
+13. HOW TO RUN THE API TO DEMONSTRATE IT
+
+Unzip the package into a folder. Open a terminal in that folder.
+Tested with Python 3.13; a virtual environment is recommended.
+
+python -m pip install -r api/requirements.txt
+python -m uvicorn api:app --app-dir api --host 127.0.0.1 --port 8000
+
+Open http://127.0.0.1:8000/docs
+
+If you use a cloned Git copy instead of the ZIP package, first run:
+python api/restaurar_snapshot.py
+This reconstructs api/history.sqlite from data/history.sqlite.gz and verifies hashes and SQLite integrity. The delivery ZIPs already contain the uncompressed base.
+
+Routes in the current delivery:
+GET /v1/empirical/metadata
+GET /v1/empirical/series?start=2000-11-06&end=2026-07-27&limit=1000
+GET /v1/empirical/cells?limit=1000
+GET /v1/forecasts?limit=100
+GET /v1/validation
+
+Add instrument=MODIS or instrument=VIIRS to choose a line.
+Add cell_id for a cell. First discover valid IDs in /v1/empirical/cells.
+end is EXCLUSIVE: to include up to July 26, use end=2026-07-27.
+Follow pagination.next_offset until null: the maximum per page is 1,000.
+Without instrument, the entire national history occupies 2,684 rows and requires three pages.
+Bbox queries use west,south,east,north and filter cell centers.
+
+IMPORTANT: /v1/series is reserved for the full correction, not yet published.
+For this demo, use /v1/empirical/series.
+It is a local API ready to integrate with HTML/JS, React, or Next.js. Public internet hosting is a separate deployment task.
+
+14. HOW TO DELIVER AND PUSH YOUR PART
+
+The previous code and notebooks were already uploaded to the repository:
+https://github.com/Fabryzzio-Meza-Torres/MODIS-VIIRS-Harmonization
+Last implementation commit verified before this guide: e6ef897.
+The requested publication also incorporates the guides, derived data, and the package.
+The following steps are for future updates or a personal copy.
+
+On this computer, the working copy is at:
+C:\Users\ASUS\Documents\Codex\2026-11-14\vo\work\MODIS-VIIRS-Harmonization
+
+From PowerShell:
+cd "C:\Users\ASUS\Documents\Codex\2026-11-14\vo\work\MODIS-VIIRS-Harmonization"
+git status
+git add entrega/EXPLICACION_Y_GUIA.txt entrega/PRESENTACION_90_SEGUNDOS.txt entrega/VERIFICACION_ENTREGA.json entrega/API_EJEMPLOS.json
+git commit -m "Documentar entrega historica Peru y guia de presentacion"
+git push origin main
+
+If you are working from another copy of the same repository, update it with git pull --ff-only and copy the entrega folder before adding it.
+If the team uses another repository, incorporate the code directories, notebooks, and reports you need; do not copy .git or credentials.
+
+Original ZIPs, large geolocations, caches, .env files, and keys should not be uploaded to Git. history.sqlite and large CSVs are delivered via package/data; the repository retains code, notebooks, and reports for reconstruction and review.
