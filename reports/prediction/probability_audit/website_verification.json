@@ -1,0 +1,14 @@
+{
+  "url": "https://fuegotrazo-modis-viirs.netlify.app/#pronostico?region=20&prov=2007",
+  "department": "Piura",
+  "province_in_page_filter": "Talara",
+  "displayed_first_week_percent": 99.2,
+  "API_first_week_percent": 99.16582177703222,
+  "display_rounded_to_one_decimal": true,
+  "web_uses_probability_percent_directly": true,
+  "forecast_request_has_region_id": "20",
+  "forecast_request_has_province": false,
+  "forecast_scope_explicitly_labeled_department": true,
+  "numerical_display_bug_found": false,
+  "possible_UX_improvement": "Disable or explain the province selector on the regional forecast screen."
+}

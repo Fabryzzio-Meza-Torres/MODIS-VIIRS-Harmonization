@@ -1,0 +1,20 @@
+{
+  "method_version": "regional-recorded-fire-activity-v0.2",
+  "selected": {
+    "all_regions": "lgbm_activity",
+    "spatial_shadow": "lgbm_activity"
+  },
+  "model_sha256": "3b03d0714964969f04764a76d10d0eb9e422449fbf52ba9d12f3577cd4bcdf03",
+  "dataset_sha256": "97037c93cfe845d05b56169e8c7d7e3d6a33fc4a8afa6adbad42d85ab7739783",
+  "labels_sha256": "083a9df951437021146175f2a87040965d7bec0373d7d9709fa2dba9e588e73d",
+  "target_column": "y_fire_activity_recorded",
+  "region_weeks": 10800,
+  "positive_frequency": 0.8282407407407407,
+  "differences_from_previous_onset_target": 12,
+  "model_selection_uses_2022_only": true,
+  "prospective_validation_complete": false,
+  "all_2024_2026_evaluations_are_retrospective": true,
+  "SP_NRT_transfer_validated": false,
+  "physical_ignition_probability_verified": false,
+  "individual_uncertainty_intervals_available": false
+}

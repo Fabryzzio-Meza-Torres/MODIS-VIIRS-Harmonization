@@ -63,3 +63,5 @@ NASA FIRMS supplies the satellite observations; NASA POWER supplies the regional
 Documentation is in English. The public interface remains in Spanish for its intended audience. Existing filenames, field identifiers, official source documents and versioned release archives retain their original names and contents where required for compatibility and traceability.
 
 Raw FIRMS archives, authentication files and local training caches are not stored in Git. The repository includes versioned derived snapshots, code, evaluation reports and executed notebooks.
+
+Current experimental forecast: [weekly detected fire activity, API contract and evaluation](docs/OBSERVED_FIRE_ACTIVITY.md).

@@ -1,0 +1,55 @@
+{
+  "info": {
+    "name": "Detected fire activity v0.2",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": "Experimental department-week satellite detection probabilities; not verified physical ignition risk. See docs/OBSERVED_FIRE_ACTIVITY.md."
+  },
+  "variable": [
+    {
+      "key": "base_url",
+      "value": "https://modis-viirs-harmonization-production.up.railway.app"
+    }
+  ],
+  "item": [
+    {
+      "name": "Health",
+      "request": {
+        "method": "GET",
+        "url": "{{base_url}}/health"
+      },
+      "response": []
+    },
+    {
+      "name": "Detected activity metadata",
+      "request": {
+        "method": "GET",
+        "url": "{{base_url}}/v1/fire-activity/metadata"
+      },
+      "response": []
+    },
+    {
+      "name": "Piura: one target week",
+      "request": {
+        "method": "GET",
+        "url": "{{base_url}}/v1/fire-activity?region_id=20&target_week_start=2026-11-16"
+      },
+      "response": []
+    },
+    {
+      "name": "Piura: all 12 horizons",
+      "request": {
+        "method": "GET",
+        "url": "{{base_url}}/v1/fire-activity/outlook?region_id=20&limit=300"
+      },
+      "response": []
+    },
+    {
+      "name": "All departments and horizons",
+      "request": {
+        "method": "GET",
+        "url": "{{base_url}}/v1/fire-activity/outlook?limit=300"
+      },
+      "response": []
+    }
+  ]
+}

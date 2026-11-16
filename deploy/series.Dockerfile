@@ -9,6 +9,7 @@ COPY api/*.py ./api/
 COPY web/ ./web/
 COPY data/history.sqlite.gz data/manifest.json ./data/
 COPY data/regional_outlook.json data/regional_outlook_manifest.json ./data/
+COPY data/regional_activity_outlook.json data/regional_activity_outlook_manifest.json ./data/
 # Build fails on a corrupt snapshot. The verified database is part of the image,
 # so ephemeral filesystem resets do not require another network download.
 RUN python api/restaurar_snapshot.py \

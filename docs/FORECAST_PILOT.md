@@ -1,5 +1,7 @@
 # Regional pilot: what we deliver and how to test it
 
+This document describes the archived episode-proxy experiment. For the current detected-activity target and API, see [Weekly detected fire activity](OBSERVED_FIRE_ACTIVITY.md).
+
 Status: **100 % of the approved experimental delivery**, published and verified on 15 November 2026. API `0.4.0`, at https://modis-viirs-harmonization-production.up.railway.app. Automatic updating and validation of physical ignition remain pending as later work.
 
 ## What the percentage means

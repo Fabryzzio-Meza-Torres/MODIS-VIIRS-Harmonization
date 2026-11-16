@@ -3,7 +3,7 @@
   "info": {
     "title": "MODIS–VIIRS Series API",
     "description": "Series y soporte de observación versionados. Histórico UTC; pronósticos regionales America/Lima; fin exclusivo. La serie final solo se habilita tras publicar un método validado.",
-    "version": "0.4.0"
+    "version": "0.5.0"
   },
   "paths": {
     "/health": {
@@ -1071,10 +1071,303 @@
           }
         }
       }
+    },
+    "/v1/fire-activity/metadata": {
+      "get": {
+        "tags": [
+          "Experimental detected fire activity"
+        ],
+        "summary": "Metadata",
+        "operationId": "metadata_v1_fire_activity_metadata_get",
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v1/fire-activity/outlook": {
+      "get": {
+        "tags": [
+          "Experimental detected fire activity"
+        ],
+        "summary": "Outlook",
+        "operationId": "outlook_v1_fire_activity_outlook_get",
+        "parameters": [
+          {
+            "name": "region_id",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string",
+                  "pattern": "^\\d{2}$"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Region Id"
+            }
+          },
+          {
+            "name": "limit",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "maximum": 1000,
+              "minimum": 1,
+              "default": 100,
+              "title": "Limit"
+            }
+          },
+          {
+            "name": "offset",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "maximum": 1000000,
+              "minimum": 0,
+              "default": 0,
+              "title": "Offset"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ActivityPage"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v1/fire-activity": {
+      "get": {
+        "tags": [
+          "Experimental detected fire activity"
+        ],
+        "summary": "Regional Week",
+        "operationId": "regional_week_v1_fire_activity_get",
+        "parameters": [
+          {
+            "name": "region_id",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "pattern": "^\\d{2}$",
+              "title": "Region Id"
+            }
+          },
+          {
+            "name": "target_week_start",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "date",
+              "title": "Target Week Start"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ActivityPage"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
     }
   },
   "components": {
     "schemas": {
+      "ActivityPage": {
+        "properties": {
+          "metadata": {
+            "additionalProperties": true,
+            "type": "object",
+            "title": "Metadata"
+          },
+          "data": {
+            "items": {
+              "$ref": "#/components/schemas/ActivityRecord"
+            },
+            "type": "array",
+            "title": "Data"
+          },
+          "pagination": {
+            "$ref": "#/components/schemas/RiskPagination"
+          }
+        },
+        "type": "object",
+        "required": [
+          "metadata",
+          "data",
+          "pagination"
+        ],
+        "title": "ActivityPage"
+      },
+      "ActivityRecord": {
+        "properties": {
+          "region_id": {
+            "type": "string",
+            "title": "Region Id"
+          },
+          "region_name": {
+            "type": "string",
+            "title": "Region Name"
+          },
+          "issued_at": {
+            "type": "string",
+            "format": "date-time",
+            "title": "Issued At"
+          },
+          "target_week_start": {
+            "type": "string",
+            "format": "date",
+            "title": "Target Week Start"
+          },
+          "target_week_end_exclusive": {
+            "type": "string",
+            "format": "date",
+            "title": "Target Week End Exclusive"
+          },
+          "lead_weeks": {
+            "type": "integer",
+            "maximum": 12.0,
+            "minimum": 1.0,
+            "title": "Lead Weeks"
+          },
+          "probability": {
+            "anyOf": [
+              {
+                "type": "number",
+                "maximum": 1.0,
+                "minimum": 0.0
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Probability"
+          },
+          "probability_percent": {
+            "anyOf": [
+              {
+                "type": "number",
+                "maximum": 100.0,
+                "minimum": 0.0
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Probability Percent"
+          },
+          "estimation_status": {
+            "type": "string",
+            "enum": [
+              "estimated",
+              "unavailable"
+            ],
+            "title": "Estimation Status"
+          },
+          "quality_status": {
+            "type": "string",
+            "enum": [
+              "experimental",
+              "insufficient_support"
+            ],
+            "title": "Quality Status"
+          },
+          "unavailable_reasons": {
+            "items": {
+              "type": "string"
+            },
+            "type": "array",
+            "title": "Unavailable Reasons"
+          },
+          "features_outside_region_training_range": {
+            "items": {
+              "type": "string"
+            },
+            "type": "array",
+            "title": "Features Outside Region Training Range"
+          },
+          "historical_reference": {
+            "$ref": "#/components/schemas/HistoricalReference"
+          },
+          "difference_from_historical_frequency_pp": {
+            "anyOf": [
+              {
+                "type": "number",
+                "maximum": 100.0,
+                "minimum": -100.0
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Difference From Historical Frequency Pp"
+          }
+        },
+        "type": "object",
+        "required": [
+          "region_id",
+          "region_name",
+          "issued_at",
+          "target_week_start",
+          "target_week_end_exclusive",
+          "lead_weeks",
+          "estimation_status",
+          "quality_status",
+          "unavailable_reasons",
+          "features_outside_region_training_range",
+          "historical_reference",
+          "difference_from_historical_frequency_pp"
+        ],
+        "title": "ActivityRecord"
+      },
       "CellPage": {
         "properties": {
           "metadata": {
@@ -1361,6 +1654,71 @@
         },
         "type": "object",
         "title": "HTTPValidationError"
+      },
+      "HistoricalReference": {
+        "properties": {
+          "frequency_percent": {
+            "anyOf": [
+              {
+                "type": "number",
+                "maximum": 100.0,
+                "minimum": 0.0
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Frequency Percent"
+          },
+          "positive_weeks": {
+            "type": "integer",
+            "minimum": 0.0,
+            "title": "Positive Weeks"
+          },
+          "total_weeks": {
+            "type": "integer",
+            "minimum": 0.0,
+            "title": "Total Weeks"
+          },
+          "years": {
+            "items": {
+              "type": "integer"
+            },
+            "type": "array",
+            "title": "Years"
+          },
+          "seasonal_half_window_days": {
+            "type": "integer",
+            "const": 14,
+            "title": "Seasonal Half Window Days"
+          },
+          "source": {
+            "type": "string",
+            "title": "Source"
+          },
+          "is_independent_binomial_sample": {
+            "type": "boolean",
+            "const": false,
+            "title": "Is Independent Binomial Sample"
+          },
+          "coverage_corrected": {
+            "type": "boolean",
+            "const": false,
+            "title": "Coverage Corrected"
+          }
+        },
+        "type": "object",
+        "required": [
+          "frequency_percent",
+          "positive_weeks",
+          "total_weeks",
+          "years",
+          "seasonal_half_window_days",
+          "source",
+          "is_independent_binomial_sample",
+          "coverage_corrected"
+        ],
+        "title": "HistoricalReference"
       },
       "LocatedRegion": {
         "properties": {

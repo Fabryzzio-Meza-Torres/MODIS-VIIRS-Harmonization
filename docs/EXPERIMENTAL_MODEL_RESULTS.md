@@ -1,5 +1,7 @@
 # Result of the experimental regional training
 
+This document describes the archived episode-proxy experiment. For the current detected-activity target and API, see [Weekly detected fire activity](OBSERVED_FIRE_ACTIVITY.md).
+
 Date: 2026-11-15. Version: `regional-onset-proxy-v0.1`. Progress by deliverables: **70 %**. The model is trained and evaluated; it is not published in the API yet.
 
 ## What it predicts

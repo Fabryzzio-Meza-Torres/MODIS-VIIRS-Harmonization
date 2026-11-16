@@ -1,0 +1,132 @@
+{
+  "method_version": "regional-recorded-fire-activity-v0.2",
+  "frozen_at": "2026-11-16T00:58:40.914828+00:00",
+  "target_column": "y_fire_activity_recorded",
+  "event": "at_least_one_eligible_satellite_detection_recorded_in_region_week",
+  "eligibility": "NOAA-20 SP presumed vegetation fire (type 0), nominal/high confidence; pre-2018 nonvegetation mask frozen",
+  "spatial_unit": "department",
+  "time_zone": "America/Lima",
+  "week": "Monday 00:00 inclusive to next Monday exclusive",
+  "train": "2018-2021",
+  "selection": "2022",
+  "calibration": "2023",
+  "evaluation": "2024, 2025, January-July 2026",
+  "evaluation_periods_previously_examined": true,
+  "prospective_validation_complete": false,
+  "features": [
+    "region_id",
+    "lead_weeks",
+    "target_season_sin",
+    "target_season_cos",
+    "center_lon",
+    "center_lat",
+    "log_ref_records_7d",
+    "log_ref_frp_sum_7d",
+    "log_detected_onsets_7d",
+    "log_ref_records_28d",
+    "log_ref_frp_sum_28d",
+    "log_detected_onsets_28d",
+    "log_ref_records_90d",
+    "log_ref_frp_sum_90d",
+    "log_detected_onsets_90d",
+    "days_since_ref_record",
+    "ref_no_records_90d",
+    "t2m_mean_7d",
+    "rh2m_mean_7d",
+    "ws2m_mean_7d",
+    "rain_sum_7d",
+    "t2m_mean_28d",
+    "rh2m_mean_28d",
+    "ws2m_mean_28d",
+    "rain_sum_28d",
+    "t2m_mean_90d",
+    "rh2m_mean_90d",
+    "ws2m_mean_90d",
+    "rain_sum_90d"
+  ],
+  "candidates": [
+    {
+      "name": "constant",
+      "kind": "constant",
+      "features": [
+        "region_id"
+      ]
+    },
+    {
+      "name": "climatology",
+      "kind": "climatology",
+      "features": [
+        "region_id"
+      ]
+    },
+    {
+      "name": "logistic",
+      "kind": "logistic",
+      "features": [
+        "region_id",
+        "lead_weeks",
+        "target_season_sin",
+        "target_season_cos",
+        "log_ref_records_7d",
+        "log_ref_records_28d",
+        "days_since_ref_record"
+      ]
+    },
+    {
+      "name": "lgbm_activity",
+      "kind": "lightgbm",
+      "features": [
+        "region_id",
+        "lead_weeks",
+        "target_season_sin",
+        "target_season_cos",
+        "center_lon",
+        "center_lat",
+        "log_ref_records_7d",
+        "log_ref_frp_sum_7d",
+        "log_detected_onsets_7d",
+        "log_ref_records_28d",
+        "log_ref_frp_sum_28d",
+        "log_detected_onsets_28d",
+        "log_ref_records_90d",
+        "log_ref_frp_sum_90d",
+        "log_detected_onsets_90d",
+        "days_since_ref_record",
+        "ref_no_records_90d",
+        "t2m_mean_7d",
+        "rh2m_mean_7d",
+        "ws2m_mean_7d",
+        "rain_sum_7d",
+        "t2m_mean_28d",
+        "rh2m_mean_28d",
+        "ws2m_mean_28d",
+        "rain_sum_28d",
+        "t2m_mean_90d",
+        "rh2m_mean_90d",
+        "ws2m_mean_90d",
+        "rain_sum_90d"
+      ],
+      "params": {
+        "num_leaves": 15,
+        "max_depth": 4,
+        "min_child_samples": 150,
+        "reg_lambda": 10.0
+      }
+    }
+  ],
+  "rebalance": false,
+  "selection_metric": "macro lead Brier on 2022 only; complexity requires 1% relative gain",
+  "calibration_policy": "monotonic Platt per lead fitted 2023; raw and calibrated reported, no test-driven switching",
+  "held_out_regions": [
+    "05",
+    "10",
+    "15",
+    "20",
+    "25"
+  ],
+  "new_blind_spatial_test_claimed": false,
+  "SP_NRT_transfer_validated": false,
+  "historical_availability": "SP observations with simulated latency, not true historical NRT vintages",
+  "previous_dataset_sha256": "a017242f10bf11bfed6ef2f9bac0f6c74b617fc96d7390807e1e61f2bc211368",
+  "label_source_sha256": "f5035d57f55de679addb1d70b01fbb1b32a38829264c742a74bec968dbb58811"
+}

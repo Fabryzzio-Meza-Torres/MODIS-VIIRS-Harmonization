@@ -1,0 +1,49 @@
+{
+  "audit_at": "2026-11-16T00:14:09.513973+00:00",
+  "model_changed": false,
+  "public_api_changed": false,
+  "selected_model": "lgbm_without_harmonization",
+  "snapshot_id": "298c81cf5373e5cef02882a81f5525a14b383d94cfcb9340a1a323be36f61e19",
+  "live_rows": 300,
+  "live_above_90_percent": 121,
+  "live_mean_percent": 76.28367311890293,
+  "first_week_regions_above_90_percent": 18,
+  "first_week_total_regions": 25,
+  "first_week_mean_percent": 88.85379485126396,
+  "frozen_model_vs_live_max_absolute_probability_error": 0.0,
+  "probability_percent_is_probability_times_100": true,
+  "historical_unique_region_weeks": 10800,
+  "historical_positive_frequency": 0.8271296296296297,
+  "historical_any_detection_frequency": 0.8282407407407407,
+  "target_new_episode_vs_any_detection_different_region_weeks": 12,
+  "historical_evaluation_uses_single_lead_no_duplicate_target_labels": true,
+  "historical_high_probability_lead1": [
+    {
+      "period": "2024",
+      "rows": 757,
+      "mean_probability": 0.9713921449497879,
+      "observed_frequency": 0.9854689564068693
+    },
+    {
+      "period": "2025",
+      "rows": 756,
+      "mean_probability": 0.9726823951670627,
+      "observed_frequency": 0.9933862433862434
+    },
+    {
+      "period": "confirmation_2026",
+      "rows": 355,
+      "mean_probability": 0.9661505124569366,
+      "observed_frequency": 0.9830985915492958
+    }
+  ],
+  "current_calibrated_climatology_above_90_count": 120,
+  "current_mean_absolute_model_vs_calibrated_climatology_percentage_points": 5.5579855404813,
+  "NRT_SP_transfer_validated": false,
+  "calibration_improvement_demonstrated": false,
+  "physical_ignition_probability_verified": false,
+  "intervals_are_not_independent_binomial_claims": true,
+  "interpretation": "Probability of >=1 newly detected eligible episode anywhere in a whole department during one week; not percentage of detections that are fires, not province probability.",
+  "future_outcomes_for_this_snapshot_available": false,
+  "conclusion": "High regional base rates explain saturation; exact future percentages and SP/NRT transfer remain unverified. No arbitrary rescaling."
+}

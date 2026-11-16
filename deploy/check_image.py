@@ -26,4 +26,14 @@ with TestClient(app) as client:
     else:
         assert response.status_code==200,response.text
         assert len(response.json()['data'])==12
+    activity=client.get('/v1/fire-activity/metadata')
+    assert activity.status_code==200,activity.text
+    assert activity.json()['target_event']=='at_least_one_eligible_fire_detection_recorded'
+    outlook=client.get('/v1/fire-activity/outlook?region_id=20')
+    if activity.json()['refresh_required']:
+        assert outlook.status_code==503
+    else:
+        assert outlook.status_code==200,outlook.text
+        assert len(outlook.json()['data'])==12
+    assert client.get('/v1/fire-activity?region_id=20&target_week_start=2026-11-16&prov=2007').status_code==422
 print('Runtime-user snapshot, regional and spatial queries verified')

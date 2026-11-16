@@ -1,0 +1,10 @@
+{
+  "sha256": "2f5a799cd0b1b4b2af05da43de6ddd02709ef016ba818f533366fd66fe7deb12",
+  "bytes": 363656,
+  "rows": 300,
+  "snapshot_id": "0eccb242b6c414733bac9a6b93b43bbd387a33c0592a0bc9b5125b0985cc8588",
+  "method_version": "regional-recorded-fire-activity-v0.2",
+  "model_sha256": "3b03d0714964969f04764a76d10d0eb9e422449fbf52ba9d12f3577cd4bcdf03",
+  "issued_at": "2026-11-16T02:04:00.839324+00:00",
+  "purpose": "experimental read-only API snapshot; not physical ignition truth"
+}

@@ -1,0 +1,10 @@
+{
+  "selected": {
+    "all_regions": "lgbm_activity",
+    "spatial_shadow": "lgbm_activity"
+  },
+  "model_sha256": "3b03d0714964969f04764a76d10d0eb9e422449fbf52ba9d12f3577cd4bcdf03",
+  "protocol_sha256": "450786f7177f3ce86f3137f09dfd1105d384b9afc864dd2ab82a276166619d68",
+  "evaluation_computed_in_this_run": false,
+  "historical_results_already_known_from_prior_project": true
+}

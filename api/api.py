@@ -69,10 +69,11 @@ class CellRecord(BaseModel):
     cell_id: str
 
 
-def create_app(database_path=None, origins=None, risk_snapshot_path=None, risk_clock=None):
+def create_app(database_path=None, origins=None, risk_snapshot_path=None, risk_clock=None,
+               activity_snapshot_path=None,activity_clock=None):
     database = Path(database_path or os.environ.get(
         'FIRMS_API_DB', Path(__file__).with_name('firms.sqlite'))).resolve()
-    app = FastAPI(title='MODIS–VIIRS Series API', version='0.4.0',
+    app = FastAPI(title='MODIS–VIIRS Series API', version='0.5.0',
         description='Series y soporte de observación versionados. Histórico UTC; pronósticos regionales America/Lima; fin exclusivo. '
                     'La serie final solo se habilita tras publicar un método validado.')
     origins = origins if origins is not None else [
@@ -172,6 +173,8 @@ def create_app(database_path=None, origins=None, risk_snapshot_path=None, risk_c
     app.include_router(router())
     from risk_api import router as risk_router
     app.include_router(risk_router(risk_snapshot_path,clock=risk_clock))
+    from activity_api import router as activity_router
+    app.include_router(activity_router(activity_snapshot_path,clock=activity_clock))
     web=Path(__file__).resolve().parents[1]/'web'
     if web.is_dir():
         from fastapi.staticfiles import StaticFiles

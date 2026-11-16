@@ -23,20 +23,21 @@ class RegionalRiskEstimator:
             values['region_id']=pd.Categorical(values.region_id,categories=REGIONS)
         return values
 
-    def fit(self,frame,selection=None):
-        y=frame.y_new_detected_episode.to_numpy()
+    def fit(self,frame,selection=None,label_column='y_new_detected_episode'):
+        self.label_column=label_column
+        y=frame[label_column].to_numpy()
         if self.kind in ['constant','climatology']:
             unique=frame.drop_duplicates(['region_id','target_week_start'])
-            self.prior=float((unique.y_new_detected_episode.sum()+.5)/(len(unique)+1))
+            self.prior=float((unique[label_column].sum()+.5)/(len(unique)+1))
             self.regional={};self.monthly={};self.global_month={}
             unique=unique.assign(month=pd.to_datetime(unique.target_week_start).dt.month)
             for rid,g in unique.groupby('region_id'):
-                self.regional[str(rid)]=float((g.y_new_detected_episode.sum()+4*self.prior)/(len(g)+4))
+                self.regional[str(rid)]=float((g[label_column].sum()+4*self.prior)/(len(g)+4))
             for month,g in unique.groupby('month'):
-                self.global_month[int(month)]=float((g.y_new_detected_episode.sum()+8*self.prior)/(len(g)+8))
+                self.global_month[int(month)]=float((g[label_column].sum()+8*self.prior)/(len(g)+8))
             for (rid,month),g in unique.groupby(['region_id','month']):
                 p=self.regional[str(rid)]
-                self.monthly[(str(rid),int(month))]=float((g.y_new_detected_episode.sum()+8*p)/(len(g)+8))
+                self.monthly[(str(rid),int(month))]=float((g[label_column].sum()+8*p)/(len(g)+8))
         elif self.kind=='logistic':
             numeric=[c for c in self.features if c!='region_id']
             transforms=ColumnTransformer([
@@ -51,7 +52,7 @@ class RegionalRiskEstimator:
                 force_col_wise=True,**self.params)
             options={}
             if selection is not None:
-                options={'eval_set':[(self.inputs(selection),selection.y_new_detected_episode.to_numpy())],
+                options={'eval_set':[(self.inputs(selection),selection[label_column].to_numpy())],
                     'eval_metric':'binary_logloss','callbacks':[early_stopping(35,verbose=False)]}
             self.model.fit(self.inputs(frame),y,**options)
         else:
